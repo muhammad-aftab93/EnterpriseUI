@@ -1,0 +1,468 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Windows.Forms;
+using EnterpriseUI.Abstractions.Theming;
+using EnterpriseUI.Charts;
+using EnterpriseUI.Editors;
+using EnterpriseUI.Gauges;
+using EnterpriseUI.Grids;
+using EnterpriseUI.Navigation;
+using EnterpriseUI.Notifications;
+using EnterpriseUI.Theming;
+
+namespace EnterpriseUI.WinForms;
+
+/// <summary>
+/// Clean-room GDI+ VirtualGrid Control (Telerik RadVirtualGrid equivalent).
+/// Renders arbitrary millions of rows/columns via on-demand VirtualGrid.CellValueNeeded callbacks.
+/// </summary>
+public class WinFormsVirtualGridControl : Control, IThemeableControl
+{
+    private ITheme _theme = ThemeManager.Instance.CurrentTheme;
+    private readonly VScrollBar _vScroll;
+    public VirtualGrid Engine { get; } = new() { RowCount = 1_000_000, ColumnCount = 12 };
+    public string? ThemeOverride { get; set; }
+    public int SelectedRow { get; private set; }
+    public int SelectedCol { get; private set; }
+    public event Action<int, int, object?>? CellSelected;
+
+    public WinFormsVirtualGridControl()
+    {
+        SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
+        DoubleBuffered = true;
+        Size = new Size(760, 280);
+
+        _vScroll = new VScrollBar { Dock = DockStyle.Right, Minimum = 0, Maximum = 999_999, LargeChange = 20, SmallChange = 1 };
+        _vScroll.Scroll += (_, _) => Invalidate();
+        Controls.Add(_vScroll);
+
+        Engine.CellValueNeeded += (_, e) =>
+        {
+            e.Value = e.ColumnIndex switch
+            {
+                0 => $"TX-{e.RowIndex + 100000:D7}",
+                1 => (e.RowIndex % 4) switch { 0 => "NYSE-CORE", 1 => "NASDAQ-OPT", 2 => "LSE-FX", _ => "TSE-DERIV" },
+                2 => $"{(100.0 + ((e.RowIndex * 17) % 9000) / 10.0):C2}",
+                3 => $"{((e.RowIndex * 31) % 500) + 10} lots",
+                _ => $"Cell [{e.RowIndex:N0}, {e.ColumnIndex}]"
+            };
+        };
+
+        ThemeManager.Instance.ThemeChanged += (_, t) => OnThemeChanged(t);
+    }
+
+    public void OnThemeChanged(ITheme newTheme)
+    {
+        _theme = newTheme;
+        Invalidate();
+    }
+
+    protected override void OnMouseWheel(MouseEventArgs e)
+    {
+        base.OnMouseWheel(e);
+        int delta = e.Delta > 0 ? -5 : 5;
+        _vScroll.Value = Math.Clamp(_vScroll.Value + delta, _vScroll.Minimum, Math.Max(0, Engine.RowCount - 15));
+        Invalidate();
+    }
+
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+        base.OnMouseDown(e);
+        int rowH = 26;
+        int headerH = 30;
+        int rowIdx = _vScroll.Value + Math.Max(0, (e.Y - headerH) / rowH);
+        int colIdx = Math.Clamp((e.X - 70) / 125, 0, Engine.ColumnCount - 1);
+        SelectedRow = rowIdx;
+        SelectedCol = colIdx;
+        CellSelected?.Invoke(rowIdx, colIdx, Engine.GetCellValue(rowIdx, colIdx));
+        Invalidate();
+    }
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        var g = e.Graphics;
+        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var headerBg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(242, 245, 250));
+        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+
+        g.Clear(bg);
+        using var headerBrush = new SolidBrush(headerBg);
+        using var fgBrush = new SolidBrush(fg);
+        using var borderPen = new Pen(border);
+        using var selBrush = new SolidBrush(Color.FromArgb(45, primary));
+        using var selPen = new Pen(primary, 1.5f);
+        using var boldFont = new Font(Font, FontStyle.Bold);
+
+        int headerH = 30;
+        int rowHeaderW = 70;
+        int colW = 125;
+        int rowH = 26;
+
+        g.FillRectangle(headerBrush, 0, 0, Width, headerH);
+        g.FillRectangle(headerBrush, 0, 0, rowHeaderW, Height);
+        g.DrawLine(borderPen, 0, headerH, Width, headerH);
+        g.DrawString("#Row", boldFont, fgBrush, 8, 7);
+
+        string[] colNames = { "Transaction ID", "Exchange Venue", "Notional Value", "Order Volume", "Metric C4", "Metric C5", "Metric C6" };
+        for (int c = 0; c < 6; c++)
+        {
+            int cx = rowHeaderW + c * colW;
+            g.DrawLine(borderPen, cx, 0, cx, Height);
+            g.DrawString(c < colNames.Length ? colNames[c] : $"Col {c}", boldFont, fgBrush, cx + 6, 7);
+        }
+
+        int visibleRows = Math.Max(1, (Height - headerH) / rowH);
+        for (int r = 0; r < visibleRows; r++)
+        {
+            int actualRow = _vScroll.Value + r;
+            if (actualRow >= Engine.RowCount) break;
+            int ry = headerH + r * rowH;
+
+            g.DrawLine(borderPen, 0, ry + rowH, Width, ry + rowH);
+            g.DrawString(actualRow.ToString("N0"), Font, fgBrush, 6, ry + 5);
+
+            for (int c = 0; c < 6; c++)
+            {
+                int cx = rowHeaderW + c * colW;
+                var cellRect = new Rectangle(cx, ry, colW, rowH);
+                if (actualRow == SelectedRow && c == SelectedCol)
+                {
+                    g.FillRectangle(selBrush, cellRect);
+                    g.DrawRectangle(selPen, cellRect);
+                }
+                var val = Engine.GetCellValue(actualRow, c)?.ToString() ?? string.Empty;
+                g.DrawString(val, Font, fgBrush, new RectangleF(cx + 6, ry + 5, colW - 10, rowH - 6));
+            }
+        }
+        g.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
+    }
+}
+
+/// <summary>
+/// Clean-room GDI+ Syntax Editor Control (Telerik RadSyntaxEditor equivalent).
+/// Renders line numbers gutter, code folding markers, and colorized C# lexical tokens.
+/// </summary>
+public class WinFormsSyntaxEditorControl : Control, IThemeableControl
+{
+    private ITheme _theme = ThemeManager.Instance.CurrentTheme;
+    public SyntaxEditor Engine { get; } = new();
+    public string? ThemeOverride { get; set; }
+
+    public WinFormsSyntaxEditorControl()
+    {
+        SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
+        DoubleBuffered = true;
+        Font = new Font("Consolas", 9.5f);
+        Size = new Size(740, 260);
+        Engine.DocumentText =
+@"// EnterpriseUI SyntaxEditor — Lexical Tokenizer & Folding Engine
+using EnterpriseUI.Grids;
+using EnterpriseUI.Theming;
+
+namespace EnterpriseUI.Sample
+{
+    public sealed class HighThroughputController
+    {
+        public async Task InitializeGridAsync()
+        {
+            var grid = new VirtualGrid { RowCount = 1000000, ColumnCount = 24 };
+            var theme = ThemeManager.Instance.CurrentTheme;
+            // Zero-allocation viewport projection active
+            await grid.InitializeAsync();
+        }
+    }
+}";
+        ThemeManager.Instance.ThemeChanged += (_, t) => OnThemeChanged(t);
+    }
+
+    public void OnThemeChanged(ITheme newTheme)
+    {
+        _theme = newTheme;
+        Invalidate();
+    }
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        var g = e.Graphics;
+        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var gutterBg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(240, 242, 246));
+        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+
+        g.Clear(bg);
+        int gutterW = 48;
+        using var gutterBrush = new SolidBrush(gutterBg);
+        using var borderPen = new Pen(border);
+        using var lineNumBrush = new SolidBrush(Color.FromArgb(130, fg));
+        using var kwBrush = new SolidBrush(Color.FromArgb(0, 92, 197));
+        using var commentBrush = new SolidBrush(Color.FromArgb(34, 134, 58));
+        using var defaultBrush = new SolidBrush(fg);
+
+        g.FillRectangle(gutterBrush, 0, 0, gutterW, Height);
+        g.DrawLine(borderPen, gutterW, 0, gutterW, Height);
+
+        var lines = Engine.DocumentText.Replace("\r\n", "\n").Split('\n');
+        int lineH = 20;
+        for (int i = 0; i < lines.Length; i++)
+        {
+            int y = 8 + i * lineH;
+            g.DrawString($"{i + 1,2}", Font, lineNumBrush, 6, y);
+            string line = lines[i];
+            if (line.Contains('{'))
+            {
+                g.DrawRectangle(borderPen, gutterW - 14, y + 4, 9, 9);
+                g.DrawLine(borderPen, gutterW - 12, y + 8, gutterW - 7, y + 8);
+            }
+
+            if (line.TrimStart().StartsWith("//", StringComparison.Ordinal))
+            {
+                g.DrawString(line, Font, commentBrush, gutterW + 10, y);
+            }
+            else
+            {
+                var brush = line.Contains("using ") || line.Contains("namespace ") || line.Contains("public ") || line.Contains("var ") || line.Contains("await ")
+                    ? kwBrush : defaultBrush;
+                g.DrawString(line, Font, brush, gutterW + 10, y);
+            }
+        }
+        g.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
+    }
+}
+
+/// <summary>
+/// Clean-room GDI+ Stephen Few BulletGraph Control (Telerik RadBulletGraph equivalent).
+/// </summary>
+public class WinFormsBulletGraphControl : Control, IThemeableControl
+{
+    private ITheme _theme = ThemeManager.Instance.CurrentTheme;
+    public BulletGraph Model { get; } = new();
+    public string Title { get; set; } = "Q4 Enterprise ARR Target ($M)";
+    public string? ThemeOverride { get; set; }
+
+    public WinFormsBulletGraphControl()
+    {
+        SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
+        DoubleBuffered = true;
+        Size = new Size(680, 74);
+        ThemeManager.Instance.ThemeChanged += (_, t) => OnThemeChanged(t);
+    }
+
+    public void OnThemeChanged(ITheme newTheme)
+    {
+        _theme = newTheme;
+        Invalidate();
+    }
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        var g = e.Graphics;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+
+        g.Clear(bg);
+        using var fgBrush = new SolidBrush(fg);
+        using var boldFont = new Font(Font, FontStyle.Bold);
+        using var borderPen = new Pen(border);
+
+        int labelW = 210;
+        g.DrawString(Title, boldFont, fgBrush, 10, 14);
+        g.DrawString($"Actual: {Model.FeaturedMeasure:F1}% | Target: {Model.ComparativeMeasure:F1}%", Font, fgBrush, 10, 36);
+
+        int barX = labelW;
+        int barW = Math.Max(100, Width - labelW - 24);
+        int barY = 16;
+        int barH = 36;
+
+        Color[] qualColors = { Color.FromArgb(220, 224, 230), Color.FromArgb(190, 198, 210), Color.FromArgb(160, 172, 188) };
+        for (int i = 0; i < Model.QualitativeRanges.Count; i++)
+        {
+            var r = Model.QualitativeRanges[i];
+            float rx = barX + (float)(r.From / Model.Maximum) * barW;
+            float rw = (float)((r.To - r.From) / Model.Maximum) * barW;
+            using var qBrush = new SolidBrush(qualColors[i % qualColors.Length]);
+            g.FillRectangle(qBrush, rx, barY, rw, barH);
+        }
+
+        float featW = (float)(Model.FeaturedMeasure / Model.Maximum) * barW;
+        using var featBrush = new SolidBrush(primary);
+        g.FillRectangle(featBrush, barX, barY + 10, featW, barH - 20);
+
+        float targetX = barX + (float)(Model.ComparativeMeasure / Model.Maximum) * barW;
+        using var targetPen = new Pen(Color.FromArgb(200, 30, 30), 3f);
+        g.DrawLine(targetPen, targetX, barY + 4, targetX, barY + barH - 4);
+        g.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
+    }
+}
+
+/// <summary>
+/// Clean-room GDI+ 3D Elliptical Carousel Control (Telerik RadCarousel equivalent).
+/// </summary>
+public class WinFormsCarouselControl : Control, IThemeableControl
+{
+    private ITheme _theme = ThemeManager.Instance.CurrentTheme;
+    public Carousel Model { get; } = new();
+    public string? ThemeOverride { get; set; }
+    public event Action<string>? SelectedItemChanged;
+
+    public WinFormsCarouselControl()
+    {
+        SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
+        DoubleBuffered = true;
+        Size = new Size(720, 240);
+
+        Model.Items.AddRange(new object[]
+        {
+            "1. Executive BI & Analytics",
+            "2. 1M-Row DataGrid Engine",
+            "3. Banded Report Designer",
+            "4. Real-Time OHLC Charts",
+            "5. Offline AI Copilot AST",
+            "6. WCAG 2.2 Accessibility"
+        });
+
+        ThemeManager.Instance.ThemeChanged += (_, t) => OnThemeChanged(t);
+    }
+
+    public void OnThemeChanged(ITheme newTheme)
+    {
+        _theme = newTheme;
+        Invalidate();
+    }
+
+    protected override void OnMouseClick(MouseEventArgs e)
+    {
+        base.OnMouseClick(e);
+        if (e.X > Width / 2) Model.MoveNext();
+        else Model.MovePrevious();
+        SelectedItemChanged?.Invoke(Model.Items[Model.SelectedIndex]?.ToString() ?? string.Empty);
+        Invalidate();
+    }
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        var g = e.Graphics;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Background, Color.FromArgb(245, 247, 250));
+        var surface = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+
+        g.Clear(bg);
+        var projections = Model.ComputeProjections();
+        float cx = Width / 2f;
+        float cy = Height / 2f + 12;
+
+        using var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+        foreach (var p in projections)
+        {
+            float cardW = (float)(190 * p.Scale);
+            float cardH = (float)(110 * p.Scale);
+            float x = cx + (float)(p.NormalizedX * Width * 0.85) - cardW / 2f;
+            float y = cy + (float)(p.NormalizedY * Height) - cardH / 2f;
+            var rect = new RectangleF(x, y, cardW, cardH);
+
+            int alpha = Math.Clamp((int)(p.Opacity * 255), 60, 255);
+            using var cardBrush = new SolidBrush(Color.FromArgb(alpha, surface));
+            using var borderPen = new Pen(p.Index == Model.SelectedIndex ? primary : Color.FromArgb(alpha, Color.Gray), p.Index == Model.SelectedIndex ? 2.5f : 1f);
+            using var textBrush = new SolidBrush(Color.FromArgb(alpha, fg));
+            using var cardFont = new Font(Font.FontFamily, Math.Max(7.5f, (float)(10f * p.Scale)), FontStyle.Bold);
+
+            g.FillRectangle(cardBrush, rect);
+            g.DrawRectangle(borderPen, rect.X, rect.Y, rect.Width, rect.Height);
+            g.DrawString(p.Item.ToString(), cardFont, textBrush, rect, sf);
+        }
+    }
+}
+
+/// <summary>
+/// Clean-room GDI+ Interactive Star Rating & WaitingBar Controls (Telerik RadRating / RadWaitingBar equivalents).
+/// </summary>
+public class WinFormsRatingAndWaitingControl : Control, IThemeableControl
+{
+    private ITheme _theme = ThemeManager.Instance.CurrentTheme;
+    private int _marqueeOffset;
+    public RatingControl Rating { get; } = new() { MaxStars = 5, Value = 4 };
+    public WaitingBar Waiting { get; } = new() { IsWaiting = true };
+    public string? ThemeOverride { get; set; }
+    public event Action<double>? RatingChanged;
+
+    public WinFormsRatingAndWaitingControl()
+    {
+        SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
+        DoubleBuffered = true;
+        Size = new Size(680, 90);
+        ThemeManager.Instance.ThemeChanged += (_, t) => OnThemeChanged(t);
+    }
+
+    public void StepMarquee()
+    {
+        _marqueeOffset = (_marqueeOffset + 18) % Math.Max(100, Width - 260);
+        Invalidate();
+    }
+
+    public void OnThemeChanged(ITheme newTheme)
+    {
+        _theme = newTheme;
+        Invalidate();
+    }
+
+    protected override void OnMouseClick(MouseEventArgs e)
+    {
+        base.OnMouseClick(e);
+        if (e.Y < 45 && e.X >= 130 && e.X <= 300)
+        {
+            int star = Math.Clamp((e.X - 130) / 32 + 1, 1, Rating.MaxStars);
+            Rating.Value = star;
+            RatingChanged?.Invoke(star);
+            Invalidate();
+        }
+    }
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        var g = e.Graphics;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+
+        g.Clear(bg);
+        using var fgBrush = new SolidBrush(fg);
+        using var goldBrush = new SolidBrush(Color.FromArgb(245, 166, 35));
+        using var mutedBrush = new SolidBrush(Color.FromArgb(200, 205, 212));
+        using var starFont = new Font("Segoe UI Symbol", 15f, FontStyle.Bold);
+        using var boldFont = new Font(Font, FontStyle.Bold);
+
+        g.DrawString("RadRating Parity:", boldFont, fgBrush, 10, 12);
+        for (int i = 0; i < Rating.MaxStars; i++)
+        {
+            g.DrawString("★", starFont, i < Rating.Value ? goldBrush : mutedBrush, 130 + i * 32, 5);
+        }
+        g.DrawString($"({Rating.Value:F1} / {Rating.MaxStars}.0 — Click stars to rate)", Font, fgBrush, 305, 12);
+
+        g.DrawString("RadWaitingBar:", boldFont, fgBrush, 10, 52);
+        var trackRect = new Rectangle(130, 50, Math.Max(120, Width - 160), 22);
+        using var borderPen = new Pen(border);
+        using var primaryBrush = new SolidBrush(primary);
+        g.DrawRectangle(borderPen, trackRect);
+        int segW = 90;
+        int segX = trackRect.X + (_marqueeOffset % Math.Max(1, trackRect.Width - segW));
+        g.FillRectangle(primaryBrush, segX, trackRect.Y + 2, segW, trackRect.Height - 3);
+        g.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
+    }
+}
+

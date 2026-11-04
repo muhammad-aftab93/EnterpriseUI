@@ -1,0 +1,62 @@
+<Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/EnterpriseUI.Benchmarks/EnterpriseUI.Benchmarks.csproj" />
+  </Folder>
+  <Folder Name="/platforms/">
+    <Project Path="platforms/EnterpriseUI.AspNetCore/EnterpriseUI.AspNetCore.csproj" />
+    <Project Path="platforms/EnterpriseUI.Blazor/EnterpriseUI.Blazor.csproj" />
+    <Project Path="platforms/EnterpriseUI.Maui/EnterpriseUI.Maui.csproj" />
+    <Project Path="platforms/EnterpriseUI.WinForms/EnterpriseUI.WinForms.csproj" />
+    <Project Path="platforms/EnterpriseUI.Wpf/EnterpriseUI.Wpf.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/EnterpriseUI.SampleShowcase/EnterpriseUI.SampleShowcase.csproj" />
+    <Project Path="samples/EnterpriseUI.WinFormsDemo/EnterpriseUI.WinFormsDemo.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/EnterpriseUI.Abstractions/EnterpriseUI.Abstractions.csproj" />
+    <Project Path="src/EnterpriseUI.Accessibility/EnterpriseUI.Accessibility.csproj" />
+    <Project Path="src/EnterpriseUI.AI/EnterpriseUI.AI.csproj" />
+    <Project Path="src/EnterpriseUI.Charts/EnterpriseUI.Charts.csproj" />
+    <Project Path="src/EnterpriseUI.Core/EnterpriseUI.Core.csproj" />
+    <Project Path="src/EnterpriseUI.Dashboard/EnterpriseUI.Dashboard.csproj" />
+    <Project Path="src/EnterpriseUI.Data/EnterpriseUI.Data.csproj" />
+    <Project Path="src/EnterpriseUI.Diagrams/EnterpriseUI.Diagrams.csproj" />
+    <Project Path="src/EnterpriseUI.Documents/EnterpriseUI.Documents.csproj" />
+    <Project Path="src/EnterpriseUI.Editors/EnterpriseUI.Editors.csproj" />
+    <Project Path="src/EnterpriseUI.Exporting/EnterpriseUI.Exporting.csproj" />
+    <Project Path="src/EnterpriseUI.Gauges/EnterpriseUI.Gauges.csproj" />
+    <Project Path="src/EnterpriseUI.Grids/EnterpriseUI.Grids.csproj" />
+    <Project Path="src/EnterpriseUI.Icons/EnterpriseUI.Icons.csproj" />
+    <Project Path="src/EnterpriseUI.Layout/EnterpriseUI.Layout.csproj" />
+    <Project Path="src/EnterpriseUI.Localization/EnterpriseUI.Localization.csproj" />
+    <Project Path="src/EnterpriseUI.Map/EnterpriseUI.Map.csproj" />
+    <Project Path="src/EnterpriseUI.Media/EnterpriseUI.Media.csproj" />
+    <Project Path="src/EnterpriseUI.Navigation/EnterpriseUI.Navigation.csproj" />
+    <Project Path="src/EnterpriseUI.Notifications/EnterpriseUI.Notifications.csproj" />
+    <Project Path="src/EnterpriseUI.Office/EnterpriseUI.Office.csproj" />
+    <Project Path="src/EnterpriseUI.Pdf/EnterpriseUI.Pdf.csproj" />
+    <Project Path="src/EnterpriseUI.Printing/EnterpriseUI.Printing.csproj" />
+    <Project Path="src/EnterpriseUI.Rendering/EnterpriseUI.Rendering.csproj" />
+    <Project Path="src/EnterpriseUI.Reporting/EnterpriseUI.Reporting.csproj" />
+    <Project Path="src/EnterpriseUI.RichText/EnterpriseUI.RichText.csproj" />
+    <Project Path="src/EnterpriseUI.Scheduling/EnterpriseUI.Scheduling.csproj" />
+    <Project Path="src/EnterpriseUI.Security/EnterpriseUI.Security.csproj" />
+    <Project Path="src/EnterpriseUI.Theming/EnterpriseUI.Theming.csproj" />
+    <Project Path="src/EnterpriseUI.Validation/EnterpriseUI.Validation.csproj" />
+    <Project Path="src/EnterpriseUI.Workflow/EnterpriseUI.Workflow.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EnterpriseUI.AccessibilityTests/EnterpriseUI.AccessibilityTests.csproj" />
+    <Project Path="tests/EnterpriseUI.IntegrationTests/EnterpriseUI.IntegrationTests.csproj" />
+    <Project Path="tests/EnterpriseUI.PerformanceTests/EnterpriseUI.PerformanceTests.csproj" />
+    <Project Path="tests/EnterpriseUI.UIAutomationTests/EnterpriseUI.UIAutomationTests.csproj" />
+    <Project Path="tests/EnterpriseUI.UnitTests/EnterpriseUI.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tooling/">
+    <Project Path="tooling/EnterpriseUI.CodeGenerators/EnterpriseUI.CodeGenerators.csproj" />
+    <Project Path="tooling/EnterpriseUI.TemplateStudio/EnterpriseUI.TemplateStudio.csproj" />
+    <Project Path="tooling/EnterpriseUI.ThemeDesigner/EnterpriseUI.ThemeDesigner.csproj" />
+    <Project Path="tooling/EnterpriseUI.VisualDesigner/EnterpriseUI.VisualDesigner.csproj" />
+  </Folder>
+</Solution>

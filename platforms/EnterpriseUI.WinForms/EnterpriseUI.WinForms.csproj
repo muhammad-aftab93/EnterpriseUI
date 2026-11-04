@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Icons\EnterpriseUI.Icons.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Data\EnterpriseUI.Data.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Grids\EnterpriseUI.Grids.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Editors\EnterpriseUI.Editors.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Navigation\EnterpriseUI.Navigation.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Layout\EnterpriseUI.Layout.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Exporting\EnterpriseUI.Exporting.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Charts\EnterpriseUI.Charts.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Gauges\EnterpriseUI.Gauges.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Scheduling\EnterpriseUI.Scheduling.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Notifications\EnterpriseUI.Notifications.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Documents\EnterpriseUI.Documents.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Media\EnterpriseUI.Media.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,109 @@
+## ============================================================================
+## EnterpriseUI — .NET 8+ / Visual Studio / Rider / Cross-Platform .gitignore
+## ============================================================================
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+out/
+artifacts/
+publish/
+
+# Visual Studio / VS Code / Rider user & cache files
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+mono_crash.*
+
+# .NET Core / .NET 8+ & MSBuild
+project.lock.json
+project.fragment.lock.json
+*.binlog
+*.msbuildlog
+launchSettings.json.user
+
+# Test & Code Coverage results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+TestResults/
+coverlet/
+
+# BenchmarkDotNet results
+BenchmarkDotNet.Artifacts/
+
+# NuGet Packages & local feeds
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Profiling, dumps & diagnostics
+*.dotCover
+*.ncrunch*
+_*NCrunch_*
+*.mm.*
+AutoTest.Net/
+*.dmp
+*.hdmp
+*.mdmp
+*.trace
+*.nettrace
+*.etl
+
+# Roslyn / Source Generators generated outputs (if emitted to disk)
+**/Generated/
+**/*.g.i.cs
+
+# Temporary & OS-generated files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~.nib
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Secrets & local environment overrides
+.env
+.env.*
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+

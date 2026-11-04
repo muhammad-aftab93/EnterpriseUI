@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

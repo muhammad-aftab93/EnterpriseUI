@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Icons\EnterpriseUI.Icons.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Data\EnterpriseUI.Data.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Grids\EnterpriseUI.Grids.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Validation\EnterpriseUI.Validation.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Accessibility\EnterpriseUI.Accessibility.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Localization\EnterpriseUI.Localization.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Editors\EnterpriseUI.Editors.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Navigation\EnterpriseUI.Navigation.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Layout\EnterpriseUI.Layout.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Charts\EnterpriseUI.Charts.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Gauges\EnterpriseUI.Gauges.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Scheduling\EnterpriseUI.Scheduling.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Notifications\EnterpriseUI.Notifications.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Documents\EnterpriseUI.Documents.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Media\EnterpriseUI.Media.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\platforms\EnterpriseUI.WinForms\EnterpriseUI.WinForms.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Accessibility\EnterpriseUI.Accessibility.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Data\EnterpriseUI.Data.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Grids\EnterpriseUI.Grids.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Editors\EnterpriseUI.Editors.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Navigation\EnterpriseUI.Navigation.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Layout\EnterpriseUI.Layout.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Charts\EnterpriseUI.Charts.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Gauges\EnterpriseUI.Gauges.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Scheduling\EnterpriseUI.Scheduling.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Reporting\EnterpriseUI.Reporting.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Dashboard\EnterpriseUI.Dashboard.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Diagrams\EnterpriseUI.Diagrams.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Workflow\EnterpriseUI.Workflow.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Map\EnterpriseUI.Map.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Documents\EnterpriseUI.Documents.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Pdf\EnterpriseUI.Pdf.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.RichText\EnterpriseUI.RichText.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Notifications\EnterpriseUI.Notifications.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.AI\EnterpriseUI.AI.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Media\EnterpriseUI.Media.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Security\EnterpriseUI.Security.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Validation\EnterpriseUI.Validation.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Icons\EnterpriseUI.Icons.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Office\EnterpriseUI.Office.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Printing\EnterpriseUI.Printing.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Rendering\EnterpriseUI.Rendering.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Localization\EnterpriseUI.Localization.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Exporting\EnterpriseUI.Exporting.csproj" />
+  </ItemGroup>
+
+</Project>

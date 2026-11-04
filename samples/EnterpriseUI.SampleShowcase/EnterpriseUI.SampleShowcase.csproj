@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Icons\EnterpriseUI.Icons.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Data\EnterpriseUI.Data.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Grids\EnterpriseUI.Grids.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Charts\EnterpriseUI.Charts.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Exporting\EnterpriseUI.Exporting.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.AI\EnterpriseUI.AI.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Notifications\EnterpriseUI.Notifications.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
