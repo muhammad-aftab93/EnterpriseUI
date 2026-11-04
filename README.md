@@ -2,14 +2,105 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0%20LTS-512BD4)](https://dotnet.microsoft.com/)
+[![Controls](https://img.shields.io/badge/Controls-118%2B%20Enterprise%20Suite-blueviolet)](docs/Architecture/TelerikWinFormsBenchmarkAndAudit.md)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)](https://github.com/)
-[![Unit Tests](https://img.shields.io/badge/Tests-9%20Passed-success)](https://github.com/)
+[![Unit Tests](https://img.shields.io/badge/Tests-42%20Passed-success)](https://github.com/)
 [![Zero Activation](https://img.shields.io/badge/Activation-Zero%20Keys%20Required-success)](LICENSE)
 [![WCAG 2.2 AA](https://img.shields.io/badge/Accessibility-WCAG%202.2%20AA-blue)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 
-**EnterpriseUI** is the world's most complete, independent, 100% open-source enterprise UI framework and component ecosystem for **.NET 8+** (with full compatibility for .NET 9 and future LTS releases). 
+**EnterpriseUI** is a comprehensive, independent, 100% open-source enterprise UI framework and **118+ control ecosystem** for **.NET 8+** (with full compatibility for .NET 9 and future LTS releases).
 
-Inspired by the scope and capabilities of commercial suites such as **Telerik UI** and **DevExpress**, EnterpriseUI is **100% clean-room implemented** with zero proprietary code, zero commercial dependencies, zero license keys, zero activation requirements, and zero telemetry.
+Benchmarked against **Telerik UI for WinForms** and **DevExpress**, EnterpriseUI is **100% clean-room implemented** with zero proprietary code, zero commercial dependencies, zero license keys, zero activation requirements, and zero telemetry.
+
+---
+
+## 📸 Visual Showcase Gallery (`EnterpriseUI.WinFormsDemo`)
+
+### 1. Million-Row Virtualized DataGrid (Light & Dark Themes)
+Constant-memory `O(1)` viewport virtualization over 1,000,000 records with multi-column sorting, hierarchical grouping, stacked header bands, inline conditional data bars, master-detail expansion, and live 8-format code generation.
+
+#### Light Theme (`Windows-Light` / `Fluent-Light`)
+![DataGrid - Light Theme](docs/Screenshots/DataGrid%20-%20Light.png)
+
+#### Dark Theme (`Fluent-Dark` / `Obsidian-Dark`)
+![DataGrid - Dark Theme](docs/Screenshots/DataGrid%20-%20Dark.png)
+
+---
+
+### 2. Executive BI Dashboard & Real-Time KPI Cards
+Responsive executive business intelligence workspace combining KPI metric cards, multi-series revenue trend charts, and live operational data grids.
+
+![Executive BI Dashboard](docs/Screenshots/Dashboard.png)
+
+---
+
+### 3. Financial Candlesticks & Real-Time Multi-Series Charts
+Hardware-accelerated GDI+ vector charting supporting Candlestick (OHLC), Bar, Column, Line, Spline, Area, Pie, Donut, Sparkline, and HeatMap series with live streaming telemetry.
+
+![Financial & Multi-Series Charts](docs/Screenshots/Charts.png)
+
+---
+
+### 4. Radial, Linear, Digital & Stephen Few BulletGraph Gauges
+Precision circular, linear, 7-segment digital, and Stephen Few KPI BulletGraph telemetry indicators with threshold color ranges and smooth needle transitions.
+
+![Gauges & KPI Telemetry](docs/Screenshots/Gauges.png)
+
+---
+
+### 5. Project Gantt Chart, Barcode/QR Generator & Agile Kanban Board
+Interactive GanttView with critical-path dependency arrows and progress bars, vector QR/Code128/DataMatrix barcode rendering, TreeMap, SignaturePad, and VirtualKeyboard.
+
+![Gantt Chart, Barcode & Kanban Suite](docs/Screenshots/Gantt.png)
+
+---
+
+### 6. Enterprise Resource Scheduler & Multi-View Calendar
+Full-featured scheduling canvas supporting Day, Work Week, Week, Month, and Timeline views with RFC 5545 recurrence rules and resource lanes.
+
+![Enterprise Scheduler & Calendar](docs/Screenshots/Schedular.png)
+
+---
+
+### 7. Interactive Architecture & Workflow Diagrams
+Node-link diagramming canvas with orthogonal and Bezier connector routing, grid snapping, zoom/pan, and automated graph layout.
+
+![Interactive Workflow & Architecture Diagrams](docs/Screenshots/Diagrams.png)
+
+---
+
+### 8. Themed Form Controls, Editors, Buttons & Fluent Validation
+Custom GDI+ themed `TextBox` (prefix icons, clear `✕` button, focus ring, validation border), `ButtonTextBox` / `BrowseEditor`, `ToggleSwitch`, `SplitButton`, `RepeatButton`, `FontDropDownList`, `MaskedTextBox`, `AutoCompleteBox`, `CalculatorDropDown`, `SyntaxEditor`, and `SpellChecker`.
+
+![Form Controls, Editors & Fluent Validation](docs/Screenshots/Editors.png)
+
+---
+
+### 9. Navigation, Breadcrumb, StepProgressBar, Carousel, Panorama & Wizard
+Complete enterprise shell navigation including `RibbonBar`, `DockManager`, `Breadcrumb`, `StepProgressBar`, `BindingNavigator`, 3D Elliptical `Carousel`, Windows Live Tile `Panorama`, `WizardControl`, `DesktopAlert`, and `TaskDialog`.
+
+![Navigation, Layout, Carousel & Wizard Suite](docs/Screenshots/Navigation.png)
+
+---
+
+### 10. Multi-Format Document Workstation (PDF, RichText, Spreadsheet & Zip)
+Integrated office document suite with vector `PdfViewer`, WYSIWYG `RichTextEditor`, formula-driven `Spreadsheet` (`=SUM`, `=AVERAGE`, `=IF`), and in-memory `ZipArchive` compression.
+
+![PDF Viewer, RichText, Spreadsheet & Document Processing](docs/Screenshots/Documents.png)
+
+---
+
+### 11. Banded Enterprise Reporting & Print Preview
+Banded report designer and viewer supporting Report Header, Page Header, Group Header/Footer, Detail, and Page Footer bands with vector print and PDF export.
+
+![Banded Enterprise Reporting](docs/Screenshots/Reporting.png)
+
+---
+
+### 12. Vector Analog/Digital Clock, Callout Annotations & RangeSelector
+Complete 118-control catalog explorer featuring multi-timezone vector `Clock`, directional `Callout` annotation balloons, dual-thumb `RangeSelector` chart zoom, `AIPrompt`, `SmartPasteButton`, `SlideView`, `Rotator`, and `PipsPager`.
+
+![Clock, Callout & RangeSelector Suite](docs/Screenshots/Clock.png)
 
 ---
 
@@ -22,27 +113,22 @@ Inspired by the scope and capabilities of commercial suites such as **Telerik UI
 
 ---
 
-## 🚀 Key Highlights
+## 🧩 Complete 118-Control Enterprise Catalog
 
-- **47 Modular Projects**: Clean Architecture with domain segregation across data, theming, accessibility, grids, charts, layout, scheduling, reporting, and AI.
-- **Unified Superset Controls**: Single, non-overlapping implementations for every major category:
-  - **`DataGrid<T>`**: 2D constant-memory virtualization, grouping with aggregates, Excel-style filtering, in-cell & batch editing, column freeze (Left & Right).
-  - **`TreeList<T>`**: Hierarchical self-referencing tree-grid.
-  - **`PivotGrid<T>`**: Multi-dimensional OLAP cross-tabulation matrix.
-  - **`RibbonBar`**: Office/Fluent ribbon bar with contextual tabs and Quick Access Toolbar.
-  - **`DockManager`**: Visual Studio-style docking, auto-hide pinning, floating windows, and tabbed documents.
-  - **`Scheduler`**: Day, Week, Month, Timeline views with RFC 5545 iCalendar recurrence engine.
-  - **`Chart`**: 17 Series types (Column, SplineArea, Candlestick, Radar, Treemap, Sankey) with zoom & pan.
-  - **`Gauges`**: Radial, Linear, Digital, and Bullet graphs with multi-color threshold bands.
-  - **`Diagram`**: Node-link diagramming with orthogonal connector routing and tree auto-layout.
-  - **`AIAssistant`**: Embedded conversational copilot and natural language to `DataSourceRequest` query translation.
-  - **`SpreadsheetControl`**, **`RichTextEditor`**, **`PdfViewer`**, **`GeoMap`**, and **`WorkflowEngine`**.
-- **High-Throughput Performance**:
-  - **QueryEngine**: Filter + Sort + Page over 100,000 records in **3.54 ms**.
-  - **2D Virtualization**: 1,000,000 row viewport range calculated in **0.010 µs** (constant memory).
-  - **Theming Engine**: 50,000 stylesheet token blocks compiled in **138 ms**.
-- **6 Built-in Themes**: Fluent, Material, Bootstrap, Office, Modern, and Default with runtime hot-reloading and CSS variable emission.
-- **Multi-Platform Adapters**: Native renderers and styles for **Blazor**, **Windows Forms**, **WPF**, **ASP.NET Core**, and **.NET MAUI**.
+EnterpriseUI implements all **118 controls** across 10 major categories benchmarked against the official [Telerik UI for WinForms documentation catalog](https://www.telerik.com/products/winforms/documentation/introduction):
+
+| Category | Included Controls |
+| :--- | :--- |
+| **1. AI & Smart Controls** | `AIPrompt`, `AIPromptButton`, `SmartPasteButton`, `SpeechToTextButton`, `ConversationalChat` (`AIChatView`) |
+| **2. Grids, Data & Filtering** | `DataGrid<T>` (1M-row virtualized), `VirtualGrid` (`1M×12` `CellValueNeeded`), `TreeList<T>`, `PivotGrid<T>`, `CardView<T>`, `ListView<T>`, `DataFilter`, `FilterView`, `DataEntry<T>` |
+| **3. Buttons & Switches** | `Button` (`Primary`/`Success`/`Danger`/`Outline`/`Badge`), `CheckBox` (Tri-state), `RadioButton`, `ToggleButton`, `ToggleSwitch`, `DropDownButton`, `SplitButton`, `RepeatButton` |
+| **4. Editors, Pickers & Lists** | `TextBox`, `TextBoxControl`, `ButtonTextBox`, `BrowseEditor`, `MaskedEditBox`, `SpinEditor`, `DomainUpDown`, `AutoCompleteBox`, `PopupEditor`, `CalculatorDropDown`, `Calculator`, `ColorBox`, `DateTimePicker`, `DateOnlyPicker`, `TimePicker`, `TimeOnlyPicker`, `TimeSpanPicker`, `DropDownList`, `ListControl`, `CheckedDropDownList`, `CheckedListBox`, `FontDropDownList`, `MultiColumnComboBox`, `PropertyGrid` |
+| **5. Charts, Gauges, Maps & Diagrams** | `ChartView` (17 series types), `Sparkline`, `RangeSelector`, `HeatMap`, `TreeMap`, `RadialGauge`, `LinearGauge`, `BulletGraph`, `DigitalGauge`, `GeoMap`, `Diagram`, `BarcodeView` (QR, Code128, DataMatrix) |
+| **6. Scheduling & Project Management** | `Scheduler`, `Calendar`, `GanttView` (with Critical Path), `TaskBoard` (Kanban) |
+| **7. Navigation, Layout & Docking** | `RibbonBar`, `DockManager`, `PageView`, `NavigationView` (Hamburger rail), `OfficeNavigationBar` (with Peek Popup), `BreadCrumb`, `BindingNavigator`, `CommandBar`, `Panorama` (Live Tiles), `Carousel` (3D Elliptical), `Rotator`, `SlideView`, `PipsPager`, `Wizard`, `LayoutControl`, `DataLayout`, `SplitContainer`, `CollapsiblePanel`, `GroupBox`, `Panel`, `ScrollablePanel`, `Label`, `Separator`, `Menu` / `ContextMenu` / `ApplicationMenu` |
+| **8. Documents & Code Editors** | `RichTextEditor`, `Spreadsheet`, `PdfViewer`, `SyntaxEditor` (AST Tokenizer), `SpellChecker` (Levenshtein), `DocumentProcessingSuite` (`Words`, `Spread`, `Pdf`, `Zip`) |
+| **9. Track, Status, Alerts & Overlays** | `ProgressBar`, `StepProgressBar`, `WaitingBar`, `Rating`, `TrackBar` (`RangeSlider`), `ScrollBar`, `DesktopAlert`, `ToastNotificationManager`, `NotifyIcon`, `Callout`, `SplashScreen`, `Overlay`, `Flyout`, `TaskbarButton` |
+| **10. Forms, Dialogs, Media & Tools** | `ThemedForm`, `RibbonForm`, `TabbedForm`, `ToolbarForm`, `ShapedForm`, `TitleBar`, `StatusStrip`, `ThemedMessageBox`, `TaskDialog`, `ColorDialog`, `OpenFileDialog` / `SaveFileDialog` / `OpenFolderDialog`, `Clock`, `ImageEditor`, `PictureBox`, `WebCam`, `VirtualKeyboard`, `SignaturePad`, `ValidationProvider`, `ShortcutsManager`, `ControlSpy` / `ShapeEditor` / `VisualStyleBuilder` / `MarkupDialog` |
 
 ---
 
@@ -52,22 +138,22 @@ Inspired by the scope and capabilities of commercial suites such as **Telerik UI
 ```bash
 git clone https://github.com/enterpriseui/enterpriseui.git
 cd enterpriseui
-dotnet build EnterpriseUI.sln -c Release
+dotnet build EnterpriseUI.slnx -c Release
 ```
 
-### 2. Run the Unit Test Suite
+### 2. Launch the Interactive WinForms Demonstration Platform
 ```bash
-dotnet test EnterpriseUI.sln -c Release --no-build
+dotnet run --project samples/EnterpriseUI.WinFormsDemo/EnterpriseUI.WinFormsDemo.csproj
 ```
 
-### 3. Run High-Performance Benchmarks
+### 3. Run the Unit Test Suite
+```bash
+dotnet test tests/EnterpriseUI.UnitTests/EnterpriseUI.UnitTests.csproj -c Release
+```
+
+### 4. Run High-Performance Benchmarks
 ```bash
 dotnet run --project benchmarks/EnterpriseUI.Benchmarks/EnterpriseUI.Benchmarks.csproj -c Release
-```
-
-### 4. Run the Sample Showcase
-```bash
-dotnet run --project samples/EnterpriseUI.SampleShowcase/EnterpriseUI.SampleShowcase.csproj
 ```
 
 ---
@@ -76,13 +162,13 @@ dotnet run --project samples/EnterpriseUI.SampleShowcase/EnterpriseUI.SampleShow
 
 ```
 EnterpriseUI.sln / EnterpriseUI.slnx
-├── src/            # 31 domain core and component libraries
-├── platforms/      # Blazor, WinForms, WPF, ASP.NET Core, MAUI
+├── src/            # 31 headless domain core and component libraries
+├── platforms/      # WinForms, WPF, Blazor, ASP.NET Core, .NET MAUI
 ├── tooling/        # ThemeDesigner, VisualDesigner, TemplateStudio, CodeGenerators
-├── tests/          # UnitTests, IntegrationTests, PerformanceTests, AccessibilityTests
+├── tests/          # UnitTests (42/42 passing), IntegrationTests, PerformanceTests, AccessibilityTests
 ├── benchmarks/     # High-throughput benchmarks with BenchmarkDotNet / Stopwatch
-├── samples/        # Sample showcase application
-└── docs/           # Complete architectural documentation, guides, and API specs
+├── samples/        # EnterpriseUI.WinFormsDemo (28 interactive suites + Live Playground & 8-Format CodeGen)
+└── docs/           # Architectural documentation, Telerik parity audit, guides, and screenshots
 ```
 
 ---
@@ -90,6 +176,7 @@ EnterpriseUI.sln / EnterpriseUI.slnx
 ## 📜 Documentation
 
 - [Master Documentation Portal](docs/README.md)
+- [Telerik UI for WinForms Benchmark & Control Parity Audit](docs/Architecture/TelerikWinFormsBenchmarkAndAudit.md)
 - [System Architecture & C4 Models](docs/Architecture/SystemArchitecture.md)
 - [Open Source Transformation Plan & Governance](docs/Reference/OSSTransformationMasterPlan.md)
 - [DataGrid Architecture & Performance Guide](docs/Grid/ArchitectureGuide.md)
