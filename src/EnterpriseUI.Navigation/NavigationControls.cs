@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -22,9 +22,9 @@ public class TreeViewNode : ObservableObject
 }
 
 /// <summary>
-/// Superset TreeView combining Telerik TreeView and DevExpress TreeList navigation.
+/// Superset EnterpriseTreeView combining Telerik EnterpriseTreeView and DevExpress EnterpriseTreeList navigation.
 /// </summary>
-public class TreeView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseTreeView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -79,7 +79,7 @@ public class RibbonTab
 /// <summary>
 /// Superset Ribbon Bar combining DevExpress RibbonControl and Telerik RadRibbonBar.
 /// </summary>
-public class RibbonBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseRibbonBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private RibbonTab? _activeTab;
 
@@ -131,7 +131,7 @@ public class BreadcrumbItem : ObservableObject
 /// <summary>
 /// Enterprise path and hierarchy breadcrumb navigation control.
 /// </summary>
-public class Breadcrumb : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseBreadcrumb : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -145,7 +145,7 @@ public class Breadcrumb : ObservableObject, IUIComponent, IThemeableControl, IAc
     public string Separator { get; set; } = "/";
 
     public AriaRole Role { get; set; } = AriaRole.Navigation;
-    public string? AriaLabel { get; set; } = "Breadcrumb Navigation";
+    public string? AriaLabel { get; set; } = "EnterpriseBreadcrumb Navigation";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }
@@ -183,7 +183,7 @@ public class StepItem : ObservableObject
 /// <summary>
 /// Enterprise multi-step workflow progress indicator.
 /// </summary>
-public class StepProgressBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseStepProgressBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private int _selectedIndex = 0;
 

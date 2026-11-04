@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -15,7 +15,7 @@ public class GaugeRange
 /// <summary>
 /// Superset Gauge component combining Telerik Radial and Linear Gauges and DevExpress GaugeControl.
 /// </summary>
-public class RadialGauge : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseRadialGauge : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private double _value;
 
@@ -53,7 +53,7 @@ public class RadialGauge : ObservableObject, IUIComponent, IThemeableControl, IA
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }
 
-public class LinearGauge : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseLinearGauge : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private double _value;
 

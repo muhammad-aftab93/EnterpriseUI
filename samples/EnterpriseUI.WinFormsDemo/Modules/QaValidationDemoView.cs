@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Infrastructure;
@@ -109,17 +109,17 @@ public class QaValidationDemoView : UserControl
         var suites = new (string Name, string Asm, string Result, string Cov, string Scope)[]
         {
             ("DataGrid Virtualization & Scrolling", "EnterpriseUI.Grids", "PASS", "98.4%", "1,000,000 item indexing and viewport slicing"),
-            ("TreeList Hierarchical Traversal", "EnterpriseUI.Grids", "PASS", "96.2%", "Recursive node expansion, multi-level budget sums"),
-            ("PivotGrid OLAP Aggregate Engine", "EnterpriseUI.Grids", "PASS", "94.8%", "Cross-tab multi-dimensional sum, count, averages"),
-            ("Chart Rendering Vector Synthesis", "EnterpriseUI.Charts", "PASS", "99.1%", "Column, Bar, Line, Area, Pie, Candlestick rendering"),
+            ("EnterpriseTreeList Hierarchical Traversal", "EnterpriseUI.Grids", "PASS", "96.2%", "Recursive node expansion, multi-level budget sums"),
+            ("EnterprisePivotGrid OLAP Aggregate Engine", "EnterpriseUI.Grids", "PASS", "94.8%", "Cross-tab multi-dimensional sum, count, averages"),
+            ("EnterpriseChart Rendering Vector Synthesis", "EnterpriseUI.Charts", "PASS", "99.1%", "Column, Bar, Line, Area, Pie, Candlestick rendering"),
             ("Radial & Linear Gauge Telemetry", "EnterpriseUI.Gauges", "PASS", "100.0%", "Sweep angles, range alarms, needle animation"),
-            ("Scheduler Recurrence & Timelines", "EnterpriseUI.Scheduling", "PASS", "95.5%", "RFC 5545 recurrence rules, work week slotting"),
+            ("EnterpriseScheduler Recurrence & Timelines", "EnterpriseUI.Scheduling", "PASS", "95.5%", "RFC 5545 recurrence rules, work week slotting"),
             ("Banded Report Generation & Print", "EnterpriseUI.Reporting", "PASS", "97.0%", "Header/Detail/Footer band layout, vector PDF export"),
             ("Form Editors & Fluent Validation", "EnterpriseUI.Editors", "PASS", "99.0%", "Regex matching, range clamping, error visualizers"),
             ("Design Token Theme Dispatcher", "EnterpriseUI.Theming", "PASS", "100.0%", "Fluent, Material, Bootstrap, Office, High-Contrast"),
             ("WCAG 2.2 AA Accessibility Engine", "EnterpriseUI.Accessibility", "PASS", "100.0%", "Live regions, contrast thresholds, keyboard focus"),
             ("AI Copilot & Query AST Compiler", "EnterpriseUI.AI", "PASS", "96.0%", "Offline prompt completion, natural query translation"),
-            ("Node-Link Diagram Connector Pathing", "EnterpriseUI.Diagrams", "PASS", "94.0%", "Orthogonal routing, arrowheads, node drag events"),
+            ("Node-Link EnterpriseDiagram Connector Pathing", "EnterpriseUI.Diagrams", "PASS", "94.0%", "Orthogonal routing, arrowheads, node drag events"),
             ("GIS Coordinate Projection & Pinning", "EnterpriseUI.Map", "PASS", "95.2%", "Equirectangular conversion, marker hit-testing"),
             ("Streaming CSV / JSON Exporters", "EnterpriseUI.Exporting", "PASS", "100.0%", "Low-memory streaming writer, zero buffer overruns")
         };

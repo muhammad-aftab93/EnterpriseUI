@@ -1,4 +1,4 @@
-# EnterpriseUI Documentation Portal
+﻿# EnterpriseUI Documentation Portal
 
 Welcome to the comprehensive technical documentation for the **EnterpriseUI Component Ecosystem**.
 
@@ -31,9 +31,9 @@ Welcome to the comprehensive technical documentation for the **EnterpriseUI Comp
 
 ### 5. Unified Controls Catalog
 - [Comprehensive Controls Catalog & API Reference](Controls/UnifiedControlsCatalog.md)
-- [RibbonBar Navigation](Controls/UnifiedControlsCatalog.md#21-ribbonbar-navigation)
-- [DockManager & Layout System](Controls/UnifiedControlsCatalog.md#22-dockmanager-layout)
-- [Scheduler & RFC 5545 Recurrence Engine](Controls/UnifiedControlsCatalog.md#23-scheduler-scheduling)
+- [EnterpriseRibbonBar Navigation](Controls/UnifiedControlsCatalog.md#21-ribbonbar-navigation)
+- [EnterpriseDockManager & Layout System](Controls/UnifiedControlsCatalog.md#22-dockmanager-layout)
+- [EnterpriseScheduler & RFC 5545 Recurrence Engine](Controls/UnifiedControlsCatalog.md#23-scheduler-scheduling)
 - [Business Charts & Series](Controls/UnifiedControlsCatalog.md#24-chart-data-visualization)
 - [Radial & Linear Gauges](Controls/UnifiedControlsCatalog.md#25-radialgauge--lineargauge-gauges)
 - [Node-Link Diagrams](Controls/UnifiedControlsCatalog.md#26-diagram-diagramming)

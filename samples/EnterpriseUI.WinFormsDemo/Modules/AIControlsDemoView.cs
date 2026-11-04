@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Controls;
@@ -9,7 +9,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class AIControlsDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsAICopilotControl _aiCopilot;
+    private readonly EnterpriseAICopilotControl _aiCopilot;
 
     public AIControlsDemoView(DemoItem metadata)
     {
@@ -20,7 +20,7 @@ public class AIControlsDemoView : UserControl
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
-        _aiCopilot = new WinFormsAICopilotControl { Dock = DockStyle.Fill };
+        _aiCopilot = new EnterpriseAICopilotControl { Dock = DockStyle.Fill };
         _baseView.DemoContainer.Controls.Add(_aiCopilot);
     }
 }

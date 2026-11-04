@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Controls;
@@ -9,7 +9,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class TreeGridDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsTreeListControl _treeControl;
+    private readonly EnterpriseTreeListControl _treeControl;
 
     public TreeGridDemoView(DemoItem metadata)
     {
@@ -55,7 +55,7 @@ public class TreeGridDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { btnExpandAll, btnCollapseAll });
 
-        _treeControl = new WinFormsTreeListControl { Dock = DockStyle.Fill };
+        _treeControl = new EnterpriseTreeListControl { Dock = DockStyle.Fill };
 
         _baseView.DemoContainer.Controls.Add(_treeControl);
         _baseView.DemoContainer.Controls.Add(toolbar);

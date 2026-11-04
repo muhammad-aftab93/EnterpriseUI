@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -80,7 +80,7 @@ public class DocumentsDemoView : UserControl
             {
                 var style = rtfBox.SelectionFont.Style ^ FontStyle.Bold;
                 rtfBox.SelectionFont = new Font(rtfBox.SelectionFont, style);
-                _baseView.LogEvent("RichTextEditor.SelectionBold", style.ToString());
+                _baseView.LogEvent("EnterpriseRichTextEditor.SelectionBold", style.ToString());
             }
         };
         btnItalic.Click += (_, _) =>
@@ -89,7 +89,7 @@ public class DocumentsDemoView : UserControl
             {
                 var style = rtfBox.SelectionFont.Style ^ FontStyle.Italic;
                 rtfBox.SelectionFont = new Font(rtfBox.SelectionFont, style);
-                _baseView.LogEvent("RichTextEditor.SelectionItalic", style.ToString());
+                _baseView.LogEvent("EnterpriseRichTextEditor.SelectionItalic", style.ToString());
             }
         };
         rtfToolbar.Controls.Add(btnBold);
@@ -139,21 +139,21 @@ public class DocumentsDemoView : UserControl
         sheetPanel.Controls.Add(sheetBar);
         tabSheet.Controls.Add(sheetPanel);
 
-        // Tab 4: ZipLibrary, ImageEditor & WebCam
-        var tabMediaZip = new TabPage("📷 ImageEditor, WebCam & ZipLibrary");
+        // Tab 4: ZipLibrary, EnterpriseImageEditor & EnterpriseWebCam
+        var tabMediaZip = new TabPage("📷 EnterpriseImageEditor, EnterpriseWebCam & ZipLibrary");
         var mzPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(16), AutoScroll = true };
 
-        var imgEditor = new ImageEditor { ImageSource = "EnterpriseArchitectureDiagram.png" };
-        var webCam = new WebCam();
+        var imgEditor = new EnterpriseImageEditor { ImageSource = "EnterpriseArchitectureDiagram.png" };
+        var webCam = new EnterpriseWebCam();
 
         var lblImgHeader = new Label { Text = "RadImageEditor & RadWebCam Controller:", Location = new Point(16, 14), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
         var btnRotate = new Button { Text = "↻ Rotate 90°", Location = new Point(16, 42), Size = new Size(110, 28), FlatStyle = FlatStyle.Flat };
         var btnZoomIn = new Button { Text = "🔍+ Zoom In", Location = new Point(134, 42), Size = new Size(110, 28), FlatStyle = FlatStyle.Flat };
-        var btnCamSnap = new Button { Text = "📷 WebCam Snapshot", Location = new Point(252, 42), Size = new Size(155, 28), FlatStyle = FlatStyle.Flat };
+        var btnCamSnap = new Button { Text = "📷 EnterpriseWebCam Snapshot", Location = new Point(252, 42), Size = new Size(155, 28), FlatStyle = FlatStyle.Flat };
         var btnZip = new Button { Text = "🗜️ Run ZipLibrary Roundtrip", Location = new Point(415, 42), Size = new Size(185, 28), FlatStyle = FlatStyle.Flat };
         var lblMediaState = new Label
         {
-            Text = $"Image Angle: {imgEditor.RotationAngle}° | Zoom: {imgEditor.Zoom:P0} | WebCam Snapshots: 0",
+            Text = $"Image Angle: {imgEditor.RotationAngle}° | Zoom: {imgEditor.Zoom:P0} | EnterpriseWebCam Snapshots: 0",
             Location = new Point(16, 82),
             AutoSize = true,
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
@@ -162,13 +162,13 @@ public class DocumentsDemoView : UserControl
 
         void SyncMediaLabel(string evt)
         {
-            lblMediaState.Text = $"Image Angle: {imgEditor.RotationAngle}° | Zoom: {imgEditor.Zoom:P0} | WebCam Snapshots: {webCam.CapturedSnapshotsCount}";
+            lblMediaState.Text = $"Image Angle: {imgEditor.RotationAngle}° | Zoom: {imgEditor.Zoom:P0} | EnterpriseWebCam Snapshots: {webCam.CapturedSnapshotsCount}";
             _baseView.LogEvent(evt, lblMediaState.Text);
         }
 
-        btnRotate.Click += (_, _) => { imgEditor.RotateClockwise(); SyncMediaLabel("ImageEditor.RotateClockwise"); };
-        btnZoomIn.Click += (_, _) => { imgEditor.ZoomIn(); SyncMediaLabel("ImageEditor.ZoomIn"); };
-        btnCamSnap.Click += (_, _) => { webCam.StartStream(); webCam.TakeSnapshot(); SyncMediaLabel("WebCam.TakeSnapshot"); };
+        btnRotate.Click += (_, _) => { imgEditor.RotateClockwise(); SyncMediaLabel("EnterpriseImageEditor.RotateClockwise"); };
+        btnZoomIn.Click += (_, _) => { imgEditor.ZoomIn(); SyncMediaLabel("EnterpriseImageEditor.ZoomIn"); };
+        btnCamSnap.Click += (_, _) => { webCam.StartStream(); webCam.TakeSnapshot(); SyncMediaLabel("EnterpriseWebCam.TakeSnapshot"); };
         btnZip.Click += (_, _) =>
         {
             var bytes = DocumentProcessingSuite.CreateZipArchive(new Dictionary<string, string> { ["manifest.json"] = "{\"app\":\"EnterpriseUI\"}" });
@@ -177,7 +177,7 @@ public class DocumentsDemoView : UserControl
             _baseView.LogEvent("ZipLibrary.Roundtrip", $"{bytes.Length} bytes");
         };
 
-        var barcodeCtrl = new WinFormsBarcodeControl { Location = new Point(16, 118), Size = new Size(340, 210) };
+        var barcodeCtrl = new EnterpriseBarcodeControl { Location = new Point(16, 118), Size = new Size(340, 210) };
         mzPanel.Controls.AddRange(new Control[] { lblImgHeader, btnRotate, btnZoomIn, btnCamSnap, btnZip, lblMediaState, barcodeCtrl });
         tabMediaZip.Controls.Add(mzPanel);
 

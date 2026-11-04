@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -7,10 +7,10 @@ using EnterpriseUI.Data;
 namespace EnterpriseUI.Grids;
 
 /// <summary>
-/// TreeList combining hierarchical tree navigation with multi-column grid features.
-/// Superset of Telerik TreeList and DevExpress TreeList.
+/// EnterpriseTreeList combining hierarchical tree navigation with multi-column grid features.
+/// Superset of Telerik EnterpriseTreeList and DevExpress EnterpriseTreeList.
 /// </summary>
-public class TreeList<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseTreeList<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -62,10 +62,10 @@ public class PivotField
 }
 
 /// <summary>
-/// PivotGrid for multi-dimensional cross-tabulated OLAP-style data analysis.
-/// Superset of Telerik PivotGrid and DevExpress PivotGrid.
+/// EnterprisePivotGrid for multi-dimensional cross-tabulated OLAP-style data analysis.
+/// Superset of Telerik EnterprisePivotGrid and DevExpress EnterprisePivotGrid.
 /// </summary>
-public class PivotGrid<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterprisePivotGrid<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }

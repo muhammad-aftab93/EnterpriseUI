@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +18,9 @@ public enum WaitingBarStyle
 }
 
 /// <summary>
-/// Clean-room WaitingBar and BusyIndicator (Telerik RadWaitingBar / RadOverlayManager equivalent).
+/// Clean-room EnterpriseWaitingBar and BusyIndicator (Telerik RadWaitingBar / RadOverlayManager equivalent).
 /// </summary>
-public class WaitingBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseWaitingBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private bool _isWaiting;
     private string _waitingText = "Processing enterprise workload...";
@@ -59,10 +59,10 @@ public class WaitingBar : ObservableObject, IUIComponent, IThemeableControl, IAc
 }
 
 /// <summary>
-/// Clean-room DesktopAlert, ProgressBar, BalloonTip, and Notification Badge
+/// Clean-room EnterpriseDesktopAlert, ProgressBar, BalloonTip, and Notification Badge
 /// (Telerik RadDesktopAlert, RadProgressBar, RadBalloonTip, Badge equivalents).
 /// </summary>
-public class DesktopAlert : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseDesktopAlert : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }

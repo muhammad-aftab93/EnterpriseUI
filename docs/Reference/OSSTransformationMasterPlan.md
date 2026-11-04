@@ -1,4 +1,4 @@
-# EnterpriseUI Open Source Transformation & Strategic Blueprint
+﻿# EnterpriseUI Open Source Transformation & Strategic Blueprint
 
 ## 1. Executive Summary & Transformation Charter
 
@@ -49,11 +49,11 @@ Every dependency across the 47 projects has been audited and classified:
 | **License Cost** | **Free ($0)** | Paid ($1,299+/dev) | Paid ($1,499+/dev) | Free ($0) | Free + Dual | Free ($0) |
 | **Multi-Platform Support** | **Blazor, WinForms, WPF, MAUI, ASP.NET** | Multi-suite | Multi-suite | Blazor only | XAML Desktop | Blazor only |
 | **DataGrid (2D Virtualization)** | **Yes (Full 2D)** | Yes (1D row) | Yes (Full 2D) | Partial (1D) | Community | Partial |
-| **PivotGrid (OLAP Cross-Tab)** | **Yes (Built-in)** | Yes | Yes | ❌ None | ❌ None | ❌ None |
-| **TreeList (Hierarchical)** | **Yes (Built-in)** | Yes | Yes | ❌ Limited | Community | ❌ None |
+| **EnterprisePivotGrid (OLAP Cross-Tab)** | **Yes (Built-in)** | Yes | Yes | ❌ None | ❌ None | ❌ None |
+| **EnterpriseTreeList (Hierarchical)** | **Yes (Built-in)** | Yes | Yes | ❌ Limited | Community | ❌ None |
 | **Ribbon Navigation Bar** | **Yes (Contextual/QAT)** | Yes | Yes | ❌ None | Community | ❌ None |
 | **Docking / MDI Manager** | **Yes (Tabbed/Floating)** | Yes | Yes | ❌ None | Community | ❌ None |
-| **Scheduler (RFC 5545 Engine)** | **Yes (Built-in)** | Yes | Yes | Community | ❌ None | ❌ None |
+| **EnterpriseScheduler (RFC 5545 Engine)** | **Yes (Built-in)** | Yes | Yes | Community | ❌ None | ❌ None |
 | **Multi-Series Business Charts** | **Yes (17 series)** | Yes | Yes | Partial (SVG) | ❌ Third-party | ❌ None |
 | **Office Spreadsheet & PDF** | **Yes (Built-in)** | Yes | Yes | ❌ None | ❌ None | ❌ None |
 | **AI Copilot & Natural Query** | **Yes (Built-in)** | Add-on | Add-on | ❌ None | ❌ None | ❌ None |

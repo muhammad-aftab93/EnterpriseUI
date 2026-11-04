@@ -1,4 +1,4 @@
-# EnterpriseUI Comprehensive Competitive Capability Audit & Excellence Roadmap
+﻿# EnterpriseUI Comprehensive Competitive Capability Audit & Excellence Roadmap
 
 > **Status notice (2026-11-04):** This document is a strategy/aspiration artifact, not proof that its listed capabilities or competitive claims are implemented. Its completion statements have not been comprehensively verified. Use [EnterpriseUI Product Parity Audit](EnterpriseUIProductParityAudit.md) for the current evidence-based gap report and roadmap.
 
@@ -97,11 +97,11 @@ The DataGrid is the central spine of enterprise systems. Below is our rigorous m
 
 ## 3. Comprehensive Control Category Capability Matrices
 
-### Category 1: TreeList & Hierarchical Grids
+### Category 1: EnterpriseTreeList & Hierarchical Grids
 - **DevExpress / Telerik Parity**: Multi-column tree hierarchy, recursive node expansion, aggregate summaries.
 - **EnterpriseUI Surpass Factor**: Self-referencing ID/ParentID zero-allocation indexing; does not allocate Windows Forms tree nodes; rendered directly into double-buffered GDI+ surfaces.
 
-### Category 2: PivotGrid & OLAP Analysis
+### Category 2: EnterprisePivotGrid & OLAP Analysis
 - **DevExpress / Telerik Parity**: Row fields, column fields, data fields, filter area, grand totals.
 - **EnterpriseUI Surpass Factor**: Platform-agnostic `QueryEngine` aggregate compilation; sub-millisecond calculation for 500,000+ data rows; instant CSV and JSON pivot exports.
 
@@ -156,11 +156,11 @@ flowchart TD
     subgraph Solutions["EnterpriseUI Implementations"]
         S1[Added CycleSort & Multi-Sort Sequences in DataGrid.cs]
         S2[Implemented ColumnLayoutProfile & Snapshot serialization]
-        S3[Engineered interactive GroupPanel & chip rendering in WinFormsDataGrid]
+        S3[Engineered interactive GroupPanel & chip rendering in EnterpriseDataGrid]
         S4[Added GridColumnBand model for nested headers]
         S5[Implemented SearchPanelText with full-text AST filters]
         S6[Engineered ApplyExcelFilter with CompositeFilterDescriptor]
-        S7[Built WinFormsPropertyInspectorControl with Event Monitor]
+        S7[Built EnterprisePropertyInspectorControl with Event Monitor]
     end
 
     G1 --> S1
@@ -199,7 +199,7 @@ flowchart TD
 
 ### Phase 2: Advanced Data Presentation & Editing (Immediate Next Steps)
 - [ ] In-place Excel-style filter popup dialogs with checkbox virtualization.
-- [ ] Column band rendering in `WinFormsDataGrid.OnPaint` supporting multi-level grouped headers.
+- [ ] Column band rendering in `EnterpriseDataGrid.OnPaint` supporting multi-level grouped headers.
 - [ ] Runtime column drag-and-drop column reordering line indicator.
 - [ ] Cell conditional formatting rule engine (data bars, color scales, icon sets).
 

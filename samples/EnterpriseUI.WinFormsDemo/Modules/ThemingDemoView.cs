@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Abstractions.Theming;
@@ -179,7 +179,7 @@ public class ThemingDemoView : UserControl
         int x = 0;
         foreach (var st in swatchTokens)
         {
-            var color = WinFormsThemeEngine.GetColor(theme, st, Color.Gray);
+            var color = EnterpriseThemeEngine.GetColor(theme, st, Color.Gray);
             var box = new Panel
             {
                 Bounds = new Rectangle(x, 2, 48, 24),

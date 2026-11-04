@@ -1,4 +1,4 @@
-# Getting Started with EnterpriseUI
+﻿# Getting Started with EnterpriseUI
 
 This guide walks you through bootstrapping your first application with EnterpriseUI on **.NET 8+** in under 5 minutes.
 
@@ -111,7 +111,7 @@ namespace MyWinFormsApp;
 
 public partial class MainForm : Form
 {
-    private readonly WinFormsDataGrid<CustomerOrder> _grid;
+    private readonly EnterpriseDataGrid<CustomerOrder> _grid;
 
     public MainForm()
     {
@@ -123,7 +123,7 @@ public partial class MainForm : Form
         ThemeManager.Instance.ApplyTheme(BuiltInThemes.CreateFluent(ColorScheme.Light));
 
         // 2. Initialize DataGrid Control
-        _grid = new WinFormsDataGrid<CustomerOrder>
+        _grid = new EnterpriseDataGrid<CustomerOrder>
         {
             Dock = DockStyle.Fill
         };

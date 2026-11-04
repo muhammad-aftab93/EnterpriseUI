@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using EnterpriseUI.Charts;
@@ -20,7 +20,7 @@ public class CompleteControlCatalogTests
     [Fact]
     public void MaskedTextBoxAppliesPhoneMaskAndDetectsCompletion()
     {
-        var masked = new MaskedTextBox { Mask = "(000) 000-0000", Value = "4158902345" };
+        var masked = new EnterpriseMaskedTextBox { Mask = "(000) 000-0000", Value = "4158902345" };
         Assert.Equal("(415) 890-2345", masked.MaskedText);
         Assert.True(masked.IsMaskCompleted);
     }
@@ -28,12 +28,12 @@ public class CompleteControlCatalogTests
     [Fact]
     public void AutoCompleteBoxAndCheckedDropDownFilterAndCheckItems()
     {
-        var ac = new AutoCompleteBox();
-        ac.SuggestionsSource.AddRange(new[] { "DataGrid", "DataPager", "ChartView" });
+        var ac = new EnterpriseAutoCompleteBox();
+        ac.SuggestionsSource.AddRange(new[] { "DataGrid", "EnterpriseDataPager", "ChartView" });
         ac.SearchText = "Data";
         Assert.Equal(2, ac.GetFilteredSuggestions().Count);
 
-        var cdd = new CheckedDropDownList<string>();
+        var cdd = new EnterpriseCheckedDropDownList<string>();
         cdd.Items.AddRange(new[] { "Alpha", "Beta", "Gamma" });
         cdd.CheckAll();
         Assert.Equal(3, cdd.CheckedItems.Count);
@@ -44,7 +44,7 @@ public class CompleteControlCatalogTests
     [Fact]
     public void CalculatorDropDownEvaluatesExpressionsAndMemory()
     {
-        var calc = new CalculatorDropDown();
+        var calc = new EnterpriseCalculatorDropDown();
         decimal res = calc.EvaluateExpression("(100 + 50) * 2");
         Assert.Equal(300m, res);
         calc.MemoryAdd();
@@ -54,7 +54,7 @@ public class CompleteControlCatalogTests
     [Fact]
     public void SyntaxEditorAndSpellCheckerTokenizeAndSuggest()
     {
-        var editor = new SyntaxEditor { DocumentText = "public class Sample { // comment\n var x = 42; }" };
+        var editor = new EnterpriseSyntaxEditor { DocumentText = "public class Sample { // comment\n var x = 42; }" };
         var tokens = editor.Tokenize();
         Assert.Contains(tokens, t => t.Classification == "Keyword" && t.Text == "public");
         Assert.Contains(tokens, t => t.Classification == "Comment");
@@ -67,12 +67,12 @@ public class CompleteControlCatalogTests
     [Fact]
     public void CarouselAndBindingNavigatorProjectAndNavigate()
     {
-        var carousel = new Carousel();
+        var carousel = new EnterpriseCarousel();
         carousel.Items.AddRange(new object[] { "A", "B", "C", "D" });
         var proj = carousel.ComputeProjections();
         Assert.Equal(4, proj.Count);
 
-        var nav = new BindingNavigator<string> { NewItemFactory = () => "NewRecord" };
+        var nav = new EnterpriseBindingNavigator<string> { NewItemFactory = () => "NewRecord" };
         nav.Items.AddRange(new[] { "Rec1", "Rec2" });
         nav.MoveLast();
         Assert.Equal("Rec2", nav.CurrentItem);
@@ -83,12 +83,12 @@ public class CompleteControlCatalogTests
     [Fact]
     public void DataLayoutAndWizardControlGenerateFieldsAndAdvance()
     {
-        var layout = new DataLayout<GanttTask>();
+        var layout = new EnterpriseDataLayout<GanttTask>();
         Assert.NotEmpty(layout.Fields);
 
-        var wizard = new WizardControl();
-        wizard.Pages.Add(new WizardControl.WizardPage { Title = "Welcome", IsWelcomePage = true });
-        wizard.Pages.Add(new WizardControl.WizardPage { Title = "Finish", IsCompletionPage = true });
+        var wizard = new EnterpriseWizardControl();
+        wizard.Pages.Add(new EnterpriseWizardControl.WizardPage { Title = "Welcome", IsWelcomePage = true });
+        wizard.Pages.Add(new EnterpriseWizardControl.WizardPage { Title = "Finish", IsCompletionPage = true });
         Assert.True(wizard.MoveNext());
         Assert.Equal(1, wizard.SelectedPageIndex);
         wizard.Finish();
@@ -98,14 +98,14 @@ public class CompleteControlCatalogTests
     [Fact]
     public void VirtualGridFilterViewAndDataPagerOperateCorrectly()
     {
-        var vGrid = new VirtualGrid { RowCount = 1_000_000, ColumnCount = 20 };
+        var vGrid = new EnterpriseVirtualGrid { RowCount = 1_000_000, ColumnCount = 20 };
         vGrid.CellValueNeeded += (_, e) => e.Value = $"Val-{e.RowIndex}-{e.ColumnIndex}";
         Assert.Equal("Val-999999-19", vGrid.GetCellValue(999_999, 19));
 
         vGrid.SetCellValue(5, 5, "Override");
         Assert.Equal("Override", vGrid.GetCellValue(5, 5));
 
-        var pager = new DataPager { PageSize = 10, TotalItems = 95 };
+        var pager = new EnterpriseDataPager { PageSize = 10, TotalItems = 95 };
         Assert.Equal(10, pager.TotalPages);
         pager.LastPage();
         Assert.Equal(9, pager.PageIndex);
@@ -114,15 +114,15 @@ public class CompleteControlCatalogTests
     [Fact]
     public void TreeMapHeatMapBulletGraphAndGanttViewComputeMetrics()
     {
-        var treeMap = new TreeMap();
-        treeMap.Nodes.Add(new TreeMap.TreeMapNode("1", "Core", "Eng", 60, 1));
-        treeMap.Nodes.Add(new TreeMap.TreeMapNode("2", "UI", "Eng", 40, 2));
+        var treeMap = new EnterpriseTreeMap();
+        treeMap.Nodes.Add(new EnterpriseTreeMap.TreeMapNode("1", "Core", "Eng", 60, 1));
+        treeMap.Nodes.Add(new EnterpriseTreeMap.TreeMapNode("2", "UI", "Eng", 40, 2));
         Assert.Equal(2, treeMap.ComputeNormalizedLayout().Count);
 
-        var bullet = new BulletGraph { FeaturedMeasure = 88, ComparativeMeasure = 80 };
+        var bullet = new EnterpriseBulletGraph { FeaturedMeasure = 88, ComparativeMeasure = 80 };
         Assert.True(bullet.IsAchievingTarget);
 
-        var gantt = new GanttView();
+        var gantt = new EnterpriseGanttView();
         gantt.Tasks.Add(new GanttTask { Id = "T1", Title = "Spec", Start = DateTime.Today, End = DateTime.Today.AddDays(2), Progress = 100 });
         gantt.Tasks.Add(new GanttTask { Id = "T2", Title = "Build", Start = DateTime.Today.AddDays(2), End = DateTime.Today.AddDays(5), Progress = 50 });
         gantt.Dependencies.Add(new GanttDependency("T1", "T2"));
@@ -132,7 +132,7 @@ public class CompleteControlCatalogTests
     [Fact]
     public void BarcodeAndDocumentProcessingSuiteExecuteFormulasAndZip()
     {
-        var barcode = new BarcodeGenerator { Symbology = BarcodeType.QrCode, Value = "EUI-2026" };
+        var barcode = new EnterpriseBarcodeGenerator { Symbology = BarcodeType.QrCode, Value = "EUI-2026" };
         var matrix = barcode.Generate2DMatrix(21);
         Assert.True(matrix[0, 0]); // Finder top-left corner
 
@@ -144,7 +144,7 @@ public class CompleteControlCatalogTests
         var unzipped = DocumentProcessingSuite.ExtractZipArchive(zip);
         Assert.Equal("EnterpriseUI", unzipped["hello.txt"]);
 
-        var cam = new WebCam();
+        var cam = new EnterpriseWebCam();
         cam.StartStream();
         cam.TakeSnapshot();
         Assert.True(cam.IsStreaming);

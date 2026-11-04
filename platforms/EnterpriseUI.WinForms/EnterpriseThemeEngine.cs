@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Globalization;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Theming;
@@ -8,7 +8,7 @@ namespace EnterpriseUI.WinForms;
 /// <summary>
 /// Bridge that translates EnterpriseUI design tokens into WinForms Graphics, Fonts, and Colors.
 /// </summary>
-public static class WinFormsThemeEngine
+public static class EnterpriseThemeEngine
 {
     public static Color GetColor(ITheme theme, string tokenName, Color fallback)
     {

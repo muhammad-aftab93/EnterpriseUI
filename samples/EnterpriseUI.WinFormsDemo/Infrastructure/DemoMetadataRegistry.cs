@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using EnterpriseUI.WinFormsDemo.Modules;
 
@@ -25,7 +25,7 @@ public static class DemoMetadataRegistry
             Description = "Binds 1,000,000 in-memory rows and fetches only the rows near the viewport. Scroll, sort, filter, resize and reorder columns, and edit cells.",
             Category = DemoCategoryType.GridsAndData,
             SubCategory = "DataGrid",
-            TargetControlName = "WinFormsDataGrid<T>, DataGrid<T>",
+            TargetControlName = "EnterpriseDataGrid<T>, DataGrid<T>",
             Features = new[] { "Virtualization", "1M Rows", "Direct GDI+", "Low Memory", "DPI Aware" },
             Tags = new[] { "Grid", "Virtualization", "Performance", "MillionRows" },
             Industry = "High-Throughput Financial & Logistics",
@@ -34,64 +34,64 @@ public static class DemoMetadataRegistry
             ViewFactory = () => new GridDemoView(GetById("grid-virtualization-1m")),
             SourceCode =
 @"// High-Performance Virtualized WinForms DataGrid
-var grid = new WinFormsDataGrid<GridDemoRecord>();
+var grid = new EnterpriseDataGrid<GridDemoRecord>();
 grid.EnableVirtualization = true;
 grid.Columns.Add(new GridColumn { Field = ""Id"", Title = ""Record ID"" });
 grid.Columns.Add(new GridColumn { Field = ""Customer"", Title = ""Enterprise Customer"" });
 grid.Columns.Add(new GridColumn { Field = ""UnitPrice"", Title = ""Unit Price"", FormatString = ""C2"" });
 grid.DataSource = GenerateSampleData(1000000); // 1,000,000 records
 await grid.RefreshDataAsync();",
-            Documentation = "The WinFormsDataGrid draws with GDI+ from the headless DataGrid<T> engine, which caches only a window of rows around the viewport. Sorting and filtering re-query the in-memory source, so measure large datasets on your own hardware before relying on a latency target.",
+            Documentation = "The EnterpriseDataGrid draws with GDI+ from the headless DataGrid<T> engine, which caches only a window of rows around the viewport. Sorting and filtering re-query the in-memory source, so measure large datasets on your own hardware before relying on a latency target.",
             BestPractices = "Always enable virtualization for datasets exceeding 1,000 items. Keep row height fixed for constant time O(1) viewport index computation.",
             Troubleshooting = "Ensure DoubleBuffered is true to avoid flicker. Use FormatString rather than custom cell events for high-throughput numeric columns.",
             ApiReference = "DataGrid<T> -> EnableVirtualization, Columns, DataSource, RenderedItems, RefreshDataAsync()"
         });
 
-        // 2. TreeList - Hierarchical Data
+        // 2. EnterpriseTreeList - Hierarchical Data
         _allDemos.Add(new DemoItem
         {
             Id = "grid-treelist-hierarchy",
-            Title = "TreeList - Multi-Column Hierarchical Organization & Budgets",
+            Title = "EnterpriseTreeList - Multi-Column Hierarchical Organization & Budgets",
             Description = "Combines tree-view node expansion with multi-column grid features for organizational structures, bill of materials, and financial roll-ups.",
             Category = DemoCategoryType.GridsAndData,
-            SubCategory = "TreeList",
-            TargetControlName = "TreeList<T>, WinFormsTreeListControl",
+            SubCategory = "EnterpriseTreeList",
+            TargetControlName = "EnterpriseTreeList<T>, EnterpriseTreeListControl",
             Features = new[] { "Hierarchy", "TreeGrid", "Expand/Collapse", "Multi-Column", "Aggregation" },
-            Tags = new[] { "TreeList", "Hierarchy", "Organization", "BOM" },
+            Tags = new[] { "EnterpriseTreeList", "Hierarchy", "Organization", "BOM" },
             Industry = "Corporate Governance & Manufacturing",
             ViewFactory = () => new TreeGridDemoView(GetById("grid-treelist-hierarchy")),
             SourceCode =
-@"var treeList = new WinFormsTreeListControl();
+@"var treeList = new EnterpriseTreeListControl();
 treeList.Items.Add(new TreeListDemoItem { Id = 1, ParentId = null, Name = ""Corporate HQ"", Budget = 4500000m });
 treeList.Items.Add(new TreeListDemoItem { Id = 2, ParentId = 1, Name = ""Engineering"", Budget = 2800000m });",
-            Documentation = "TreeList binds parent-child hierarchical relations without recursive UI controls, minimizing GDI handles.",
+            Documentation = "EnterpriseTreeList binds parent-child hierarchical relations without recursive UI controls, minimizing GDI handles.",
             BestPractices = "Use self-referencing ID/ParentID schemas for dynamic lazy loading.",
             Troubleshooting = "Check for cyclic parent references in raw datasets.",
-            ApiReference = "TreeList<T> -> KeyFieldName, ParentFieldName, Columns, DataSource"
+            ApiReference = "EnterpriseTreeList<T> -> KeyFieldName, ParentFieldName, Columns, DataSource"
         });
 
-        // 3. PivotGrid - OLAP
+        // 3. EnterprisePivotGrid - OLAP
         _allDemos.Add(new DemoItem
         {
             Id = "grid-pivot-olap",
-            Title = "PivotGrid - Multi-Dimensional OLAP Cross-Tab Analysis",
+            Title = "EnterprisePivotGrid - Multi-Dimensional OLAP Cross-Tab Analysis",
             Description = "Multi-dimensional analytical cross-tabulation table with dynamic row dimensions, column dimensions, and aggregate summaries.",
             Category = DemoCategoryType.GridsAndData,
-            SubCategory = "PivotGrid",
-            TargetControlName = "PivotGrid<T>, WinFormsPivotGridControl",
+            SubCategory = "EnterprisePivotGrid",
+            TargetControlName = "EnterprisePivotGrid<T>, EnterprisePivotGridControl",
             Features = new[] { "OLAP", "Cross-Tab", "Dynamic Slicing", "Grand Totals", "Summaries" },
-            Tags = new[] { "PivotGrid", "OLAP", "BI", "Analytics" },
+            Tags = new[] { "EnterprisePivotGrid", "OLAP", "BI", "Analytics" },
             Industry = "Corporate Finance & Commercial Planning",
             ViewFactory = () => new PivotGridDemoView(GetById("grid-pivot-olap")),
             SourceCode =
-@"var pivot = new PivotGrid<SalesRecord>();
+@"var pivot = new EnterprisePivotGrid<SalesRecord>();
 pivot.Fields.Add(new PivotField { FieldName = ""Region"", Area = PivotArea.Row });
 pivot.Fields.Add(new PivotField { FieldName = ""Quarter"", Area = PivotArea.Column });
 pivot.Fields.Add(new PivotField { FieldName = ""Revenue"", Area = PivotArea.Data, SummaryType = AggregateFunction.Sum });",
-            Documentation = "PivotGrid calculates multi-dimensional cross products in memory with sub-millisecond aggregate rollups.",
+            Documentation = "EnterprisePivotGrid calculates multi-dimensional cross products in memory with sub-millisecond aggregate rollups.",
             BestPractices = "Index dimension fields beforehand to accelerate pivot matrix aggregation.",
             Troubleshooting = "Verify that numeric fields do not contain nulls before applying Sum or Average aggregators.",
-            ApiReference = "PivotGrid<T> -> Fields, DataSource, ShowGrandTotals, ShowSubtotals"
+            ApiReference = "EnterprisePivotGrid<T> -> Fields, DataSource, ShowGrandTotals, ShowSubtotals"
         });
 
         // 4. Charts - Financial & Real-Time
@@ -102,21 +102,21 @@ pivot.Fields.Add(new PivotField { FieldName = ""Revenue"", Area = PivotArea.Data
             Description = "High-performance vector charts supporting Bar, Column, Line, Spline, Area, Pie, Donut, and Candlestick series with live real-time tick streaming.",
             Category = DemoCategoryType.ChartsAndGauges,
             SubCategory = "Charts",
-            TargetControlName = "Chart, WinFormsChartControl",
+            TargetControlName = "EnterpriseChart, EnterpriseChartControl",
             Features = new[] { "Candlestick", "Spline", "Area", "Real-Time", "Tooltips", "Vector GDI+" },
-            Tags = new[] { "Chart", "Financial", "OHLC", "RealTime", "Telemetry" },
+            Tags = new[] { "EnterpriseChart", "Financial", "OHLC", "RealTime", "Telemetry" },
             Industry = "Capital Markets & IoT Telemetry",
             IsFeatured = true,
             ViewFactory = () => new ChartsDemoView(GetById("charts-financial-realtime")),
             SourceCode =
-@"var chart = new WinFormsChartControl();
+@"var chart = new EnterpriseChartControl();
 var series = new ChartSeries { Name = ""Equity"", Type = SeriesType.Candlestick };
 series.DataPoints.Add(new ChartDataPoint { Category = ""Day 1"", Open = 150, Close = 158, High = 162, Low = 148 });
 chart.Series.Add(series);",
             Documentation = "Charts support hardware-accelerated GDI+ rendering with automated axis normalization and marker decimation.",
             BestPractices = "Use LTTB (Largest Triangle Three Buckets) or bucket decimation when visualizing datasets over 100,000 points.",
             Troubleshooting = "Set EnableZoomPan = true to let users interactively drill down into localized volatility ranges.",
-            ApiReference = "Chart -> Series, XAxis, YAxis, EnableTooltips, EnableZoomPan"
+            ApiReference = "EnterpriseChart -> Series, XAxis, YAxis, EnableTooltips, EnableZoomPan"
         });
 
         // 5. Gauges - Radial & Linear
@@ -127,13 +127,13 @@ chart.Series.Add(series);",
             Description = "Precision circular and bar gauges with colored threshold ranges, smooth needle tracking, and live server telemetry feeds.",
             Category = DemoCategoryType.ChartsAndGauges,
             SubCategory = "Gauges",
-            TargetControlName = "RadialGauge, LinearGauge, WinFormsGaugeControl",
+            TargetControlName = "EnterpriseRadialGauge, EnterpriseLinearGauge, EnterpriseGaugeControl",
             Features = new[] { "Radial", "Linear", "Threshold Ranges", "Telemetry", "Animation" },
             Tags = new[] { "Gauge", "Radial", "Linear", "KPI", "Telemetry" },
             Industry = "Infrastructure Monitoring & Automotive",
             ViewFactory = () => new GaugesDemoView(GetById("gauges-radial-linear")),
             SourceCode =
-@"var gauge = new WinFormsGaugeControl { IsLinear = false };
+@"var gauge = new EnterpriseGaugeControl { IsLinear = false };
 gauge.Min = 0;
 gauge.Max = 100;
 gauge.Value = 68;
@@ -141,24 +141,24 @@ gauge.Ranges.Add(new GaugeRange { From = 0, To = 50, Color = ""#107c10"" });",
             Documentation = "Radial and Linear gauges provide instant visual feedback for server health, CPU/RAM utilization, and industrial metrics.",
             BestPractices = "Limit redraws to value changes exceeding 0.5 units to minimize unnecessary paint cycles.",
             Troubleshooting = "Configure StartAngle and EndAngle to align with standard 270-degree industrial gauges.",
-            ApiReference = "RadialGauge -> Min, Max, Value, StartAngle, EndAngle, Ranges"
+            ApiReference = "EnterpriseRadialGauge -> Min, Max, Value, StartAngle, EndAngle, Ranges"
         });
 
-        // 6. Scheduler - Calendar & Appointments
+        // 6. EnterpriseScheduler - Calendar & Appointments
         _allDemos.Add(new DemoItem
         {
             Id = "scheduler-appointments",
-            Title = "Scheduler - Work Week Calendar & Resource Scheduling",
+            Title = "EnterpriseScheduler - Work Week Calendar & Resource Scheduling",
             Description = "Enterprise scheduling engine supporting Day, Work Week, Month, and Timeline views with RFC 5545 recurrence rules.",
             Category = DemoCategoryType.NavigationAndLayout,
-            SubCategory = "Scheduler",
-            TargetControlName = "Scheduler, WinFormsSchedulerControl",
+            SubCategory = "EnterpriseScheduler",
+            TargetControlName = "EnterpriseScheduler, EnterpriseSchedulerControl",
             Features = new[] { "WorkWeek", "Timeline", "Appointments", "Resources", "Recurrence" },
-            Tags = new[] { "Scheduler", "Calendar", "Appointments", "Planning" },
+            Tags = new[] { "EnterpriseScheduler", "Calendar", "Appointments", "Planning" },
             Industry = "Healthcare & Enterprise Resource Planning",
             ViewFactory = () => new SchedulerDemoView(GetById("scheduler-appointments")),
             SourceCode =
-@"var scheduler = new WinFormsSchedulerControl();
+@"var scheduler = new EnterpriseSchedulerControl();
 scheduler.ActiveView = SchedulerViewType.Week;
 scheduler.Appointments.Add(new Appointment
 {
@@ -167,10 +167,10 @@ scheduler.Appointments.Add(new Appointment
     End = DateTime.Today.AddHours(10.5),
     Color = ""#0078d4""
 });",
-            Documentation = "Scheduler maps appointments to customizable time slots with collision detection and multi-resource lanes.",
+            Documentation = "EnterpriseScheduler maps appointments to customizable time slots with collision detection and multi-resource lanes.",
             BestPractices = "Filter appointments by active date window before binding to conserve memory.",
             Troubleshooting = "Ensure Appointment.End is strictly greater than Appointment.Start.",
-            ApiReference = "Scheduler -> ActiveView, SelectedDate, Appointments, Resources, TimeSlotMinutes"
+            ApiReference = "EnterpriseScheduler -> ActiveView, SelectedDate, Appointments, Resources, TimeSlotMinutes"
         });
 
         // 7. Diagrams - Node-Link Canvas
@@ -181,13 +181,13 @@ scheduler.Appointments.Add(new Appointment
             Description = "Interactive node-link diagramming surface supporting shapes, orthogonal routing, arrowheads, and drag-and-drop manipulation.",
             Category = DemoCategoryType.DiagramsAndWorkflow,
             SubCategory = "Diagrams",
-            TargetControlName = "Diagram, WinFormsDiagramControl",
+            TargetControlName = "EnterpriseDiagram, EnterpriseDiagramControl",
             Features = new[] { "Shapes", "Connectors", "Orthogonal Routing", "Drag & Drop", "Zoom" },
-            Tags = new[] { "Diagram", "Flowchart", "Architecture", "Nodes" },
+            Tags = new[] { "EnterpriseDiagram", "Flowchart", "Architecture", "Nodes" },
             Industry = "DevOps Architecture & Process Modeling",
             ViewFactory = () => new DiagramsDemoView(GetById("diagrams-node-link")),
             SourceCode =
-@"var diagram = new WinFormsDiagramControl();
+@"var diagram = new EnterpriseDiagramControl();
 var n1 = new DiagramNode { Id = ""n1"", Text = ""Gateway"", X = 40, Y = 100 };
 var n2 = new DiagramNode { Id = ""n2"", Text = ""Auth"", X = 240, Y = 40 };
 diagram.Nodes.AddRange(new[] { n1, n2 });
@@ -195,7 +195,7 @@ diagram.Connectors.Add(new DiagramConnector { SourceNodeId = ""n1"", TargetNodeI
             Documentation = "Diagrams provide an extensible canvas for process workflows, state machines, and system topologies.",
             BestPractices = "Use orthogonal connector pathing for enterprise architecture and network flow diagrams.",
             Troubleshooting = "Verify all connector source and target IDs exist in the Nodes collection.",
-            ApiReference = "Diagram -> Nodes, Connectors, EnableGridSnapping, ZoomFactor"
+            ApiReference = "EnterpriseDiagram -> Nodes, Connectors, EnableGridSnapping, ZoomFactor"
         });
 
         // 8. GIS Maps - Fleet Tracking
@@ -206,13 +206,13 @@ diagram.Connectors.Add(new DiagramConnector { SourceNodeId = ""n1"", TargetNodeI
             Description = "Geographic map display with latitude/longitude coordinate projections, zoom/pan controls, and interactive pin markers.",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "Maps",
-            TargetControlName = "GeoMap, WinFormsMapControl",
+            TargetControlName = "EnterpriseGeoMap, EnterpriseMapControl",
             Features = new[] { "GIS", "GeoCoordinates", "Markers", "Fleet Tracking", "Zoom & Pan" },
             Tags = new[] { "Map", "GIS", "GPS", "Fleet", "Logistics" },
             Industry = "Global Supply Chain & Transportation",
             ViewFactory = () => new MapsDemoView(GetById("maps-gis-fleet")),
             SourceCode =
-@"var map = new WinFormsMapControl();
+@"var map = new EnterpriseMapControl();
 map.Center = new GeoLocation(37.7749, -122.4194);
 map.ZoomLevel = 8;
 map.Markers.Add(new GeoMarker
@@ -221,10 +221,10 @@ map.Markers.Add(new GeoMarker
     Location = new GeoLocation(37.7749, -122.4194),
     Color = ""#0078d4""
 });",
-            Documentation = "GeoMap transforms GPS coordinates into screen space via equirectangular and Mercator projection algorithms.",
+            Documentation = "EnterpriseGeoMap transforms GPS coordinates into screen space via equirectangular and Mercator projection algorithms.",
             BestPractices = "Cluster close markers when zoom level is under 5 to prevent marker overlap.",
             Troubleshooting = "Clamp latitude to [-85, 85] to prevent projection singularities near poles.",
-            ApiReference = "GeoMap -> Center, ZoomLevel, Markers"
+            ApiReference = "EnterpriseGeoMap -> Center, ZoomLevel, Markers"
         });
 
         // 9. Reporting - Banded Documents
@@ -235,7 +235,7 @@ map.Markers.Add(new GeoMarker
             Description = "Report generator featuring Header, Detail, Group and Footer bands, data binding expressions, and print/PDF pipeline.",
             Category = DemoCategoryType.ReportingAndDashboard,
             SubCategory = "Reporting",
-            TargetControlName = "ReportDefinition, ReportViewer",
+            TargetControlName = "ReportDefinition, EnterpriseReportViewer",
             Features = new[] { "Banded Reports", "Invoices", "Healthcare EHR", "Print Preview", "PDF Vector" },
             Tags = new[] { "Reporting", "Bands", "Invoices", "Printing", "PDF" },
             Industry = "Billing, Finance & Clinical EHR",
@@ -243,7 +243,7 @@ map.Markers.Add(new GeoMarker
             SourceCode =
 @"var report = new ReportDefinition { ReportName = ""Invoice"" };
 var header = new ReportBand { Type = BandType.PageHeader, Height = 40 };
-header.Controls.Add(new ReportControl { Text = ""Commercial Invoice"", Width = 300 });
+header.Controls.Add(new EnterpriseReportControl { Text = ""Commercial Invoice"", Width = 300 });
 report.Bands.Add(header);",
             Documentation = "ReportDefinition models banded layouts inspired by XtraReports and Telerik Reporting, cleanly decoupled from UI controls.",
             BestPractices = "Use group bands for multi-level customer or department subtotals.",
@@ -268,7 +268,7 @@ report.Bands.Add(header);",
             SourceCode =
 @"var dashboard = new Dashboard { Title = ""Executive Overview"" };
 dashboard.AddKpi(""ARR Revenue"", ""$48.6M"", 18.4);
-dashboard.Widgets.Add(new DashboardWidget { Title = ""Revenue Trend"", Type = WidgetType.Chart });",
+dashboard.Widgets.Add(new DashboardWidget { Title = ""Revenue Trend"", Type = WidgetType.EnterpriseChart });",
             Documentation = "Dashboard provides a responsive grid container for KPI metric cards, charts, and data grids.",
             BestPractices = "Place top-level actionable KPIs along the top row for immediate executive clarity.",
             Troubleshooting = "Keep column count between 3 and 4 for optimal readability on standard 1080p and 4K displays.",
@@ -283,7 +283,7 @@ dashboard.Widgets.Add(new DashboardWidget { Title = ""Revenue Trend"", Type = Wi
             Description = "Text, Numeric, Date, ComboBox, and Switch editors wired to fluent async validation rules with instant visual compliance feedback.",
             Category = DemoCategoryType.EditorsAndForms,
             SubCategory = "Editors",
-            TargetControlName = "TextBox, NumericTextBox, DatePicker, Validator<T>",
+            TargetControlName = "TextBox, EnterpriseNumericTextBox, EnterpriseDatePicker, Validator<T>",
             Features = new[] { "Validation", "Formatting", "Numeric Stepping", "Masking", "Accessibility" },
             Tags = new[] { "Editors", "Validation", "Forms", "Input", "FluentValidation" },
             Industry = "Cross-Industry Data Entry",
@@ -307,7 +307,7 @@ var result = validator.Validate(model);",
             Description = "Universal multi-format document workstation supporting vector PDF viewing, WYSIWYG formatted text runs, and tabular spreadsheet calculations.",
             Category = DemoCategoryType.DocumentsAndMedia,
             SubCategory = "Documents",
-            TargetControlName = "PdfViewer, RichTextEditor, SpreadsheetControl",
+            TargetControlName = "EnterprisePdfViewer, EnterpriseRichTextEditor, EnterpriseSpreadsheetControl",
             Features = new[] { "PDF Viewer", "WYSIWYG", "RichText", "Spreadsheet", "Formulas" },
             Tags = new[] { "Documents", "PDF", "RichText", "Office", "Spreadsheet" },
             Industry = "Legal, Contract Management & Office Productivity",
@@ -320,7 +320,7 @@ var result = validator.Validate(model);",
             Documentation = "Unified documents suite eliminating the need for bulky external Office interop or third-party viewer plugins.",
             BestPractices = "Use stream-based loading for large PDFs and documents to maintain low memory overhead.",
             Troubleshooting = "Ensure font collections match system DPI settings for crisp ClearType text rendering.",
-            ApiReference = "PdfViewer -> Document, CurrentPageIndex, ZoomFactor; RichTextEditor -> Document"
+            ApiReference = "EnterprisePdfViewer -> Document, CurrentPageIndex, ZoomFactor; EnterpriseRichTextEditor -> Document"
         });
 
         // 13. AI & Intelligence
@@ -331,20 +331,20 @@ var result = validator.Validate(model);",
             Description = "Offline-first AI copilot translating natural language prompts into compiled QueryEngine AST filters and generating automated BI summaries.",
             Category = DemoCategoryType.AIAndIntelligence,
             SubCategory = "AI Copilot",
-            TargetControlName = "AIAssistant, WinFormsAICopilotControl",
+            TargetControlName = "EnterpriseAIAssistant, EnterpriseAICopilotControl",
             Features = new[] { "AI Copilot", "Natural Language Query", "Offline Mock Engine", "Summaries", "AST Translation" },
             Tags = new[] { "AI", "Copilot", "LLM", "NLP", "SmartGrid" },
             Industry = "Next-Generation Intelligent Enterprise",
             IsFeatured = true,
             ViewFactory = () => new AIControlsDemoView(GetById("ai-copilot-assistant")),
             SourceCode =
-@"var assistant = new AIAssistant();
+@"var assistant = new EnterpriseAIAssistant();
 // Translates natural language directly to compiled QueryEngine filters
 await assistant.SendPromptAsync(""Show pending high-priority orders above $2,500"");",
-            Documentation = "AIAssistant provides an offline-first provider architecture that can swap between local deterministic mock providers and Azure OpenAI.",
+            Documentation = "EnterpriseAIAssistant provides an offline-first provider architecture that can swap between local deterministic mock providers and Azure OpenAI.",
             BestPractices = "Sanitize and validate compiled AST expressions before querying sensitive production backends.",
             Troubleshooting = "Verify that entity property names map accurately during natural language translation.",
-            ApiReference = "AIAssistant -> SendPromptAsync, History, ServiceProvider"
+            ApiReference = "EnterpriseAIAssistant -> SendPromptAsync, History, ServiceProvider"
         });
 
         // 14. Theming & Design Tokens
@@ -365,7 +365,7 @@ await assistant.SendPromptAsync(""Show pending high-priority orders above $2,500
 var theme = BuiltInThemes.CreateFluent(ColorScheme.Dark);
 ThemeManager.Instance.ApplyTheme(theme);",
             Documentation = "EnterpriseUI theming relies on a centralized dictionary of DesignTokens (Surface, Primary, Border, Text) resolved dynamically by controls.",
-            BestPractices = "Never hardcode Color.White or Color.Black; always fetch via WinFormsThemeEngine.GetColor(theme, token, fallback).",
+            BestPractices = "Never hardcode Color.White or Color.Black; always fetch via EnterpriseThemeEngine.GetColor(theme, token, fallback).",
             Troubleshooting = "Implement IThemeableControl on custom controls to receive ThemeChanged notifications automatically.",
             ApiReference = "ThemeManager.Instance -> ApplyTheme, CurrentTheme, ThemeChanged"
         });
@@ -516,77 +516,77 @@ var testRunner = new QaValidationDemoView(meta);",
         {
             Id = "specialized-gantt-barcode-kanban",
             Title = "Gantt, Barcode/QR & Kanban TaskBoard Suite",
-            Description = "Project Gantt Chart with critical path dependencies, Vector QR/Code128/DataMatrix Barcode generator, and interactive Agile Kanban TaskBoard.",
+            Description = "Project Gantt EnterpriseChart with critical path dependencies, Vector QR/Code128/DataMatrix Barcode generator, and interactive Agile Kanban TaskBoard.",
             Category = DemoCategoryType.DiagramsAndWorkflow,
             SubCategory = "Gantt, Barcode & Kanban",
-            TargetControlName = "WinFormsGanttControl, WinFormsBarcodeControl, WinFormsKanbanBoardControl",
-            Features = new[] { "Gantt Chart", "Critical Path", "QR Code", "Code128", "Kanban Board" },
+            TargetControlName = "EnterpriseGanttControl, EnterpriseBarcodeControl, EnterpriseKanbanBoardControl",
+            Features = new[] { "Gantt EnterpriseChart", "Critical Path", "QR Code", "Code128", "Kanban Board" },
             Tags = new[] { "Gantt", "Barcode", "QR", "Kanban", "TaskBoard", "ProjectManagement" },
             Industry = "Project Management, Supply Chain & Agile Engineering",
             IsFeatured = true,
             IsPopular = true,
             ViewFactory = () => new SpecializedControlsDemoView(GetById("specialized-gantt-barcode-kanban")),
             SourceCode =
-@"var gantt = new WinFormsGanttControl { ShowCriticalPath = true };
-var barcode = new WinFormsBarcodeControl { Symbology = BarcodeSymbology.QRCode, Value = ""EUI-2026"" };
-var kanban = new WinFormsKanbanBoardControl();",
-            Documentation = "Provides native GDI+ vector implementations of GanttView (with task dependencies and critical path), Barcode (QR, Code128, DataMatrix), and Kanban TaskBoard.",
+@"var gantt = new EnterpriseGanttControl { ShowCriticalPath = true };
+var barcode = new EnterpriseBarcodeControl { Symbology = BarcodeSymbology.QRCode, Value = ""EUI-2026"" };
+var kanban = new EnterpriseKanbanBoardControl();",
+            Documentation = "Provides native GDI+ vector implementations of EnterpriseGanttView (with task dependencies and critical path), Barcode (QR, Code128, DataMatrix), and Kanban TaskBoard.",
             BestPractices = "Highlight critical path milestones in Gantt charts to surface schedule bottlenecks early.",
             Troubleshooting = "Ensure Barcode quiet-zone padding is preserved when printing labels.",
-            ApiReference = "WinFormsGanttControl -> Tasks, ShowCriticalPath; WinFormsBarcodeControl -> Symbology, Value; WinFormsKanbanBoardControl -> Cards"
+            ApiReference = "EnterpriseGanttControl -> Tasks, ShowCriticalPath; EnterpriseBarcodeControl -> Symbology, Value; EnterpriseKanbanBoardControl -> Cards"
         });
 
-        // 22. Complete Telerik Parity Suite (VirtualGrid, SyntaxEditor, BulletGraph, Carousel, Calculator & Zip)
+        // 22. Complete Telerik Parity Suite (EnterpriseVirtualGrid, EnterpriseSyntaxEditor, EnterpriseBulletGraph, EnterpriseCarousel, Calculator & Zip)
         _allDemos.Add(new DemoItem
         {
             Id = "complete-telerik-parity-catalog",
-            Title = "Complete Control Suite - VirtualGrid, SyntaxEditor, BulletGraph & Carousel",
-            Description = "Showcases 1M×12 Event-Driven VirtualGrid, C# SyntaxEditor & Levenshtein SpellChecker, Stephen Few BulletGraph, 3D Elliptical Carousel, Star Rating, WaitingBar, CalculatorDropDown, MaskedEditBox, and Spread/Zip Document Processing.",
+            Title = "Complete Control Suite - EnterpriseVirtualGrid, EnterpriseSyntaxEditor, EnterpriseBulletGraph & EnterpriseCarousel",
+            Description = "Showcases 1M×12 Event-Driven EnterpriseVirtualGrid, C# EnterpriseSyntaxEditor & Levenshtein SpellChecker, Stephen Few EnterpriseBulletGraph, 3D Elliptical EnterpriseCarousel, Star Rating, EnterpriseWaitingBar, EnterpriseCalculatorDropDown, MaskedEditBox, and Spread/Zip Document Processing.",
             Category = DemoCategoryType.Overview,
             SubCategory = "Telerik Parity Suite",
-            TargetControlName = "WinFormsVirtualGridControl, WinFormsSyntaxEditorControl, WinFormsBulletGraphControl, WinFormsCarouselControl",
-            Features = new[] { "VirtualGrid", "SyntaxEditor", "SpellChecker", "BulletGraph", "Carousel", "Rating", "WaitingBar", "Calculator", "ZipLibrary" },
-            Tags = new[] { "VirtualGrid", "SyntaxEditor", "BulletGraph", "Carousel", "Calculator", "MaskedTextBox", "ZipLibrary" },
+            TargetControlName = "EnterpriseVirtualGridControl, EnterpriseSyntaxEditorControl, EnterpriseBulletGraphControl, EnterpriseCarouselControl",
+            Features = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "SpellChecker", "EnterpriseBulletGraph", "EnterpriseCarousel", "Rating", "EnterpriseWaitingBar", "Calculator", "ZipLibrary" },
+            Tags = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "EnterpriseBulletGraph", "EnterpriseCarousel", "Calculator", "EnterpriseMaskedTextBox", "ZipLibrary" },
             Industry = "Enterprise Desktop & Developer Productivity",
             IsFeatured = true,
             IsPopular = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("complete-telerik-parity-catalog")),
             SourceCode =
-@"var virtualGrid = new WinFormsVirtualGridControl();
-var syntaxEditor = new WinFormsSyntaxEditorControl();
-var bulletGraph = new WinFormsBulletGraphControl();
-var carousel = new WinFormsCarouselControl();",
-            Documentation = "Provides 100% clean-room C# and GDI+ implementations of VirtualGrid, SyntaxEditor, SpellChecker, BulletGraph, Carousel, Rating, WaitingBar, CalculatorDropDown, MaskedTextBox, and ZipArchive processing.",
-            BestPractices = "Use VirtualGrid with CellValueNeeded when rendering non-materialized streaming matrices exceeding millions of cells.",
+@"var virtualGrid = new EnterpriseVirtualGridControl();
+var syntaxEditor = new EnterpriseSyntaxEditorControl();
+var bulletGraph = new EnterpriseBulletGraphControl();
+var carousel = new EnterpriseCarouselControl();",
+            Documentation = "Provides 100% clean-room C# and GDI+ implementations of EnterpriseVirtualGrid, EnterpriseSyntaxEditor, SpellChecker, EnterpriseBulletGraph, EnterpriseCarousel, Rating, EnterpriseWaitingBar, EnterpriseCalculatorDropDown, EnterpriseMaskedTextBox, and ZipArchive processing.",
+            BestPractices = "Use EnterpriseVirtualGrid with CellValueNeeded when rendering non-materialized streaming matrices exceeding millions of cells.",
             Troubleshooting = "Verify CellValueNeeded handler executes in O(1) time without blocking IO.",
-            ApiReference = "VirtualGrid, SyntaxEditor, SpellChecker, BulletGraph, Carousel, CalculatorDropDown, MaskedTextBox, DocumentProcessingSuite"
+            ApiReference = "EnterpriseVirtualGrid, EnterpriseSyntaxEditor, SpellChecker, EnterpriseBulletGraph, EnterpriseCarousel, EnterpriseCalculatorDropDown, EnterpriseMaskedTextBox, DocumentProcessingSuite"
         });
 
-        // 23. Navigation, Layout, Wizard, Carousel, Panorama & DesktopAlerts Suite
+        // 23. Navigation, Layout, Wizard, EnterpriseCarousel, EnterprisePanorama & DesktopAlerts Suite
         _allDemos.Add(new DemoItem
         {
             Id = "navigation-layout-alerts-suite",
-            Title = "Navigation & Layout - Breadcrumb, StepProgress, Carousel, Panorama & Wizard",
-            Description = "Interactive Breadcrumb hierarchy bar, StepProgressBar pipeline, BindingNavigator, 3D Elliptical Carousel, Panorama live tiles, multi-step WizardControl, auto-generated DataLayout, DesktopAlert, and TaskDialog.",
+            Title = "Navigation & Layout - EnterpriseBreadcrumb, StepProgress, EnterpriseCarousel, EnterprisePanorama & Wizard",
+            Description = "Interactive EnterpriseBreadcrumb hierarchy bar, EnterpriseStepProgressBar pipeline, EnterpriseBindingNavigator, 3D Elliptical EnterpriseCarousel, EnterprisePanorama live tiles, multi-step EnterpriseWizardControl, auto-generated EnterpriseDataLayout, EnterpriseDesktopAlert, and EnterpriseTaskDialog.",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "Navigation, Layout & Alerts",
-            TargetControlName = "Breadcrumb, StepProgressBar, BindingNavigator<T>, Carousel, Panorama, WizardControl, DataLayout<T>, DesktopAlert, TaskDialog",
-            Features = new[] { "Breadcrumb", "StepProgressBar", "BindingNavigator", "Carousel", "Panorama", "WizardControl", "DataLayout", "DesktopAlert", "TaskDialog" },
-            Tags = new[] { "Navigation", "Layout", "Breadcrumb", "Wizard", "Carousel", "Panorama", "Alerts" },
+            TargetControlName = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDataLayout<T>, EnterpriseDesktopAlert, EnterpriseTaskDialog",
+            Features = new[] { "EnterpriseBreadcrumb", "EnterpriseStepProgressBar", "EnterpriseBindingNavigator", "EnterpriseCarousel", "EnterprisePanorama", "EnterpriseWizardControl", "EnterpriseDataLayout", "EnterpriseDesktopAlert", "EnterpriseTaskDialog" },
+            Tags = new[] { "Navigation", "Layout", "EnterpriseBreadcrumb", "Wizard", "EnterpriseCarousel", "EnterprisePanorama", "Alerts" },
             Industry = "Enterprise Application Shell & Workflow UX",
             IsFeatured = true,
             IsPopular = true,
             ViewFactory = () => new NavigationAndLayoutDemoView(GetById("navigation-layout-alerts-suite")),
             SourceCode =
-@"var breadcrumb = new Breadcrumb();
-var stepProgress = new StepProgressBar();
-var wizard = new WizardControl();
-var panorama = new Panorama();
-var carousel = new WinFormsCarouselControl();",
-            Documentation = "Demonstrates the complete Navigation, Layout, Wizard, Live Tile Panorama, 3D Carousel, and Notification Dialog suite.",
-            BestPractices = "Use StepProgressBar and WizardControl together for multi-stage enterprise onboarding and deployment pipelines.",
+@"var breadcrumb = new EnterpriseBreadcrumb();
+var stepProgress = new EnterpriseStepProgressBar();
+var wizard = new EnterpriseWizardControl();
+var panorama = new EnterprisePanorama();
+var carousel = new EnterpriseCarouselControl();",
+            Documentation = "Demonstrates the complete Navigation, Layout, Wizard, Live Tile EnterprisePanorama, 3D EnterpriseCarousel, and Notification Dialog suite.",
+            BestPractices = "Use EnterpriseStepProgressBar and EnterpriseWizardControl together for multi-stage enterprise onboarding and deployment pipelines.",
             Troubleshooting = "Ensure WizardPage.ValidateStep returns true before calling MoveNext().",
-            ApiReference = "Breadcrumb, StepProgressBar, BindingNavigator<T>, Carousel, Panorama, WizardControl, DataLayout<T>, DesktopAlert, TaskDialog"
+            ApiReference = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDataLayout<T>, EnterpriseDesktopAlert, EnterpriseTaskDialog"
         });
 
         // 24. AIPrompt, SmartPasteButton & SpeechToTextButton Suite
@@ -613,52 +613,52 @@ var aiPrompt = new AIPromptControl();",
             ApiReference = "SmartPasteEngine.ExtractFieldsFromText(string), AIPromptControl, SpeechToTextButton"
         });
 
-        // 25. DataEntry, DataFilter, FilterView, CardView & ValidationProvider Suite
+        // 25. DataEntry, DataFilter, EnterpriseFilterView, EnterpriseCardView & ValidationProvider Suite
         _allDemos.Add(new DemoItem
         {
             Id = "dataentry-filter-cards-suite",
-            Title = "DataEntry, DataFilter, FilterView, CardView & ValidationProvider",
-            Description = "Auto-generated bound DataEntry form, hierarchical AND/OR/NOT DataFilter expression tree, faceted FilterView, templated CardView & ListView, and declarative ValidationProvider.",
+            Title = "DataEntry, DataFilter, EnterpriseFilterView, EnterpriseCardView & ValidationProvider",
+            Description = "Auto-generated bound DataEntry form, hierarchical AND/OR/NOT DataFilter expression tree, faceted EnterpriseFilterView, templated EnterpriseCardView & ListView, and declarative ValidationProvider.",
             Category = DemoCategoryType.GridsAndData,
-            SubCategory = "DataEntry, DataFilter & CardView",
-            TargetControlName = "DataEntry<T>, DataFilter, FilterView, CardView<T>, ListView<T>, ValidationProvider",
-            Features = new[] { "DataEntry", "DataFilter", "FilterView", "CardView", "ListView", "ValidationProvider" },
-            Tags = new[] { "DataEntry", "DataFilter", "FilterView", "CardView", "ListView", "Validation" },
+            SubCategory = "DataEntry, DataFilter & EnterpriseCardView",
+            TargetControlName = "DataEntry<T>, DataFilter, EnterpriseFilterView, EnterpriseCardView<T>, ListView<T>, ValidationProvider",
+            Features = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "ValidationProvider" },
+            Tags = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "Validation" },
             Industry = "CRM, ERP & Business Intelligence Filtering",
             IsFeatured = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("dataentry-filter-cards-suite"), initialTabIndex: 2),
             SourceCode =
-@"var cardView = new CardView<ExecutiveContact>();
-var filterView = new FilterView();",
+@"var cardView = new EnterpriseCardView<ExecutiveContact>();
+var filterView = new EnterpriseFilterView();",
             Documentation = "Implements RadDataEntry, RadDataFilter, RadFilterView, RadCardView, RadListView, and RadValidationProvider.",
-            BestPractices = "Combine DataFilter hierarchical trees with FilterView faceted checklists for complex BI drill-downs.",
+            BestPractices = "Combine DataFilter hierarchical trees with EnterpriseFilterView faceted checklists for complex BI drill-downs.",
             Troubleshooting = "Ensure entity properties have public getters/setters when binding to DataEntry.",
-            ApiReference = "DataEntryControl<T>, DataFilterControl, FilterView, CardView<T>, ValidationProvider"
+            ApiReference = "DataEntryControl<T>, DataFilterControl, EnterpriseFilterView, EnterpriseCardView<T>, ValidationProvider"
         });
 
-        // 26. SlideView, Rotator, PipsPager, ImageEditor, PictureBox & WebCam Suite
+        // 26. SlideView, Rotator, PipsPager, EnterpriseImageEditor, PictureBox & EnterpriseWebCam Suite
         _allDemos.Add(new DemoItem
         {
             Id = "slide-rotator-pips-media-suite",
-            Title = "SlideView, Rotator, PipsPager, ImageEditor, PictureBox & WebCam",
-            Description = "Interactive SlideView deck, animated Rotator banner, PipsPager dot/number pagination indicator, raster/vector ImageEditor & PictureBox with filters/crop/rotate, and WebCam capture.",
+            Title = "SlideView, Rotator, PipsPager, EnterpriseImageEditor, PictureBox & EnterpriseWebCam",
+            Description = "Interactive SlideView deck, animated Rotator banner, PipsPager dot/number pagination indicator, raster/vector EnterpriseImageEditor & PictureBox with filters/crop/rotate, and EnterpriseWebCam capture.",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "SlideView, PipsPager & Media",
-            TargetControlName = "WinFormsSlideRotatorPipsControl, ImageEditor, PictureBox, WebCam",
-            Features = new[] { "SlideView", "Rotator", "PipsPager", "ImageEditor", "PictureBox", "WebCam" },
-            Tags = new[] { "SlideView", "Rotator", "PipsPager", "ImageEditor", "PictureBox", "WebCam" },
+            TargetControlName = "EnterpriseSlideRotatorPipsControl, EnterpriseImageEditor, PictureBox, EnterpriseWebCam",
+            Features = new[] { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" },
+            Tags = new[] { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" },
             Industry = "Digital Signage, Kiosks, Security Badging & Media",
             IsFeatured = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("slide-rotator-pips-media-suite"), initialTabIndex: 3),
             SourceCode =
-@"var slideView = new WinFormsSlideRotatorPipsControl();
-var webcam = new EnterpriseUI.Media.WebCam();
+@"var slideView = new EnterpriseSlideRotatorPipsControl();
+var webcam = new EnterpriseUI.Media.EnterpriseWebCam();
 webcam.Start();
 byte[] frame = webcam.TakeSnapshot();",
             Documentation = "Implements RadSlideView, RadRotator, RadPipsPager, RadImageEditor, RadPictureBox, and RadWebCam.",
             BestPractices = "Use PipsPager paired with SlideView for touch-friendly executive presentation decks.",
-            Troubleshooting = "Call WebCam.Start() prior to invoking TakeSnapshot().",
-            ApiReference = "WinFormsSlideRotatorPipsControl, ImageEditorControl, PictureBoxControl, WebCam"
+            Troubleshooting = "Call EnterpriseWebCam.Start() prior to invoking TakeSnapshot().",
+            ApiReference = "EnterpriseSlideRotatorPipsControl, ImageEditorControl, PictureBoxControl, EnterpriseWebCam"
         });
 
         // 27. Clock, Callout & RangeSelector Suite
@@ -669,20 +669,20 @@ byte[] frame = webcam.TakeSnapshot();",
             Description = "Vector GDI+ Analog & Digital Clock with timezone offsets, directional Callout annotation popup balloon, and dual-thumb RangeSelector with sparkline preview.",
             Category = DemoCategoryType.ChartsAndGauges,
             SubCategory = "Clock, Callout & RangeSelector",
-            TargetControlName = "WinFormsClockControl, WinFormsCalloutControl, WinFormsRangeSelectorControl",
-            Features = new[] { "Clock", "Callout", "RangeSelector", "TimeZone", "Sparkline Zoom" },
+            TargetControlName = "EnterpriseClockControl, EnterpriseCalloutControl, EnterpriseRangeSelectorControl",
+            Features = new[] { "Clock", "Callout", "RangeSelector", "TimeZone", "EnterpriseSparkline Zoom" },
             Tags = new[] { "Clock", "Callout", "RangeSelector", "Annotation", "TimeSeries" },
             Industry = "Global Trading Desks & Operations Centers",
             IsFeatured = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("clock-callout-rangeselector-suite"), initialTabIndex: 4),
             SourceCode =
-@"var clock = new WinFormsClockControl { TimeZoneOffsetHours = -5, TimeZoneLabel = ""UTC-5 (New York)"" };
-var callout = new WinFormsCalloutControl { PointerDirection = ArrowDirection.Left };
-var rangeSelector = new WinFormsRangeSelectorControl { SelectionStartPercent = 20, SelectionEndPercent = 80 };",
+@"var clock = new EnterpriseClockControl { TimeZoneOffsetHours = -5, TimeZoneLabel = ""UTC-5 (New York)"" };
+var callout = new EnterpriseCalloutControl { PointerDirection = ArrowDirection.Left };
+var rangeSelector = new EnterpriseRangeSelectorControl { SelectionStartPercent = 20, SelectionEndPercent = 80 };",
             Documentation = "Implements RadClock, RadCallout, and RadRangeSelector using anti-aliased GDI+ vector geometry.",
-            BestPractices = "Link WinFormsRangeSelectorControl.RangeChanged to your primary ChartView time axis for synchronized zooming.",
-            Troubleshooting = "Ensure WinFormsClockControl is disposed when its parent container closes to release the 1-second tick timer.",
-            ApiReference = "WinFormsClockControl, WinFormsCalloutControl, WinFormsRangeSelectorControl"
+            BestPractices = "Link EnterpriseRangeSelectorControl.RangeChanged to your primary ChartView time axis for synchronized zooming.",
+            Troubleshooting = "Ensure EnterpriseClockControl is disposed when its parent container closes to release the 1-second tick timer.",
+            ApiReference = "EnterpriseClockControl, EnterpriseCalloutControl, EnterpriseRangeSelectorControl"
         });
 
         // 28. NavigationView, OfficeNavigationBar, Forms, Overlays, Toast & Tools Suite

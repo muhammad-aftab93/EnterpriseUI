@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -35,9 +35,9 @@ public class SpreadsheetWorkbook
 }
 
 /// <summary>
-/// Superset Spreadsheet control combining DevExpress SpreadsheetControl and Telerik RadSpreadsheet.
+/// Superset Spreadsheet control combining DevExpress EnterpriseSpreadsheetControl and Telerik RadSpreadsheet.
 /// </summary>
-public class SpreadsheetControl : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseSpreadsheetControl : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private SpreadsheetWorkbook _workbook = new();
 

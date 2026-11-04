@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,14 +23,14 @@ public class EditorsDemoModel
 public class EditorsDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsTextBoxControl _txtFullName;
-    private readonly WinFormsTextBoxControl _txtEmail;
-    private readonly WinFormsButtonTextBoxControl _txtBrowsePath;
+    private readonly EnterpriseTextBoxControl _txtFullName;
+    private readonly EnterpriseTextBoxControl _txtEmail;
+    private readonly EnterpriseButtonTextBoxControl _txtBrowsePath;
     private readonly NumericUpDown _numBudget;
     private readonly DateTimePicker _dtpEffectiveDate;
-    private readonly WinFormsFontDropDownControl _cmbFont;
+    private readonly EnterpriseFontDropDownControl _cmbFont;
     private readonly System.Windows.Forms.ComboBox _cmbDept;
-    private readonly WinFormsToggleSwitchControl _tglNotifications;
+    private readonly EnterpriseToggleSwitchControl _tglNotifications;
     private readonly Label _lblValidationSummary;
 
     public EditorsDemoView(DemoItem metadata)
@@ -57,7 +57,7 @@ public class EditorsDemoView : UserControl
 
         int y = 12;
         formPanel.Controls.Add(new Label { Text = "RadTextBox (Prefix + Clear ✕ + Focus Ring):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _txtFullName = new WinFormsTextBoxControl
+        _txtFullName = new EnterpriseTextBoxControl
         {
             Location = new Point(310, y),
             Width = 300,
@@ -70,7 +70,7 @@ public class EditorsDemoView : UserControl
         y += 40;
 
         formPanel.Controls.Add(new Label { Text = "RadTextBox (Email Validation State):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _txtEmail = new WinFormsTextBoxControl
+        _txtEmail = new EnterpriseTextBoxControl
         {
             Location = new Point(310, y),
             Width = 300,
@@ -83,7 +83,7 @@ public class EditorsDemoView : UserControl
         y += 40;
 
         formPanel.Controls.Add(new Label { Text = "RadButtonTextBox / RadBrowseEditor:", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _txtBrowsePath = new WinFormsButtonTextBoxControl
+        _txtBrowsePath = new EnterpriseButtonTextBoxControl
         {
             Location = new Point(310, y),
             Width = 300,
@@ -118,13 +118,13 @@ public class EditorsDemoView : UserControl
         _cmbDept.SelectedIndex = 1;
         _cmbDept.SelectedIndexChanged += (_, _) => _baseView.LogEvent("DropDownList.SelectedItem", _cmbDept.SelectedItem?.ToString() ?? "");
 
-        _cmbFont = new WinFormsFontDropDownControl { Location = new Point(465, y), Width = 145 };
+        _cmbFont = new EnterpriseFontDropDownControl { Location = new Point(465, y), Width = 145 };
         _cmbFont.SelectedIndexChanged += (_, _) => _baseView.LogEvent("FontDropDownList.SelectedFont", _cmbFont.SelectedItem?.ToString() ?? "");
         formPanel.Controls.AddRange(new Control[] { _cmbDept, _cmbFont });
         y += 38;
 
         formPanel.Controls.Add(new Label { Text = "RadToggleSwitch (Push Notifications):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _tglNotifications = new WinFormsToggleSwitchControl { Location = new Point(310, y), IsOn = true };
+        _tglNotifications = new EnterpriseToggleSwitchControl { Location = new Point(310, y), IsOn = true };
         var lblSwitchState = new Label { Text = "Enabled (ON)", Location = new Point(398, y + 6), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         _tglNotifications.Toggled += isOn =>
         {
@@ -134,7 +134,7 @@ public class EditorsDemoView : UserControl
         formPanel.Controls.AddRange(new Control[] { _tglNotifications, lblSwitchState });
         y += 40;
 
-        var btnValidate = new WinFormsButtonControl
+        var btnValidate = new EnterpriseButtonControl
         {
             Text = "✓ Validate Form Controls",
             Location = new Point(16, y),
@@ -156,7 +156,7 @@ public class EditorsDemoView : UserControl
         tabCoreForm.Controls.Add(formPanel);
 
         // ====================================================================
-        // Tab 2: Buttons, SplitButton, DropDownButton, RepeatButton, CheckBox, RadioButton & CollapsiblePanel
+        // Tab 2: Buttons, SplitButton, DropDownButton, RepeatButton, CheckBox, RadioButton & EnterpriseCollapsiblePanel
         // ====================================================================
         var tabButtonsSuite = new TabPage("🔘 Buttons, SplitButton, RepeatButton & Panels");
         var btnPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(16), AutoScroll = true };
@@ -169,10 +169,10 @@ public class EditorsDemoView : UserControl
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
         };
 
-        var btnPrimary = new WinFormsButtonControl { Text = "🚀 Primary Button", Location = new Point(16, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Primary, BadgeText = "4" };
-        var btnSuccess = new WinFormsButtonControl { Text = "✔ Approve Ledger", Location = new Point(182, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Success };
-        var btnDanger = new WinFormsButtonControl { Text = "✖ Revoke Token", Location = new Point(348, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Danger };
-        var btnOutline = new WinFormsButtonControl { Text = "⚙ Outline Action", Location = new Point(514, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Outline };
+        var btnPrimary = new EnterpriseButtonControl { Text = "🚀 Primary Button", Location = new Point(16, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Primary, BadgeText = "4" };
+        var btnSuccess = new EnterpriseButtonControl { Text = "✔ Approve Ledger", Location = new Point(182, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Success };
+        var btnDanger = new EnterpriseButtonControl { Text = "✖ Revoke Token", Location = new Point(348, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Danger };
+        var btnOutline = new EnterpriseButtonControl { Text = "⚙ Outline Action", Location = new Point(514, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Outline };
 
         btnPrimary.Click += (_, _) => _baseView.LogEvent("RadButton.Click", "Primary Button Clicked");
         btnSuccess.Click += (_, _) => _baseView.LogEvent("RadButton.Click", "Approve Ledger Clicked");
@@ -187,10 +187,10 @@ public class EditorsDemoView : UserControl
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
         };
 
-        var splitBtn = new WinFormsSplitButtonControl { Text = "Export Document", Location = new Point(16, 116), Size = new Size(175, 34), IsSplitMode = true };
-        var dropDownBtn = new WinFormsSplitButtonControl { Text = "Quick Actions ▾", Location = new Point(202, 116), Size = new Size(165, 34), IsSplitMode = false };
-        var repeatBtn = new WinFormsRepeatButtonControl { Location = new Point(378, 116), Size = new Size(185, 34) };
-        var progressBar = new WinFormsProgressBarControl { Location = new Point(575, 120), Size = new Size(220, 26), Value = 45 };
+        var splitBtn = new EnterpriseSplitButtonControl { Text = "Export Document", Location = new Point(16, 116), Size = new Size(175, 34), IsSplitMode = true };
+        var dropDownBtn = new EnterpriseSplitButtonControl { Text = "Quick Actions ▾", Location = new Point(202, 116), Size = new Size(165, 34), IsSplitMode = false };
+        var repeatBtn = new EnterpriseRepeatButtonControl { Location = new Point(378, 116), Size = new Size(185, 34) };
+        var progressBar = new EnterpriseProgressBarControl { Location = new Point(575, 120), Size = new Size(220, 26), Value = 45 };
 
         splitBtn.PrimaryActionClicked += (_, _) => _baseView.LogEvent("RadSplitButton.PrimaryClick", "Default Export Invoked");
         splitBtn.MenuItemSelected += item => _baseView.LogEvent("RadSplitButton.MenuItemSelected", item);
@@ -201,7 +201,7 @@ public class EditorsDemoView : UserControl
             _baseView.LogEvent("RadRepeatButton.RepeatedClick", $"Tick #{cnt} -> Progress={progressBar.Value}%");
         };
 
-        var collapsiblePanel = new WinFormsCollapsiblePanelControl
+        var collapsiblePanel = new EnterpriseCollapsiblePanelControl
         {
             Location = new Point(16, 166),
             Size = new Size(780, 125)
@@ -238,32 +238,32 @@ public class EditorsDemoView : UserControl
         var lblMaskedOut = new Label { Text = "Formatted: (415) 890-2345", Location = new Point(365, sy), AutoSize = true, ForeColor = Color.FromArgb(0, 102, 180), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         txtRawPhone.TextChanged += (_, _) =>
         {
-            var m = EnterpriseUI.Editors.MaskedTextBox.ApplyMask(txtRawPhone.Text, "(000) 000-0000", '_');
+            var m = EnterpriseUI.Editors.EnterpriseMaskedTextBox.ApplyMask(txtRawPhone.Text, "(000) 000-0000", '_');
             lblMaskedOut.Text = $"Formatted: {m}";
-            _baseView.LogEvent("MaskedTextBox.MaskedText", m);
+            _baseView.LogEvent("EnterpriseMaskedTextBox.MaskedText", m);
         };
         specPanel.Controls.AddRange(new Control[] { txtRawPhone, lblMaskedOut });
         sy += 36;
 
-        var autoComplete = new AutoCompleteBox();
-        autoComplete.SuggestionsSource.AddRange(new[] { "CSharp", "WinForms", "DataGrid", "VirtualGrid", "RibbonBar", "Scheduler", "GanttView", "KanbanBoard" });
+        var autoComplete = new EnterpriseAutoCompleteBox();
+        autoComplete.SuggestionsSource.AddRange(new[] { "CSharp", "WinForms", "DataGrid", "EnterpriseVirtualGrid", "EnterpriseRibbonBar", "EnterpriseScheduler", "EnterpriseGanttView", "KanbanBoard" });
         autoComplete.AddToken("WinForms");
         autoComplete.AddToken("DataGrid");
 
         specPanel.Controls.Add(new Label { Text = "RadAutoCompleteBox Tokens:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        var txtTokenInput = new System.Windows.Forms.TextBox { Text = "GanttView", Location = new Point(210, sy - 2), Width = 140 };
+        var txtTokenInput = new System.Windows.Forms.TextBox { Text = "EnterpriseGanttView", Location = new Point(210, sy - 2), Width = 140 };
         var btnAddToken = new Button { Text = "+ Add Token", Location = new Point(360, sy - 3), Size = new Size(95, 26), FlatStyle = FlatStyle.Flat };
         var lblTokens = new Label { Text = $"Tokens: [{string.Join("] [", autoComplete.SelectedTokens)}]", Location = new Point(465, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         btnAddToken.Click += (_, _) =>
         {
             autoComplete.AddToken(txtTokenInput.Text);
             lblTokens.Text = $"Tokens: [{string.Join("] [", autoComplete.SelectedTokens)}]";
-            _baseView.LogEvent("AutoCompleteBox.AddToken", txtTokenInput.Text);
+            _baseView.LogEvent("EnterpriseAutoCompleteBox.AddToken", txtTokenInput.Text);
         };
         specPanel.Controls.AddRange(new Control[] { txtTokenInput, btnAddToken, lblTokens });
         sy += 36;
 
-        var checkedDrop = new CheckedDropDownList<string>();
+        var checkedDrop = new EnterpriseCheckedDropDownList<string>();
         checkedDrop.Items.AddRange(new[] { "North America", "EMEA", "APAC", "LATAM" });
         checkedDrop.CheckAll();
 
@@ -275,13 +275,13 @@ public class EditorsDemoView : UserControl
         {
             checkedDrop.CheckAll();
             lblCheckedState.Text = $"Checked ({checkedDrop.CheckedItems.Count}): {string.Join(", ", checkedDrop.CheckedItems)}";
-            _baseView.LogEvent("CheckedDropDownList.CheckAll", lblCheckedState.Text);
+            _baseView.LogEvent("EnterpriseCheckedDropDownList.CheckAll", lblCheckedState.Text);
         };
         btnUncheckAll.Click += (_, _) =>
         {
             checkedDrop.UncheckAll();
             lblCheckedState.Text = "Checked (0): None";
-            _baseView.LogEvent("CheckedDropDownList.UncheckAll", "0 items");
+            _baseView.LogEvent("EnterpriseCheckedDropDownList.UncheckAll", "0 items");
         };
         specPanel.Controls.AddRange(new Control[] { btnCheckAll, btnUncheckAll, lblCheckedState });
         sy += 36;
@@ -306,8 +306,8 @@ public class EditorsDemoView : UserControl
         sy += 36;
 
         var rangeModel = new RangeSlider { Minimum = 0, Maximum = 100, SelectionStart = 25, SelectionEnd = 85 };
-        var timeSpanModel = new TimeSpanPicker { Value = TimeSpan.FromMinutes(90) };
-        specPanel.Controls.Add(new Label { Text = "RangeSlider & TimeSpanPicker:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        var timeSpanModel = new EnterpriseTimeSpanPicker { Value = TimeSpan.FromMinutes(90) };
+        specPanel.Controls.Add(new Label { Text = "RangeSlider & EnterpriseTimeSpanPicker:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         var btnStepRange = new Button { Text = "Expand Range (+5)", Location = new Point(210, sy - 3), Size = new Size(135, 26), FlatStyle = FlatStyle.Flat };
         var btnAddDur = new Button { Text = "+15m Duration", Location = new Point(352, sy - 3), Size = new Size(120, 26), FlatStyle = FlatStyle.Flat };
         var lblRangeDur = new Label { Text = $"Range: [{rangeModel.SelectionStart}..{rangeModel.SelectionEnd}] | Duration: {timeSpanModel.Value}", Location = new Point(482, sy), AutoSize = true };
@@ -321,12 +321,12 @@ public class EditorsDemoView : UserControl
         {
             timeSpanModel.AddMinutes(15);
             lblRangeDur.Text = $"Range: [{rangeModel.SelectionStart}..{rangeModel.SelectionEnd}] | Duration: {timeSpanModel.Value}";
-            _baseView.LogEvent("TimeSpanPicker.Value", timeSpanModel.Value.ToString());
+            _baseView.LogEvent("EnterpriseTimeSpanPicker.Value", timeSpanModel.Value.ToString());
         };
         specPanel.Controls.AddRange(new Control[] { btnStepRange, btnAddDur, lblRangeDur });
         sy += 36;
 
-        var calc = new CalculatorDropDown();
+        var calc = new EnterpriseCalculatorDropDown();
         specPanel.Controls.Add(new Label { Text = "RadCalculatorDropDown:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         var txtCalcExpr = new System.Windows.Forms.TextBox { Text = "(450 * 12) + 1850.75", Location = new Point(210, sy - 2), Width = 160 };
         var btnEvalCalc = new Button { Text = "= Compute", Location = new Point(378, sy - 3), Size = new Size(90, 26), FlatStyle = FlatStyle.Flat };
@@ -337,7 +337,7 @@ public class EditorsDemoView : UserControl
             {
                 var r = calc.EvaluateExpression(txtCalcExpr.Text);
                 lblCalcOut.Text = $"Result: {r:N2}";
-                _baseView.LogEvent("CalculatorDropDown.Evaluate", $"{txtCalcExpr.Text} = {r:N2}");
+                _baseView.LogEvent("EnterpriseCalculatorDropDown.Evaluate", $"{txtCalcExpr.Text} = {r:N2}");
             }
             catch (Exception ex)
             {
@@ -348,11 +348,11 @@ public class EditorsDemoView : UserControl
         tabSpecialized.Controls.Add(specPanel);
 
         // ====================================================================
-        // Tab 4: SyntaxEditor & SpellChecker
+        // Tab 4: EnterpriseSyntaxEditor & SpellChecker
         // ====================================================================
-        var tabSyntax = new TabPage("💻 SyntaxEditor & SpellChecker");
+        var tabSyntax = new TabPage("💻 EnterpriseSyntaxEditor & SpellChecker");
         var syntaxTop = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 38, Padding = new Padding(6), BackColor = Color.FromArgb(245, 247, 250) };
-        var syntaxCtrl = new WinFormsSyntaxEditorControl { Dock = DockStyle.Fill };
+        var syntaxCtrl = new EnterpriseSyntaxEditorControl { Dock = DockStyle.Fill };
         var btnTok = new Button { Text = "Tokenize C# Document", AutoSize = true, FlatStyle = FlatStyle.Flat };
         var btnSpell = new Button { Text = "SpellCheck ' virtualization / enterprize '", AutoSize = true, FlatStyle = FlatStyle.Flat };
         var lblSynRes = new Label { Text = "Lexical & SpellEngine Ready", AutoSize = true, Padding = new Padding(8, 5, 0, 0), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
@@ -361,7 +361,7 @@ public class EditorsDemoView : UserControl
         {
             var tokens = syntaxCtrl.Tokenize();
             lblSynRes.Text = $"Classified {tokens.Count} C# tokens";
-            _baseView.LogEvent("SyntaxEditor.Tokenize", $"{tokens.Count} tokens");
+            _baseView.LogEvent("EnterpriseSyntaxEditor.Tokenize", $"{tokens.Count} tokens");
         };
         btnSpell.Click += (_, _) =>
         {
@@ -382,16 +382,16 @@ public class EditorsDemoView : UserControl
 
         var sigPanel = new Panel { Dock = DockStyle.Fill };
         var btnBar = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 38, Padding = new Padding(6), BackColor = Color.FromArgb(245, 247, 250) };
-        var actionModel = new ActionButton { Text = "Toggle Split Action", IsToggleMode = true };
+        var actionModel = new EnterpriseActionButton { Text = "Toggle Split Action", IsToggleMode = true };
         var btnToggleDemo = new Button { Text = "⚡ ToggleButton (OFF)", AutoSize = true, FlatStyle = FlatStyle.Flat };
         var btnClearInk = new Button { Text = "Clear Signature Pad", AutoSize = true, FlatStyle = FlatStyle.Flat };
-        var sigCtrl = new WinFormsSignaturePadControl { Dock = DockStyle.Fill };
+        var sigCtrl = new EnterpriseSignaturePadControl { Dock = DockStyle.Fill };
 
         btnToggleDemo.Click += (_, _) =>
         {
             actionModel.PerformClick();
             btnToggleDemo.Text = $"⚡ ToggleButton ({(actionModel.IsChecked ? "ON" : "OFF")})";
-            _baseView.LogEvent("ActionButton.IsChecked", actionModel.IsChecked.ToString());
+            _baseView.LogEvent("EnterpriseActionButton.IsChecked", actionModel.IsChecked.ToString());
         };
         btnClearInk.Click += (_, _) => sigCtrl.ClearSignature();
         sigCtrl.SignatureChanged += strokes => _baseView.LogEvent("SignaturePad.Strokes", strokes.ToString());
@@ -400,7 +400,7 @@ public class EditorsDemoView : UserControl
         sigPanel.Controls.Add(sigCtrl);
         sigPanel.Controls.Add(btnBar);
 
-        var vkCtrl = new WinFormsVirtualKeyboardControl { Dock = DockStyle.Fill };
+        var vkCtrl = new EnterpriseVirtualKeyboardControl { Dock = DockStyle.Fill };
         vkCtrl.KeyPressed += k => _baseView.LogEvent("VirtualKeyboard.KeyPressed", $"{k} -> '{vkCtrl.TypedBuffer}'");
 
         tbSplit.Panel1.Controls.Add(sigPanel);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -51,7 +51,7 @@ public class PerformanceDemoView : UserControl
 
         var btnRunChartBench = new Button
         {
-            Text = "Run Chart Rendering Benchmark (100,000 Points)",
+            Text = "Run EnterpriseChart Rendering Benchmark (100,000 Points)",
             Location = new Point(334, 8),
             Size = new Size(300, 28),
             FlatStyle = FlatStyle.Flat
@@ -142,7 +142,7 @@ public class PerformanceDemoView : UserControl
 
         _benchmarkList.Items.Insert(0, new ListViewItem(new[]
         {
-            "Live Chart Vector Synthesis",
+            "Live EnterpriseChart Vector Synthesis",
             $"{count:N0} points",
             $"{sw.ElapsedMilliseconds} ms",
             $"{count / Math.Max(1.0, sw.ElapsedMilliseconds / 1000.0):N0} pts/sec",

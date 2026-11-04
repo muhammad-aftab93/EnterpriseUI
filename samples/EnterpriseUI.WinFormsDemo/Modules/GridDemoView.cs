@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -31,7 +31,7 @@ public class GridDemoRecord
 public class GridDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsDataGrid<GridDemoRecord> _grid;
+    private readonly EnterpriseDataGrid<GridDemoRecord> _grid;
     private readonly List<GridDemoRecord> _allRecords;
     private readonly System.Windows.Forms.Timer _signalRTimer;
     private readonly Label _lblMetrics;
@@ -344,7 +344,7 @@ public class GridDemoView : UserControl
         });
 
         // DataGrid Setup
-        _grid = new WinFormsDataGrid<GridDemoRecord> { Dock = DockStyle.Fill };
+        _grid = new EnterpriseDataGrid<GridDemoRecord> { Dock = DockStyle.Fill };
         _grid.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 90 });
         _grid.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 180 });
         _grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 170 });

@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -34,7 +34,7 @@ public class RichTextDocument
 /// <summary>
 /// Superset Rich Text WYSIWYG editor combining DevExpress RichEditControl and Telerik RadRichTextBox.
 /// </summary>
-public class RichTextEditor : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseRichTextEditor : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private RichTextDocument _document = new();
 

@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -27,7 +27,7 @@ public class WorkflowStep : ObservableObject
 /// <summary>
 /// Superset Workflow Process Designer and Execution Engine.
 /// </summary>
-public class WorkflowEngine : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseWorkflowEngine : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }

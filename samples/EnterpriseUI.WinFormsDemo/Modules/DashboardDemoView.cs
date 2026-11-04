@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Charts;
@@ -10,7 +10,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class DashboardDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsChartControl _chart;
+    private readonly EnterpriseChartControl _chart;
 
     public DashboardDemoView(DemoItem metadata)
     {
@@ -42,8 +42,8 @@ public class DashboardDemoView : UserControl
         kpiRow.Controls.Add(CreateKpiCard("AVG RENDER LATENCY", "3.8 ms", "60+ FPS GDI+", Color.FromArgb(136, 23, 152)), 2, 0);
         kpiRow.Controls.Add(CreateKpiCard("NET PROMOTER SCORE", "79 NPS", "Industry Leader", Color.FromArgb(255, 140, 0)), 3, 0);
 
-        // 2. Chart Component
-        _chart = new WinFormsChartControl { Dock = DockStyle.Fill };
+        // 2. EnterpriseChart Component
+        _chart = new EnterpriseChartControl { Dock = DockStyle.Fill };
         _chart.Title = "Global Revenue Trend & Forecast";
         var s = new ChartSeries { Name = "Revenue", Type = SeriesType.Area };
         s.DataPoints.Add(new ChartDataPoint { Category = "Jan", Value = 320 });

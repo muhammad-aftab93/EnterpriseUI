@@ -1,4 +1,4 @@
-# EnterpriseUI: The Open Source Enterprise UI Platform for .NET
+﻿# EnterpriseUI: The Open Source Enterprise UI Platform for .NET
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0%20LTS-512BD4)](https://dotnet.microsoft.com/)
@@ -35,30 +35,30 @@ Responsive executive business intelligence workspace combining KPI metric cards,
 ---
 
 ### 3. Financial Candlesticks & Real-Time Multi-Series Charts
-Hardware-accelerated GDI+ vector charting supporting Candlestick (OHLC), Bar, Column, Line, Spline, Area, Pie, Donut, Sparkline, and HeatMap series with live streaming telemetry.
+Hardware-accelerated GDI+ vector charting supporting Candlestick (OHLC), Bar, Column, Line, Spline, Area, Pie, Donut, EnterpriseSparkline, and EnterpriseHeatMap series with live streaming telemetry.
 
 ![Financial & Multi-Series Charts](docs/Screenshots/Charts.png)
 
 ---
 
-### 4. Radial, Linear, Digital & Stephen Few BulletGraph Gauges
-Precision circular, linear, 7-segment digital, and Stephen Few KPI BulletGraph telemetry indicators with threshold color ranges and smooth needle transitions.
+### 4. Radial, Linear, Digital & Stephen Few EnterpriseBulletGraph Gauges
+Precision circular, linear, 7-segment digital, and Stephen Few KPI EnterpriseBulletGraph telemetry indicators with threshold color ranges and smooth needle transitions.
 
 ![Gauges & KPI Telemetry](docs/Screenshots/Gauges.png)
 
 ---
 
-### 5. Project Gantt Chart, Barcode/QR Generator & Agile Kanban Board
-Interactive GanttView with critical-path dependency arrows and progress bars, vector QR/Code128/DataMatrix barcode rendering, TreeMap, SignaturePad, and VirtualKeyboard.
+### 5. Project Gantt EnterpriseChart, Barcode/QR Generator & Agile Kanban Board
+Interactive EnterpriseGanttView with critical-path dependency arrows and progress bars, vector QR/Code128/DataMatrix barcode rendering, EnterpriseTreeMap, SignaturePad, and VirtualKeyboard.
 
-![Gantt Chart, Barcode & Kanban Suite](docs/Screenshots/Gantt.png)
+![Gantt EnterpriseChart, Barcode & Kanban Suite](docs/Screenshots/Gantt.png)
 
 ---
 
-### 6. Enterprise Resource Scheduler & Multi-View Calendar
+### 6. Enterprise Resource EnterpriseScheduler & Multi-View Calendar
 Full-featured scheduling canvas supporting Day, Work Week, Week, Month, and Timeline views with RFC 5545 recurrence rules and resource lanes.
 
-![Enterprise Scheduler & Calendar](docs/Screenshots/Schedular.png)
+![Enterprise EnterpriseScheduler & Calendar](docs/Screenshots/Schedular.png)
 
 ---
 
@@ -70,21 +70,21 @@ Node-link diagramming canvas with orthogonal and Bezier connector routing, grid 
 ---
 
 ### 8. Themed Form Controls, Editors, Buttons & Fluent Validation
-Custom GDI+ themed `TextBox` (prefix icons, clear `✕` button, focus ring, validation border), `ButtonTextBox` / `BrowseEditor`, `ToggleSwitch`, `SplitButton`, `RepeatButton`, `FontDropDownList`, `MaskedTextBox`, `AutoCompleteBox`, `CalculatorDropDown`, `SyntaxEditor`, and `SpellChecker`.
+Custom GDI+ themed `TextBox` (prefix icons, clear `✕` button, focus ring, validation border), `ButtonTextBox` / `BrowseEditor`, `ToggleSwitch`, `SplitButton`, `RepeatButton`, `FontDropDownList`, `EnterpriseMaskedTextBox`, `EnterpriseAutoCompleteBox`, `EnterpriseCalculatorDropDown`, `EnterpriseSyntaxEditor`, and `SpellChecker`.
 
 ![Form Controls, Editors & Fluent Validation](docs/Screenshots/Editors.png)
 
 ---
 
-### 9. Navigation, Breadcrumb, StepProgressBar, Carousel, Panorama & Wizard
-Complete enterprise shell navigation including `RibbonBar`, `DockManager`, `Breadcrumb`, `StepProgressBar`, `BindingNavigator`, 3D Elliptical `Carousel`, Windows Live Tile `Panorama`, `WizardControl`, `DesktopAlert`, and `TaskDialog`.
+### 9. Navigation, EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseCarousel, EnterprisePanorama & Wizard
+Complete enterprise shell navigation including `EnterpriseRibbonBar`, `EnterpriseDockManager`, `EnterpriseBreadcrumb`, `EnterpriseStepProgressBar`, `EnterpriseBindingNavigator`, 3D Elliptical `EnterpriseCarousel`, Windows Live Tile `EnterprisePanorama`, `EnterpriseWizardControl`, `EnterpriseDesktopAlert`, and `EnterpriseTaskDialog`.
 
-![Navigation, Layout, Carousel & Wizard Suite](docs/Screenshots/Navigation.png)
+![Navigation, Layout, EnterpriseCarousel & Wizard Suite](docs/Screenshots/Navigation.png)
 
 ---
 
 ### 10. Multi-Format Document Workstation (PDF, RichText, Spreadsheet & Zip)
-Integrated office document suite with vector `PdfViewer`, WYSIWYG `RichTextEditor`, formula-driven `Spreadsheet` (`=SUM`, `=AVERAGE`, `=IF`), and in-memory `ZipArchive` compression.
+Integrated office document suite with vector `EnterprisePdfViewer`, WYSIWYG `EnterpriseRichTextEditor`, formula-driven `Spreadsheet` (`=SUM`, `=AVERAGE`, `=IF`), and in-memory `ZipArchive` compression.
 
 ![PDF Viewer, RichText, Spreadsheet & Document Processing](docs/Screenshots/Documents.png)
 
@@ -120,15 +120,15 @@ EnterpriseUI implements all **118 controls** across 10 major categories benchmar
 | Category | Included Controls |
 | :--- | :--- |
 | **1. AI & Smart Controls** | `AIPrompt`, `AIPromptButton`, `SmartPasteButton`, `SpeechToTextButton`, `ConversationalChat` (`AIChatView`) |
-| **2. Grids, Data & Filtering** | `DataGrid<T>` (1M-row virtualized), `VirtualGrid` (`1M×12` `CellValueNeeded`), `TreeList<T>`, `PivotGrid<T>`, `CardView<T>`, `ListView<T>`, `DataFilter`, `FilterView`, `DataEntry<T>` |
+| **2. Grids, Data & Filtering** | `DataGrid<T>` (1M-row virtualized), `EnterpriseVirtualGrid` (`1M×12` `CellValueNeeded`), `EnterpriseTreeList<T>`, `EnterprisePivotGrid<T>`, `EnterpriseCardView<T>`, `ListView<T>`, `DataFilter`, `EnterpriseFilterView`, `DataEntry<T>` |
 | **3. Buttons & Switches** | `Button` (`Primary`/`Success`/`Danger`/`Outline`/`Badge`), `CheckBox` (Tri-state), `RadioButton`, `ToggleButton`, `ToggleSwitch`, `DropDownButton`, `SplitButton`, `RepeatButton` |
-| **4. Editors, Pickers & Lists** | `TextBox`, `TextBoxControl`, `ButtonTextBox`, `BrowseEditor`, `MaskedEditBox`, `SpinEditor`, `DomainUpDown`, `AutoCompleteBox`, `PopupEditor`, `CalculatorDropDown`, `Calculator`, `ColorBox`, `DateTimePicker`, `DateOnlyPicker`, `TimePicker`, `TimeOnlyPicker`, `TimeSpanPicker`, `DropDownList`, `ListControl`, `CheckedDropDownList`, `CheckedListBox`, `FontDropDownList`, `MultiColumnComboBox`, `PropertyGrid` |
-| **5. Charts, Gauges, Maps & Diagrams** | `ChartView` (17 series types), `Sparkline`, `RangeSelector`, `HeatMap`, `TreeMap`, `RadialGauge`, `LinearGauge`, `BulletGraph`, `DigitalGauge`, `GeoMap`, `Diagram`, `BarcodeView` (QR, Code128, DataMatrix) |
-| **6. Scheduling & Project Management** | `Scheduler`, `Calendar`, `GanttView` (with Critical Path), `TaskBoard` (Kanban) |
-| **7. Navigation, Layout & Docking** | `RibbonBar`, `DockManager`, `PageView`, `NavigationView` (Hamburger rail), `OfficeNavigationBar` (with Peek Popup), `BreadCrumb`, `BindingNavigator`, `CommandBar`, `Panorama` (Live Tiles), `Carousel` (3D Elliptical), `Rotator`, `SlideView`, `PipsPager`, `Wizard`, `LayoutControl`, `DataLayout`, `SplitContainer`, `CollapsiblePanel`, `GroupBox`, `Panel`, `ScrollablePanel`, `Label`, `Separator`, `Menu` / `ContextMenu` / `ApplicationMenu` |
-| **8. Documents & Code Editors** | `RichTextEditor`, `Spreadsheet`, `PdfViewer`, `SyntaxEditor` (AST Tokenizer), `SpellChecker` (Levenshtein), `DocumentProcessingSuite` (`Words`, `Spread`, `Pdf`, `Zip`) |
-| **9. Track, Status, Alerts & Overlays** | `ProgressBar`, `StepProgressBar`, `WaitingBar`, `Rating`, `TrackBar` (`RangeSlider`), `ScrollBar`, `DesktopAlert`, `ToastNotificationManager`, `NotifyIcon`, `Callout`, `SplashScreen`, `Overlay`, `Flyout`, `TaskbarButton` |
-| **10. Forms, Dialogs, Media & Tools** | `ThemedForm`, `RibbonForm`, `TabbedForm`, `ToolbarForm`, `ShapedForm`, `TitleBar`, `StatusStrip`, `ThemedMessageBox`, `TaskDialog`, `ColorDialog`, `OpenFileDialog` / `SaveFileDialog` / `OpenFolderDialog`, `Clock`, `ImageEditor`, `PictureBox`, `WebCam`, `VirtualKeyboard`, `SignaturePad`, `ValidationProvider`, `ShortcutsManager`, `ControlSpy` / `ShapeEditor` / `VisualStyleBuilder` / `MarkupDialog` |
+| **4. Editors, Pickers & Lists** | `TextBox`, `TextBoxControl`, `ButtonTextBox`, `BrowseEditor`, `MaskedEditBox`, `SpinEditor`, `DomainUpDown`, `EnterpriseAutoCompleteBox`, `PopupEditor`, `EnterpriseCalculatorDropDown`, `Calculator`, `ColorBox`, `DateTimePicker`, `DateOnlyPicker`, `TimePicker`, `TimeOnlyPicker`, `EnterpriseTimeSpanPicker`, `DropDownList`, `ListControl`, `EnterpriseCheckedDropDownList`, `CheckedListBox`, `FontDropDownList`, `EnterpriseMultiColumnComboBox`, `PropertyGrid` |
+| **5. Charts, Gauges, Maps & Diagrams** | `ChartView` (17 series types), `EnterpriseSparkline`, `RangeSelector`, `EnterpriseHeatMap`, `EnterpriseTreeMap`, `EnterpriseRadialGauge`, `EnterpriseLinearGauge`, `EnterpriseBulletGraph`, `EnterpriseDigitalGauge`, `EnterpriseGeoMap`, `EnterpriseDiagram`, `BarcodeView` (QR, Code128, DataMatrix) |
+| **6. Scheduling & Project Management** | `EnterpriseScheduler`, `Calendar`, `EnterpriseGanttView` (with Critical Path), `TaskBoard` (Kanban) |
+| **7. Navigation, Layout & Docking** | `EnterpriseRibbonBar`, `EnterpriseDockManager`, `EnterprisePageView`, `NavigationView` (Hamburger rail), `OfficeNavigationBar` (with Peek Popup), `BreadCrumb`, `EnterpriseBindingNavigator`, `EnterpriseCommandBar`, `EnterprisePanorama` (Live Tiles), `EnterpriseCarousel` (3D Elliptical), `Rotator`, `SlideView`, `PipsPager`, `Wizard`, `LayoutControl`, `EnterpriseDataLayout`, `SplitContainer`, `EnterpriseCollapsiblePanel`, `GroupBox`, `Panel`, `ScrollablePanel`, `Label`, `Separator`, `Menu` / `ContextMenu` / `ApplicationMenu` |
+| **8. Documents & Code Editors** | `EnterpriseRichTextEditor`, `Spreadsheet`, `EnterprisePdfViewer`, `EnterpriseSyntaxEditor` (AST Tokenizer), `SpellChecker` (Levenshtein), `DocumentProcessingSuite` (`Words`, `Spread`, `Pdf`, `Zip`) |
+| **9. Track, Status, Alerts & Overlays** | `ProgressBar`, `EnterpriseStepProgressBar`, `EnterpriseWaitingBar`, `Rating`, `TrackBar` (`RangeSlider`), `ScrollBar`, `EnterpriseDesktopAlert`, `ToastNotificationManager`, `NotifyIcon`, `Callout`, `SplashScreen`, `Overlay`, `Flyout`, `TaskbarButton` |
+| **10. Forms, Dialogs, Media & Tools** | `ThemedForm`, `RibbonForm`, `TabbedForm`, `ToolbarForm`, `ShapedForm`, `TitleBar`, `StatusStrip`, `ThemedMessageBox`, `EnterpriseTaskDialog`, `ColorDialog`, `OpenFileDialog` / `SaveFileDialog` / `OpenFolderDialog`, `Clock`, `EnterpriseImageEditor`, `PictureBox`, `EnterpriseWebCam`, `VirtualKeyboard`, `SignaturePad`, `ValidationProvider`, `ShortcutsManager`, `ControlSpy` / `ShapeEditor` / `VisualStyleBuilder` / `MarkupDialog` |
 
 ---
 

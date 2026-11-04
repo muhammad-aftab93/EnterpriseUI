@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,10 +11,10 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Charts;
 
 /// <summary>
-/// Clean-room Hierarchical TreeMap Control (Telerik RadTreeMap equivalent).
+/// Clean-room Hierarchical EnterpriseTreeMap Control (Telerik RadTreeMap equivalent).
 /// Computes normalized proportional bounding boxes for weighted hierarchical nodes.
 /// </summary>
-public class TreeMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseTreeMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed record TreeMapNode(string Id, string Label, string Category, double Value, double ColorValue);
     public sealed record TreeMapLayoutBox(TreeMapNode Node, double X, double Y, double Width, double Height);
@@ -68,7 +68,7 @@ public class TreeMap : ObservableObject, IUIComponent, IThemeableControl, IAcces
     }
 
     public AriaRole Role { get; set; } = AriaRole.Region;
-    public string? AriaLabel { get; set; } = "TreeMap Visualization";
+    public string? AriaLabel { get; set; } = "EnterpriseTreeMap Visualization";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }
@@ -86,9 +86,9 @@ public class TreeMap : ObservableObject, IUIComponent, IThemeableControl, IAcces
 }
 
 /// <summary>
-/// Clean-room 2D Matrix HeatMap Control (Telerik RadHeatMap equivalent).
+/// Clean-room 2D Matrix EnterpriseHeatMap Control (Telerik RadHeatMap equivalent).
 /// </summary>
-public class HeatMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseHeatMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed record HeatMapCell(string RowCategory, string ColumnCategory, double Value);
 
@@ -114,7 +114,7 @@ public class HeatMap : ObservableObject, IUIComponent, IThemeableControl, IAcces
     }
 
     public AriaRole Role { get; set; } = AriaRole.Region;
-    public string? AriaLabel { get; set; } = "HeatMap Matrix";
+    public string? AriaLabel { get; set; } = "EnterpriseHeatMap Matrix";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }
@@ -132,10 +132,10 @@ public class HeatMap : ObservableObject, IUIComponent, IThemeableControl, IAcces
 }
 
 /// <summary>
-/// Clean-room Inline Micro-Chart Sparkline (Telerik RadSparkline equivalent).
+/// Clean-room Inline Micro-EnterpriseChart EnterpriseSparkline (Telerik RadSparkline equivalent).
 /// Supports Line, Column, Area, and WinLoss sparkline modes with high/low/first/last markers.
 /// </summary>
-public class Sparkline : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseSparkline : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public enum SparklineKind { Line, Column, Area, WinLoss }
 
@@ -153,7 +153,7 @@ public class Sparkline : ObservableObject, IUIComponent, IThemeableControl, IAcc
     public bool ShowFirstLastIndicators { get; set; } = true;
 
     public AriaRole Role { get; set; } = AriaRole.Region;
-    public string? AriaLabel { get; set; } = "Trend Sparkline";
+    public string? AriaLabel { get; set; } = "Trend EnterpriseSparkline";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }

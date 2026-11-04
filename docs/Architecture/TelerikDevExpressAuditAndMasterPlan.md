@@ -1,4 +1,4 @@
-# EnterpriseUI vs. Telerik & DevExpress: Comprehensive Capability Audit & vNext Master Plan
+﻿# EnterpriseUI vs. Telerik & DevExpress: Comprehensive Capability Audit & vNext Master Plan
 
 ## Executive Architectural Charter
 
@@ -41,11 +41,11 @@ flowchart TD
 | Control / Subsystem | Primary Telerik Control | Architectural Implementation | Key Strengths | Critical Weaknesses & Bottlenecks |
 |---|---|---|---|---|
 | **DataGrid** | `RadGridView` | Hierarchical element tree (`RadElement`) on top of GDI+ | Rich hierarchy, pinned rows/columns, conditional formatting, self-referencing grid | Heavy visual element tree overhead; high memory allocations on large row scrolls |
-| **TreeList** | `RadTreeList` | Multi-column tree view with data binding | Self-referencing IDs, column grouping | Inflexible cell formatting without custom element subclasses |
-| **PivotGrid** | `RadPivotGrid` | Cross-tab OLAP with `PivotEngine` | ADOMD / XMLA support, field chooser | High memory consumption during multi-dimensional rollups |
+| **EnterpriseTreeList** | `RadTreeList` | Multi-column tree view with data binding | Self-referencing IDs, column grouping | Inflexible cell formatting without custom element subclasses |
+| **EnterprisePivotGrid** | `RadPivotGrid` | Cross-tab OLAP with `PivotEngine` | ADOMD / XMLA support, field chooser | High memory consumption during multi-dimensional rollups |
 | **Charts** | `RadChartView` | Element-based vector chart engine | Rich series types, trackball, zoom/pan | Struggles with > 100,000 data points without severe stutter |
 | **Gauges** | `RadRadialGauge`, `RadLinearGauge` | Shape-based gauge element tree | Animated indicators, customizable ranges | Complex designer setup; non-standard token theming |
-| **Scheduler** | `RadScheduler` | RFC 5545 recurrence calendar engine | Day/Week/Month/Timeline, resource grouping | Heavy control initialization time; legacy recurring dialogs |
+| **EnterpriseScheduler** | `RadScheduler` | RFC 5545 recurrence calendar engine | Day/Week/Month/Timeline, resource grouping | Heavy control initialization time; legacy recurring dialogs |
 | **Diagrams** | `RadDiagram` | Visual shapes and connection router | Drag-and-drop, layout algorithms | Inefficient collision detection on > 500 connected nodes |
 | **Maps** | `RadMap` | Tile/vector GIS map with shapefiles | OpenStreetMap / Bing tiles, shape layers | Requires external API keys; heavy background thread consumption |
 | **Reporting** | `Telerik Reporting` | Banded standalone reporting engine | Standalone report designer, multi-format export | Clunky standalone viewer; requires separate reporting license |
@@ -60,15 +60,15 @@ flowchart TD
 | Control / Subsystem | Primary DevExpress Control | Architectural Implementation | Key Strengths | Critical Weaknesses & Bottlenecks |
 |---|---|---|---|---|
 | **DataGrid** | `GridControl` (`GridView`, `BandedGridView`) | Native Windows messaging + GDI+ direct paint | Industry benchmark for virtualization, banded headers, Excel filters, Server Mode | Heavy HWND and GDI handle leaks if not explicitly disposed; complex monolithic API |
-| **TreeList** | `TreeList` | Multi-column tree list control | Unbound and data-bound hierarchy, cell editors | Distinct API divergent from GridControl; steep learning curve |
-| **PivotGrid** | `PivotGridControl` | OLAP cube processor with asynchronous engine | High-volume cross-tab calculation, chart integration | Very memory intensive; legacy dialog configurations |
+| **EnterpriseTreeList** | `EnterpriseTreeList` | Multi-column tree list control | Unbound and data-bound hierarchy, cell editors | Distinct API divergent from GridControl; steep learning curve |
+| **EnterprisePivotGrid** | `PivotGridControl` | OLAP cube processor with asynchronous engine | High-volume cross-tab calculation, chart integration | Very memory intensive; legacy dialog configurations |
 | **Charts** | `ChartControl` | Hardware-accelerated 2D/3D charts | 60+ series types, financial indicators, large dataset mode | Monolithic DLLs (>60MB); proprietary data source adapters |
 | **Gauges** | `GaugeControl` | Vector preset gauges | High visual polish, state indicators | Rigid styling presets; hard to theme with modern CSS tokens |
-| **Scheduler** | `SchedulerControl` | Outlook-style calendaring engine | Comprehensive recurrence, appointment reminders, sync | Overwhelming complexity (> 1,200 public API members); legacy dialogs |
+| **EnterpriseScheduler** | `SchedulerControl` | Outlook-style calendaring engine | Comprehensive recurrence, appointment reminders, sync | Overwhelming complexity (> 1,200 public API members); legacy dialogs |
 | **Diagrams** | `DiagramControl` | Visio-style diagramming canvas | Advanced layout algorithms, shape templates | Heavy runtime footprint; proprietary diagram XML format |
 | **Maps** | `MapControl` | GIS vector and raster map viewer | Shapefiles, GeoJSON, KML, Bing/OSM providers | Dependency on external map providers; high latency on startup |
 | **Reporting** | `XtraReports` | Banded enterprise report generator | End-user report designer, multi-page layout | Proprietary `.repx` format; heavy licensing overhead |
-| **Documents / Office** | `PdfViewer`, `SpreadsheetControl`, `RichEditControl` | Full office emulation suite | Complete Word/Excel/PDF emulation | Massive assembly footprint; slow initial load times |
+| **Documents / Office** | `EnterprisePdfViewer`, `EnterpriseSpreadsheetControl`, `RichEditControl` | Full office emulation suite | Complete Word/Excel/PDF emulation | Massive assembly footprint; slow initial load times |
 | **Ribbon & Nav** | `RibbonControl`, `AccordionControl` | Office-style navigation system | Backstage view, skin integration, key tips | Rigid layout semantics; high visual lock-in |
 | **Theming** | `SkinEditor` | Binary vector skin files (`.skin`) | 50+ pre-built skins, SVG support | Binary skin format prevents dynamic runtime token adjustments |
 
@@ -78,19 +78,19 @@ flowchart TD
 
 | Control / Subsystem | EnterpriseUI Control | Architectural Implementation | Key Strengths vs. Competitors | Superiority Vector |
 |---|---|---|---|---|
-| **DataGrid** | `DataGrid<TItem>`, `WinFormsDataGrid<TItem>` | Headless MVVM core + direct GDI+ double-buffered viewport | Sub-millisecond 1,000,000 row virtualization, multi-column tri-state sort, Excel filter lists, column bands, layout snapshots | Zero handle leaks, pure C# decoupled core, 0 licensing cost |
-| **TreeList** | `TreeList<TItem>`, `WinFormsTreeListControl` | Headless parent-child relation engine | Self-referencing IDs, multi-column budget rollups, zero GDI node overhead | 10x faster initialization than RadTreeList |
-| **PivotGrid** | `PivotGrid<TItem>`, `WinFormsPivotGridControl` | Expression tree compiler (`QueryEngine`) | Multi-dimensional cross-tabulation in memory, dynamic slicing, streaming CSV/JSON export | Clean open architecture; no proprietary OLAP black box |
-| **Charts** | `Chart`, `WinFormsChartControl` | Hardware-accelerated GDI+ vector renderer | 100,000-point decimation, OHLC financial candlestick, sub-16ms live tick streaming | Zero external native DLL dependencies; pure managed code |
-| **Gauges** | `RadialGauge`, `LinearGauge`, `WinFormsGaugeControl` | Clean vector math GDI+ gauge renderer | 270° industrial radial sweep, linear meters, animated telemetry, live threshold alarms | Dynamic token theming; 0 XML overhead |
-| **Scheduler** | `Scheduler`, `WinFormsSchedulerControl` | Decoupled RFC 5545 appointment timeline | Day/Week/Month views, multi-resource lanes, appointment collisions | Native MVVM observable state; no COM/HWND locks |
-| **Diagrams** | `Diagram`, `WinFormsDiagramControl` | Vector shape canvas with orthogonal auto-routing | Interactive draggable nodes, orthogonal connection paths, microservice topologies | Clean node-link model exportable to JSON/SVG |
-| **Maps** | `GeoMap`, `WinFormsMapControl` | Offline-first vector GIS coordinate engine | Equirectangular GPS coordinate projection, asset pin tracking, animated fleet simulation | 0 external map API fees; 100% deterministic offline demo |
+| **DataGrid** | `DataGrid<TItem>`, `EnterpriseDataGrid<TItem>` | Headless MVVM core + direct GDI+ double-buffered viewport | Sub-millisecond 1,000,000 row virtualization, multi-column tri-state sort, Excel filter lists, column bands, layout snapshots | Zero handle leaks, pure C# decoupled core, 0 licensing cost |
+| **EnterpriseTreeList** | `EnterpriseTreeList<TItem>`, `EnterpriseTreeListControl` | Headless parent-child relation engine | Self-referencing IDs, multi-column budget rollups, zero GDI node overhead | 10x faster initialization than RadTreeList |
+| **EnterprisePivotGrid** | `EnterprisePivotGrid<TItem>`, `EnterprisePivotGridControl` | Expression tree compiler (`QueryEngine`) | Multi-dimensional cross-tabulation in memory, dynamic slicing, streaming CSV/JSON export | Clean open architecture; no proprietary OLAP black box |
+| **Charts** | `EnterpriseChart`, `EnterpriseChartControl` | Hardware-accelerated GDI+ vector renderer | 100,000-point decimation, OHLC financial candlestick, sub-16ms live tick streaming | Zero external native DLL dependencies; pure managed code |
+| **Gauges** | `EnterpriseRadialGauge`, `EnterpriseLinearGauge`, `EnterpriseGaugeControl` | Clean vector math GDI+ gauge renderer | 270° industrial radial sweep, linear meters, animated telemetry, live threshold alarms | Dynamic token theming; 0 XML overhead |
+| **EnterpriseScheduler** | `EnterpriseScheduler`, `EnterpriseSchedulerControl` | Decoupled RFC 5545 appointment timeline | Day/Week/Month views, multi-resource lanes, appointment collisions | Native MVVM observable state; no COM/HWND locks |
+| **Diagrams** | `EnterpriseDiagram`, `EnterpriseDiagramControl` | Vector shape canvas with orthogonal auto-routing | Interactive draggable nodes, orthogonal connection paths, microservice topologies | Clean node-link model exportable to JSON/SVG |
+| **Maps** | `EnterpriseGeoMap`, `EnterpriseMapControl` | Offline-first vector GIS coordinate engine | Equirectangular GPS coordinate projection, asset pin tracking, animated fleet simulation | 0 external map API fees; 100% deterministic offline demo |
 | **Reporting** | `ReportDefinition`, `ReportingDemoView` | Pure C# banded layout model | Invoices, purchase orders, clinical EHR reports, vector PDF export, print preview | No cumbersome XML/Repx files; direct C# code definitions |
-| **Documents / Office** | `PdfViewer`, `RichTextEditor`, `SpreadsheetControl` | Unified document workstation | Multi-format PDF viewer, WYSIWYG formatted text runs, spreadsheet calculation tables | Unified clean API across all document types |
-| **Ribbon & Nav** | `RibbonBar`, `WinFormsRibbonControl` | Office-style ribbon component | Backstage view ("FILE"), action groups, quick access tools, responsive tabs | Lightweight rendering; seamlessly adheres to DesignTokens |
+| **Documents / Office** | `EnterprisePdfViewer`, `EnterpriseRichTextEditor`, `EnterpriseSpreadsheetControl` | Unified document workstation | Multi-format PDF viewer, WYSIWYG formatted text runs, spreadsheet calculation tables | Unified clean API across all document types |
+| **Ribbon & Nav** | `EnterpriseRibbonBar`, `EnterpriseRibbonControl` | Office-style ribbon component | Backstage view ("FILE"), action groups, quick access tools, responsive tabs | Lightweight rendering; seamlessly adheres to DesignTokens |
 | **Theming** | `ThemeManager`, `DesignTokens` | Universal design token dictionary | Instant runtime switching: Fluent, Material, Bootstrap, Office, Modern, High-Contrast | 0 window re-creation; CSS-like token parity across platforms |
-| **AI Intelligence** | `AIAssistant`, `WinFormsAICopilotControl` | Native offline-first Copilot engine | Natural language prompt to compiled `QueryEngine` AST translation, automated BI summaries | Included natively; works 100% offline without cloud bills |
+| **AI Intelligence** | `EnterpriseAIAssistant`, `EnterpriseAICopilotControl` | Native offline-first Copilot engine | Natural language prompt to compiled `QueryEngine` AST translation, automated BI summaries | Included natively; works 100% offline without cloud bills |
 
 ---
 
@@ -103,7 +103,7 @@ Below is the complete itemized backlog of advanced enterprise features identifie
 - **Business Value**: Eliminates manual query building for business analysts by providing instant distinct-value multi-select checkbox lists with search box.
 - **Technical Value**: Slices dataset in background task to compile distinct categorical values; maps to `CompositeFilterDescriptor`.
 - **Complexity Estimate**: Medium (3 days)
-- **Architecture Impact**: Extends `WinFormsDataGrid` header click to spawn a non-activating floating popup.
+- **Architecture Impact**: Extends `EnterpriseDataGrid` header click to spawn a non-activating floating popup.
 - **Dependencies**: `EnterpriseUI.Grids`, `EnterpriseUI.Data`
 - **Implementation Plan**: Create `ExcelFilterDropdownForm` with virtualized checklist and search box.
 - **Test Plan**: Unit tests verifying multi-select values generate correct `FilterOperator.IsEqualTo` OR expressions.
@@ -133,7 +133,7 @@ Below is the complete itemized backlog of advanced enterprise features identifie
 - **Complexity Estimate**: Medium (4 days)
 - **Architecture Impact**: Uses `FormatRuleType` and `FormatConditionOperator` defined in `GridColumns.cs`.
 - **Dependencies**: `EnterpriseUI.Grids`, `EnterpriseUI.Rendering`
-- **Implementation Plan**: Add GDI+ gradient data bar rendering pass inside `WinFormsDataGrid.OnPaint` for matched numeric columns.
+- **Implementation Plan**: Add GDI+ gradient data bar rendering pass inside `EnterpriseDataGrid.OnPaint` for matched numeric columns.
 - **Test Plan**: Benchmark test verifying 100,000 formatted rows maintain 60 FPS viewport rendering.
 - **Documentation Plan**: Guide: *Implementing Excel-Style Data Bars and Color Scales*.
 - **Demo Plan**: Add Trading and Profit/Loss data bar columns in `ScenariosDemoView`.
@@ -161,7 +161,7 @@ Below is the complete itemized backlog of advanced enterprise features identifie
 - **Complexity Estimate**: Low (2 days)
 - **Architecture Impact**: Zero runtime overhead; metadata attributes only in `EnterpriseUI.WinForms`.
 - **Dependencies**: `EnterpriseUI.WinForms`, `System.Design`
-- **Implementation Plan**: Decorate `WinFormsDataGrid`, `WinFormsChartControl`, `WinFormsSchedulerControl` with Visual Studio designer attributes.
+- **Implementation Plan**: Decorate `EnterpriseDataGrid`, `EnterpriseChartControl`, `EnterpriseSchedulerControl` with Visual Studio designer attributes.
 - **Test Plan**: Verify controls drag and drop onto standard WinForms form design surfaces without designer exceptions.
 - **Documentation Plan**: Guide: *Visual Studio Design-Time Experience & Toolbox Setup*.
 - **Demo Plan**: Shipped with TemplateStudio and VisualDesigner tooling projects.
@@ -182,10 +182,10 @@ Comparison of public controls available across the three platforms:
 |---|---|---|---|---|
 | **Data & Grids** | Tabular DataGrid | ● | ● | ● |
 | | Banded / Stacked Header Grid | ● | ● | ● |
-| | TreeList / TreeGrid | ● | ● | ● |
-| | PivotGrid (OLAP) | ● | ● | ● |
-| | CardView / TileView | ● | ● | ◐ (Via Dashboard / Cards) |
-| | VerticalGrid / PropertyGrid | ● | ● | ● (`WinFormsPropertyInspectorControl`) |
+| | EnterpriseTreeList / TreeGrid | ● | ● | ● |
+| | EnterprisePivotGrid (OLAP) | ● | ● | ● |
+| | EnterpriseCardView / TileView | ● | ● | ◐ (Via Dashboard / Cards) |
+| | VerticalGrid / PropertyGrid | ● | ● | ● (`EnterprisePropertyInspectorControl`) |
 | **Editors** | TextBox & MaskedEdit | ● | ● | ● |
 | | Numeric SpinEdit | ● | ● | ● |
 | | Date & Time Pickers | ● | ● | ● |
@@ -193,20 +193,20 @@ Comparison of public controls available across the three platforms:
 | | Toggle Switch | ● | ● | ● |
 | | Syntax / Code Editor | ● | ● | ● (`BaseDemoView` Code Viewer) |
 | **Navigation** | Ribbon Bar & Backstage | ● | ● | ● |
-| | Navigation TreeView | ● | ● | ● |
+| | Navigation EnterpriseTreeView | ● | ● | ● |
 | | TabControl & Accordion | ● | ● | ● |
-| | Breadcrumb & Stepper | ● | ● | ◐ (Roadmapped in Navigation) |
+| | EnterpriseBreadcrumb & Stepper | ● | ● | ◐ (Roadmapped in Navigation) |
 | | Wizard Framework | ● | ● | ◐ (Roadmapped in Workflow) |
 | **Visualizations** | Categorical Charts (Bar/Col/Line) | ● | ● | ● |
 | | Financial Candlestick & OHLC | ● | ● | ● |
 | | Radial & Linear Gauges | ● | ● | ● |
-| | Node-Link Diagram Canvas | ● | ● | ● |
+| | Node-Link EnterpriseDiagram Canvas | ● | ● | ● |
 | | Geographic GIS Map | ● | ● | ● |
-| | HeatMap & TreeMap | ● | ● | ◐ (Roadmapped in Charts) |
+| | EnterpriseHeatMap & EnterpriseTreeMap | ● | ● | ◐ (Roadmapped in Charts) |
 | **Office & Documents** | PDF Viewer & Processor | ● | ● | ● |
 | | RichText WYSIWYG Editor | ● | ● | ● |
 | | Spreadsheet / Calc Engine | ● | ● | ● |
-| **Intelligence** | AI Copilot Chat | ○ | ◐ | ● (`WinFormsAICopilotControl`) |
+| **Intelligence** | AI Copilot Chat | ○ | ◐ | ● (`EnterpriseAICopilotControl`) |
 | | Natural Query Translation | ○ | ○ | ● (Native AST Generator) |
 | | Offline Deterministic AI | ○ | ○ | ● (Native Mock Provider) |
 
@@ -264,7 +264,7 @@ Comparison of public controls available across the three platforms:
 | Feature | DevExpress Demo Center | Telerik Control Examples | EnterpriseUI Demo Center |
 |---|---|---|---|
 | **Search Speed** | Heavy splash screen; 1-2 sec search | Slower search | **Sub-10ms instant multi-attribute search** |
-| **Live Property Editing** | Restricted to preset checkboxes | Restricted | **Full runtime `WinFormsPropertyInspectorControl`** |
+| **Live Property Editing** | Restricted to preset checkboxes | Restricted | **Full runtime `EnterprisePropertyInspectorControl`** |
 | **Live Event Logging** | Hidden or non-existent | Non-existent | **Real-time event monitor logging all UI dispatches** |
 | **Performance Metrics** | Not visible | Not visible | **Live render latency & memory delta status bar** |
 | **Offline Demonstration** | Requires installed license/trial | Requires trial | **100% offline, zero-dependency, zero-licensing** |
@@ -352,9 +352,9 @@ To decisively outpace Telerik and DevExpress, EnterpriseUI will maintain three d
 | **DataGrid & Virtualization** | 98% | ★★★★★ (60 FPS @ 1M rows) | 95% | **97 / 100** |
 | **Charts & Financials** | 94% | ★★★★★ (100k points @ 15ms) | 92% | **94 / 100** |
 | **Gauges & Telemetry** | 96% | ★★★★★ (Smooth animated sweep) | 90% | **95 / 100** |
-| **Scheduler & Appointments** | 92% | ★★★★☆ (RFC 5545 recurrence) | 88% | **91 / 100** |
-| **PivotGrid & OLAP** | 90% | ★★★★★ (Sub-ms rollups) | 85% | **90 / 100** |
-| **TreeList & Hierarchy** | 94% | ★★★★★ (Zero node handles) | 90% | **93 / 100** |
+| **EnterpriseScheduler & Appointments** | 92% | ★★★★☆ (RFC 5545 recurrence) | 88% | **91 / 100** |
+| **EnterprisePivotGrid & OLAP** | 90% | ★★★★★ (Sub-ms rollups) | 85% | **90 / 100** |
+| **EnterpriseTreeList & Hierarchy** | 94% | ★★★★★ (Zero node handles) | 90% | **93 / 100** |
 | **Diagrams & Topologies** | 88% | ★★★★☆ (Orthogonal routing) | 85% | **88 / 100** |
 | **GIS Mapping** | 89% | ★★★★☆ (Offline projection) | 84% | **88 / 100** |
 | **Banded Reporting** | 91% | ★★★★★ (Direct PDF export) | 88% | **91 / 100** |
@@ -371,9 +371,9 @@ To decisively outpace Telerik and DevExpress, EnterpriseUI will maintain three d
 3. **`Grid-P1-01`**: Runtime column drag-and-drop column reordering line indicator.
 4. **`Data-P1-01`**: `AsyncServerModeSource<T>` with sliding window chunk prefetching.
 5. **`Office-P2-01`**: Native OpenXML `.xlsx` and `.docx` streaming importers.
-6. **`Chart-P2-01`**: HeatMap and TreeMap rendering modules.
+6. **`EnterpriseChart-P2-01`**: EnterpriseHeatMap and EnterpriseTreeMap rendering modules.
 7. **`Tooling-P1-01`**: Visual Studio 2022/2026 Toolbox integration attributes.
-8. **`Nav-P2-01`**: Visual Breadcrumb and Multi-Step Stepper controls.
+8. **`Nav-P2-01`**: Visual EnterpriseBreadcrumb and Multi-Step Stepper controls.
 
 ---
 

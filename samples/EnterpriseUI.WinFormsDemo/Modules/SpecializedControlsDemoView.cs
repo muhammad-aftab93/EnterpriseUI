@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Controls;
@@ -9,12 +9,12 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class SpecializedControlsDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsGanttControl _gantt;
-    private readonly WinFormsBarcodeControl _barcode;
-    private readonly WinFormsKanbanBoardControl _kanban;
-    private readonly WinFormsTreeMapControl _treeMap;
-    private readonly WinFormsSignaturePadControl _signaturePad;
-    private readonly WinFormsVirtualKeyboardControl _virtualKeyboard;
+    private readonly EnterpriseGanttControl _gantt;
+    private readonly EnterpriseBarcodeControl _barcode;
+    private readonly EnterpriseKanbanBoardControl _kanban;
+    private readonly EnterpriseTreeMapControl _treeMap;
+    private readonly EnterpriseSignaturePadControl _signaturePad;
+    private readonly EnterpriseVirtualKeyboardControl _virtualKeyboard;
     private readonly TabControl _tabs;
 
     public SpecializedControlsDemoView(DemoItem metadata)
@@ -33,7 +33,7 @@ public class SpecializedControlsDemoView : UserControl
             Padding = new Point(10, 5)
         };
 
-        // Tab 1: Gantt Chart (RadGanttView equivalent)
+        // Tab 1: Gantt EnterpriseChart (RadGanttView equivalent)
         var tabGantt = new TabPage("📅 Gantt Project View");
         var ganttToolbar = new FlowLayoutPanel
         {
@@ -58,7 +58,7 @@ public class SpecializedControlsDemoView : UserControl
             FlatStyle = FlatStyle.Flat
         };
 
-        _gantt = new WinFormsGanttControl { Dock = DockStyle.Fill };
+        _gantt = new EnterpriseGanttControl { Dock = DockStyle.Fill };
 
         chkCritPath.CheckedChanged += (_, _) =>
         {
@@ -108,7 +108,7 @@ public class SpecializedControlsDemoView : UserControl
             Width = 280
         };
 
-        _barcode = new WinFormsBarcodeControl { Dock = DockStyle.Fill };
+        _barcode = new EnterpriseBarcodeControl { Dock = DockStyle.Fill };
 
         cmbSymbology.SelectedIndexChanged += (_, _) =>
         {
@@ -149,7 +149,7 @@ public class SpecializedControlsDemoView : UserControl
             FlatStyle = FlatStyle.Flat
         };
 
-        _kanban = new WinFormsKanbanBoardControl { Dock = DockStyle.Fill };
+        _kanban = new EnterpriseKanbanBoardControl { Dock = DockStyle.Fill };
         _kanban.CardAdvanced += card =>
         {
             _baseView.LogEvent("KanbanBoard.CardAdvanced", $"{card.Id} moved to {card.Lane}");
@@ -159,7 +159,7 @@ public class SpecializedControlsDemoView : UserControl
         btnAddTask.Click += (_, _) =>
         {
             var id = $"K-{++cardSeq}";
-            _kanban.Cards.Add(new WinFormsKanbanBoardControl.KanbanCard
+            _kanban.Cards.Add(new EnterpriseKanbanBoardControl.KanbanCard
             {
                 Id = id,
                 Title = $"Automated Regression Verification #{cardSeq}",
@@ -175,12 +175,12 @@ public class SpecializedControlsDemoView : UserControl
         tabKanban.Controls.Add(_kanban);
         tabKanban.Controls.Add(kanbanToolbar);
 
-        // Tab 4: Hierarchical TreeMap (RadTreeMap equivalent)
-        var tabTreeMap = new TabPage("🗺️ TreeMap Analytics");
-        _treeMap = new WinFormsTreeMapControl { Dock = DockStyle.Fill };
+        // Tab 4: Hierarchical EnterpriseTreeMap (RadTreeMap equivalent)
+        var tabTreeMap = new TabPage("🗺️ EnterpriseTreeMap Analytics");
+        _treeMap = new EnterpriseTreeMapControl { Dock = DockStyle.Fill };
         _treeMap.NodeSelected += leaf =>
         {
-            _baseView.LogEvent("TreeMap.SelectedNode", $"{leaf.Label} (${leaf.Weight}M)");
+            _baseView.LogEvent("EnterpriseTreeMap.SelectedNode", $"{leaf.Label} (${leaf.Weight}M)");
         };
         tabTreeMap.Controls.Add(_treeMap);
 
@@ -194,7 +194,7 @@ public class SpecializedControlsDemoView : UserControl
             BackColor = Color.FromArgb(245, 247, 250)
         };
         var btnClearSig = new Button { Text = "Clear Ink Signature", AutoSize = true, FlatStyle = FlatStyle.Flat };
-        _signaturePad = new WinFormsSignaturePadControl { Dock = DockStyle.Fill };
+        _signaturePad = new EnterpriseSignaturePadControl { Dock = DockStyle.Fill };
         _signaturePad.SignatureChanged += strokes =>
         {
             _baseView.LogEvent("SignaturePad.StrokeCount", strokes.ToString());
@@ -206,7 +206,7 @@ public class SpecializedControlsDemoView : UserControl
 
         // Tab 6: Touch Virtual Keyboard (RadVirtualKeyboard equivalent)
         var tabKeyboard = new TabPage("⌨️ Virtual Keyboard");
-        _virtualKeyboard = new WinFormsVirtualKeyboardControl { Dock = DockStyle.Fill };
+        _virtualKeyboard = new EnterpriseVirtualKeyboardControl { Dock = DockStyle.Fill };
         _virtualKeyboard.KeyPressed += key =>
         {
             _baseView.LogEvent("VirtualKeyboard.TypedBuffer", _virtualKeyboard.TypedBuffer);

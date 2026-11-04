@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -18,7 +18,7 @@ public class GeoMarker : ObservableObject
 /// <summary>
 /// Superset GIS Map control combining DevExpress MapControl and Telerik RadMap.
 /// </summary>
-public class GeoMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseGeoMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private GeoLocation _center = new(37.7749, -122.4194); // San Francisco default
     private int _zoomLevel = 10;

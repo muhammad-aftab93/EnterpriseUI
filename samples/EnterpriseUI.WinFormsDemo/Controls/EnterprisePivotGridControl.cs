@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,7 +8,7 @@ using EnterpriseUI.WinForms;
 
 namespace EnterpriseUI.WinFormsDemo.Controls;
 
-public class WinFormsPivotGridControl : Control, IThemeableControl
+public class EnterprisePivotGridControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
 
@@ -25,7 +25,7 @@ public class WinFormsPivotGridControl : Control, IThemeableControl
         { 420000m, 460000m, 510000m, 580000m }
     };
 
-    public WinFormsPivotGridControl()
+    public EnterprisePivotGridControl()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -53,11 +53,11 @@ public class WinFormsPivotGridControl : Control, IThemeableControl
         var g = e.Graphics;
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
-        var surfaceAlt = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(245, 245, 245));
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
+        var surfaceAlt = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(245, 245, 245));
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
 
         g.Clear(bg);
 

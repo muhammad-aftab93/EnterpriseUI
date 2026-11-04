@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -22,7 +22,7 @@ public enum EnterpriseButtonVariant
 /// Custom-painted themed TextBox control (RadTextBox / RadTextBoxControl equivalent)
 /// with focus ring, NullText placeholder, prefix icon, clear button (✕), and validation border.
 /// </summary>
-public class WinFormsTextBoxControl : UserControl, IThemeableControl
+public class EnterpriseTextBoxControl : UserControl, IThemeableControl
 {
     private readonly TextBox _innerTextBox;
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
@@ -52,7 +52,7 @@ public class WinFormsTextBoxControl : UserControl, IThemeableControl
 
     public event EventHandler? ValueChanged;
 
-    public WinFormsTextBoxControl()
+    public EnterpriseTextBoxControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(280, 32);
@@ -145,7 +145,7 @@ public class WinFormsTextBoxControl : UserControl, IThemeableControl
 /// <summary>
 /// TextBox with embedded Left and Right command buttons (RadButtonTextBox &amp; RadBrowseEditor equivalent).
 /// </summary>
-public class WinFormsButtonTextBoxControl : UserControl, IThemeableControl
+public class EnterpriseButtonTextBoxControl : UserControl, IThemeableControl
 {
     private readonly TextBox _textBox;
     private readonly Button _leftButton;
@@ -180,7 +180,7 @@ public class WinFormsButtonTextBoxControl : UserControl, IThemeableControl
     public event EventHandler? LeftButtonClick;
     public event EventHandler? RightButtonClick;
 
-    public WinFormsButtonTextBoxControl()
+    public EnterpriseButtonTextBoxControl()
     {
         Size = new Size(300, 32);
         Padding = new Padding(2);
@@ -253,7 +253,7 @@ public class WinFormsButtonTextBoxControl : UserControl, IThemeableControl
 /// <summary>
 /// Custom GDI+ themed Button control (RadButton equivalent) with variants, icon glyph, and badge counter.
 /// </summary>
-public class WinFormsButtonControl : Control, IThemeableControl
+public class EnterpriseButtonControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private bool _hovered;
@@ -263,7 +263,7 @@ public class WinFormsButtonControl : Control, IThemeableControl
     public EnterpriseButtonVariant Variant { get; set; } = EnterpriseButtonVariant.Primary;
     public string? BadgeText { get; set; }
 
-    public WinFormsButtonControl()
+    public EnterpriseButtonControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.StandardClick, true);
         Size = new Size(150, 34);
@@ -333,7 +333,7 @@ public class WinFormsButtonControl : Control, IThemeableControl
 /// <summary>
 /// Dual-zone SplitButton and DropDownButton control (RadSplitButton &amp; RadDropDownButton equivalent).
 /// </summary>
-public class WinFormsSplitButtonControl : Control, IThemeableControl
+public class EnterpriseSplitButtonControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private readonly ContextMenuStrip _menu;
@@ -344,7 +344,7 @@ public class WinFormsSplitButtonControl : Control, IThemeableControl
     public event EventHandler? PrimaryActionClicked;
     public event Action<string>? MenuItemSelected;
 
-    public WinFormsSplitButtonControl()
+    public EnterpriseSplitButtonControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(175, 34);
@@ -418,14 +418,14 @@ public class WinFormsSplitButtonControl : Control, IThemeableControl
 /// <summary>
 /// Press-and-hold continuous firing RepeatButton control (RadRepeatButton equivalent).
 /// </summary>
-public class WinFormsRepeatButtonControl : Button, IThemeableControl
+public class EnterpriseRepeatButtonControl : Button, IThemeableControl
 {
     private readonly System.Windows.Forms.Timer _repeatTimer;
     public string? ThemeOverride { get; set; }
     public int RepeatCount { get; private set; }
     public event Action<int>? RepeatedClick;
 
-    public WinFormsRepeatButtonControl()
+    public EnterpriseRepeatButtonControl()
     {
         FlatStyle = FlatStyle.Flat;
         Size = new Size(170, 34);
@@ -474,7 +474,7 @@ public class WinFormsRepeatButtonControl : Button, IThemeableControl
 /// <summary>
 /// Animated pill ToggleSwitch control (RadToggleSwitch equivalent) with ON/OFF labels.
 /// </summary>
-public class WinFormsToggleSwitchControl : Control, IThemeableControl
+public class EnterpriseToggleSwitchControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private bool _isOn = true;
@@ -497,7 +497,7 @@ public class WinFormsToggleSwitchControl : Control, IThemeableControl
 
     public event Action<bool>? Toggled;
 
-    public WinFormsToggleSwitchControl()
+    public EnterpriseToggleSwitchControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(76, 30);
@@ -546,7 +546,7 @@ public class WinFormsToggleSwitchControl : Control, IThemeableControl
 /// <summary>
 /// Vector TrackBar and ProgressBar controls (RadTrackBar &amp; RadProgressBar equivalents).
 /// </summary>
-public class WinFormsProgressBarControl : Control, IThemeableControl
+public class EnterpriseProgressBarControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private int _value = 68;
@@ -564,7 +564,7 @@ public class WinFormsProgressBarControl : Control, IThemeableControl
         }
     }
 
-    public WinFormsProgressBarControl()
+    public EnterpriseProgressBarControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(280, 26);
@@ -613,9 +613,9 @@ public class WinFormsProgressBarControl : Control, IThemeableControl
 /// <summary>
 /// Owner-drawn FontDropDownList control (RadFontDropDownList equivalent) rendering each font in its own typeface.
 /// </summary>
-public class WinFormsFontDropDownControl : ComboBox
+public class EnterpriseFontDropDownControl : ComboBox
 {
-    public WinFormsFontDropDownControl()
+    public EnterpriseFontDropDownControl()
     {
         DropDownStyle = ComboBoxStyle.DropDownList;
         DrawMode = DrawMode.OwnerDrawFixed;
@@ -657,7 +657,7 @@ public class WinFormsFontDropDownControl : ComboBox
 /// <summary>
 /// Collapsible header container (RadCollapsiblePanel &amp; RadGroupBox equivalent).
 /// </summary>
-public class WinFormsCollapsiblePanelControl : Panel, IThemeableControl
+public class EnterpriseCollapsiblePanelControl : Panel, IThemeableControl
 {
     private readonly Button _headerButton;
     private readonly Panel _contentHost;
@@ -699,7 +699,7 @@ public class WinFormsCollapsiblePanelControl : Panel, IThemeableControl
 
     public event Action<bool>? ExpandedChanged;
 
-    public WinFormsCollapsiblePanelControl()
+    public EnterpriseCollapsiblePanelControl()
     {
         Size = new Size(460, 140);
         BorderStyle = BorderStyle.FixedSingle;

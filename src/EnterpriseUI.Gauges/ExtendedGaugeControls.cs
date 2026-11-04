@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,10 +10,10 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Gauges;
 
 /// <summary>
-/// Clean-room Stephen Few BulletGraph (Telerik RadBulletGraph equivalent).
+/// Clean-room Stephen Few EnterpriseBulletGraph (Telerik RadBulletGraph equivalent).
 /// Displays a featured primary measure, a comparative target marker, and qualitative background ranges.
 /// </summary>
-public class BulletGraph : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseBulletGraph : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private double _featuredMeasure = 75;
     private double _comparativeMeasure = 82;
@@ -60,7 +60,7 @@ public class BulletGraph : ObservableObject, IUIComponent, IThemeableControl, IA
 /// <summary>
 /// Clean-room Seven-Segment Digital Telemetry Gauge.
 /// </summary>
-public class DigitalGauge : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseDigitalGauge : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private string _displayText = "99.98%";
     public string Id { get; } = Guid.NewGuid().ToString("N");

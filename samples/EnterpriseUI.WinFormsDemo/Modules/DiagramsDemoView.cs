@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Diagrams;
@@ -10,7 +10,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class DiagramsDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsDiagramControl _diagramControl;
+    private readonly EnterpriseDiagramControl _diagramControl;
 
     public DiagramsDemoView(DemoItem metadata)
     {
@@ -75,7 +75,7 @@ public class DiagramsDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { btnAddNode, btnReset, lblTip });
 
-        _diagramControl = new WinFormsDiagramControl { Dock = DockStyle.Fill };
+        _diagramControl = new EnterpriseDiagramControl { Dock = DockStyle.Fill };
         SetupDefaultArchitecture();
 
         _baseView.DemoContainer.Controls.Add(_diagramControl);

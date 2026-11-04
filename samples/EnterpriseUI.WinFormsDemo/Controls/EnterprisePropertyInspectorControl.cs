@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -14,7 +14,7 @@ namespace EnterpriseUI.WinFormsDemo.Controls;
 /// Live Control Playground, Property Grid, Runtime Designer, Multi-Format Code Generator,
 /// Source Code Explainer, and Event Monitor.
 /// </summary>
-public class WinFormsPropertyInspectorControl : UserControl, IThemeableControl
+public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
 {
     private readonly PropertyGrid _propertyGrid;
     private readonly ListBox _eventLog;
@@ -44,7 +44,7 @@ public class WinFormsPropertyInspectorControl : UserControl, IThemeableControl
 
     public IReadOnlyList<PropertyMutationRecord> Mutations => _mutations;
 
-    public WinFormsPropertyInspectorControl()
+    public EnterprisePropertyInspectorControl()
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
@@ -393,7 +393,7 @@ public class WinFormsPropertyInspectorControl : UserControl, IThemeableControl
     public void OnThemeChanged(ITheme newTheme)
     {
         _theme = newTheme;
-        WinFormsThemeEngine.ApplyToControl(this, newTheme);
+        EnterpriseThemeEngine.ApplyToControl(this, newTheme);
     }
 
     public void InspectObject(object? target, DemoItem? demo = null)

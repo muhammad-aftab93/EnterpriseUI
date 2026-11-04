@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -18,7 +18,7 @@ namespace EnterpriseUI.Editors;
 /// Clean-room Masked Edit Box (Telerik RadMaskedEditBox equivalent).
 /// Supports standard masks (0 = digit, L = letter, A = alphanumeric, * = any) and unmasked extraction.
 /// </summary>
-public class MaskedTextBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseMaskedTextBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private string _mask = "(000) 000-0000";
     private string _value = string.Empty;
@@ -102,9 +102,9 @@ public class MaskedTextBox : ObservableObject, IInteractiveControl, IThemeableCo
 }
 
 /// <summary>
-/// Clean-room AutoCompleteBox and TokenizedTextBox (Telerik RadAutoCompleteBox / RadTokenizedTextBox equivalent).
+/// Clean-room EnterpriseAutoCompleteBox and TokenizedTextBox (Telerik RadAutoCompleteBox / RadTokenizedTextBox equivalent).
 /// </summary>
-public class AutoCompleteBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseAutoCompleteBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private string _searchText = string.Empty;
     public string Id { get; } = Guid.NewGuid().ToString("N");
@@ -172,7 +172,7 @@ public class AutoCompleteBox : ObservableObject, IInteractiveControl, IThemeable
 /// <summary>
 /// Clean-room Multi-Column ComboBox (Telerik RadMultiColumnComboBox equivalent).
 /// </summary>
-public class MultiColumnComboBox<TItem> : ComboBox<TItem>
+public class EnterpriseMultiColumnComboBox<TItem> : ComboBox<TItem>
 {
     public List<string> DisplayColumns { get; } = new();
     public int DropDownWidth { get; set; } = 420;
@@ -183,7 +183,7 @@ public class MultiColumnComboBox<TItem> : ComboBox<TItem>
 /// <summary>
 /// Clean-room Checked DropDownList (Telerik RadCheckedDropDownList equivalent).
 /// </summary>
-public class CheckedDropDownList<TItem> : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseCheckedDropDownList<TItem> : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -328,7 +328,7 @@ public class RangeSlider : ObservableObject, IInteractiveControl, IThemeableCont
 /// <summary>
 /// Clean-room Rating Control (Telerik RadRating equivalent).
 /// </summary>
-public class RatingControl : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseRatingControl : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private double _value = 4.0;
     public string Id { get; } = Guid.NewGuid().ToString("N");
@@ -366,9 +366,9 @@ public class RatingControl : ObservableObject, IInteractiveControl, IThemeableCo
 }
 
 /// <summary>
-/// Clean-room TimeSpanPicker and Clock Control (Telerik RadTimeSpanPicker / RadClock equivalent).
+/// Clean-room EnterpriseTimeSpanPicker and Clock Control (Telerik RadTimeSpanPicker / RadClock equivalent).
 /// </summary>
-public class TimeSpanPicker : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseTimeSpanPicker : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private TimeSpan _value = TimeSpan.FromHours(1.5);
     public string Id { get; } = Guid.NewGuid().ToString("N");
@@ -412,7 +412,7 @@ public class TimeSpanPicker : ObservableObject, IInteractiveControl, IThemeableC
 /// Clean-room Calculator DropDown Editor (Telerik RadCalculatorDropDown equivalent).
 /// Evaluates arithmetic expressions with memory register (M+, M-, MR, MC) and calculation audit trail.
 /// </summary>
-public class CalculatorDropDown : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseCalculatorDropDown : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private decimal _value;
     private decimal _memory;
@@ -471,7 +471,7 @@ public class CalculatorDropDown : ObservableObject, IInteractiveControl, IThemea
 /// Clean-room Syntax Editor and Code Tokenizer (Telerik RadSyntaxEditor equivalent).
 /// Supports C#, SQL, JSON, and XML lexical highlighting and collapsible folding regions.
 /// </summary>
-public class SyntaxEditor : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseSyntaxEditor : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     public sealed record SyntaxToken(string Text, string Classification, int StartIndex, int Length);
 
@@ -587,10 +587,10 @@ public class SpellChecker : ObservableObject
 }
 
 /// <summary>
-/// Clean-room ActionButton, SplitButton, DropDownButton, and ToggleButton suite
+/// Clean-room EnterpriseActionButton, SplitButton, DropDownButton, and ToggleButton suite
 /// (Telerik RadButton, RadSplitButton, RadDropDownButton, RadToggleButton equivalents).
 /// </summary>
-public class ActionButton : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseActionButton : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private string _text = "Button";
     private bool _isChecked;

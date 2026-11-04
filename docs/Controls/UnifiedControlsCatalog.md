@@ -1,4 +1,4 @@
-# EnterpriseUI Unified Controls Catalog & API Reference
+﻿# EnterpriseUI Unified Controls Catalog & API Reference
 
 This catalog documents the unified superset controls available in EnterpriseUI. Every control represents the **merger of Telerik and DevExpress capabilities** into a single, cohesive API.
 
@@ -8,33 +8,33 @@ This catalog documents the unified superset controls available in EnterpriseUI. 
 
 ```
 Navigation & Layout:
-  ├── RibbonBar            # Merged DevExpress RibbonControl & Telerik RadRibbonBar
-  ├── DockManager          # Merged DevExpress DockManager & Telerik RadDocking
-  ├── TreeView             # Hierarchical navigation with lazy loading
+  ├── EnterpriseRibbonBar            # Merged DevExpress RibbonControl & Telerik RadRibbonBar
+  ├── EnterpriseDockManager          # Merged DevExpress EnterpriseDockManager & Telerik RadDocking
+  ├── EnterpriseTreeView             # Hierarchical navigation with lazy loading
   ├── Window / Dialog      # Modal & modeless draggable, resizable windows
   └── SplitContainer       # Split view container with collapsible splitters
 
 Data & Grids:
   ├── DataGrid<T>          # 2D virtualized high-density grid
-  ├── TreeList<T>          # Self-referencing tree-grid
-  └── PivotGrid<T>         # Multi-dimensional cross-tab OLAP grid
+  ├── EnterpriseTreeList<T>          # Self-referencing tree-grid
+  └── EnterprisePivotGrid<T>         # Multi-dimensional cross-tab OLAP grid
 
 Data Visualization:
-  ├── Chart                # Cartesian, polar, financial, treemap, and sankey charts
-  ├── RadialGauge          # Speedometer, arc, and radial metric gauges
-  ├── LinearGauge          # Vertical/horizontal bar gauges with bullet graphs
-  └── Diagram              # Node-link diagrams with orthogonal routing
+  ├── EnterpriseChart                # Cartesian, polar, financial, treemap, and sankey charts
+  ├── EnterpriseRadialGauge          # Speedometer, arc, and radial metric gauges
+  ├── EnterpriseLinearGauge          # Vertical/horizontal bar gauges with bullet graphs
+  └── EnterpriseDiagram              # Node-link diagrams with orthogonal routing
 
 Productivity & Documents:
-  ├── Scheduler            # Calendar with RFC 5545 recurrence engine
-  ├── SpreadsheetControl   # Multi-sheet Excel workbook model
-  ├── RichTextEditor       # WYSIWYG document editor with formatting runs
-  ├── PdfViewer            # PDF viewing, page layout, and form filler
-  └── AIAssistant          # Copilot chat assistant & natural language query translator
+  ├── EnterpriseScheduler            # Calendar with RFC 5545 recurrence engine
+  ├── EnterpriseSpreadsheetControl   # Multi-sheet Excel workbook model
+  ├── EnterpriseRichTextEditor       # WYSIWYG document editor with formatting runs
+  ├── EnterprisePdfViewer            # PDF viewing, page layout, and form filler
+  └── EnterpriseAIAssistant          # Copilot chat assistant & natural language query translator
 
 Utilities & Process:
-  ├── GeoMap               # GIS coordinate map with layer clustering
-  ├── WorkflowEngine       # Visual process designer & state machine
+  ├── EnterpriseGeoMap               # GIS coordinate map with layer clustering
+  ├── EnterpriseWorkflowEngine       # Visual process designer & state machine
   └── ToastService         # Screen-pinned toast alerts & notification center
 ```
 
@@ -42,7 +42,7 @@ Utilities & Process:
 
 ## 2. Detailed Control Specifications
 
-### 2.1 `RibbonBar` (Navigation)
+### 2.1 `EnterpriseRibbonBar` (Navigation)
 
 - **Namespace**: `EnterpriseUI.Navigation`
 - **Telerik Equivalent**: `RadRibbonBar` | **DevExpress Equivalent**: `RibbonControl`
@@ -53,7 +53,7 @@ Utilities & Process:
   - Auto-minimizing ribbon on double-click or toggle button.
 
 ```csharp
-var ribbon = new RibbonBar();
+var ribbon = new EnterpriseRibbonBar();
 
 var homeTab = new RibbonTab { Title = "Home" };
 var clipboardGroup = new RibbonGroup { Title = "Clipboard" };
@@ -72,10 +72,10 @@ ribbon.Tabs.Add(homeTab);
 
 ---
 
-### 2.2 `DockManager` (Layout)
+### 2.2 `EnterpriseDockManager` (Layout)
 
 - **Namespace**: `EnterpriseUI.Layout`
-- **Telerik Equivalent**: `RadDocking` | **DevExpress Equivalent**: `DockManager` / `DocumentManager`
+- **Telerik Equivalent**: `RadDocking` | **DevExpress Equivalent**: `EnterpriseDockManager` / `DocumentManager`
 - **Superset Capabilities**:
   - Visual Studio style docking guides (dock to Left, Right, Top, Bottom, or Center Document).
   - Auto-hide pinned panels along the edges.
@@ -83,7 +83,7 @@ ribbon.Tabs.Add(homeTab);
   - Layout state save and restore (XML/JSON serialization).
 
 ```csharp
-var dockManager = new DockManager();
+var dockManager = new EnterpriseDockManager();
 
 var solutionExplorer = new DockPanel 
 { 
@@ -104,7 +104,7 @@ dockManager.Dock(documentEditor, DockPosition.Document);
 
 ---
 
-### 2.3 `Scheduler` (Scheduling)
+### 2.3 `EnterpriseScheduler` (Scheduling)
 
 - **Namespace**: `EnterpriseUI.Scheduling`
 - **Telerik Equivalent**: `RadScheduler` | **DevExpress Equivalent**: `SchedulerControl`
@@ -115,7 +115,7 @@ dockManager.Dock(documentEditor, DockPosition.Document);
   - Drag-and-drop appointment scheduling and edge-resizing.
 
 ```csharp
-var scheduler = new Scheduler
+var scheduler = new EnterpriseScheduler
 {
     ActiveView = SchedulerViewType.Week,
     DayStartTime = TimeSpan.FromHours(8),
@@ -133,7 +133,7 @@ scheduler.Appointments.Add(new Appointment
 
 ---
 
-### 2.4 `Chart` (Data Visualization)
+### 2.4 `EnterpriseChart` (Data Visualization)
 
 - **Namespace**: `EnterpriseUI.Charts`
 - **Telerik Equivalent**: `RadChartView` | **DevExpress Equivalent**: `ChartControl`
@@ -143,7 +143,7 @@ scheduler.Appointments.Add(new Appointment
   - Interactive crosshairs, tooltips, and smooth pinch/wheel zoom & pan.
 
 ```csharp
-var chart = new Chart { Title = "Quarterly Performance" };
+var chart = new EnterpriseChart { Title = "Quarterly Performance" };
 
 var series = new ChartSeries 
 { 
@@ -161,7 +161,7 @@ chart.Series.Add(series);
 
 ---
 
-### 2.5 `RadialGauge` & `LinearGauge` (Gauges)
+### 2.5 `EnterpriseRadialGauge` & `EnterpriseLinearGauge` (Gauges)
 
 - **Namespace**: `EnterpriseUI.Gauges`
 - **Telerik Equivalent**: `RadRadialGauge` / `RadLinearGauge` | **DevExpress Equivalent**: `GaugeControl`
@@ -171,7 +171,7 @@ chart.Series.Add(series);
   - Configurable start/end angles, tick intervals, and pointer needles.
 
 ```csharp
-var gauge = new RadialGauge
+var gauge = new EnterpriseRadialGauge
 {
     Min = 0,
     Max = 160,
@@ -186,7 +186,7 @@ gauge.Ranges.Add(new GaugeRange { From = 130, To = 160, Color = "#d13438" });
 
 ---
 
-### 2.6 `Diagram` (Diagramming)
+### 2.6 `EnterpriseDiagram` (Diagramming)
 
 - **Namespace**: `EnterpriseUI.Diagrams`
 - **Telerik Equivalent**: `RadDiagram` | **DevExpress Equivalent**: `DiagramControl`
@@ -196,7 +196,7 @@ gauge.Ranges.Add(new GaugeRange { From = 130, To = 160, Color = "#d13438" });
   - Built-in hierarchical and tree auto-layout algorithms.
 
 ```csharp
-var diagram = new Diagram();
+var diagram = new EnterpriseDiagram();
 
 var startNode = new DiagramNode { Text = "Order Placed", X = 100, Y = 100, Shape = ShapeType.Circle };
 var processNode = new DiagramNode { Text = "Validate Payment", X = 100, Y = 250, Shape = ShapeType.RoundedRectangle };
@@ -214,16 +214,16 @@ diagram.Connectors.Add(new DiagramConnector
 
 ---
 
-### 2.7 `AIAssistant` (AI & Smart Assistant)
+### 2.7 `EnterpriseAIAssistant` (AI & Smart Assistant)
 
 - **Namespace**: `EnterpriseUI.AI`
-- **Telerik Equivalent**: `AIPrompt` | **DevExpress Equivalent**: `AIAssistant`
+- **Telerik Equivalent**: `AIPrompt` | **DevExpress Equivalent**: `EnterpriseAIAssistant`
 - **Superset Capabilities**:
   - Conversational copilot UI embedded seamlessly into layout windows or toolbars.
   - Built-in `TranslateNaturalLanguageToQueryAsync` that converts prompts like *"Show all high priority orders over $10,000 in EMEA"* into an executable `DataSourceRequest`.
 
 ```csharp
-var aiAssistant = new AIAssistant();
+var aiAssistant = new EnterpriseAIAssistant();
 
 await aiAssistant.SendPromptAsync("Summarize the top 5 customers with overdue accounts.");
 ```

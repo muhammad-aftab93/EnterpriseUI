@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -15,7 +15,7 @@ public class DocumentModel : ObservableObject
 /// <summary>
 /// Universal multi-format Document Viewer for PDF, DOCX, XLSX, and images.
 /// </summary>
-public class DocumentViewer : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseDocumentViewer : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private DocumentModel? _document;
 

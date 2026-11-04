@@ -1,4 +1,4 @@
-# EnterpriseUI Documentation Strategy, Governance & Roadmap
+﻿# EnterpriseUI Documentation Strategy, Governance & Roadmap
 
 This document establishes the official governance plan, search architecture, automation pipeline, and release roadmap for EnterpriseUI documentation.
 
@@ -11,7 +11,7 @@ flowchart TD
     Index["docs/Introduction/README.md<br/>(Master Entry Point)"]
     GettingStarted["docs/GettingStarted/README.md"]
     Architecture["docs/Architecture/SystemArchitecture.md"]
-    GridSuite["docs/Grid/*<br/>(DataGrid, TreeList, PivotGrid)"]
+    GridSuite["docs/Grid/*<br/>(DataGrid, EnterpriseTreeList, EnterprisePivotGrid)"]
     Theming["docs/Themes/ThemingEngineAndTokens.md"]
     ControlsCatalog["docs/Controls/UnifiedControlsCatalog.md"]
     Security["docs/Security/EnterpriseSecurityAndCompliance.md"]

@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -66,9 +66,9 @@ public class ChartAxis
 }
 
 /// <summary>
-/// Superset Chart component combining Telerik Chart and DevExpress ChartControl.
+/// Superset EnterpriseChart component combining Telerik EnterpriseChart and DevExpress ChartControl.
 /// </summary>
-public class Chart : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseChart : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -86,7 +86,7 @@ public class Chart : ObservableObject, IUIComponent, IThemeableControl, IAccessi
     public bool EnableZoomPan { get; set; } = true;
 
     public AriaRole Role { get; set; } = AriaRole.Region;
-    public string? AriaLabel { get; set; } = "Data Chart";
+    public string? AriaLabel { get; set; } = "Data EnterpriseChart";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ using EnterpriseUI.WinForms;
 
 namespace EnterpriseUI.WinFormsDemo.Controls;
 
-public class WinFormsAICopilotControl : UserControl, IThemeableControl
+public class EnterpriseAICopilotControl : UserControl, IThemeableControl
 {
-    private readonly AIAssistant _assistant = new();
+    private readonly EnterpriseAIAssistant _assistant = new();
     private readonly RichTextBox _chatHistory;
     private readonly TextBox _inputBox;
     private readonly Button _btnSend;
@@ -39,7 +39,7 @@ public class WinFormsAICopilotControl : UserControl, IThemeableControl
 
     public bool IsGenerating => _assistant.IsGenerating;
 
-    public WinFormsAICopilotControl()
+    public EnterpriseAICopilotControl()
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9.5f);
@@ -149,7 +149,7 @@ public class WinFormsAICopilotControl : UserControl, IThemeableControl
     public void OnThemeChanged(ITheme newTheme)
     {
         _theme = newTheme;
-        WinFormsThemeEngine.ApplyToControl(this, newTheme);
+        EnterpriseThemeEngine.ApplyToControl(this, newTheme);
     }
 
     public async Task SendPromptAsync(string prompt)
@@ -180,7 +180,7 @@ public class WinFormsAICopilotControl : UserControl, IThemeableControl
         }
         else
         {
-            reply = $"Simulated AI Copilot completed intent for: \"{prompt}\".\nOptimal control recommendation: WinFormsDataGrid with virtual scrolling and conditional formatting rules.";
+            reply = $"Simulated AI Copilot completed intent for: \"{prompt}\".\nOptimal control recommendation: EnterpriseDataGrid with virtual scrolling and conditional formatting rules.";
         }
 
         AppendMessage("Enterprise Copilot", reply, Color.FromArgb(0, 120, 215));

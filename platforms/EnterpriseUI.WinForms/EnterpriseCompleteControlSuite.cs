@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -16,14 +16,14 @@ using EnterpriseUI.Theming;
 namespace EnterpriseUI.WinForms;
 
 /// <summary>
-/// Clean-room GDI+ VirtualGrid Control (Telerik RadVirtualGrid equivalent).
-/// Renders arbitrary millions of rows/columns via on-demand VirtualGrid.CellValueNeeded callbacks.
+/// Clean-room GDI+ EnterpriseVirtualGrid Control (Telerik RadVirtualGrid equivalent).
+/// Renders arbitrary millions of rows/columns via on-demand EnterpriseVirtualGrid.CellValueNeeded callbacks.
 /// </summary>
-public class WinFormsVirtualGridControl : Control, IThemeableControl
+public class EnterpriseVirtualGridControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private readonly VScrollBar _vScroll;
-    private readonly VirtualGrid _grid = new() { RowCount = 1_000_000, ColumnCount = 12 };
+    private readonly EnterpriseVirtualGrid _grid = new() { RowCount = 1_000_000, ColumnCount = 12 };
     public string? ThemeOverride { get; set; }
     public int SelectedRow { get; private set; }
     public int SelectedCol { get; private set; }
@@ -36,7 +36,7 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
     public object? GetCellValue(int rowIndex, int columnIndex) => _grid.GetCellValue(rowIndex, columnIndex);
     public void SetCellValue(int rowIndex, int columnIndex, object? value) { _grid.SetCellValue(rowIndex, columnIndex, value); Invalidate(); }
 
-    public WinFormsVirtualGridControl()
+    public EnterpriseVirtualGridControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -92,11 +92,11 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
     {
         base.OnPaint(e);
         var g = e.Graphics;
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var headerBg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(242, 245, 250));
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var headerBg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(242, 245, 250));
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
 
         g.Clear(bg);
         using var headerBrush = new SolidBrush(headerBg);
@@ -155,26 +155,26 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
 /// Clean-room GDI+ Syntax Editor Control (Telerik RadSyntaxEditor equivalent).
 /// Renders line numbers gutter, code folding markers, and colorized C# lexical tokens.
 /// </summary>
-public class WinFormsSyntaxEditorControl : Control, IThemeableControl
+public class EnterpriseSyntaxEditorControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    private readonly SyntaxEditor _syntaxEditor = new();
+    private readonly EnterpriseSyntaxEditor _syntaxEditor = new();
     public string? ThemeOverride { get; set; }
 
     public string Language { get => _syntaxEditor.Language; set { _syntaxEditor.Language = value; Invalidate(); } }
     public bool ShowLineNumbers { get => _syntaxEditor.ShowLineNumbers; set { _syntaxEditor.ShowLineNumbers = value; Invalidate(); } }
     public bool EnableCodeFolding { get => _syntaxEditor.EnableCodeFolding; set { _syntaxEditor.EnableCodeFolding = value; Invalidate(); } }
     public string DocumentText { get => _syntaxEditor.DocumentText; set { _syntaxEditor.DocumentText = value; Invalidate(); } }
-    public IReadOnlyList<SyntaxEditor.SyntaxToken> Tokenize() => _syntaxEditor.Tokenize();
+    public IReadOnlyList<EnterpriseSyntaxEditor.SyntaxToken> Tokenize() => _syntaxEditor.Tokenize();
 
-    public WinFormsSyntaxEditorControl()
+    public EnterpriseSyntaxEditorControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
         Font = new Font("Consolas", 9.5f);
         Size = new Size(740, 260);
         _syntaxEditor.DocumentText =
-@"// EnterpriseUI SyntaxEditor — Lexical Tokenizer & Folding Engine
+@"// EnterpriseUI EnterpriseSyntaxEditor — Lexical Tokenizer & Folding Engine
 using EnterpriseUI.Grids;
 using EnterpriseUI.Theming;
 
@@ -184,7 +184,7 @@ namespace EnterpriseUI.Sample
     {
         public async Task InitializeGridAsync()
         {
-            var grid = new VirtualGrid { RowCount = 1000000, ColumnCount = 24 };
+            var grid = new EnterpriseVirtualGrid { RowCount = 1000000, ColumnCount = 24 };
             var theme = ThemeManager.Instance.CurrentTheme;
             // Zero-allocation viewport projection active
             await grid.InitializeAsync();
@@ -204,10 +204,10 @@ namespace EnterpriseUI.Sample
     {
         base.OnPaint(e);
         var g = e.Graphics;
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var gutterBg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(240, 242, 246));
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var gutterBg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(240, 242, 246));
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
 
         g.Clear(bg);
         int gutterW = 48;
@@ -250,12 +250,12 @@ namespace EnterpriseUI.Sample
 }
 
 /// <summary>
-/// Clean-room GDI+ Stephen Few BulletGraph Control (Telerik RadBulletGraph equivalent).
+/// Clean-room GDI+ Stephen Few EnterpriseBulletGraph Control (Telerik RadBulletGraph equivalent).
 /// </summary>
-public class WinFormsBulletGraphControl : Control, IThemeableControl
+public class EnterpriseBulletGraphControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    private readonly BulletGraph _bulletGraph = new();
+    private readonly EnterpriseBulletGraph _bulletGraph = new();
     public string Title { get; set; } = "Q4 Enterprise ARR Target ($M)";
     public string? ThemeOverride { get; set; }
 
@@ -266,7 +266,7 @@ public class WinFormsBulletGraphControl : Control, IThemeableControl
     public List<GaugeRange> QualitativeRanges => _bulletGraph.QualitativeRanges;
     public bool IsAchievingTarget => _bulletGraph.IsAchievingTarget;
 
-    public WinFormsBulletGraphControl()
+    public EnterpriseBulletGraphControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -285,10 +285,10 @@ public class WinFormsBulletGraphControl : Control, IThemeableControl
         base.OnPaint(e);
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
 
         g.Clear(bg);
         using var fgBrush = new SolidBrush(fg);
@@ -326,12 +326,12 @@ public class WinFormsBulletGraphControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ 3D Elliptical Carousel Control (Telerik RadCarousel equivalent).
+/// Clean-room GDI+ 3D Elliptical EnterpriseCarousel Control (Telerik RadCarousel equivalent).
 /// </summary>
-public class WinFormsCarouselControl : Control, IThemeableControl
+public class EnterpriseCarouselControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    private readonly Carousel _carousel = new();
+    private readonly EnterpriseCarousel _carousel = new();
     public string? ThemeOverride { get; set; }
     public event Action<string>? SelectedItemChanged;
 
@@ -339,9 +339,9 @@ public class WinFormsCarouselControl : Control, IThemeableControl
     public int SelectedIndex { get => _carousel.SelectedIndex; set { _carousel.SelectedIndex = value; Invalidate(); } }
     public void MoveNext() { _carousel.MoveNext(); Invalidate(); }
     public void MovePrevious() { _carousel.MovePrevious(); Invalidate(); }
-    public IReadOnlyList<Carousel.CarouselItemProjection> ComputeProjections() => _carousel.ComputeProjections();
+    public IReadOnlyList<EnterpriseCarousel.CarouselItemProjection> ComputeProjections() => _carousel.ComputeProjections();
 
-    public WinFormsCarouselControl()
+    public EnterpriseCarouselControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -380,10 +380,10 @@ public class WinFormsCarouselControl : Control, IThemeableControl
         base.OnPaint(e);
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Background, Color.FromArgb(245, 247, 250));
-        var surface = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Background, Color.FromArgb(245, 247, 250));
+        var surface = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
 
         g.Clear(bg);
         var projections = _carousel.ComputeProjections();
@@ -413,14 +413,14 @@ public class WinFormsCarouselControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ Interactive Star Rating & WaitingBar Controls (Telerik RadRating / RadWaitingBar equivalents).
+/// Clean-room GDI+ Interactive Star Rating & EnterpriseWaitingBar Controls (Telerik RadRating / RadWaitingBar equivalents).
 /// </summary>
-public class WinFormsRatingAndWaitingControl : Control, IThemeableControl
+public class EnterpriseRatingAndWaitingControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private int _marqueeOffset;
-    private readonly RatingControl _rating = new() { MaxStars = 5, Value = 4 };
-    private readonly WaitingBar _waiting = new() { IsWaiting = true };
+    private readonly EnterpriseRatingControl _rating = new() { MaxStars = 5, Value = 4 };
+    private readonly EnterpriseWaitingBar _waiting = new() { IsWaiting = true };
     public string? ThemeOverride { get; set; }
     public event Action<double>? RatingChanged;
 
@@ -433,7 +433,7 @@ public class WinFormsRatingAndWaitingControl : Control, IThemeableControl
     public void StartWaiting() { _waiting.StartWaiting(); Invalidate(); }
     public void StopWaiting() { _waiting.StopWaiting(); Invalidate(); }
 
-    public WinFormsRatingAndWaitingControl()
+    public EnterpriseRatingAndWaitingControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -470,10 +470,10 @@ public class WinFormsRatingAndWaitingControl : Control, IThemeableControl
         base.OnPaint(e);
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
 
         g.Clear(bg);
         using var fgBrush = new SolidBrush(fg);

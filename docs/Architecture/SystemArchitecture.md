@@ -1,4 +1,4 @@
-# EnterpriseUI Architecture & Systems Design Guide
+﻿# EnterpriseUI Architecture & Systems Design Guide
 
 ## 1. Architectural Philosophy
 
@@ -13,7 +13,7 @@ EnterpriseUI is built from the ground up on modern .NET software engineering pri
 
 ## 2. C4 Architecture Models
 
-### 2.1 Level 1: System Context Diagram
+### 2.1 Level 1: System Context EnterpriseDiagram
 
 ```mermaid
 flowchart TD
@@ -37,7 +37,7 @@ flowchart TD
     Components -->|Streams Prompts to| AIProvider
 ```
 
-### 2.2 Level 2: Container Diagram (Layered Architecture)
+### 2.2 Level 2: Container EnterpriseDiagram (Layered Architecture)
 
 ```mermaid
 flowchart TB

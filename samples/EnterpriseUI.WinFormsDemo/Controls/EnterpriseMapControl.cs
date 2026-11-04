@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -11,9 +11,9 @@ using EnterpriseUI.WinForms;
 
 namespace EnterpriseUI.WinFormsDemo.Controls;
 
-public class WinFormsMapControl : Control, IThemeableControl
+public class EnterpriseMapControl : Control, IThemeableControl
 {
-    private readonly GeoMap _map = new();
+    private readonly EnterpriseGeoMap _map = new();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private GeoMarker? _hoveredMarker;
 
@@ -39,7 +39,7 @@ public class WinFormsMapControl : Control, IThemeableControl
         set => _map.AriaLabel = value;
     }
 
-    public WinFormsMapControl()
+    public EnterpriseMapControl()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -101,9 +101,9 @@ public class WinFormsMapControl : Control, IThemeableControl
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
         var ocean = Color.FromArgb(235, 242, 250);
         var land = Color.FromArgb(242, 244, 246);
 

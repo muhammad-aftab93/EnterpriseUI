@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -11,9 +11,9 @@ using EnterpriseUI.WinForms;
 
 namespace EnterpriseUI.WinFormsDemo.Controls;
 
-public class WinFormsChartControl : Control, IThemeableControl
+public class EnterpriseChartControl : Control, IThemeableControl
 {
-    private readonly Chart _chart = new();
+    private readonly EnterpriseChart _chart = new();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private int _hoveredIndex = -1;
 
@@ -51,7 +51,7 @@ public class WinFormsChartControl : Control, IThemeableControl
         set => _chart.EnableZoomPan = value;
     }
 
-    public WinFormsChartControl()
+    public EnterpriseChartControl()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -122,11 +122,11 @@ public class WinFormsChartControl : Control, IThemeableControl
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.FromArgb(32, 32, 32));
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
-        var surfaceAlt = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(248, 248, 248));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.FromArgb(32, 32, 32));
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
+        var surfaceAlt = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(248, 248, 248));
 
         g.Clear(bg);
 
@@ -134,7 +134,7 @@ public class WinFormsChartControl : Control, IThemeableControl
         using (var titleFont = new Font("Segoe UI", 11.5f, FontStyle.Bold))
         using (var textBrush = new SolidBrush(fg))
         {
-            var title = string.IsNullOrEmpty(_chart.Title) ? "Chart Visualization" : _chart.Title;
+            var title = string.IsNullOrEmpty(_chart.Title) ? "EnterpriseChart Visualization" : _chart.Title;
             g.DrawString(title, titleFont, textBrush, new PointF(18, 14));
         }
 

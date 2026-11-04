@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Controls;
+﻿using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Charts;
 using EnterpriseUI.Core.Mvvm;
@@ -9,7 +9,7 @@ namespace EnterpriseUI.Dashboard;
 public enum WidgetType
 {
     KpiCard,
-    Chart,
+    EnterpriseChart,
     Grid,
     Gauge,
     Custom

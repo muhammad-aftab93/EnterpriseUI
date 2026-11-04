@@ -130,27 +130,27 @@ public class LearningCenterDemoView : UserControl
                 _contentBox.Text =
                     "MIGRATING FROM DEVEXPRESS WINFORMS\n\n" +
                     "DevExpress Concept → EnterpriseUI Equivalent:\n" +
-                    "• DevExpress GridControl / GridView → WinFormsDataGrid<T> / DataGrid<T>\n" +
-                    "• DevExpress TreeList → TreeList<T> / WinFormsTreeListControl\n" +
-                    "• DevExpress PivotGridControl → PivotGrid<T> / WinFormsPivotGridControl\n" +
-                    "• DevExpress XtraCharts → Chart / WinFormsChartControl\n" +
-                    "• DevExpress SchedulerControl → Scheduler / WinFormsSchedulerControl\n" +
-                    "• DevExpress XtraReports → ReportDefinition / ReportViewer\n" +
-                    "• DevExpress RibbonControl → RibbonBar / WinFormsRibbonControl\n" +
+                    "• DevExpress GridControl / GridView → EnterpriseDataGrid<T> / DataGrid<T>\n" +
+                    "• DevExpress EnterpriseTreeList → EnterpriseTreeList<T> / EnterpriseTreeListControl\n" +
+                    "• DevExpress PivotGridControl → EnterprisePivotGrid<T> / EnterprisePivotGridControl\n" +
+                    "• DevExpress XtraCharts → EnterpriseChart / EnterpriseChartControl\n" +
+                    "• DevExpress SchedulerControl → EnterpriseScheduler / EnterpriseSchedulerControl\n" +
+                    "• DevExpress XtraReports → ReportDefinition / EnterpriseReportViewer\n" +
+                    "• DevExpress RibbonControl → EnterpriseRibbonBar / EnterpriseRibbonControl\n" +
                     "• DevExpress LookUpEdit → ComboBox<T>\n" +
-                    "• DevExpress SpinEdit → NumericTextBox";
+                    "• DevExpress SpinEdit → EnterpriseNumericTextBox";
                 break;
             case "TelerikMigration":
                 _contentBox.Text =
                     "MIGRATING FROM TELERIK UI FOR WINFORMS\n\n" +
                     "Telerik Concept → EnterpriseUI Equivalent:\n" +
-                    "• RadGridView → WinFormsDataGrid<T>\n" +
-                    "• RadChartView → WinFormsChartControl\n" +
-                    "• RadScheduler → WinFormsSchedulerControl\n" +
-                    "• RadDiagram → WinFormsDiagramControl\n" +
-                    "• RadMap → WinFormsMapControl\n" +
-                    "• RadPdfViewer → PdfViewer / DocumentsDemoView\n" +
-                    "• RadRibbonBar → WinFormsRibbonControl\n" +
+                    "• RadGridView → EnterpriseDataGrid<T>\n" +
+                    "• RadChartView → EnterpriseChartControl\n" +
+                    "• RadScheduler → EnterpriseSchedulerControl\n" +
+                    "• RadDiagram → EnterpriseDiagramControl\n" +
+                    "• RadMap → EnterpriseMapControl\n" +
+                    "• RadPdfViewer → EnterprisePdfViewer / DocumentsDemoView\n" +
+                    "• RadRibbonBar → EnterpriseRibbonControl\n" +
                     "• RadThemeManager → ThemeManager.Instance";
                 break;
             default:

@@ -1,4 +1,4 @@
-# EnterpriseUI Troubleshooting & Knowledge Base
+﻿# EnterpriseUI Troubleshooting & Knowledge Base
 
 This guide outlines diagnostic procedures, error resolutions, and answers to frequently asked questions across the EnterpriseUI framework.
 
@@ -35,12 +35,12 @@ flowchart TD
 
 ### Problem 2: Custom theme colors are not reflected on Windows Forms controls
 - **Symptom**: WinForms controls maintain default gray background despite applying dark theme.
-- **Root Cause**: WinForms controls must be notified through `WinFormsThemeEngine.ApplyToControl(this, theme)`.
+- **Root Cause**: WinForms controls must be notified through `EnterpriseThemeEngine.ApplyToControl(this, theme)`.
 - **Resolution**:
   ```csharp
   ThemeManager.Instance.ThemeChanged += (_, newTheme) =>
   {
-      WinFormsThemeEngine.ApplyToControl(this, newTheme);
+      EnterpriseThemeEngine.ApplyToControl(this, newTheme);
       Invalidate(true);
   };
   ```

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -25,7 +25,7 @@ namespace EnterpriseUI.WinForms;
 /// scrolling, column resize/reorder/pinning, banded headers, filter row, value-list filter popup,
 /// conditional formatting, inline editing with undo/redo, and print preview.
 /// </summary>
-public class WinFormsDataGrid<TItem> : Control, IThemeableControl
+public class EnterpriseDataGrid<TItem> : Control, IThemeableControl
 {
     private const int FilterListLimit = 1000;
     private const int PrintRowLimit = 5000;
@@ -94,7 +94,7 @@ public class WinFormsDataGrid<TItem> : Control, IThemeableControl
     private bool _closingEditor;
     private GridColumn? _contextColumn;
 
-    public WinFormsDataGrid()
+    public EnterpriseDataGrid()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -484,13 +484,13 @@ public class WinFormsDataGrid<TItem> : Control, IThemeableControl
     }
 
     private Palette GetPalette() => new(
-        WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White),
-        WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(246, 248, 250)),
-        WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(246, 248, 250)),
-        WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 224, 230)),
-        WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black),
-        WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextMuted, Color.FromArgb(110, 118, 128)),
-        WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215)));
+        EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White),
+        EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(246, 248, 250)),
+        EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(246, 248, 250)),
+        EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 224, 230)),
+        EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black),
+        EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextMuted, Color.FromArgb(110, 118, 128)),
+        EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215)));
 
     private static Color Blend(Color start, Color end, double amount)
     {

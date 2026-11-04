@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Controls;
@@ -9,7 +9,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class PivotGridDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsPivotGridControl _pivotGrid;
+    private readonly EnterprisePivotGridControl _pivotGrid;
 
     public PivotGridDemoView(DemoItem metadata)
     {
@@ -36,7 +36,7 @@ public class PivotGridDemoView : UserControl
         };
         toolbar.Controls.Add(lblInfo);
 
-        _pivotGrid = new WinFormsPivotGridControl { Dock = DockStyle.Fill };
+        _pivotGrid = new EnterprisePivotGridControl { Dock = DockStyle.Fill };
 
         _baseView.DemoContainer.Controls.Add(_pivotGrid);
         _baseView.DemoContainer.Controls.Add(toolbar);

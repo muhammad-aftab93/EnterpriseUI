@@ -1,4 +1,4 @@
-# EnterpriseUI Security & Compliance Architecture
+﻿# EnterpriseUI Security & Compliance Architecture
 
 EnterpriseUI is architected for deployment in high-security, regulated environments (banking, defense, healthcare, government) adhering to **OWASP Top 10**, **SOC 2 Type II**, and **HIPAA** compliance requirements.
 
@@ -25,10 +25,10 @@ The `EnterpriseUI.Security.SecurityManager` provides a centralized authorization
 flowchart TD
     UserClaims["ClaimsPrincipal<br/>(User Roles & Permissions)"] --> SecManager["SecurityManager.SetUser()"]
     SecManager --> AuthControl["IAuthorizedControl Evaluation"]
-    AuthControl --> ActionButton["Delete Button: RequiredPermission='Orders.Delete'"]
+    AuthControl --> EnterpriseActionButton["Delete Button: RequiredPermission='Orders.Delete'"]
     AuthControl --> SalaryCol["GridColumn: RequiredRole='PayrollManager'"]
     
-    ActionButton -->|Authorized: False| HiddenBtn["Button is Disabled or Hidden"]
+    EnterpriseActionButton -->|Authorized: False| HiddenBtn["Button is Disabled or Hidden"]
     SalaryCol -->|Authorized: True| RenderCol["Column is Rendered"]
 ```
 

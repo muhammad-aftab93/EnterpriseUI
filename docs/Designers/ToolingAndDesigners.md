@@ -1,4 +1,4 @@
-# EnterpriseUI Tooling & Designers Guide
+﻿# EnterpriseUI Tooling & Designers Guide
 
 EnterpriseUI includes a suite of developer productivity tools designed to accelerate design-to-production workflows:
 
@@ -55,7 +55,7 @@ using EnterpriseUI.Charts;
 
 // Register custom controls into the visual designer toolbox
 ToolboxService.Register("DataGrid", "Data & Grids", typeof(DataGrid<>), "High-performance virtualized grid");
-ToolboxService.Register("Chart", "Visualization", typeof(Chart), "Multi-series business charts");
+ToolboxService.Register("EnterpriseChart", "Visualization", typeof(EnterpriseChart), "Multi-series business charts");
 
 // Inspect registered tools
 foreach (var tool in ToolboxService.Items)
@@ -100,7 +100,7 @@ var source = ComponentCodeGenerator.GenerateRegistrationSource(new[]
     "DataGrid<CustomerOrder>",
     "ThemeManager",
     "ToastService",
-    "AIAssistant"
+    "EnterpriseAIAssistant"
 });
 ```
 Emitted code:
@@ -115,7 +115,7 @@ public static class EnterpriseUIServiceCollectionExtensions
         services.AddTransient<DataGrid<CustomerOrder>>();
         services.AddTransient<ThemeManager>();
         services.AddTransient<ToastService>();
-        services.AddTransient<AIAssistant>();
+        services.AddTransient<EnterpriseAIAssistant>();
         return services;
     }
 }

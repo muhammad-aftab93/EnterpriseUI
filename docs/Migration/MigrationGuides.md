@@ -1,4 +1,4 @@
-# EnterpriseUI Migration Guides
+﻿# EnterpriseUI Migration Guides
 
 This guide assists enterprise engineering teams migrating from legacy third-party suites (**Telerik UI**, **DevExpress**, and **Syncfusion**) to the unified EnterpriseUI ecosystem.
 
@@ -29,12 +29,12 @@ flowchart TD
 | Telerik UI Component | EnterpriseUI Component | Notes & Changes |
 |---|---|---|
 | `RadGridView` / `TelerikGrid` | `EnterpriseUI.Grids.DataGrid<T>` | Replace `CompositeFilterDescriptorCollection` with `EnterpriseUI.Data.CompositeFilterDescriptor`. Use `Columns.Add(new GridColumn { Field = "..." })`. |
-| `RadTreeList` | `EnterpriseUI.Grids.TreeList<T>` | Set `KeyFieldName` and `ParentFieldName` identically. |
-| `RadPivotGrid` | `EnterpriseUI.Grids.PivotGrid<T>` | Map `PivotField` with `PivotArea.Row`, `Column`, or `Data`. |
-| `RadRibbonBar` | `EnterpriseUI.Navigation.RibbonBar` | Map `RibbonTab`, `RibbonGroup`, and `RibbonItem`. |
-| `RadScheduler` | `EnterpriseUI.Scheduling.Scheduler` | Directly compatible with standard RFC 5545 recurrence rules. |
-| `RadChartView` | `EnterpriseUI.Charts.Chart` | Set `Series.Add(new ChartSeries { Type = SeriesType.Column })`. |
-| `RadDocking` | `EnterpriseUI.Layout.DockManager` | Use `DockManager.Dock(panel, DockPosition.Left)`. |
+| `RadTreeList` | `EnterpriseUI.Grids.EnterpriseTreeList<T>` | Set `KeyFieldName` and `ParentFieldName` identically. |
+| `RadPivotGrid` | `EnterpriseUI.Grids.EnterprisePivotGrid<T>` | Map `PivotField` with `PivotArea.Row`, `Column`, or `Data`. |
+| `RadRibbonBar` | `EnterpriseUI.Navigation.EnterpriseRibbonBar` | Map `RibbonTab`, `RibbonGroup`, and `RibbonItem`. |
+| `RadScheduler` | `EnterpriseUI.Scheduling.EnterpriseScheduler` | Directly compatible with standard RFC 5545 recurrence rules. |
+| `RadChartView` | `EnterpriseUI.Charts.EnterpriseChart` | Set `Series.Add(new ChartSeries { Type = SeriesType.Column })`. |
+| `RadDocking` | `EnterpriseUI.Layout.EnterpriseDockManager` | Use `EnterpriseDockManager.Dock(panel, DockPosition.Left)`. |
 
 ### Code Comparison: Telerik Grid vs. EnterpriseUI DataGrid
 
@@ -59,12 +59,12 @@ await grid.RefreshDataAsync();
 
 | DevExpress Component | EnterpriseUI Component | Notes & Changes |
 |---|---|---|
-| `GridControl` + `GridView` | `EnterpriseUI.Grids.DataGrid<T>` | DevExpress separates the control from views (`TableView`, `CardView`); EnterpriseUI uses a consolidated model. |
-| `TreeList` | `EnterpriseUI.Grids.TreeList<T>` | Direct replacement for hierarchical self-referencing datasets. |
-| `PivotGridControl` | `EnterpriseUI.Grids.PivotGrid<T>` | Identical area-based dimensional analysis. |
-| `RibbonControl` | `EnterpriseUI.Navigation.RibbonBar` | Directly translates pages, groups, and bar items. |
-| `SchedulerControl` | `EnterpriseUI.Scheduling.Scheduler` | Unified appointment model with timezone awareness. |
-| `DockManager` / `DocumentManager` | `EnterpriseUI.Layout.DockManager` | Supports floating, tabbed MDI, and pinned dock panels. |
+| `GridControl` + `GridView` | `EnterpriseUI.Grids.DataGrid<T>` | DevExpress separates the control from views (`TableView`, `EnterpriseCardView`); EnterpriseUI uses a consolidated model. |
+| `EnterpriseTreeList` | `EnterpriseUI.Grids.EnterpriseTreeList<T>` | Direct replacement for hierarchical self-referencing datasets. |
+| `PivotGridControl` | `EnterpriseUI.Grids.EnterprisePivotGrid<T>` | Identical area-based dimensional analysis. |
+| `RibbonControl` | `EnterpriseUI.Navigation.EnterpriseRibbonBar` | Directly translates pages, groups, and bar items. |
+| `SchedulerControl` | `EnterpriseUI.Scheduling.EnterpriseScheduler` | Unified appointment model with timezone awareness. |
+| `EnterpriseDockManager` / `DocumentManager` | `EnterpriseUI.Layout.EnterpriseDockManager` | Supports floating, tabbed MDI, and pinned dock panels. |
 | `XtraReport` | `EnterpriseUI.Reporting.ReportDefinition` | Band-oriented layout engine (`BandType.Detail`, `ReportHeader`). |
 
 ### Code Comparison: DevExpress GridControl vs. EnterpriseUI DataGrid
@@ -90,9 +90,9 @@ grid.FilterBy("Price", FilterOperator.IsGreaterThan, 50);
 | Syncfusion Component | EnterpriseUI Component | Notes & Changes |
 |---|---|---|
 | `SfDataGrid` | `EnterpriseUI.Grids.DataGrid<T>` | Map column definitions and wire up `DataSourceResult`. |
-| `SfChart` | `EnterpriseUI.Charts.Chart` | Series models map to `ChartSeries` and `ChartDataPoint`. |
-| `SfRibbon` | `EnterpriseUI.Navigation.RibbonBar` | Map tabs, groups, and command buttons. |
-| `SfScheduler` | `EnterpriseUI.Scheduling.Scheduler` | Replace custom appointments with `EnterpriseUI.Scheduling.Appointment`. |
+| `SfChart` | `EnterpriseUI.Charts.EnterpriseChart` | Series models map to `ChartSeries` and `ChartDataPoint`. |
+| `SfRibbon` | `EnterpriseUI.Navigation.EnterpriseRibbonBar` | Map tabs, groups, and command buttons. |
+| `SfScheduler` | `EnterpriseUI.Scheduling.EnterpriseScheduler` | Replace custom appointments with `EnterpriseUI.Scheduling.Appointment`. |
 
 ---
 

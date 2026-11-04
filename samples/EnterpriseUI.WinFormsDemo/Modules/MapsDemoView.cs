@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Map;
@@ -10,7 +10,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class MapsDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsMapControl _mapControl;
+    private readonly EnterpriseMapControl _mapControl;
 
     public MapsDemoView(DemoItem metadata)
     {
@@ -75,7 +75,7 @@ public class MapsDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { btnZoomIn, btnZoomOut, btnFleet });
 
-        _mapControl = new WinFormsMapControl { Dock = DockStyle.Fill };
+        _mapControl = new EnterpriseMapControl { Dock = DockStyle.Fill };
         _mapControl.Center = new GeoLocation(37.7749, -122.4194);
         _mapControl.ZoomLevel = 8;
 

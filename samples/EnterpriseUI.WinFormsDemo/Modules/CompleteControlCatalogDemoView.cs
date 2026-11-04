@@ -17,15 +17,15 @@ public class CompleteControlCatalogDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
     private readonly TabControl _tabs;
-    private readonly WinFormsVirtualGridControl _virtualGrid;
-    private readonly WinFormsSyntaxEditorControl _syntaxEditor;
-    private readonly WinFormsBulletGraphControl _bulletGraph;
-    private readonly WinFormsCarouselControl _carousel;
-    private readonly WinFormsRatingAndWaitingControl _ratingWaiting;
-    private readonly WinFormsClockControl _clock;
-    private readonly WinFormsCalloutControl _callout;
-    private readonly WinFormsRangeSelectorControl _rangeSelector;
-    private readonly WinFormsSlideRotatorPipsControl _slideRotatorPips;
+    private readonly EnterpriseVirtualGridControl _virtualGrid;
+    private readonly EnterpriseSyntaxEditorControl _syntaxEditor;
+    private readonly EnterpriseBulletGraphControl _bulletGraph;
+    private readonly EnterpriseCarouselControl _carousel;
+    private readonly EnterpriseRatingAndWaitingControl _ratingWaiting;
+    private readonly EnterpriseClockControl _clock;
+    private readonly EnterpriseCalloutControl _callout;
+    private readonly EnterpriseRangeSelectorControl _rangeSelector;
+    private readonly EnterpriseSlideRotatorPipsControl _slideRotatorPips;
     private readonly System.Windows.Forms.Timer _marqueeTimer;
 
     public CompleteControlCatalogDemoView(DemoItem metadata, int initialTabIndex = 0)
@@ -266,9 +266,9 @@ public class CompleteControlCatalogDemoView : UserControl
         tabAiSmart.Controls.Add(aiPanel);
 
         // =====================================================================
-        // TAB 3: DataEntry, DataFilter, FilterView, CardView & ValidationProvider
+        // TAB 3: DataEntry, DataFilter, EnterpriseFilterView, EnterpriseCardView & ValidationProvider
         // =====================================================================
-        var tabDataControls = new TabPage("🗂️ DataEntry, DataFilter, CardView & Validation");
+        var tabDataControls = new TabPage("🗂️ DataEntry, DataFilter, EnterpriseCardView & Validation");
         var dataSplit = new System.Windows.Forms.SplitContainer
         {
             Dock = DockStyle.Fill,
@@ -379,12 +379,12 @@ public class CompleteControlCatalogDemoView : UserControl
         tabDataControls.Controls.Add(dataSplit);
 
         // =====================================================================
-        // TAB 4: SlideView, Rotator, PipsPager, ImageEditor, PictureBox & WebCam
+        // TAB 4: SlideView, Rotator, PipsPager, EnterpriseImageEditor, PictureBox & EnterpriseWebCam
         // =====================================================================
-        var tabSlideMedia = new TabPage("🎞️ SlideView, Rotator, PipsPager, ImageEditor & WebCam");
+        var tabSlideMedia = new TabPage("🎞️ SlideView, Rotator, PipsPager, EnterpriseImageEditor & EnterpriseWebCam");
         var mediaPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12), AutoScroll = true };
 
-        _slideRotatorPips = new WinFormsSlideRotatorPipsControl
+        _slideRotatorPips = new EnterpriseSlideRotatorPipsControl
         {
             Dock = DockStyle.Top,
             Height = 195
@@ -418,22 +418,22 @@ public class CompleteControlCatalogDemoView : UserControl
         {
             rotationDeg = (rotationDeg + 90) % 360;
             lblImgStatus.Text = $"Active Image State: Rotated to {rotationDeg}° • Bicubic Interpolation Applied";
-            _baseView.LogEvent("ImageEditor.Rotate90", $"Angle={rotationDeg}°");
+            _baseView.LogEvent("EnterpriseImageEditor.Rotate90", $"Angle={rotationDeg}°");
         };
         btnFlipH.Click += (_, _) =>
         {
             lblImgStatus.Text = "Active Image State: Horizontal Mirror Transform Applied";
-            _baseView.LogEvent("ImageEditor.FlipHorizontal", "Matrix(-1, 0, 0, 1)");
+            _baseView.LogEvent("EnterpriseImageEditor.FlipHorizontal", "Matrix(-1, 0, 0, 1)");
         };
         btnInvert.Click += (_, _) =>
         {
             lblImgStatus.Text = "Active Image State: High-Contrast Sepia & Luminance Filter Applied";
-            _baseView.LogEvent("ImageEditor.ApplyFilter", "SepiaLuminanceFilter");
+            _baseView.LogEvent("EnterpriseImageEditor.ApplyFilter", "SepiaLuminanceFilter");
         };
         btnCrop.Click += (_, _) =>
         {
             lblImgStatus.Text = "Active Image State: Cropped to 16:9 Golden Ratio Viewport (1600×900)";
-            _baseView.LogEvent("ImageEditor.Crop", "1600x900");
+            _baseView.LogEvent("EnterpriseImageEditor.Crop", "1600x900");
         };
         grpImageEditor.Controls.AddRange(new Control[] { lblImgStatus, btnRotate90, btnFlipH, btnInvert, btnCrop });
 
@@ -443,7 +443,7 @@ public class CompleteControlCatalogDemoView : UserControl
             Size = new Size(460, 140),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
-        var webcamEngine = new EnterpriseUI.Media.WebCam();
+        var webcamEngine = new EnterpriseUI.Media.EnterpriseWebCam();
         var lblCamStatus = new Label { Text = $"Device: {webcamEngine.DeviceName} (Snapshots: {webcamEngine.CapturedSnapshotsCount})", Location = new Point(14, 28), AutoSize = true, Font = new Font("Segoe UI", 8.75f) };
         var btnCamStart = new Button { Text = "▶ Start Stream", Location = new Point(14, 60), Size = new Size(130, 30), FlatStyle = FlatStyle.Flat };
         var btnCamSnap = new Button { Text = "📸 Capture Snapshot", Location = new Point(152, 60), Size = new Size(150, 30), FlatStyle = FlatStyle.Flat };
@@ -453,20 +453,20 @@ public class CompleteControlCatalogDemoView : UserControl
         {
             webcamEngine.StartStream();
             lblCamStatus.Text = $"Status: STREAMING LIVE — {webcamEngine.DeviceName}";
-            _baseView.LogEvent("WebCam.StartStream", webcamEngine.DeviceName);
+            _baseView.LogEvent("EnterpriseWebCam.StartStream", webcamEngine.DeviceName);
         };
         btnCamSnap.Click += (_, _) =>
         {
             if (!webcamEngine.IsStreaming) webcamEngine.StartStream();
             webcamEngine.TakeSnapshot();
             lblCamStatus.Text = $"Status: Snapshot #{webcamEngine.CapturedSnapshotsCount} Captured (1920×1080 RGBA frame buffered)";
-            _baseView.LogEvent("WebCam.TakeSnapshot", $"Snapshot #{webcamEngine.CapturedSnapshotsCount}");
+            _baseView.LogEvent("EnterpriseWebCam.TakeSnapshot", $"Snapshot #{webcamEngine.CapturedSnapshotsCount}");
         };
         btnCamStop.Click += (_, _) =>
         {
             webcamEngine.StopStream();
             lblCamStatus.Text = "Status: Camera Stream Stopped";
-            _baseView.LogEvent("WebCam.StopStream", "Stopped");
+            _baseView.LogEvent("EnterpriseWebCam.StopStream", "Stopped");
         };
         grpWebCam.Controls.AddRange(new Control[] { lblCamStatus, btnCamStart, btnCamSnap, btnCamStop });
 
@@ -481,7 +481,7 @@ public class CompleteControlCatalogDemoView : UserControl
         var tabClockCallout = new TabPage("🕒 Clock, Callout & RangeSelector");
         var clockPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
-        _clock = new WinFormsClockControl { Location = new Point(16, 14), Size = new Size(240, 260) };
+        _clock = new EnterpriseClockControl { Location = new Point(16, 14), Size = new Size(240, 260) };
 
         var cmbTz = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(280, 18), Width = 260 };
         cmbTz.Items.AddRange(new object[]
@@ -505,13 +505,13 @@ public class CompleteControlCatalogDemoView : UserControl
             _baseView.LogEvent("Clock.TimeZoneChanged", _clock.TimeZoneLabel);
         };
 
-        _callout = new WinFormsCalloutControl
+        _callout = new EnterpriseCalloutControl
         {
             Location = new Point(280, 56),
             Size = new Size(560, 105)
         };
 
-        _rangeSelector = new WinFormsRangeSelectorControl
+        _rangeSelector = new EnterpriseRangeSelectorControl
         {
             Location = new Point(280, 174),
             Size = new Size(560, 100)
@@ -543,7 +543,7 @@ public class CompleteControlCatalogDemoView : UserControl
         var btnOfficePeek = new Button { Text = "👁 Show OfficeNav Peek Window", Location = new Point(234, 82), Size = new Size(215, 30), FlatStyle = FlatStyle.Flat };
         btnNavCompact.Click += (_, _) =>
         {
-            lblNavState.Text = "NavigationView DisplayMode: Compact (48px Icon Rail Active)\nOfficeNavigationBar: Synchronized with Selected PageView";
+            lblNavState.Text = "NavigationView DisplayMode: Compact (48px Icon Rail Active)\nOfficeNavigationBar: Synchronized with Selected EnterprisePageView";
             _baseView.LogEvent("NavigationView.DisplayMode", "Compact");
         };
         btnOfficePeek.Click += (_, _) =>
@@ -568,7 +568,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         btnTriggerOverlay.Click += (_, _) =>
         {
-            lblOverlayState.Text = "RadOverlay Active: Host viewport dimmed at 45% opacity with rotating WaitingBar";
+            lblOverlayState.Text = "RadOverlay Active: Host viewport dimmed at 45% opacity with rotating EnterpriseWaitingBar";
             _baseView.LogEvent("RadOverlay.Show", "Dimmer + Busy Indicator active");
         };
         btnTriggerFlyout.Click += (_, _) =>
@@ -601,9 +601,9 @@ public class CompleteControlCatalogDemoView : UserControl
         tabFormsOverlays.Controls.Add(formsPanel);
 
         // =====================================================================
-        // TAB 7: VirtualGrid (1M×12), SyntaxEditor, BulletGraph & Carousel
+        // TAB 7: EnterpriseVirtualGrid (1M×12), EnterpriseSyntaxEditor, EnterpriseBulletGraph & EnterpriseCarousel
         // =====================================================================
-        var tabVirtualGrid = new TabPage("⚡ VirtualGrid (1M×12), SyntaxEditor & Carousel");
+        var tabVirtualGrid = new TabPage("⚡ EnterpriseVirtualGrid (1M×12), EnterpriseSyntaxEditor & EnterpriseCarousel");
         var vgSplit = new System.Windows.Forms.SplitContainer
         {
             Dock = DockStyle.Fill,
@@ -611,10 +611,10 @@ public class CompleteControlCatalogDemoView : UserControl
             SplitterDistance = 190
         };
 
-        _virtualGrid = new WinFormsVirtualGridControl { Dock = DockStyle.Fill };
+        _virtualGrid = new EnterpriseVirtualGridControl { Dock = DockStyle.Fill };
         _virtualGrid.CellSelected += (r, c, val) =>
         {
-            _baseView.LogEvent("VirtualGrid.CellSelected", $"Row {r:N0}, Col {c} => '{val}'");
+            _baseView.LogEvent("EnterpriseVirtualGrid.CellSelected", $"Row {r:N0}, Col {c} => '{val}'");
         };
 
         var bottomVgSplit = new System.Windows.Forms.SplitContainer
@@ -624,17 +624,17 @@ public class CompleteControlCatalogDemoView : UserControl
             SplitterDistance = 500
         };
 
-        _syntaxEditor = new WinFormsSyntaxEditorControl { Dock = DockStyle.Fill };
+        _syntaxEditor = new EnterpriseSyntaxEditorControl { Dock = DockStyle.Fill };
         var rightVisualsPanel = new Panel { Dock = DockStyle.Fill };
-        _bulletGraph = new WinFormsBulletGraphControl { Dock = DockStyle.Top, Height = 68 };
-        _ratingWaiting = new WinFormsRatingAndWaitingControl { Dock = DockStyle.Top, Height = 72 };
-        _carousel = new WinFormsCarouselControl { Dock = DockStyle.Fill };
+        _bulletGraph = new EnterpriseBulletGraphControl { Dock = DockStyle.Top, Height = 68 };
+        _ratingWaiting = new EnterpriseRatingAndWaitingControl { Dock = DockStyle.Top, Height = 72 };
+        _carousel = new EnterpriseCarouselControl { Dock = DockStyle.Fill };
 
         _ratingWaiting.RatingChanged += stars =>
         {
             _bulletGraph.FeaturedMeasure = stars * 18.5;
             _bulletGraph.Invalidate();
-            _baseView.LogEvent("RatingControl.Value", $"{stars:F1} stars");
+            _baseView.LogEvent("EnterpriseRatingControl.Value", $"{stars:F1} stars");
         };
 
         rightVisualsPanel.Controls.Add(_carousel);

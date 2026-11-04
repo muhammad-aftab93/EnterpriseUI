@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Charts;
 using EnterpriseUI.Data;
@@ -71,15 +71,15 @@ public static class ShowcaseRunner
             Console.WriteLine("    Generated CSV Output:\n" + csvSample);
         }
 
-        // 4. Chart Showcase
-        Console.WriteLine("[4] Multi-Series Business Chart:");
-        var chart = new Chart { Title = "Q4 Revenue" };
+        // 4. EnterpriseChart Showcase
+        Console.WriteLine("[4] Multi-Series Business EnterpriseChart:");
+        var chart = new EnterpriseChart { Title = "Q4 Revenue" };
         var series = new ChartSeries { Name = "Revenue", Type = SeriesType.Column };
         series.DataPoints.Add(new ChartDataPoint { Category = "October", Value = 45000 });
         series.DataPoints.Add(new ChartDataPoint { Category = "November", Value = 62000 });
         series.DataPoints.Add(new ChartDataPoint { Category = "December", Value = 89000 });
         chart.Series.Add(series);
-        Console.WriteLine($"    Chart '{chart.Title}' configured with {chart.Series.Count} series and {series.DataPoints.Count} points.");
+        Console.WriteLine($"    EnterpriseChart '{chart.Title}' configured with {chart.Series.Count} series and {series.DataPoints.Count} points.");
 
         Console.WriteLine("\nEnterpriseUI component platform execution completed successfully.");
     }

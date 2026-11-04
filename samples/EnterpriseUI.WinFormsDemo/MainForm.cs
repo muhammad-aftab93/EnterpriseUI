@@ -15,7 +15,7 @@ namespace EnterpriseUI.WinFormsDemo;
 
 public class MainForm : Form, IThemeableControl
 {
-    private readonly WinFormsRibbonControl _ribbon;
+    private readonly EnterpriseRibbonControl _ribbon;
     private readonly SplitContainer _mainSplit;
     private readonly SplitContainer _centerSplit;
     private readonly Panel _leftNavPanel;
@@ -28,7 +28,7 @@ public class MainForm : Form, IThemeableControl
     private readonly ComboBox _cmbRecent;
     private readonly ComboBox _cmbThemes;
     private readonly Panel _demoHost;
-    private readonly WinFormsPropertyInspectorControl _inspector;
+    private readonly EnterprisePropertyInspectorControl _inspector;
     private readonly StatusStrip _statusStrip;
     private readonly ToolStripStatusLabel _statusTheme;
     private readonly ToolStripStatusLabel _statusDemo;
@@ -57,7 +57,7 @@ public class MainForm : Form, IThemeableControl
         DoubleBuffered = true;
 
         // 1. Top Ribbon Control
-        _ribbon = new WinFormsRibbonControl();
+        _ribbon = new EnterpriseRibbonControl();
         _ribbon.BackstageClicked += ShowBackstageDialog;
         _ribbon.TabChanged += OnRibbonTabChanged;
 
@@ -123,7 +123,7 @@ public class MainForm : Form, IThemeableControl
             SplitterWidth = 6
         };
 
-        // Workspace Container with Breadcrumb & Action Toolbar
+        // Workspace Container with EnterpriseBreadcrumb & Action Toolbar
         _demoWorkspaceContainer = new Panel { Dock = DockStyle.Fill };
 
         _breadcrumbBar = new Panel
@@ -214,7 +214,7 @@ public class MainForm : Form, IThemeableControl
 
         _centerSplit.Panel1.Controls.Add(_demoWorkspaceContainer);
 
-        _inspector = new WinFormsPropertyInspectorControl { Dock = DockStyle.Fill };
+        _inspector = new EnterprisePropertyInspectorControl { Dock = DockStyle.Fill };
         _inspector.PropertyMutated += rec =>
         {
             if (_demoHost.Controls.Count > 0)
@@ -368,7 +368,7 @@ public class MainForm : Form, IThemeableControl
         {
             _cmbThemes.SelectedItem = newTheme.Name;
         }
-        WinFormsThemeEngine.ApplyToControl(this, newTheme);
+        EnterpriseThemeEngine.ApplyToControl(this, newTheme);
     }
 
     private void ApplyTheme(ITheme theme)
@@ -429,15 +429,15 @@ public class MainForm : Form, IThemeableControl
         // 2. Browse by Feature
         var rootFeatures = new TreeNode("Browse by Feature") { Tag = "Category_Features" };
         rootFeatures.Nodes.Add(new TreeNode("Million-Row Virtualization") { Tag = DemoMetadataRegistry.GetById("grid-virtualization-1m") });
-        rootFeatures.Nodes.Add(new TreeNode("Event-Driven VirtualGrid (1M×12), SyntaxEditor & Carousel") { Tag = DemoMetadataRegistry.GetById("complete-telerik-parity-catalog") });
-        rootFeatures.Nodes.Add(new TreeNode("GanttView, QR/Code128 Barcode, Kanban, TreeMap & SignaturePad") { Tag = DemoMetadataRegistry.GetById("specialized-gantt-barcode-kanban") });
-        rootFeatures.Nodes.Add(new TreeNode("Breadcrumb, StepProgress, Panorama, Wizard & DesktopAlerts") { Tag = DemoMetadataRegistry.GetById("navigation-layout-alerts-suite") });
+        rootFeatures.Nodes.Add(new TreeNode("Event-Driven EnterpriseVirtualGrid (1M×12), EnterpriseSyntaxEditor & EnterpriseCarousel") { Tag = DemoMetadataRegistry.GetById("complete-telerik-parity-catalog") });
+        rootFeatures.Nodes.Add(new TreeNode("EnterpriseGanttView, QR/Code128 Barcode, Kanban, EnterpriseTreeMap & SignaturePad") { Tag = DemoMetadataRegistry.GetById("specialized-gantt-barcode-kanban") });
+        rootFeatures.Nodes.Add(new TreeNode("EnterpriseBreadcrumb, StepProgress, EnterprisePanorama, Wizard & DesktopAlerts") { Tag = DemoMetadataRegistry.GetById("navigation-layout-alerts-suite") });
         rootFeatures.Nodes.Add(new TreeNode("Multi-Sort, Grouping & Bands") { Tag = DemoMetadataRegistry.GetById("grid-virtualization-1m") });
         rootFeatures.Nodes.Add(new TreeNode("Self-Referencing Tree Hierarchies") { Tag = DemoMetadataRegistry.GetById("grid-treelist-hierarchy") });
         rootFeatures.Nodes.Add(new TreeNode("OLAP Cross-Tab Pivot Aggregations") { Tag = DemoMetadataRegistry.GetById("grid-pivot-olap") });
         rootFeatures.Nodes.Add(new TreeNode("Real-Time Financial Candlesticks") { Tag = DemoMetadataRegistry.GetById("charts-financial-realtime") });
         rootFeatures.Nodes.Add(new TreeNode("Offline AI Natural Language Copilot") { Tag = DemoMetadataRegistry.GetById("ai-copilot-assistant") });
-        rootFeatures.Nodes.Add(new TreeNode("MaskedEdit, Calculator, SyntaxEditor & Fluent Validation") { Tag = DemoMetadataRegistry.GetById("editors-fluent-validation") });
+        rootFeatures.Nodes.Add(new TreeNode("MaskedEdit, Calculator, EnterpriseSyntaxEditor & Fluent Validation") { Tag = DemoMetadataRegistry.GetById("editors-fluent-validation") });
         rootFeatures.Nodes.Add(new TreeNode("Live Design Token Hot-Swapping (12 Themes)") { Tag = DemoMetadataRegistry.GetById("theming-design-tokens") });
 
         // 3. Browse by Industry Scenario
@@ -557,7 +557,7 @@ public class MainForm : Form, IThemeableControl
 
         DemoAnalyticsTracker.Instance.EndTrack();
 
-        // Update Breadcrumb & Favorite state
+        // Update EnterpriseBreadcrumb & Favorite state
         _lblBreadcrumb.Text = $"🏠 Home > {demo.Category} > {demo.SubCategory} > {demo.Title}";
         _btnFavorite.Text = _favoriteIds.Contains(demo.Id) ? "★ Favorited" : "⭐ Favorite";
 

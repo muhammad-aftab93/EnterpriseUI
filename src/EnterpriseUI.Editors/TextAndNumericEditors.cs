@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -75,9 +75,9 @@ public enum NumericFormat
 }
 
 /// <summary>
-/// Superset Numeric Editor combining Telerik NumericTextBox and DevExpress SpinEdit.
+/// Superset Numeric Editor combining Telerik EnterpriseNumericTextBox and DevExpress SpinEdit.
 /// </summary>
-public class NumericTextBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseNumericTextBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private decimal? _value;
 

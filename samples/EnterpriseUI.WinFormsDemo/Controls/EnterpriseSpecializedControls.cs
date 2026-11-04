@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -25,7 +25,7 @@ public sealed class GanttTaskItem
 /// Clean-room GDI+ double-buffered Gantt View control (Telerik RadGanttView equivalent).
 /// Renders task hierarchy split, timeline header, progress bars, dependency arrows, and critical path.
 /// </summary>
-public class WinFormsGanttControl : Control, IThemeableControl
+public class EnterpriseGanttControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     public string? ThemeOverride { get; set; }
@@ -33,7 +33,7 @@ public class WinFormsGanttControl : Control, IThemeableControl
     public int TotalTimelineDays { get; set; } = 30;
     public List<GanttTaskItem> Tasks { get; } = new();
 
-    public WinFormsGanttControl()
+    public EnterpriseGanttControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -64,12 +64,12 @@ public class WinFormsGanttControl : Control, IThemeableControl
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var headerBg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(245, 247, 250));
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
-        var danger = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Danger, Color.FromArgb(210, 50, 50));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var headerBg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(245, 247, 250));
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var danger = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Danger, Color.FromArgb(210, 50, 50));
 
         g.Clear(bg);
 
@@ -154,7 +154,7 @@ public enum BarcodeSymbology
 /// <summary>
 /// Clean-room GDI+ Barcode and QR Matrix Renderer (Telerik RadBarcode equivalent).
 /// </summary>
-public class WinFormsBarcodeControl : Control, IThemeableControl
+public class EnterpriseBarcodeControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private string _payload = "ENTERPRISE-UI-2026-PRO";
@@ -174,7 +174,7 @@ public class WinFormsBarcodeControl : Control, IThemeableControl
         set { _symbology = value; Invalidate(); }
     }
 
-    public WinFormsBarcodeControl()
+    public EnterpriseBarcodeControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -192,9 +192,9 @@ public class WinFormsBarcodeControl : Control, IThemeableControl
     {
         base.OnPaint(e);
         var g = e.Graphics;
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
 
         g.Clear(bg);
         using var fgBrush = new SolidBrush(fg);
@@ -260,9 +260,9 @@ public class WinFormsBarcodeControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ Interactive Kanban TaskBoard and CardView Control (Telerik RadTaskBoard / RadCardView equivalent).
+/// Clean-room GDI+ Interactive Kanban TaskBoard and EnterpriseCardView Control (Telerik RadTaskBoard / RadCardView equivalent).
 /// </summary>
-public class WinFormsKanbanBoardControl : Control, IThemeableControl
+public class EnterpriseKanbanBoardControl : Control, IThemeableControl
 {
     public sealed class KanbanCard
     {
@@ -280,7 +280,7 @@ public class WinFormsKanbanBoardControl : Control, IThemeableControl
     public string? ThemeOverride { get; set; }
     public event Action<KanbanCard>? CardAdvanced;
 
-    public WinFormsKanbanBoardControl()
+    public EnterpriseKanbanBoardControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -326,11 +326,11 @@ public class WinFormsKanbanBoardControl : Control, IThemeableControl
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Background, Color.FromArgb(245, 247, 250));
-        var surface = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Background, Color.FromArgb(245, 247, 250));
+        var surface = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
 
         g.Clear(bg);
         int laneW = Math.Max(140, (Width - 20) / _lanes.Length);
@@ -365,10 +365,10 @@ public class WinFormsKanbanBoardControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ Hierarchical TreeMap Control (Telerik RadTreeMap equivalent).
+/// Clean-room GDI+ Hierarchical EnterpriseTreeMap Control (Telerik RadTreeMap equivalent).
 /// Renders nested proportional rectangles with heat-map color encoding and interactive node selection.
 /// </summary>
-public class WinFormsTreeMapControl : Control, IThemeableControl
+public class EnterpriseTreeMapControl : Control, IThemeableControl
 {
     public sealed class TreeMapLeaf
     {
@@ -385,7 +385,7 @@ public class WinFormsTreeMapControl : Control, IThemeableControl
     public string SelectedNodeLabel { get; private set; } = "Cloud Infrastructure";
     public event Action<TreeMapLeaf>? NodeSelected;
 
-    public WinFormsTreeMapControl()
+    public EnterpriseTreeMapControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -431,8 +431,8 @@ public class WinFormsTreeMapControl : Control, IThemeableControl
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.White);
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.White);
         g.Clear(bg);
 
         double total = Math.Max(1, Leaves.Sum(l => l.Weight));
@@ -501,7 +501,7 @@ public class WinFormsTreeMapControl : Control, IThemeableControl
 /// Clean-room Interactive Vector Signature Pad Control (Telerik RadSignaturePad equivalent).
 /// Supports smooth GDI+ ink stroke capture, Clear, and stroke verification telemetry.
 /// </summary>
-public class WinFormsSignaturePadControl : Control, IThemeableControl
+public class EnterpriseSignaturePadControl : Control, IThemeableControl
 {
     private readonly List<List<Point>> _strokes = new();
     private List<Point>? _activeStroke;
@@ -511,7 +511,7 @@ public class WinFormsSignaturePadControl : Control, IThemeableControl
     public int StrokeCount => _strokes.Count;
     public event Action<int>? SignatureChanged;
 
-    public WinFormsSignaturePadControl()
+    public EnterpriseSignaturePadControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -571,10 +571,10 @@ public class WinFormsSignaturePadControl : Control, IThemeableControl
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 90, 180));
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 90, 180));
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
 
         g.Clear(bg);
         using var borderPen = new Pen(border);
@@ -602,7 +602,7 @@ public class WinFormsSignaturePadControl : Control, IThemeableControl
 /// Clean-room On-Screen Virtual Keyboard Control (Telerik RadVirtualKeyboard equivalent).
 /// Touch-friendly QWERTY layout dispatching virtual key presses.
 /// </summary>
-public class WinFormsVirtualKeyboardControl : Control, IThemeableControl
+public class EnterpriseVirtualKeyboardControl : Control, IThemeableControl
 {
     private static readonly string[][] Rows =
     {
@@ -618,7 +618,7 @@ public class WinFormsVirtualKeyboardControl : Control, IThemeableControl
     public string TypedBuffer { get; set; } = "ENTERPRISE-READY";
     public event Action<string>? KeyPressed;
 
-    public WinFormsVirtualKeyboardControl()
+    public EnterpriseVirtualKeyboardControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;
@@ -664,11 +664,11 @@ public class WinFormsVirtualKeyboardControl : Control, IThemeableControl
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Background, Color.FromArgb(240, 242, 245));
-        var keyBg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Background, Color.FromArgb(240, 242, 245));
+        var keyBg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.LightGray);
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
 
         g.Clear(bg);
         _keys.Clear();

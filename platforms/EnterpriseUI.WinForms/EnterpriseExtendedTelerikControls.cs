@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -11,7 +11,7 @@ namespace EnterpriseUI.WinForms;
 /// <summary>
 /// Vector Analog &amp; Digital Clock control (RadClock equivalent) with timezone offset and smooth second hand.
 /// </summary>
-public class WinFormsClockControl : Control, IThemeableControl
+public class EnterpriseClockControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private readonly System.Windows.Forms.Timer _timer;
@@ -21,7 +21,7 @@ public class WinFormsClockControl : Control, IThemeableControl
     public string TimeZoneLabel { get; set; } = "UTC+0 (London / Enterprise HQ)";
     public bool ShowDigitalReadout { get; set; } = true;
 
-    public WinFormsClockControl()
+    public EnterpriseClockControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(240, 260);
@@ -128,7 +128,7 @@ public class WinFormsClockControl : Control, IThemeableControl
 /// <summary>
 /// Vector Callout notification &amp; annotation control (RadCallout equivalent) with directional arrow.
 /// </summary>
-public class WinFormsCalloutControl : Control, IThemeableControl
+public class EnterpriseCalloutControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
 
@@ -137,7 +137,7 @@ public class WinFormsCalloutControl : Control, IThemeableControl
     public string CalloutBody { get; set; } = "Points to any target UI element with customizable arrow direction, callout shape, and action buttons.";
     public ArrowDirection PointerDirection { get; set; } = ArrowDirection.Left;
 
-    public WinFormsCalloutControl()
+    public EnterpriseCalloutControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(360, 110);
@@ -192,7 +192,7 @@ public class WinFormsCalloutControl : Control, IThemeableControl
 /// <summary>
 /// Interactive dual-thumb RangeSelector control (RadRangeSelector equivalent) with sparkline preview.
 /// </summary>
-public class WinFormsRangeSelectorControl : Control, IThemeableControl
+public class EnterpriseRangeSelectorControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private readonly double[] _series = { 22, 38, 31, 54, 48, 72, 65, 84, 79, 92, 68, 74, 88, 95, 70, 62, 78, 85, 91, 98 };
@@ -204,7 +204,7 @@ public class WinFormsRangeSelectorControl : Control, IThemeableControl
     public double SelectionEndPercent { get; set; } = 75.0;
     public event Action<double, double>? RangeChanged;
 
-    public WinFormsRangeSelectorControl()
+    public EnterpriseRangeSelectorControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(520, 90);
@@ -322,7 +322,7 @@ public class WinFormsRangeSelectorControl : Control, IThemeableControl
 /// <summary>
 /// Interactive SlideView, Rotator &amp; PipsPager control (RadSlideView, RadRotator &amp; RadPipsPager equivalents).
 /// </summary>
-public class WinFormsSlideRotatorPipsControl : Control, IThemeableControl
+public class EnterpriseSlideRotatorPipsControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private readonly (string Title, string Subtitle, string Metric, Color Accent)[] _slides =
@@ -349,7 +349,7 @@ public class WinFormsSlideRotatorPipsControl : Control, IThemeableControl
 
     public event Action<int, string>? SlideChanged;
 
-    public WinFormsSlideRotatorPipsControl()
+    public EnterpriseSlideRotatorPipsControl()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(640, 210);

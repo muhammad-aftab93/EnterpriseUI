@@ -27,5 +27,8 @@
     <!-- Trimming & AOT Preparedness -->
     <IsTrimmable Condition="'$(IsTrimmable)' == ''">true</IsTrimmable>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+
+    <!-- Disable packing for samples, tests, and benchmarks so solution-wide `dotnet pack` only packs distributable libraries -->
+    <IsPackable Condition="$(MSBuildProjectDirectory.Contains('samples')) Or $(MSBuildProjectDirectory.Contains('tests')) Or $(MSBuildProjectDirectory.Contains('benchmarks'))">false</IsPackable>
   </PropertyGroup>
 </Project>

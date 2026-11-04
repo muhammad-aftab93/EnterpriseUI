@@ -1,4 +1,4 @@
-namespace EnterpriseUI.Icons;
+﻿namespace EnterpriseUI.Icons;
 
 public static class FluentIconPack
 {
@@ -12,7 +12,7 @@ public static class FluentIconPack
     public static readonly SvgIcon Filter = new("filter", PackName, "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z");
     public static readonly SvgIcon Refresh = new("refresh", PackName, "M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z");
     public static readonly SvgIcon Grid = new("grid", PackName, "M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z");
-    public static readonly SvgIcon Chart = new("chart", PackName, "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z");
+    public static readonly SvgIcon EnterpriseChart = new("chart", PackName, "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z");
     public static readonly SvgIcon Calendar = new("calendar", PackName, "M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z");
 }
 
@@ -48,7 +48,7 @@ public static class IconRegistry
         Register(FluentIconPack.Filter);
         Register(FluentIconPack.Refresh);
         Register(FluentIconPack.Grid);
-        Register(FluentIconPack.Chart);
+        Register(FluentIconPack.EnterpriseChart);
         Register(FluentIconPack.Calendar);
 
         // Register Material Pack

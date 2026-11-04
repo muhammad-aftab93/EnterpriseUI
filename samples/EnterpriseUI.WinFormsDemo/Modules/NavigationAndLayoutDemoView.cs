@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,13 +16,13 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class NavigationAndLayoutDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly Breadcrumb _breadcrumbModel = new();
-    private readonly StepProgressBar _stepModel = new();
-    private readonly BindingNavigator<string> _bindingNav = new();
-    private readonly WizardControl _wizardModel = new();
-    private readonly Panorama _panoramaModel = new();
-    private readonly WinFormsCarouselControl _carouselControl;
-    private readonly WinFormsRatingAndWaitingControl _waitingControl;
+    private readonly EnterpriseBreadcrumb _breadcrumbModel = new();
+    private readonly EnterpriseStepProgressBar _stepModel = new();
+    private readonly EnterpriseBindingNavigator<string> _bindingNav = new();
+    private readonly EnterpriseWizardControl _wizardModel = new();
+    private readonly EnterprisePanorama _panoramaModel = new();
+    private readonly EnterpriseCarouselControl _carouselControl;
+    private readonly EnterpriseRatingAndWaitingControl _waitingControl;
     private readonly System.Windows.Forms.Timer _liveTimer;
 
     public NavigationAndLayoutDemoView(DemoItem metadata)
@@ -42,12 +42,12 @@ public class NavigationAndLayoutDemoView : UserControl
         };
 
         // ====================================================================
-        // Tab 1: Breadcrumb, StepProgressBar, PageView & BindingNavigator
+        // Tab 1: EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterprisePageView & EnterpriseBindingNavigator
         // ====================================================================
-        var tabNav = new TabPage("🧭 Breadcrumb, StepProgress & BindingNavigator");
+        var tabNav = new TabPage("🧭 EnterpriseBreadcrumb, StepProgress & EnterpriseBindingNavigator");
         var navPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
-        // 1. Breadcrumb
+        // 1. EnterpriseBreadcrumb
         _breadcrumbModel.Items.AddRange(new[]
         {
             new BreadcrumbItem { Text = "Enterprise Root" },
@@ -73,7 +73,7 @@ public class NavigationAndLayoutDemoView : UserControl
             var next = $"Node-L{_breadcrumbModel.Items.Count + 1}";
             _breadcrumbModel.Items.Add(new BreadcrumbItem { Text = next });
             lblBcRender.Text = string.Join($" {_breadcrumbModel.Separator} ", _breadcrumbModel.Items.Select(i => i.Text));
-            _baseView.LogEvent("Breadcrumb.Push", lblBcRender.Text);
+            _baseView.LogEvent("EnterpriseBreadcrumb.Push", lblBcRender.Text);
         };
         btnPopBc.Click += (_, _) =>
         {
@@ -81,11 +81,11 @@ public class NavigationAndLayoutDemoView : UserControl
             {
                 _breadcrumbModel.Items.RemoveAt(_breadcrumbModel.Items.Count - 1);
                 lblBcRender.Text = string.Join($" {_breadcrumbModel.Separator} ", _breadcrumbModel.Items.Select(i => i.Text));
-                _baseView.LogEvent("Breadcrumb.Pop", lblBcRender.Text);
+                _baseView.LogEvent("EnterpriseBreadcrumb.Pop", lblBcRender.Text);
             }
         };
 
-        // 2. StepProgressBar
+        // 2. EnterpriseStepProgressBar
         _stepModel.Steps.AddRange(new[]
         {
             new StepItem { Title = "1. Code Commit", State = StepState.Completed },
@@ -133,16 +133,16 @@ public class NavigationAndLayoutDemoView : UserControl
         {
             _stepModel.SelectedIndex = Math.Max(0, _stepModel.SelectedIndex - 1);
             stepCanvas.Invalidate();
-            _baseView.LogEvent("StepProgressBar.SelectedIndex", _stepModel.Steps[_stepModel.SelectedIndex].Title);
+            _baseView.LogEvent("EnterpriseStepProgressBar.SelectedIndex", _stepModel.Steps[_stepModel.SelectedIndex].Title);
         };
         btnNextStep.Click += (_, _) =>
         {
             _stepModel.SelectedIndex = Math.Min(_stepModel.Steps.Count - 1, _stepModel.SelectedIndex + 1);
             stepCanvas.Invalidate();
-            _baseView.LogEvent("StepProgressBar.SelectedIndex", _stepModel.Steps[_stepModel.SelectedIndex].Title);
+            _baseView.LogEvent("EnterpriseStepProgressBar.SelectedIndex", _stepModel.Steps[_stepModel.SelectedIndex].Title);
         };
 
-        // 3. BindingNavigator
+        // 3. EnterpriseBindingNavigator
         _bindingNav.Items.AddRange(new[]
         {
             "Customer #1001 — Global FinTech Corp ($1.4M ARR)",
@@ -165,7 +165,7 @@ public class NavigationAndLayoutDemoView : UserControl
         void SyncBindingLabel(string action)
         {
             lblBindCurrent.Text = $"[{_bindingNav.PositionText}]  {_bindingNav.CurrentItem ?? "(Empty)"}";
-            _baseView.LogEvent($"BindingNavigator.{action}", lblBindCurrent.Text);
+            _baseView.LogEvent($"EnterpriseBindingNavigator.{action}", lblBindCurrent.Text);
         }
 
         var btnFirst = new Button { Text = "|◀ First", Location = new Point(14, 256), Size = new Size(76, 28), FlatStyle = FlatStyle.Flat };
@@ -191,9 +191,9 @@ public class NavigationAndLayoutDemoView : UserControl
         tabNav.Controls.Add(navPanel);
 
         // ====================================================================
-        // Tab 2: 3D Carousel & Panorama Live Tile Hub
+        // Tab 2: 3D EnterpriseCarousel & EnterprisePanorama Live Tile Hub
         // ====================================================================
-        var tabCarouselPanorama = new TabPage("🎠 3D Carousel & Panorama Live Tiles");
+        var tabCarouselPanorama = new TabPage("🎠 3D EnterpriseCarousel & EnterprisePanorama Live Tiles");
         var cpSplit = new System.Windows.Forms.SplitContainer
         {
             Dock = DockStyle.Fill,
@@ -201,17 +201,17 @@ public class NavigationAndLayoutDemoView : UserControl
             SplitterDistance = 190
         };
 
-        _carouselControl = new WinFormsCarouselControl { Dock = DockStyle.Fill };
-        _carouselControl.SelectedItemChanged += item => _baseView.LogEvent("Carousel.SelectedItem", item);
+        _carouselControl = new EnterpriseCarouselControl { Dock = DockStyle.Fill };
+        _carouselControl.SelectedItemChanged += item => _baseView.LogEvent("EnterpriseCarousel.SelectedItem", item);
         cpSplit.Panel1.Controls.Add(_carouselControl);
 
-        // Panorama Live Tiles
+        // EnterprisePanorama Live Tiles
         _panoramaModel.Tiles.AddRange(new[]
         {
-            new Panorama.LiveTileItem { Group = "Core Operations", Title = "1M-Row DataGrid", BadgeText = "60 FPS", Frames = { "1,000,000 Rows Active", "Sub-ms Query AST", "Excel/PDF Export Ready" } },
-            new Panorama.LiveTileItem { Group = "Core Operations", Title = "AI Copilot Studio", BadgeText = "ONLINE", Frames = { "NL -> Filter AST", "Executive BI Summary", "Anomaly Detection" } },
-            new Panorama.LiveTileItem { Group = "Telemetry", Title = "Global GIS Fleet", BadgeText = "428 GPS", Frames = { "428 Active Vehicles", "99.98% SLA Uptime", "Zero Alerts" } },
-            new Panorama.LiveTileItem { Group = "Compliance", Title = "WCAG 2.2 AA Audit", BadgeText = "100%", Frames = { "Contrast >= 4.5:1", "UIA Live Regions", "RTL Mirroring Verified" } }
+            new EnterprisePanorama.LiveTileItem { Group = "Core Operations", Title = "1M-Row DataGrid", BadgeText = "60 FPS", Frames = { "1,000,000 Rows Active", "Sub-ms Query AST", "Excel/PDF Export Ready" } },
+            new EnterprisePanorama.LiveTileItem { Group = "Core Operations", Title = "AI Copilot Studio", BadgeText = "ONLINE", Frames = { "NL -> Filter AST", "Executive BI Summary", "Anomaly Detection" } },
+            new EnterprisePanorama.LiveTileItem { Group = "Telemetry", Title = "Global GIS Fleet", BadgeText = "428 GPS", Frames = { "428 Active Vehicles", "99.98% SLA Uptime", "Zero Alerts" } },
+            new EnterprisePanorama.LiveTileItem { Group = "Compliance", Title = "WCAG 2.2 AA Audit", BadgeText = "100%", Frames = { "Contrast >= 4.5:1", "UIA Live Regions", "RTL Mirroring Verified" } }
         });
 
         var panoramaPanel = new Panel { Dock = DockStyle.Fill, BackColor = Color.FromArgb(245, 247, 250) };
@@ -244,24 +244,24 @@ public class NavigationAndLayoutDemoView : UserControl
         {
             _panoramaModel.CycleAllTileFrames();
             panoramaPanel.Invalidate();
-            _baseView.LogEvent("Panorama.CycleAllTileFrames", "Advanced live tile frames");
+            _baseView.LogEvent("EnterprisePanorama.CycleAllTileFrames", "Advanced live tile frames");
         };
 
         cpSplit.Panel2.Controls.Add(panoramaPanel);
         tabCarouselPanorama.Controls.Add(cpSplit);
 
         // ====================================================================
-        // Tab 3: WizardControl, DataLayout & CollapsiblePanel
+        // Tab 3: EnterpriseWizardControl, EnterpriseDataLayout & EnterpriseCollapsiblePanel
         // ====================================================================
-        var tabLayoutWizard = new TabPage("🧙 WizardControl, DataLayout & CollapsiblePanel");
+        var tabLayoutWizard = new TabPage("🧙 EnterpriseWizardControl, EnterpriseDataLayout & EnterpriseCollapsiblePanel");
         var lwPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
         _wizardModel.Pages.AddRange(new[]
         {
-            new WizardControl.WizardPage { Title = "Step 1: Welcome to EnterpriseUI Setup Wizard", HeaderDescription = "Configure target platform, theme tokens, and telemetry options.", IsWelcomePage = true },
-            new WizardControl.WizardPage { Title = "Step 2: Data Virtualization & Caching", HeaderDescription = "Enable O(1) windowed virtualization and compiled expression trees." },
-            new WizardControl.WizardPage { Title = "Step 3: Security, RBAC & WCAG 2.2 Compliance", HeaderDescription = "Configure role-based permission guards and screen reader live regions." },
-            new WizardControl.WizardPage { Title = "Step 4: Deployment Ready (Completion Page)", HeaderDescription = "All configuration checks passed. Click Finish to commit.", IsCompletionPage = true }
+            new EnterpriseWizardControl.WizardPage { Title = "Step 1: Welcome to EnterpriseUI Setup Wizard", HeaderDescription = "Configure target platform, theme tokens, and telemetry options.", IsWelcomePage = true },
+            new EnterpriseWizardControl.WizardPage { Title = "Step 2: Data Virtualization & Caching", HeaderDescription = "Enable O(1) windowed virtualization and compiled expression trees." },
+            new EnterpriseWizardControl.WizardPage { Title = "Step 3: Security, RBAC & WCAG 2.2 Compliance", HeaderDescription = "Configure role-based permission guards and screen reader live regions." },
+            new EnterpriseWizardControl.WizardPage { Title = "Step 4: Deployment Ready (Completion Page)", HeaderDescription = "All configuration checks passed. Click Finish to commit.", IsCompletionPage = true }
         });
 
         var wizardBox = new GroupBox
@@ -284,19 +284,19 @@ public class NavigationAndLayoutDemoView : UserControl
             btnWizPrev.Enabled = _wizardModel.CanMovePrevious;
             btnWizNext.Enabled = _wizardModel.CanMoveNext;
         }
-        btnWizPrev.Click += (_, _) => { _wizardModel.MovePrevious(); SyncWizardUI(); _baseView.LogEvent("WizardControl.MovePrevious", lblWizTitle.Text ?? ""); };
-        btnWizNext.Click += (_, _) => { _wizardModel.MoveNext(); SyncWizardUI(); _baseView.LogEvent("WizardControl.MoveNext", lblWizTitle.Text ?? ""); };
+        btnWizPrev.Click += (_, _) => { _wizardModel.MovePrevious(); SyncWizardUI(); _baseView.LogEvent("EnterpriseWizardControl.MovePrevious", lblWizTitle.Text ?? ""); };
+        btnWizNext.Click += (_, _) => { _wizardModel.MoveNext(); SyncWizardUI(); _baseView.LogEvent("EnterpriseWizardControl.MoveNext", lblWizTitle.Text ?? ""); };
         btnWizFinish.Click += (_, _) =>
         {
             _wizardModel.Finish();
             lblWizDesc.Text = "STATUS: Wizard Completed Successfully!";
-            _baseView.LogEvent("WizardControl.Finish", "Completed");
+            _baseView.LogEvent("EnterpriseWizardControl.Finish", "Completed");
         };
         SyncWizardUI();
         wizardBox.Controls.AddRange(new Control[] { lblWizTitle, lblWizDesc, btnWizPrev, btnWizNext, btnWizFinish });
 
-        // Auto-generated DataLayout inspection
-        var dataLayout = new DataLayout<Appointment>();
+        // Auto-generated EnterpriseDataLayout inspection
+        var dataLayout = new EnterpriseDataLayout<Appointment>();
         var lblDlHeader = new Label
         {
             Text = $"RadDataLayout<Appointment> Auto-Generated Form Schema ({dataLayout.Fields.Count} reflected fields):",
@@ -325,13 +325,13 @@ public class NavigationAndLayoutDemoView : UserControl
         tabLayoutWizard.Controls.Add(lwPanel);
 
         // ====================================================================
-        // Tab 4: Notifications, DesktopAlert, TaskDialog & WaitingBar
+        // Tab 4: Notifications, EnterpriseDesktopAlert, EnterpriseTaskDialog & EnterpriseWaitingBar
         // ====================================================================
-        var tabAlerts = new TabPage("🔔 DesktopAlert, TaskDialog & WaitingBar");
+        var tabAlerts = new TabPage("🔔 EnterpriseDesktopAlert, EnterpriseTaskDialog & EnterpriseWaitingBar");
         var alertPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
-        _waitingControl = new WinFormsRatingAndWaitingControl { Location = new Point(14, 14), Size = new Size(740, 90) };
-        _waitingControl.RatingChanged += r => _baseView.LogEvent("RatingControl.Value", $"{r} stars");
+        _waitingControl = new EnterpriseRatingAndWaitingControl { Location = new Point(14, 14), Size = new Size(740, 90) };
+        _waitingControl.RatingChanged += r => _baseView.LogEvent("EnterpriseRatingControl.Value", $"{r} stars");
 
         var btnDesktopAlert = new Button
         {
@@ -357,29 +357,29 @@ public class NavigationAndLayoutDemoView : UserControl
 
         btnDesktopAlert.Click += (_, _) =>
         {
-            var alert = new DesktopAlert
+            var alert = new EnterpriseDesktopAlert
             {
                 CaptionText = "EnterpriseUI SLA Monitor",
                 ContentText = $"Cluster latency nominal at {DateTime.Now:HH:mm:ss}. Zero anomalies detected."
             };
             alert.ShowAlert();
-            lblAlertStatus.Text = $"Dispatched DesktopAlert #{ToastService.Instance.NotificationHistory.Count}: {alert.ContentText}";
-            _baseView.LogEvent("DesktopAlert.ShowAlert", alert.ContentText);
+            lblAlertStatus.Text = $"Dispatched EnterpriseDesktopAlert #{ToastService.Instance.NotificationHistory.Count}: {alert.ContentText}";
+            _baseView.LogEvent("EnterpriseDesktopAlert.ShowAlert", alert.ContentText);
         };
 
         btnTaskDialog.Click += (_, _) =>
         {
-            var td = new EnterpriseUI.Layout.TaskDialog
+            var td = new EnterpriseUI.Layout.EnterpriseTaskDialog
             {
-                WindowTitle = "EnterpriseUI Deployment TaskDialog",
+                WindowTitle = "EnterpriseUI Deployment EnterpriseTaskDialog",
                 MainInstruction = "Choose production release channel",
                 Content = "Select how the compiled WinForms bundle should be staged."
             };
-            td.CommandLinks.Add(new EnterpriseUI.Layout.TaskDialog.CommandLinkOption("canary", "Canary Ring (5% Traffic)", "Deploy with automated rollback telemetry"));
-            td.CommandLinks.Add(new EnterpriseUI.Layout.TaskDialog.CommandLinkOption("global", "Global Production GA", "Immediate rollout across all regions"));
+            td.CommandLinks.Add(new EnterpriseUI.Layout.EnterpriseTaskDialog.CommandLinkOption("canary", "Canary Ring (5% Traffic)", "Deploy with automated rollback telemetry"));
+            td.CommandLinks.Add(new EnterpriseUI.Layout.EnterpriseTaskDialog.CommandLinkOption("global", "Global Production GA", "Immediate rollout across all regions"));
             td.SelectedCommandId = "canary";
-            lblAlertStatus.Text = $"TaskDialog executed: Selected CommandLink '{td.SelectedCommandId}' ({td.CommandLinks[0].Title})";
-            _baseView.LogEvent("TaskDialog.Execute", td.SelectedCommandId);
+            lblAlertStatus.Text = $"EnterpriseTaskDialog executed: Selected CommandLink '{td.SelectedCommandId}' ({td.CommandLinks[0].Title})";
+            _baseView.LogEvent("EnterpriseTaskDialog.Execute", td.SelectedCommandId);
             MessageBox.Show($"{td.MainInstruction}\n\n1. {td.CommandLinks[0].Title} — {td.CommandLinks[0].Description}\n2. {td.CommandLinks[1].Title} — {td.CommandLinks[1].Description}", td.WindowTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
         };
 

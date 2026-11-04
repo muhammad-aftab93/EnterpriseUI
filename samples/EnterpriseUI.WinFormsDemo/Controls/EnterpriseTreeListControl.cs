@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -20,7 +20,7 @@ public class TreeListDemoItem
     public bool IsExpanded { get; set; } = true;
 }
 
-public class WinFormsTreeListControl : Control, IThemeableControl
+public class EnterpriseTreeListControl : Control, IThemeableControl
 {
     private readonly List<TreeListDemoItem> _items = new();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
@@ -29,7 +29,7 @@ public class WinFormsTreeListControl : Control, IThemeableControl
     public List<TreeListDemoItem> Items => _items;
     public string? ThemeOverride { get; set; }
 
-    public WinFormsTreeListControl()
+    public EnterpriseTreeListControl()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -130,11 +130,11 @@ public class WinFormsTreeListControl : Control, IThemeableControl
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
-        var surfaceAlt = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(245, 245, 245));
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
+        var surfaceAlt = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(245, 245, 245));
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
 
         g.Clear(bg);
 

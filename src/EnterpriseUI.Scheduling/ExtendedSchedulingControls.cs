@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -34,10 +34,10 @@ public class GanttTask : ObservableObject
 public sealed record GanttDependency(string PredecessorTaskId, string SuccessorTaskId, GanttDependencyType Type = GanttDependencyType.FinishToStart);
 
 /// <summary>
-/// Clean-room GanttView Project Scheduling Control (Telerik RadGanttView equivalent).
+/// Clean-room EnterpriseGanttView Project Scheduling Control (Telerik RadGanttView equivalent).
 /// Computes critical path tasks, total project span, and WBS completion roll-ups.
 /// </summary>
-public class GanttView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseGanttView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }

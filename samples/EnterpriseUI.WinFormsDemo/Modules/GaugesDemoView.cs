@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Gauges;
@@ -11,10 +11,10 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class GaugesDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsGaugeControl _radialGauge;
-    private readonly WinFormsGaugeControl _linearGauge;
-    private readonly WinFormsBulletGraphControl _bulletGraph;
-    private readonly DigitalGauge _digitalGaugeModel = new();
+    private readonly EnterpriseGaugeControl _radialGauge;
+    private readonly EnterpriseGaugeControl _linearGauge;
+    private readonly EnterpriseBulletGraphControl _bulletGraph;
+    private readonly EnterpriseDigitalGauge _digitalGaugeModel = new();
     private readonly Label _lblDigitalReadout;
     private readonly System.Windows.Forms.Timer _telemetryTimer;
     private readonly TrackBar _slider;
@@ -87,7 +87,7 @@ public class GaugesDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { lblSlider, _slider, btnSimulate, _lblDigitalReadout });
 
-        _bulletGraph = new WinFormsBulletGraphControl
+        _bulletGraph = new EnterpriseBulletGraphControl
         {
             Dock = DockStyle.Bottom,
             Height = 76,
@@ -101,10 +101,10 @@ public class GaugesDemoView : UserControl
             SplitterDistance = 350
         };
 
-        _radialGauge = new WinFormsGaugeControl { Dock = DockStyle.Fill, IsLinear = false };
+        _radialGauge = new EnterpriseGaugeControl { Dock = DockStyle.Fill, IsLinear = false };
         _radialGauge.AriaLabel = "Server CPU Load";
 
-        _linearGauge = new WinFormsGaugeControl { Dock = DockStyle.Fill, IsLinear = true };
+        _linearGauge = new EnterpriseGaugeControl { Dock = DockStyle.Fill, IsLinear = true };
         _linearGauge.AriaLabel = "Memory Allocation";
 
         split.Panel1.Controls.Add(_radialGauge);

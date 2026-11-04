@@ -1,4 +1,4 @@
-# EnterpriseUI — Telerik UI for WinForms Benchmark, Control Inventory & Live Code Generation Architecture
+﻿# EnterpriseUI — Telerik UI for WinForms Benchmark, Control Inventory & Live Code Generation Architecture
 
 **Benchmark Reference**: [Telerik UI for WinForms Documentation & Control Catalog](https://www.telerik.com/products/winforms/documentation/introduction)  
 **Clean-Room Certification**: 100% Independent Architecture & Implementation — Zero Vendor Code, Zero Binary Dependencies.
@@ -11,20 +11,20 @@ Complete mapping of all 16 major Telerik UI for WinForms control categories to t
 
 | # | Category | Telerik WinForms Benchmark Controls | EnterpriseUI Equivalent Implementation | Assembly / Namespace | Status |
 |---|---|---|---|---|---|
-| 1 | **Data Management** | `RadGridView`, `RadTreeView`, `RadMultiColumnComboBox`, `RadPivotGrid`, `RadDataFilter`, `RadVirtualGrid`, `RadCardView`, `RadListView` | `DataGrid<T>`, `WinFormsDataGrid<T>`, `TreeList<T>`, `WinFormsTreeListControl`, `PivotGrid<T>`, `WinFormsPivotGridControl`, `FilterBuilderControl`, `DataPagerControl`, `WinFormsKanbanBoardControl` | `EnterpriseUI.Grids`, `EnterpriseUI.WinForms` | Shipped |
-| 2 | **Scheduling & Planning** | `RadScheduler`, `RadGanttView`, `RadCalendar`, `RadTimePicker`, `RadTaskBoard` | `Scheduler`, `WinFormsSchedulerControl`, `WinFormsGanttControl`, `WinFormsKanbanBoardControl`, `DateTimePickerControl` | `EnterpriseUI.Scheduling`, `EnterpriseUI.WinFormsDemo.Controls` | Shipped |
-| 3 | **Charts, TreeMap & Gauges** | `RadChartView`, `RadTreeMap`, `RadRadialGauge`, `RadLinearGauge`, `RadBulletGraph`, `RadSparkline`, `RadHeatMap` | `Chart`, `WinFormsChartControl`, `WinFormsTreeMapControl`, `RadialGauge`, `LinearGauge`, `WinFormsGaugeControl`, `SparklineControl`, `HeatMapControl` | `EnterpriseUI.Charts`, `EnterpriseUI.Gauges`, `EnterpriseUI.WinForms` | Shipped |
-| 4 | **Navigation & Menus** | `RadRibbonBar`, `RadPageView`, `RadPanorama`, `RadNavigationView`, `RadBreadcrumb`, `RadMenu`, `RadContextMenu`, `RadTreeView`, `RadStepProgressBar`, `RadCommandBar`, `RadStatusStrip` | `RibbonBar`, `WinFormsRibbonControl`, `Accordion`, `TabControl`, `NavigationView` (Hamburger), `Breadcrumb`, `StepProgressBar`, `MenuBar`, `ContextMenu`, `TreeView`, `ToolBar`, `StatusBar` | `EnterpriseUI.Navigation`, `EnterpriseUI.WinForms` | Shipped |
-| 5 | **Layout & Containers** | `RadDock`, `RadSplitContainer`, `RadCollapsiblePanel`, `RadDataLayout`, `RadScrollablePanel`, `RadGroupBox`, `RadWizard`, `RadLayoutControl` | `DockManager`, `SplitContainer`, `CollapsiblePanel`, `FormLayout`, `TileLayout`, `ScrollView`, `CardContainer`, `Expander`, `WizardControl` | `EnterpriseUI.Layout` | Shipped |
-| 6 | **Editors, Signature & Input** | `RadTextBox`, `RadMaskedEditBox`, `RadSpinEditor`, `RadDateTimePicker`, `RadDropDownList`, `RadCheckedDropDownList`, `RadAutoCompleteBox`, `RadColorBox`, `RadTrackBar`, `RadToggleSwitch`, `RadRating`, `RadSignaturePad`, `RadVirtualKeyboard` | `TextBox`, `MaskedTextBox`, `NumericTextBox`, `CurrencyEditor`, `PercentageEditor`, `DatePicker`, `ComboBox`, `MultiSelectComboBox`, `AutoCompleteBox`, `ColorPicker`, `Slider`, `RangeSlider`, `Switch`, `RatingControl`, `TagBox`, `WinFormsSignaturePadControl`, `WinFormsVirtualKeyboardControl` | `EnterpriseUI.Editors`, `EnterpriseUI.Validation`, `EnterpriseUI.WinFormsDemo.Controls` | Shipped |
-| 7 | **Buttons & Actions** | `RadButton`, `RadDropDownButton`, `RadSplitButton`, `RadRepeatButton`, `RadToggleButton`, `RadRadioButton`, `RadCheckBox` | `ActionButton`, `DropDownButton`, `SplitButton`, `ToggleButton`, `RadioButtonGroup`, `CheckBoxEditor` | `EnterpriseUI.Editors` | Shipped |
-| 8 | **Documents & Processing** | `RadRichTextEditor`, `RadPdfViewer`, `RadSpreadsheet`, `RadWordsProcessing`, `RadSpreadProcessing`, `RadPdfProcessing`, `RadZipLibrary` | `RichTextEditor`, `PdfViewer`, `SpreadsheetControl`, `MarkdownViewer`, `ExportEngine` (Excel XML, CSV, PDF, XML, JSON, HTML) | `EnterpriseUI.Documents`, `EnterpriseUI.Exporting` | Shipped |
-| 9 | **Reporting & BI** | `Telerik ReportViewer`, `ReportBook`, `BandReport`, `DashboardLayout` | `ReportDefinition`, `ReportBand`, `ReportViewer`, `Dashboard`, `DashboardWidget`, `KpiCard` | `EnterpriseUI.Reporting`, `EnterpriseUI.Dashboard` | Shipped |
-| 10 | **Diagrams & Maps** | `RadDiagram`, `RadMap` | `Diagram`, `WinFormsDiagramControl`, `GeoMap`, `WinFormsMapControl` | `EnterpriseUI.Diagrams`, `EnterpriseUI.Map` | Shipped |
+| 1 | **Data Management** | `RadGridView`, `RadTreeView`, `RadMultiColumnComboBox`, `RadPivotGrid`, `RadDataFilter`, `RadVirtualGrid`, `RadCardView`, `RadListView` | `DataGrid<T>`, `EnterpriseDataGrid<T>`, `EnterpriseTreeList<T>`, `EnterpriseTreeListControl`, `EnterprisePivotGrid<T>`, `EnterprisePivotGridControl`, `FilterBuilderControl`, `DataPagerControl`, `EnterpriseKanbanBoardControl` | `EnterpriseUI.Grids`, `EnterpriseUI.WinForms` | Shipped |
+| 2 | **Scheduling & Planning** | `RadScheduler`, `RadGanttView`, `RadCalendar`, `RadTimePicker`, `RadTaskBoard` | `EnterpriseScheduler`, `EnterpriseSchedulerControl`, `EnterpriseGanttControl`, `EnterpriseKanbanBoardControl`, `DateTimePickerControl` | `EnterpriseUI.Scheduling`, `EnterpriseUI.WinFormsDemo.Controls` | Shipped |
+| 3 | **Charts, EnterpriseTreeMap & Gauges** | `RadChartView`, `RadTreeMap`, `RadRadialGauge`, `RadLinearGauge`, `RadBulletGraph`, `RadSparkline`, `RadHeatMap` | `EnterpriseChart`, `EnterpriseChartControl`, `EnterpriseTreeMapControl`, `EnterpriseRadialGauge`, `EnterpriseLinearGauge`, `EnterpriseGaugeControl`, `SparklineControl`, `HeatMapControl` | `EnterpriseUI.Charts`, `EnterpriseUI.Gauges`, `EnterpriseUI.WinForms` | Shipped |
+| 4 | **Navigation & Menus** | `RadRibbonBar`, `RadPageView`, `RadPanorama`, `RadNavigationView`, `RadBreadcrumb`, `RadMenu`, `RadContextMenu`, `RadTreeView`, `RadStepProgressBar`, `RadCommandBar`, `RadStatusStrip` | `EnterpriseRibbonBar`, `EnterpriseRibbonControl`, `Accordion`, `TabControl`, `NavigationView` (Hamburger), `EnterpriseBreadcrumb`, `EnterpriseStepProgressBar`, `MenuBar`, `ContextMenu`, `EnterpriseTreeView`, `ToolBar`, `StatusBar` | `EnterpriseUI.Navigation`, `EnterpriseUI.WinForms` | Shipped |
+| 5 | **Layout & Containers** | `RadDock`, `RadSplitContainer`, `RadCollapsiblePanel`, `RadDataLayout`, `RadScrollablePanel`, `RadGroupBox`, `RadWizard`, `RadLayoutControl` | `EnterpriseDockManager`, `SplitContainer`, `EnterpriseCollapsiblePanel`, `FormLayout`, `TileLayout`, `ScrollView`, `CardContainer`, `Expander`, `EnterpriseWizardControl` | `EnterpriseUI.Layout` | Shipped |
+| 6 | **Editors, Signature & Input** | `RadTextBox`, `RadMaskedEditBox`, `RadSpinEditor`, `RadDateTimePicker`, `RadDropDownList`, `RadCheckedDropDownList`, `RadAutoCompleteBox`, `RadColorBox`, `RadTrackBar`, `RadToggleSwitch`, `RadRating`, `RadSignaturePad`, `RadVirtualKeyboard` | `TextBox`, `EnterpriseMaskedTextBox`, `EnterpriseNumericTextBox`, `CurrencyEditor`, `PercentageEditor`, `EnterpriseDatePicker`, `ComboBox`, `MultiSelectComboBox`, `EnterpriseAutoCompleteBox`, `ColorPicker`, `Slider`, `RangeSlider`, `Switch`, `EnterpriseRatingControl`, `TagBox`, `EnterpriseSignaturePadControl`, `EnterpriseVirtualKeyboardControl` | `EnterpriseUI.Editors`, `EnterpriseUI.Validation`, `EnterpriseUI.WinFormsDemo.Controls` | Shipped |
+| 7 | **Buttons & Actions** | `RadButton`, `RadDropDownButton`, `RadSplitButton`, `RadRepeatButton`, `RadToggleButton`, `RadRadioButton`, `RadCheckBox` | `EnterpriseActionButton`, `DropDownButton`, `SplitButton`, `ToggleButton`, `RadioButtonGroup`, `CheckBoxEditor` | `EnterpriseUI.Editors` | Shipped |
+| 8 | **Documents & Processing** | `RadRichTextEditor`, `RadPdfViewer`, `RadSpreadsheet`, `RadWordsProcessing`, `RadSpreadProcessing`, `RadPdfProcessing`, `RadZipLibrary` | `EnterpriseRichTextEditor`, `EnterprisePdfViewer`, `EnterpriseSpreadsheetControl`, `MarkdownViewer`, `ExportEngine` (Excel XML, CSV, PDF, XML, JSON, HTML) | `EnterpriseUI.Documents`, `EnterpriseUI.Exporting` | Shipped |
+| 9 | **Reporting & BI** | `Telerik EnterpriseReportViewer`, `ReportBook`, `BandReport`, `DashboardLayout` | `ReportDefinition`, `ReportBand`, `EnterpriseReportViewer`, `Dashboard`, `DashboardWidget`, `KpiCard` | `EnterpriseUI.Reporting`, `EnterpriseUI.Dashboard` | Shipped |
+| 10 | **Diagrams & Maps** | `RadDiagram`, `RadMap` | `EnterpriseDiagram`, `EnterpriseDiagramControl`, `EnterpriseGeoMap`, `EnterpriseMapControl` | `EnterpriseUI.Diagrams`, `EnterpriseUI.Map` | Shipped |
 | 11 | **Notifications & Dialogs** | `RadDesktopAlert`, `RadTaskDialog`, `RadMessageBox`, `RadWaitingBar`, `RadProgressBar`, `RadBalloonTip`, `RadValidationProvider` | `ToastNotificationManager`, `MessageDialog`, `BusyIndicator`, `ProgressBar`, `Badge`, `Banner`, `Validator<T>` | `EnterpriseUI.Notifications`, `EnterpriseUI.Validation` | Shipped |
-| 12 | **Barcodes & Utilities** | `RadBarcode` (QR, Code128, PDF417, DataMatrix), `RadSyntaxEditor` | `WinFormsBarcodeControl` (QR Code, Code 128, DataMatrix), `LiveCodeGeneratorEngine` | `EnterpriseUI.WinFormsDemo.Controls` | Shipped |
-| 13 | **AI & Smart Components** | `RadChat` (AI Chat / Conversational UI), `SmartComponents` | `AIAssistant`, `WinFormsAICopilotControl`, `NaturalLanguageFilterTranslator`, `SmartAutoCompleteEngine` | `EnterpriseUI.AI`, `EnterpriseUI.WinForms` | Shipped |
-| 14 | **Theming & Styling** | `VisualStyleBuilder`, `ThemeResolutionService`, `Fluent`, `Material`, `Office`, `Windows`, `HighContrast` | `ThemeManager`, `ThemeBuilder`, `BuiltInThemes` (12 Themes), `DesignTokens`, `WinFormsThemeEngine` | `EnterpriseUI.Theming`, `EnterpriseUI.WinForms` | Shipped |
+| 12 | **Barcodes & Utilities** | `RadBarcode` (QR, Code128, PDF417, DataMatrix), `RadSyntaxEditor` | `EnterpriseBarcodeControl` (QR Code, Code 128, DataMatrix), `LiveCodeGeneratorEngine` | `EnterpriseUI.WinFormsDemo.Controls` | Shipped |
+| 13 | **AI & Smart Components** | `RadChat` (AI Chat / Conversational UI), `SmartComponents` | `EnterpriseAIAssistant`, `EnterpriseAICopilotControl`, `NaturalLanguageFilterTranslator`, `SmartAutoCompleteEngine` | `EnterpriseUI.AI`, `EnterpriseUI.WinForms` | Shipped |
+| 14 | **Theming & Styling** | `VisualStyleBuilder`, `ThemeResolutionService`, `Fluent`, `Material`, `Office`, `Windows`, `HighContrast` | `ThemeManager`, `ThemeBuilder`, `BuiltInThemes` (12 Themes), `DesignTokens`, `EnterpriseThemeEngine` | `EnterpriseUI.Theming`, `EnterpriseUI.WinForms` | Shipped |
 | 15 | **Accessibility & Compliance** | `UIAutomation`, `MSAA`, `KeyboardNavigation`, `HighContrast` | `AccessibilityManager`, `IAccessibleControl`, `AriaRole`, `LiveRegionPoliteness` | `EnterpriseUI.Accessibility` | Shipped |
 | 16 | **Security & Governance** | `RoleBasedPermissionProvider` | `PermissionGuard`, `AuditLogger`, `RolePolicyEngine` | `EnterpriseUI.Security` | Shipped |
 
@@ -34,13 +34,13 @@ Complete mapping of all 16 major Telerik UI for WinForms control categories to t
 
 During the Telerik UI for WinForms audit, the following specialized controls were identified as missing or partially represented in the WinForms layer and have now been **fully implemented**:
 
-1. **`Breadcrumb` & `StepProgressBar` (`EnterpriseUI.Navigation`)**:
-   - Implemented in `src/EnterpriseUI.Navigation/NavigationControls.cs` with `BreadcrumbPathSegment`, `NavigateToIndex`, and `StepProgressBar` (`StepItem`, `Advance()`, `Revert()`, `AriaRole.ProgressBar`).
-2. **`WinFormsGanttControl` (`RadGanttView` Equivalent)**:
+1. **`EnterpriseBreadcrumb` & `EnterpriseStepProgressBar` (`EnterpriseUI.Navigation`)**:
+   - Implemented in `src/EnterpriseUI.Navigation/NavigationControls.cs` with `BreadcrumbPathSegment`, `NavigateToIndex`, and `EnterpriseStepProgressBar` (`StepItem`, `Advance()`, `Revert()`, `AriaRole.ProgressBar`).
+2. **`EnterpriseGanttControl` (`RadGanttView` Equivalent)**:
    - Implemented in `samples/EnterpriseUI.WinFormsDemo/Controls/WinFormsSpecializedControls.cs` with split task-tree and timeline canvas, progress fill bars, critical-path highlighting, and orthogonal dependency arrows.
-3. **`WinFormsBarcodeControl` (`RadBarcode` Equivalent)**:
+3. **`EnterpriseBarcodeControl` (`RadBarcode` Equivalent)**:
    - Implemented in `samples/EnterpriseUI.WinFormsDemo/Controls/WinFormsSpecializedControls.cs` supporting **QR Code** (21x21 matrix with finder patterns, timing patterns, and deterministic payload encoding), **Code 128** (1D high-density bars), and **DataMatrix** (2D L-finder perimeter matrix).
-4. **`WinFormsKanbanBoardControl` (`RadTaskBoard` / `RadCardView` Equivalent)**:
+4. **`EnterpriseKanbanBoardControl` (`RadTaskBoard` / `RadCardView` Equivalent)**:
    - Implemented in `samples/EnterpriseUI.WinFormsDemo/Controls/WinFormsSpecializedControls.cs` with multi-stage swimlane columns (`Backlog`, `In Progress`, `Code Review`, `Completed`), WIP badges, priority tags, and interactive stage progression.
 
 ---
@@ -49,11 +49,11 @@ During the Telerik UI for WinForms audit, the following specialized controls wer
 
 | Subsystem | Identified Gap vs. Telerik | Implemented Clean-Room Solution |
 |---|---|---|
-| **DataGrid Inline Editing & Undo/Redo** | Needed multi-step cell edit history with `Ctrl+Z` / `Ctrl+Y` and programmatic `EditCell` / `UndoLastEdit` / `RedoLastEdit`. | Added `GridEditRecord<TItem>` undo/redo stacks in `DataGrid<T>` (`src/EnterpriseUI.Grids/DataGrid.cs`) and keyboard shortcuts in `WinFormsDataGrid<T>`. |
-| **DataGrid Excel Filter Popup Lifecycle** | Closing `ToolStripDropDown` while its hosted `TextBox` lost focus caused `System.ObjectDisposedException`. | Refactored `WinFormsDataGrid<T>` to maintain a reusable `_filterDropDown` instance, disposing hosted controls safely prior to repopulation and on control disposal. |
+| **DataGrid Inline Editing & Undo/Redo** | Needed multi-step cell edit history with `Ctrl+Z` / `Ctrl+Y` and programmatic `EditCell` / `UndoLastEdit` / `RedoLastEdit`. | Added `GridEditRecord<TItem>` undo/redo stacks in `DataGrid<T>` (`src/EnterpriseUI.Grids/DataGrid.cs`) and keyboard shortcuts in `EnterpriseDataGrid<T>`. |
+| **DataGrid Excel Filter Popup Lifecycle** | Closing `ToolStripDropDown` while its hosted `TextBox` lost focus caused `System.ObjectDisposedException`. | Refactored `EnterpriseDataGrid<T>` to maintain a reusable `_filterDropDown` instance, disposing hosted controls safely prior to repopulation and on control disposal. |
 | **Export Pipeline** | Needed XML and vector PDF alongside Excel XML, CSV, JSON, and HTML. | Upgraded `ExportEngine.cs` (`src/EnterpriseUI.Exporting/ExportEngine.cs`) with `ExportFormat.Xml` and `ExportFormat.Pdf` (valid PDF 1.4 document generator). |
 | **Theming Engine** | Needed `Windows` (`Windows-Light`, `Windows-Dark`) and `HighContrast` (`HighContrast-Black`, `HighContrast-White`) plus live custom brand color `ThemeBuilder`. | Upgraded `BuiltInThemes.cs`, `ThemeManager.cs`, and `ThemingDemoView.cs` to 12 built-in themes + interactive custom brand color `ThemeBuilder`. |
-| **Live Code Generation & Explainer** | Demo Center needed real-time code generation across 8 output formats + Source Code Explainer panel when properties change. | Created `LiveCodeGeneratorEngine.cs` and integrated into both `BaseDemoView.cs` and `WinFormsPropertyInspectorControl.cs`. |
+| **Live Code Generation & Explainer** | Demo Center needed real-time code generation across 8 output formats + Source Code Explainer panel when properties change. | Created `LiveCodeGeneratorEngine.cs` and integrated into both `BaseDemoView.cs` and `EnterprisePropertyInspectorControl.cs`. |
 
 ---
 
@@ -62,7 +62,7 @@ During the Telerik UI for WinForms audit, the following specialized controls wer
 | Module | Headless Engine | WinForms GDI+ Renderer | Theme Awareness | Keyboard & Accessibility | Live Code Gen | Maturity Level |
 |---|---|---|---|---|---|---|
 | `EnterpriseUI.Grids` (`DataGrid<T>`) | 100% | 100% | 100% | 100% (`Ctrl+C/F/Z/Y`, Arrows) | 8 Formats | **Tier 1 — Production GA** |
-| `EnterpriseUI.Grids` (`TreeList<T>`, `PivotGrid<T>`) | 100% | 100% | 100% | 100% | 8 Formats | **Tier 1 — Production GA** |
+| `EnterpriseUI.Grids` (`EnterpriseTreeList<T>`, `EnterprisePivotGrid<T>`) | 100% | 100% | 100% | 100% | 8 Formats | **Tier 1 — Production GA** |
 | `EnterpriseUI.Charts` & `Gauges` | 100% | 100% | 100% | 100% | 8 Formats | **Tier 1 — Production GA** |
 | `EnterpriseUI.Scheduling` & `Gantt` | 100% | 100% | 100% | 100% | 8 Formats | **Tier 1 — Production GA** |
 | `EnterpriseUI.Navigation` & `Layout` | 100% | 100% | 100% | 100% | 8 Formats | **Tier 1 — Production GA** |
@@ -80,19 +80,19 @@ All **21 Interactive Demo Modules** registered in `DemoMetadataRegistry.cs`:
 
 | Demo ID | Module Title | Target Controls | Interactive Playground | 8-Format Code Gen | Code Explainer |
 |---|---|---|---|---|---|
-| `grid-virtualization-1m` | DataGrid - Million Row Windowed Rendering | `WinFormsDataGrid<T>`, `DataGrid<T>` | Yes | Yes | Yes |
-| `grid-treelist-hierarchy` | TreeList - Multi-Column Hierarchical Organization | `WinFormsTreeListControl`, `TreeList<T>` | Yes | Yes | Yes |
-| `grid-pivot-olap` | PivotGrid - Multi-Dimensional OLAP Analysis | `WinFormsPivotGridControl`, `PivotGrid<T>` | Yes | Yes | Yes |
-| `charts-financial-realtime` | Charts - Multi-Series Financial & OHLC Analysis | `WinFormsChartControl`, `Chart` | Yes | Yes | Yes |
-| `gauges-radial-linear` | Gauges - Radial & Linear Telemetry Indicators | `WinFormsGaugeControl`, `RadialGauge` | Yes | Yes | Yes |
-| `scheduler-appointments` | Scheduler - Work Week Calendar & Resources | `WinFormsSchedulerControl`, `Scheduler` | Yes | Yes | Yes |
-| `diagrams-node-link` | Diagrams - Interactive Architecture Canvas | `WinFormsDiagramControl`, `Diagram` | Yes | Yes | Yes |
-| `maps-gis-fleet` | Maps - GIS Geographic Asset & Fleet Tracking | `WinFormsMapControl`, `GeoMap` | Yes | Yes | Yes |
-| `reporting-banded-invoices` | Reporting - Banded Invoice & EHR Statements | `ReportDefinition`, `ReportViewer` | Yes | Yes | Yes |
+| `grid-virtualization-1m` | DataGrid - Million Row Windowed Rendering | `EnterpriseDataGrid<T>`, `DataGrid<T>` | Yes | Yes | Yes |
+| `grid-treelist-hierarchy` | EnterpriseTreeList - Multi-Column Hierarchical Organization | `EnterpriseTreeListControl`, `EnterpriseTreeList<T>` | Yes | Yes | Yes |
+| `grid-pivot-olap` | EnterprisePivotGrid - Multi-Dimensional OLAP Analysis | `EnterprisePivotGridControl`, `EnterprisePivotGrid<T>` | Yes | Yes | Yes |
+| `charts-financial-realtime` | Charts - Multi-Series Financial & OHLC Analysis | `EnterpriseChartControl`, `EnterpriseChart` | Yes | Yes | Yes |
+| `gauges-radial-linear` | Gauges - Radial & Linear Telemetry Indicators | `EnterpriseGaugeControl`, `EnterpriseRadialGauge` | Yes | Yes | Yes |
+| `scheduler-appointments` | EnterpriseScheduler - Work Week Calendar & Resources | `EnterpriseSchedulerControl`, `EnterpriseScheduler` | Yes | Yes | Yes |
+| `diagrams-node-link` | Diagrams - Interactive Architecture Canvas | `EnterpriseDiagramControl`, `EnterpriseDiagram` | Yes | Yes | Yes |
+| `maps-gis-fleet` | Maps - GIS Geographic Asset & Fleet Tracking | `EnterpriseMapControl`, `EnterpriseGeoMap` | Yes | Yes | Yes |
+| `reporting-banded-invoices` | Reporting - Banded Invoice & EHR Statements | `ReportDefinition`, `EnterpriseReportViewer` | Yes | Yes | Yes |
 | `dashboard-executive-bi` | Dashboard - Executive BI Overview & KPI Cards | `Dashboard`, `DashboardWidget` | Yes | Yes | Yes |
-| `editors-fluent-validation` | Editors - Enterprise Form Input & Validation | `TextBox`, `NumericTextBox`, `Validator<T>` | Yes | Yes | Yes |
-| `documents-multiformat` | Documents - PDF Viewer, RichText & Spreadsheet | `PdfViewer`, `RichTextEditor`, `Spreadsheet` | Yes | Yes | Yes |
-| `ai-copilot-assistant` | AI Assistant - Copilot Chat & NL Query AST | `WinFormsAICopilotControl`, `AIAssistant` | Yes | Yes | Yes |
+| `editors-fluent-validation` | Editors - Enterprise Form Input & Validation | `TextBox`, `EnterpriseNumericTextBox`, `Validator<T>` | Yes | Yes | Yes |
+| `documents-multiformat` | Documents - PDF Viewer, RichText & Spreadsheet | `EnterprisePdfViewer`, `EnterpriseRichTextEditor`, `Spreadsheet` | Yes | Yes | Yes |
+| `ai-copilot-assistant` | AI Assistant - Copilot Chat & NL Query AST | `EnterpriseAICopilotControl`, `EnterpriseAIAssistant` | Yes | Yes | Yes |
 | `theming-design-tokens` | Theming - 12 Themes, Builder & Token Explorer | `ThemeManager`, `ThemeBuilder`, `BuiltInThemes` | Yes | Yes | Yes |
 | `business-scenarios-suite` | Business Scenarios - CRM, ERP, EHR & Trading | Composite Enterprise Suites | Yes | Yes | Yes |
 | `performance-laboratory` | Performance Lab - 1M Virtualization Benchmarks | `QueryEngine`, `VirtualizationManager` | Yes | Yes | Yes |
@@ -100,7 +100,7 @@ All **21 Interactive Demo Modules** registered in `DemoMetadataRegistry.cs`:
 | `learning-center-hub` | Learning Center - Guides & Anti-Patterns | Architecture Onboarding Portal | Yes | Yes | Yes |
 | `api-interactive-explorer` | API Explorer - Assembly & Member Inspector | Reflection Engine across 20+ Assemblies | Yes | Yes | Yes |
 | `qa-validation-suite` | QA Verification Mode - Automated Test Suite | Automated Regression & Coverage Harness | Yes | Yes | Yes |
-| `specialized-gantt-barcode-kanban` | Gantt, Barcode/QR & Kanban TaskBoard Suite | `WinFormsGanttControl`, `WinFormsBarcodeControl`, `WinFormsKanbanBoardControl` | Yes | Yes | Yes |
+| `specialized-gantt-barcode-kanban` | Gantt, Barcode/QR & Kanban TaskBoard Suite | `EnterpriseGanttControl`, `EnterpriseBarcodeControl`, `EnterpriseKanbanBoardControl` | Yes | Yes | Yes |
 
 ---
 
@@ -155,7 +155,7 @@ Implemented in `samples/EnterpriseUI.WinFormsDemo/Infrastructure/LiveCodeGenerat
 
 ## 8. Runtime Designer Architecture
 
-The **Runtime Designer & Playground** (`WinFormsPropertyInspectorControl.cs`) provides a zero-compile visual design experience at runtime:
+The **Runtime Designer & Playground** (`EnterprisePropertyInspectorControl.cs`) provides a zero-compile visual design experience at runtime:
 - **Playground Tab**: Immediate visual layout controls for `DockStyle`, `Padding`, `RightToLeft`, and `Enabled` state with one-click **Reset Control & Clear Mutations**.
 - **Bidirectional Sync**: Any adjustment in the Playground or `PropertyGrid` immediately updates the live WinForms control on the left and appends a `PropertyMutationRecord` to the `LiveCodeGeneratorEngine`.
 
@@ -163,7 +163,7 @@ The **Runtime Designer & Playground** (`WinFormsPropertyInspectorControl.cs`) pr
 
 ## 9. Property Grid Architecture
 
-- Wraps `System.Windows.Forms.PropertyGrid` inside `WinFormsPropertyInspectorControl` with an automatic hook on `PropertyValueChanged`.
+- Wraps `System.Windows.Forms.PropertyGrid` inside `EnterprisePropertyInspectorControl` with an automatic hook on `PropertyValueChanged`.
 - Captures `e.ChangedItem.Label`, `e.ChangedItem.PropertyDescriptor.Category`, `e.OldValue`, and `e.ChangedItem.Value`.
 - Formats values into strongly typed C# literals (`Color.FromArgb(r, g, b)`, `new Size(w, h)`, `new Padding(l, t, r, b)`, `DockStyle.Fill`, booleans, enums, and escaped strings) via `LiveCodeGeneratorEngine.FormatCSharpValue`.
 
@@ -193,5 +193,5 @@ Implemented in `samples/EnterpriseUI.WinFormsDemo/Modules/ApiExplorerDemoView.cs
 
 The `EnterpriseUI.WinFormsDemo` showcase application (`MainForm.cs`) has been modernized to match flagship enterprise demo centers:
 1. **1080p Widescreen Desktop Shell**: Default `1920 × 1040` window (`MinimumSize = 1280 × 720`) with balanced left navigation tree (`310px`), expansive center demo canvas (`1160px`), and right-hand Live Inspector & Code Generator (`450px`).
-2. **Breadcrumb Navigation, Favorites & Recent History**: Top navigation bar with hierarchical breadcrumb path (`🏠 Home > Category > SubCategory > Title`), `⭐ Favorite` toggle with persistent tree node, `Recent` history dropdown, and instant `Theme` switcher across all 12 built-in themes.
-3. **21 End-to-End Interactive Modules**: Covering Million-Row DataGrid, TreeList, PivotGrid, Financial Charts, Gauges, Scheduler, Gantt, Barcode/QR, Kanban TaskBoard, Diagrams, GIS Maps, Banded Reporting, Executive BI Dashboards, Editors & Validation, Multi-Format Documents, AI Copilot, 12-Theme Studio, Business Scenarios, Performance Lab, Accessibility Center, Learning Center, API Explorer, and QA Verification Mode.
+2. **EnterpriseBreadcrumb Navigation, Favorites & Recent History**: Top navigation bar with hierarchical breadcrumb path (`🏠 Home > Category > SubCategory > Title`), `⭐ Favorite` toggle with persistent tree node, `Recent` history dropdown, and instant `Theme` switcher across all 12 built-in themes.
+3. **21 End-to-End Interactive Modules**: Covering Million-Row DataGrid, EnterpriseTreeList, EnterprisePivotGrid, Financial Charts, Gauges, EnterpriseScheduler, Gantt, Barcode/QR, Kanban TaskBoard, Diagrams, GIS Maps, Banded Reporting, Executive BI Dashboards, Editors & Validation, Multi-Format Documents, AI Copilot, 12-Theme Studio, Business Scenarios, Performance Lab, Accessibility Center, Learning Center, API Explorer, and QA Verification Mode.

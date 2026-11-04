@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -35,7 +35,7 @@ public class PageViewItem : ObservableObject
 /// Clean-room Multi-View Page Container (Telerik RadPageView equivalent).
 /// Supports Strip (Tab), Stack, OutlookBar, ExplorerBar (Accordion), Backstage, and Hamburger NavigationView modes.
 /// </summary>
-public class PageView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterprisePageView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private PageViewMode _viewMode = PageViewMode.Strip;
     private PageViewItem? _selectedPage;
@@ -75,10 +75,10 @@ public class PageView : ObservableObject, IUIComponent, IThemeableControl, IAcce
 }
 
 /// <summary>
-/// Clean-room Panorama Live Tile Hub (Telerik RadPanorama equivalent).
+/// Clean-room EnterprisePanorama Live Tile Hub (Telerik RadPanorama equivalent).
 /// Organizes live interactive tiles into named groups with dynamic frame cycling.
 /// </summary>
-public class Panorama : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterprisePanorama : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed class LiveTileItem : ObservableObject
     {
@@ -115,7 +115,7 @@ public class Panorama : ObservableObject, IUIComponent, IThemeableControl, IAcce
     }
 
     public AriaRole Role { get; set; } = AriaRole.Navigation;
-    public string? AriaLabel { get; set; } = "Panorama Tile Hub";
+    public string? AriaLabel { get; set; } = "EnterprisePanorama Tile Hub";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }
@@ -133,10 +133,10 @@ public class Panorama : ObservableObject, IUIComponent, IThemeableControl, IAcce
 }
 
 /// <summary>
-/// Clean-room 3D/Bezier Path Carousel Control (Telerik RadCarousel equivalent).
+/// Clean-room 3D/Bezier Path EnterpriseCarousel Control (Telerik RadCarousel equivalent).
 /// Computes elliptical depth coordinates (X, Y, Scale, Opacity, ZIndex) for smooth item rotation.
 /// </summary>
-public class Carousel : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseCarousel : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed record CarouselItemProjection(int Index, object Item, double NormalizedX, double NormalizedY, double Scale, double Opacity, int ZOrder);
 
@@ -181,7 +181,7 @@ public class Carousel : ObservableObject, IUIComponent, IThemeableControl, IAcce
     }
 
     public AriaRole Role { get; set; } = AriaRole.Region;
-    public string? AriaLabel { get; set; } = "Item Carousel";
+    public string? AriaLabel { get; set; } = "Item EnterpriseCarousel";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }
@@ -202,7 +202,7 @@ public class Carousel : ObservableObject, IUIComponent, IThemeableControl, IAcce
 /// Clean-room Data Binding Navigator (Telerik RadBindingNavigator equivalent).
 /// Provides First, Previous, Next, Last, AddNew, and Delete record navigation over a bound collection.
 /// </summary>
-public class BindingNavigator<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseBindingNavigator<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private int _currentIndex;
     public string Id { get; } = Guid.NewGuid().ToString("N");
@@ -266,9 +266,9 @@ public class BindingNavigator<TItem> : ObservableObject, IUIComponent, IThemeabl
 }
 
 /// <summary>
-/// Clean-room CommandBar, MenuBar, and StatusStrip (Telerik RadCommandBar, RadMenu, RadStatusStrip equivalents).
+/// Clean-room EnterpriseCommandBar, MenuBar, and StatusStrip (Telerik RadCommandBar, RadMenu, RadStatusStrip equivalents).
 /// </summary>
-public class CommandBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseCommandBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed class CommandBarStrip
     {

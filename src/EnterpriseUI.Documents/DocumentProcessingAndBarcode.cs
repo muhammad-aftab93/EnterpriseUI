@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -23,7 +23,7 @@ public enum BarcodeType
 /// Clean-room Headless Barcode and QR Matrix Generator (Telerik RadBarcode equivalent).
 /// Produces deterministic 2D boolean matrices and 1D bar width arrays for vector/raster rendering.
 /// </summary>
-public class BarcodeGenerator : ObservableObject
+public class EnterpriseBarcodeGenerator : ObservableObject
 {
     private string _value = "ENTERPRISE-UI-2026";
     private BarcodeType _symbology = BarcodeType.QrCode;

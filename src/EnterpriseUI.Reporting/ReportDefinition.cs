@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Controls;
+﻿using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Core.Mvvm;
 
 namespace EnterpriseUI.Reporting;
@@ -20,10 +20,10 @@ public class ReportBand
 {
     public BandType Type { get; set; } = BandType.Detail;
     public double Height { get; set; } = 30;
-    public List<ReportControl> Controls { get; } = new();
+    public List<EnterpriseReportControl> Controls { get; } = new();
 }
 
-public class ReportControl
+public class EnterpriseReportControl
 {
     public string Name { get; set; } = string.Empty;
     public double X { get; set; }
@@ -52,7 +52,7 @@ public class ReportDefinition : ObservableObject
     public object? DataSource { get; set; }
 }
 
-public class ReportViewer : ObservableObject, IUIComponent
+public class EnterpriseReportViewer : ObservableObject, IUIComponent
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }

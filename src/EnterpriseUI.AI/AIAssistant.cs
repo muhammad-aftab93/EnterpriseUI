@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Core.Mvvm;
 using EnterpriseUI.Data;
@@ -16,7 +16,7 @@ public interface IAIServiceProvider
 /// <summary>
 /// Enterprise AI Copilot and Smart Assistant component for UI automation and natural language data intelligence.
 /// </summary>
-public class AIAssistant : ObservableObject, IUIComponent, IAccessibleControl
+public class EnterpriseAIAssistant : ObservableObject, IUIComponent, IAccessibleControl
 {
     private bool _isOpen;
     private string _currentPrompt = string.Empty;

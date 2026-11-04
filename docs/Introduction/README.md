@@ -1,4 +1,4 @@
-# EnterpriseUI: Unified Component Ecosystem Documentation
+﻿# EnterpriseUI: Unified Component Ecosystem Documentation
 
 Welcome to the official technical documentation for **EnterpriseUI**, the commercial-grade .NET 8+ UI framework and component platform.
 
@@ -11,7 +11,7 @@ docs/
 ├── Introduction/              # Product overview, value proposition, vendor parity matrix
 ├── GettingStarted/           # 5-minute onboarding across Blazor, WinForms, WPF, MAUI
 ├── Architecture/             # C4 models, rendering engine, platform bridges, lifecycle
-├── Grid/                     # Dedicated DataGrid, TreeList & PivotGrid architecture guides
+├── Grid/                     # Dedicated DataGrid, EnterpriseTreeList & EnterprisePivotGrid architecture guides
 ├── Controls/                 # Complete unified component catalog & API reference
 ├── Themes/                   # Theming system, design tokens, runtime switching, CSS variables
 ├── Data/                     # Query engine, expression trees, virtualization, remote adapters
@@ -39,7 +39,7 @@ docs/
 **EnterpriseUI** is a modern, modular, commercial-grade UI framework for .NET 8 and future LTS versions (.NET 9, .NET 10). It unifies the feature sets of **Telerik UI** (Progress) and **DevExpress** (Developer Express) into a single cohesive, high-performance platform.
 
 ### Core Tenets
-1. **Zero Duplicate Controls**: When Telerik and DevExpress have overlapping controls (e.g., RadGridView vs. GridControl, RadRibbonBar vs. RibbonControl, RadDocking vs. DockManager), EnterpriseUI provides **one unified superset control** combining all features.
+1. **Zero Duplicate Controls**: When Telerik and DevExpress have overlapping controls (e.g., RadGridView vs. GridControl, RadRibbonBar vs. RibbonControl, RadDocking vs. EnterpriseDockManager), EnterpriseUI provides **one unified superset control** combining all features.
 2. **Platform-Agnostic Core**: Core logic, data querying, virtualization math, theming tokens, validation, accessibility, and AI copilots are completely decoupled from UI renderers.
 3. **Pluggable Renderers**: Thin platform adapters for Windows Forms, WPF, Blazor WebAssembly/Server, ASP.NET Core, and .NET MAUI.
 4. **Extreme Performance**: Expression Tree-based LINQ query engine (~3.5 ms over 100,000 items) and constant-memory 2D virtualization (~0.010 microseconds per viewport update).
@@ -78,18 +78,18 @@ graph TD
         D_Grid["GridControl / TableView"]
         D_Ribbon["RibbonControl"]
         D_Scheduler["SchedulerControl"]
-        D_Dock["DockManager / DocumentManager"]
+        D_Dock["EnterpriseDockManager / DocumentManager"]
         D_Chart["ChartControl"]
         D_AI["DevExpress AI Assistant"]
     end
 
     subgraph EnterpriseUI["EnterpriseUI Unified Superset Platform"]
-        E_Grid["EnterpriseUI.Grids.DataGrid&lt;T&gt;<br/>(2D Virtualization, Pivot, TreeList, Excel Filter, In-Cell Edit)"]
-        E_Ribbon["EnterpriseUI.Navigation.RibbonBar<br/>(Contextual Tabs, QAT, Backstage, Minimized Mode)"]
-        E_Scheduler["EnterpriseUI.Scheduling.Scheduler<br/>(RFC 5545 Recurrence, Day/Week/Month/Timeline, Resources)"]
-        E_Dock["EnterpriseUI.Layout.DockManager<br/>(Floating, Tabbed MDI, Auto-Hide, Pinning, Splitters)"]
-        E_Chart["EnterpriseUI.Charts.Chart<br/>(Cartesian, Polar, Financial, Treemap, Sankey, Crosshairs)"]
-        E_AI["EnterpriseUI.AI.AIAssistant<br/>(Natural Language Query Translator, Copilot Trigger)"]
+        E_Grid["EnterpriseUI.Grids.DataGrid&lt;T&gt;<br/>(2D Virtualization, Pivot, EnterpriseTreeList, Excel Filter, In-Cell Edit)"]
+        E_Ribbon["EnterpriseUI.Navigation.EnterpriseRibbonBar<br/>(Contextual Tabs, QAT, Backstage, Minimized Mode)"]
+        E_Scheduler["EnterpriseUI.Scheduling.EnterpriseScheduler<br/>(RFC 5545 Recurrence, Day/Week/Month/Timeline, Resources)"]
+        E_Dock["EnterpriseUI.Layout.EnterpriseDockManager<br/>(Floating, Tabbed MDI, Auto-Hide, Pinning, Splitters)"]
+        E_Chart["EnterpriseUI.Charts.EnterpriseChart<br/>(Cartesian, Polar, Financial, Treemap, Sankey, Crosshairs)"]
+        E_AI["EnterpriseUI.AI.EnterpriseAIAssistant<br/>(Natural Language Query Translator, Copilot Trigger)"]
     end
 
     T_Grid & D_Grid --> E_Grid
@@ -118,7 +118,7 @@ The framework is partitioned into **47 modern .NET 8 SDK projects**:
 | `EnterpriseUI.Editors` | Inputs & Controls | `net8.0` | `EnterpriseUI.Editors` |
 | `EnterpriseUI.Navigation` | Navigation & Ribbon | `net8.0` | `EnterpriseUI.Navigation` |
 | `EnterpriseUI.Layout` | Docking & Windows | `net8.0` | `EnterpriseUI.Layout` |
-| `EnterpriseUI.Scheduling` | Calendar & Scheduler | `net8.0` | `EnterpriseUI.Scheduling` |
+| `EnterpriseUI.Scheduling` | Calendar & EnterpriseScheduler | `net8.0` | `EnterpriseUI.Scheduling` |
 | `EnterpriseUI.Reporting` | Banded Reports | `net8.0` | `EnterpriseUI.Reporting` |
 | `EnterpriseUI.Dashboard` | Interactive BI | `net8.0` | `EnterpriseUI.Dashboard` |
 | `EnterpriseUI.AI` | Copilot & AI Prompts | `net8.0` | `EnterpriseUI.AI` |

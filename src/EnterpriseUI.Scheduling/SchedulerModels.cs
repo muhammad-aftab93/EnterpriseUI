@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -42,9 +42,9 @@ public class SchedulerResource
 }
 
 /// <summary>
-/// Superset Scheduler and Calendar combining Telerik Scheduler and DevExpress SchedulerControl.
+/// Superset EnterpriseScheduler and Calendar combining Telerik EnterpriseScheduler and DevExpress SchedulerControl.
 /// </summary>
-public class Scheduler : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseScheduler : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private DateTime _selectedDate = DateTime.Today;
     private SchedulerViewType _activeView = SchedulerViewType.Week;

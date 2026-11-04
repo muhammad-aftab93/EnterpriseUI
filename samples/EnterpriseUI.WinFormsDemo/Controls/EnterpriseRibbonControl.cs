@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -18,7 +18,7 @@ public class RibbonActionItem
     public RectangleF Bounds { get; set; }
 }
 
-public class WinFormsRibbonControl : Control, IThemeableControl
+public class EnterpriseRibbonControl : Control, IThemeableControl
 {
     private readonly List<string> _tabs = new() { "Home", "Data & Grids", "Visualizations", "Navigation & Layout", "Editors & Docs", "Telerik Parity", "Intelligence", "Theming", "QA & Lab" };
     private int _selectedTabIndex = 0;
@@ -45,7 +45,7 @@ public class WinFormsRibbonControl : Control, IThemeableControl
         }
     }
 
-    public WinFormsRibbonControl()
+    public EnterpriseRibbonControl()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -96,26 +96,26 @@ public class WinFormsRibbonControl : Control, IThemeableControl
                 break;
             case "Visualizations":
                 _actions.Add(new RibbonActionItem { Text = "Financial &\nCandlestick", Category = "Charts" });
-                _actions.Add(new RibbonActionItem { Text = "Radial, Linear\n& BulletGraph", Category = "Gauges" });
+                _actions.Add(new RibbonActionItem { Text = "Radial, Linear\n& EnterpriseBulletGraph", Category = "Gauges" });
                 _actions.Add(new RibbonActionItem { Text = "Interactive\nDiagrams", Category = "Visuals" });
                 _actions.Add(new RibbonActionItem { Text = "GIS Map\nTracking", Category = "Geo" });
                 break;
             case "Navigation & Layout":
-                _actions.Add(new RibbonActionItem { Text = "Breadcrumb &\nStepProgress", Category = "Navigation" });
-                _actions.Add(new RibbonActionItem { Text = "3D Carousel &\nLive Panorama", Category = "Hubs" });
+                _actions.Add(new RibbonActionItem { Text = "EnterpriseBreadcrumb &\nStepProgress", Category = "Navigation" });
+                _actions.Add(new RibbonActionItem { Text = "3D EnterpriseCarousel &\nLive EnterprisePanorama", Category = "Hubs" });
                 _actions.Add(new RibbonActionItem { Text = "Wizard &\nDataLayout", Category = "Layout" });
-                _actions.Add(new RibbonActionItem { Text = "DesktopAlert &\nTaskDialog", Category = "Alerts" });
+                _actions.Add(new RibbonActionItem { Text = "EnterpriseDesktopAlert &\nTaskDialog", Category = "Alerts" });
                 break;
             case "Editors & Docs":
                 _actions.Add(new RibbonActionItem { Text = "Masked, Color\n& Calculator", Category = "Editors" });
-                _actions.Add(new RibbonActionItem { Text = "SyntaxEditor &\nSpellChecker", Category = "Code" });
+                _actions.Add(new RibbonActionItem { Text = "EnterpriseSyntaxEditor &\nSpellChecker", Category = "Code" });
                 _actions.Add(new RibbonActionItem { Text = "SignaturePad &\nTouch Keyboard", Category = "Touch" });
                 _actions.Add(new RibbonActionItem { Text = "PDF, Spread &\nZipLibrary", Category = "Documents" });
                 break;
             case "Telerik Parity":
-                _actions.Add(new RibbonActionItem { Text = "VirtualGrid\n(1M×12 Cells)", Category = "Data" });
+                _actions.Add(new RibbonActionItem { Text = "EnterpriseVirtualGrid\n(1M×12 Cells)", Category = "Data" });
                 _actions.Add(new RibbonActionItem { Text = "Gantt, Barcode\n& Kanban", Category = "Planning" });
-                _actions.Add(new RibbonActionItem { Text = "TreeMap &\nBulletGraph", Category = "Analytics" });
+                _actions.Add(new RibbonActionItem { Text = "EnterpriseTreeMap &\nBulletGraph", Category = "Analytics" });
                 _actions.Add(new RibbonActionItem { Text = "Rating &\nWaitingBar", Category = "Feedback" });
                 break;
             case "Intelligence":
@@ -197,11 +197,11 @@ public class WinFormsRibbonControl : Control, IThemeableControl
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
-        var surfaceAlt = WinFormsThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(248, 248, 248));
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
+        var surfaceAlt = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.SurfaceAlt, Color.FromArgb(248, 248, 248));
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
 
         g.Clear(surfaceAlt);
 

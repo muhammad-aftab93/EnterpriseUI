@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -46,7 +46,7 @@ public class DiagramConnector : ObservableObject
 /// <summary>
 /// Superset Node-Link Diagramming component combining DevExpress DiagramControl and Telerik RadDiagram.
 /// </summary>
-public class Diagram : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseDiagram : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -62,7 +62,7 @@ public class Diagram : ObservableObject, IUIComponent, IThemeableControl, IAcces
     public bool SnapToGrid { get; set; } = true;
 
     public AriaRole Role { get; set; } = AriaRole.Region;
-    public string? AriaLabel { get; set; } = "Interactive Diagram";
+    public string? AriaLabel { get; set; } = "Interactive EnterpriseDiagram";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }

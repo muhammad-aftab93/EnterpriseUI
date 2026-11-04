@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -340,7 +340,7 @@ public class BaseDemoView : UserControl, IThemeableControl
     public void OnThemeChanged(ITheme newTheme)
     {
         _theme = newTheme;
-        WinFormsThemeEngine.ApplyToControl(this, newTheme);
+        EnterpriseThemeEngine.ApplyToControl(this, newTheme);
     }
 
     public void LogEvent(string eventName, string details)
@@ -457,7 +457,7 @@ public class BaseDemoView : UserControl, IThemeableControl
             $"Description:\n{demo.Description}\n\n" +
             $"Live Enabled Features & Runtime Mutations ({_mutations.Count}):\n{activeMutationsSummary}\n\n" +
             $"Architecture Notes:\n{(string.IsNullOrEmpty(demo.ArchitectureNotes) ? "Built on EnterpriseUI decoupled MVVM and GDI+ rendering pipeline with zero UIElement heap overhead." : demo.ArchitectureNotes)}\n\n" +
-            $"Related Controls:\n{(string.IsNullOrEmpty(demo.RelatedControls) ? "DataGrid, TreeList, PivotGrid, ChartControl, RibbonBar, GanttControl, KanbanBoard" : demo.RelatedControls)}\n";
+            $"Related Controls:\n{(string.IsNullOrEmpty(demo.RelatedControls) ? "DataGrid, EnterpriseTreeList, EnterprisePivotGrid, ChartControl, EnterpriseRibbonBar, GanttControl, KanbanBoard" : demo.RelatedControls)}\n";
 
         _featureList.Items.Clear();
         foreach (var feat in demo.Features)
@@ -494,7 +494,7 @@ public class BaseDemoView : UserControl, IThemeableControl
             $"Target Control: {demo.TargetControlName}\n\n" +
             $"Description:\n{demo.Description}\n\n" +
             $"Architecture Notes:\n{(string.IsNullOrEmpty(demo.ArchitectureNotes) ? "Built on EnterpriseUI decoupled MVVM and GDI+ rendering pipeline with zero UIElement heap overhead." : demo.ArchitectureNotes)}\n\n" +
-            $"Related Controls:\n{(string.IsNullOrEmpty(demo.RelatedControls) ? "DataGrid, TreeList, PivotGrid, ChartControl, RibbonBar" : demo.RelatedControls)}\n";
+            $"Related Controls:\n{(string.IsNullOrEmpty(demo.RelatedControls) ? "DataGrid, EnterpriseTreeList, EnterprisePivotGrid, ChartControl, EnterpriseRibbonBar" : demo.RelatedControls)}\n";
 
         _usageBox.Text =
             $"=== Basic & Advanced Usage ===\n\n" +

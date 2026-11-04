@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Scheduling;
@@ -10,7 +10,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class SchedulerDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsSchedulerControl _schedulerControl;
+    private readonly EnterpriseSchedulerControl _schedulerControl;
 
     public SchedulerDemoView(DemoItem metadata)
     {
@@ -77,7 +77,7 @@ public class SchedulerDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { cmbView, btnAddAppt, btnToday });
 
-        _schedulerControl = new WinFormsSchedulerControl { Dock = DockStyle.Fill };
+        _schedulerControl = new EnterpriseSchedulerControl { Dock = DockStyle.Fill };
 
         _baseView.DemoContainer.Controls.Add(_schedulerControl);
         _baseView.DemoContainer.Controls.Add(toolbar);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Media;
 
 /// <summary>
-/// Clean-room WebCam Capture Controller and PictureBox (Telerik RadWebCam / RadPictureBox equivalents).
+/// Clean-room EnterpriseWebCam Capture Controller and PictureBox (Telerik RadWebCam / RadPictureBox equivalents).
 /// </summary>
-public class WebCam : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseWebCam : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private bool _isStreaming;
     private bool _isRecording;
@@ -36,7 +36,7 @@ public class WebCam : ObservableObject, IUIComponent, IThemeableControl, IAccess
     public void TakeSnapshot() => CapturedSnapshotsCount++;
 
     public AriaRole Role { get; set; } = AriaRole.Region;
-    public string? AriaLabel { get; set; } = "WebCam Feed";
+    public string? AriaLabel { get; set; } = "EnterpriseWebCam Feed";
     public string? AriaDescription { get; set; }
     public string? AriaLabelledBy { get; set; }
     public string? AriaDescribedBy { get; set; }

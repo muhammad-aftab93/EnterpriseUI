@@ -1,4 +1,4 @@
-using EnterpriseUI.Abstractions.Accessibility;
+﻿using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -6,9 +6,9 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Editors;
 
 /// <summary>
-/// Superset DateTime Editor combining Telerik DatePicker / TimePicker and DevExpress DateEdit.
+/// Superset DateTime Editor combining Telerik EnterpriseDatePicker / TimePicker and DevExpress DateEdit.
 /// </summary>
-public class DatePicker : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
+public class EnterpriseDatePicker : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
     private DateTime? _value;
 

@@ -1,4 +1,4 @@
-# EnterpriseUI Component Ecosystem: Architecture & Design Guide
+﻿# EnterpriseUI Component Ecosystem: Architecture & Design Guide
 
 ## Executive Summary
 
@@ -29,11 +29,11 @@ EnterpriseUI.slnx
 │   ├── EnterpriseUI.Gauges          # Radial, Linear, Digital, Bullet, Speedometer gauges
 │   ├── EnterpriseUI.Diagrams        # Node-link diagrams, routing, automatic tree/layered layout
 │   ├── EnterpriseUI.Documents       # Universal document processing & viewing models
-│   ├── EnterpriseUI.Grids           # Unified DataGrid, TreeList, and PivotGrid models
-│   ├── EnterpriseUI.Navigation      # TreeView, RibbonBar, Menu, Breadcrumb, TabControl, Drawer
+│   ├── EnterpriseUI.Grids           # Unified DataGrid, EnterpriseTreeList, and EnterprisePivotGrid models
+│   ├── EnterpriseUI.Navigation      # EnterpriseTreeView, EnterpriseRibbonBar, Menu, EnterpriseBreadcrumb, TabControl, Drawer
 │   ├── EnterpriseUI.Editors         # Text, Numeric, Date, ComboBox, Color, Rating, Slider, Switch
-│   ├── EnterpriseUI.Layout          # DockManager, SplitContainer, Window, Card, TileLayout
-│   ├── EnterpriseUI.Scheduling      # Scheduler, RFC 5545 recurrence engine, resource views
+│   ├── EnterpriseUI.Layout          # EnterpriseDockManager, SplitContainer, Window, Card, TileLayout
+│   ├── EnterpriseUI.Scheduling      # EnterpriseScheduler, RFC 5545 recurrence engine, resource views
 │   ├── EnterpriseUI.Reporting       # Report definition bands, parameters, expressions, viewer
 │   ├── EnterpriseUI.Dashboard       # Interactive BI dashboard, KPI cards, drill-down engine
 │   ├── EnterpriseUI.AI              # AI Assistant copilot, natural language data query translator
@@ -78,21 +78,21 @@ EnterpriseUI.slnx
 | Component Category | Telerik Equivalent | DevExpress Equivalent | **EnterpriseUI Unified Superset Control** |
 |---|---|---|---|
 | **Data Grid** | Telerik Grid / RadGridView | DevExpress GridControl | `EnterpriseUI.Grids.DataGrid<T>`: Virtualized 2D scrolling, master-detail hierarchy, Excel-style filter menu, in-cell & batch editing, column pinning, multi-level grouping with aggregates. |
-| **Hierarchical Grid** | Telerik TreeList | DevExpress TreeList | `EnterpriseUI.Grids.TreeList<T>`: Self-referencing & nested hierarchy, virtual scrolling, node drag-and-drop. |
-| **Cross-Tab Grid** | Telerik PivotGrid | DevExpress PivotGrid | `EnterpriseUI.Grids.PivotGrid<T>`: Multi-dimensional OLAP analysis, row/column/data/filter areas, subtotals and grand totals. |
-| **Ribbon Navigation** | RadRibbonBar | DevExpress RibbonControl | `EnterpriseUI.Navigation.RibbonBar`: Contextual tabs, backstage view, Quick Access Toolbar, minimized/expanded modes. |
-| **Docking / MDI** | RadDocking | DevExpress DockManager / DocumentManager | `EnterpriseUI.Layout.DockManager`: Float, tabbed document, auto-hide pin, splitters, layout serialization. |
-| **Scheduler** | Telerik Scheduler | DevExpress SchedulerControl | `EnterpriseUI.Scheduling.Scheduler`: Day, Week, WorkWeek, Month, Timeline, Agenda, RFC 5545 iCalendar recurrence engine. |
-| **Data Visualization** | Telerik Chart / ChartView | DevExpress ChartControl | `EnterpriseUI.Charts.Chart`: Bar, Column, Line, Area, Pie, Donut, Scatter, Candlestick, Radar, Funnel, Treemap, Sankey. |
-| **Gauges** | RadRadialGauge / RadLinearGauge | DevExpress GaugeControl | `EnterpriseUI.Gauges.RadialGauge`, `LinearGauge`: Scales, pointers, ranges, tick intervals, bullet graphs. |
-| **Diagramming** | RadDiagram | DevExpress DiagramControl | `EnterpriseUI.Diagrams.Diagram`: Shapes, orthogonal connector routing, automatic hierarchical tree layout. |
+| **Hierarchical Grid** | Telerik EnterpriseTreeList | DevExpress EnterpriseTreeList | `EnterpriseUI.Grids.EnterpriseTreeList<T>`: Self-referencing & nested hierarchy, virtual scrolling, node drag-and-drop. |
+| **Cross-Tab Grid** | Telerik EnterprisePivotGrid | DevExpress EnterprisePivotGrid | `EnterpriseUI.Grids.EnterprisePivotGrid<T>`: Multi-dimensional OLAP analysis, row/column/data/filter areas, subtotals and grand totals. |
+| **Ribbon Navigation** | RadRibbonBar | DevExpress RibbonControl | `EnterpriseUI.Navigation.EnterpriseRibbonBar`: Contextual tabs, backstage view, Quick Access Toolbar, minimized/expanded modes. |
+| **Docking / MDI** | RadDocking | DevExpress EnterpriseDockManager / DocumentManager | `EnterpriseUI.Layout.EnterpriseDockManager`: Float, tabbed document, auto-hide pin, splitters, layout serialization. |
+| **EnterpriseScheduler** | Telerik EnterpriseScheduler | DevExpress SchedulerControl | `EnterpriseUI.Scheduling.EnterpriseScheduler`: Day, Week, WorkWeek, Month, Timeline, Agenda, RFC 5545 iCalendar recurrence engine. |
+| **Data Visualization** | Telerik EnterpriseChart / ChartView | DevExpress ChartControl | `EnterpriseUI.Charts.EnterpriseChart`: Bar, Column, Line, Area, Pie, Donut, Scatter, Candlestick, Radar, Funnel, Treemap, Sankey. |
+| **Gauges** | RadRadialGauge / RadLinearGauge | DevExpress GaugeControl | `EnterpriseUI.Gauges.EnterpriseRadialGauge`, `EnterpriseLinearGauge`: Scales, pointers, ranges, tick intervals, bullet graphs. |
+| **Diagramming** | RadDiagram | DevExpress DiagramControl | `EnterpriseUI.Diagrams.EnterpriseDiagram`: Shapes, orthogonal connector routing, automatic hierarchical tree layout. |
 | **Reporting** | Telerik Reporting | DevExpress XtraReports | `EnterpriseUI.Reporting.ReportDefinition`: Report bands (header, detail, group, footer), parameters, expressions. |
 | **BI Dashboard** | Telerik Dashboard | DevExpress Dashboard | `EnterpriseUI.Dashboard.Dashboard`: Responsive KPI metric cards, synchronized drill-down and cross-filtering. |
-| **AI Copilot** | Telerik AI Prompt | DevExpress AI Assistant | `EnterpriseUI.AI.AIAssistant`: Contextual prompts, streaming completions, natural language to `DataSourceRequest` translation. |
-| **Office Spreadsheet** | RadSpreadsheet | DevExpress SpreadsheetControl | `EnterpriseUI.Office.SpreadsheetControl`: Multi-worksheet, cell formulas, formatting, Excel export. |
-| **Rich Text Editor** | RadRichTextBox | DevExpress RichEditControl | `EnterpriseUI.RichText.RichTextEditor`: WYSIWYG formatting, undo/redo stack, document paragraphs. |
-| **GIS Mapping** | RadMap | DevExpress MapControl | `EnterpriseUI.Map.GeoMap`: Geocoordinates, markers, layer clustering, zoom/pan bounds. |
-| **Process Flow** | RadDiagram Workflow | DevExpress Workflow | `EnterpriseUI.Workflow.WorkflowEngine`: Step states, transition graphs, execution advancement. |
+| **AI Copilot** | Telerik AI Prompt | DevExpress AI Assistant | `EnterpriseUI.AI.EnterpriseAIAssistant`: Contextual prompts, streaming completions, natural language to `DataSourceRequest` translation. |
+| **Office Spreadsheet** | RadSpreadsheet | DevExpress EnterpriseSpreadsheetControl | `EnterpriseUI.Office.EnterpriseSpreadsheetControl`: Multi-worksheet, cell formulas, formatting, Excel export. |
+| **Rich Text Editor** | RadRichTextBox | DevExpress RichEditControl | `EnterpriseUI.RichText.EnterpriseRichTextEditor`: WYSIWYG formatting, undo/redo stack, document paragraphs. |
+| **GIS Mapping** | RadMap | DevExpress MapControl | `EnterpriseUI.Map.EnterpriseGeoMap`: Geocoordinates, markers, layer clustering, zoom/pan bounds. |
+| **Process Flow** | RadDiagram Workflow | DevExpress Workflow | `EnterpriseUI.Workflow.EnterpriseWorkflowEngine`: Step states, transition graphs, execution advancement. |
 
 ---
 
@@ -109,7 +109,7 @@ The theming engine supports 6 built-in commercial design languages with Light an
 ### Token Architecture
 - Defined in `EnterpriseUI.Theming.DesignTokens` (colors, surface, typography, layout metrics, elevations).
 - Compiled into native CSS variables via `theme.ToCssVariables("eui")` for Web and Blazor.
-- Dynamically mapped to GDI+ and WPF Brushes via `WinFormsThemeEngine` and `WpfThemeBridge`.
+- Dynamically mapped to GDI+ and WPF Brushes via `EnterpriseThemeEngine` and `WpfThemeBridge`.
 - Hot-swappable at runtime with subscriber event broadcasting via `ThemeManager.Instance.ApplyTheme(...)`.
 
 ---

@@ -1,4 +1,4 @@
-# EnterpriseUI Grid Architecture & Feature Guide
+﻿# EnterpriseUI Grid Architecture & Feature Guide
 
 The **EnterpriseUI DataGrid** is the centerpiece of the component library, uniting the capabilities of **Telerik RadGridView** and **DevExpress GridControl** into an uncompromising high-performance component.
 
@@ -9,8 +9,8 @@ The **EnterpriseUI DataGrid** is the centerpiece of the component library, uniti
 The `EnterpriseUI.Grids` package contains three unified controls:
 
 1. **`DataGrid<T>`**: High-density tabular data grid supporting 2D virtualization, multi-column sorting, Excel-style filtering, multi-level grouping with aggregates, master-detail hierarchy, and cell/row editing.
-2. **`TreeList<T>`**: Hierarchical self-referencing and parent-child grid combining tree navigation with multi-column tabular representation.
-3. **`PivotGrid<T>`**: Multi-dimensional OLAP cross-tabulation engine for dynamic aggregation across Row, Column, Data, and Filter dimensions.
+2. **`EnterpriseTreeList<T>`**: Hierarchical self-referencing and parent-child grid combining tree navigation with multi-column tabular representation.
+3. **`EnterprisePivotGrid<T>`**: Multi-dimensional OLAP cross-tabulation engine for dynamic aggregation across Row, Column, Data, and Filter dimensions.
 
 ---
 
@@ -32,7 +32,7 @@ The `EnterpriseUI.Grids` package contains three unified controls:
 
 ---
 
-## 3. Class Diagram & Architecture
+## 3. Class EnterpriseDiagram & Architecture
 
 ```mermaid
 classDiagram

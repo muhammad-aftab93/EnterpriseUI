@@ -1,4 +1,4 @@
-# EnterpriseUI Product Parity Audit and Roadmap
+﻿# EnterpriseUI Product Parity Audit and Roadmap
 
 **Assessment date:** 2026-11-04  
 **Status:** Initial evidence-based baseline; not a parity certification.
@@ -41,7 +41,7 @@ The reference inventory should record the Telerik product/version, public docume
 | Area | Source evidence sampled | Current disposition |
 |---|---|---|
 | Core and modular packages | Multiple `src/EnterpriseUI.*` projects and platform projects are present. | Implemented foundation; package-by-package API, release, and compatibility audit required. |
-| WinForms DataGrid | `DataGrid<T>` model, `WinFormsDataGrid<T>`, and focused unit tests exist. | Partial; see the detailed gap report below. |
+| WinForms DataGrid | `DataGrid<T>` model, `EnterpriseDataGrid<T>`, and focused unit tests exist. | Partial; see the detailed gap report below. |
 | Other controls | Dedicated projects exist for editors, navigation, layout, charts, gauges, scheduling, diagrams, reporting, documents, and more. | Inventory required; project presence does not establish a complete WinForms control or feature set. |
 | Theme system | Theme tokens, built-in theme factories, runtime manager, and a theme designer engine exist. | Partial; import/package/versioning and consistent control reaction are not established. |
 | Demo Center | `MainForm` wires navigation, search, favorites, recents, themes, a demo host, and a property inspector. A metadata registry provides demo entries. | Partial; persistence, complete coverage, responsive targets, and all learning dimensions are unverified. |
@@ -83,7 +83,7 @@ This is a **candidate inventory**, not a definitive assertion that a control is 
 
 ## 5. DataGrid Gap Report
 
-Model APIs are not counted as complete UI workflows. `DataGrid<T>` and `WinFormsDataGrid<T>` are the primary inspected implementation surfaces; current tests explicitly cover multi-sort/undo-redo, layout snapshots, and selected themes.
+Model APIs are not counted as complete UI workflows. `DataGrid<T>` and `EnterpriseDataGrid<T>` are the primary inspected implementation surfaces; current tests explicitly cover multi-sort/undo-redo, layout snapshots, and selected themes.
 
 | Requirement area | Evidence and status | Remaining work |
 |---|---|---|
@@ -194,7 +194,7 @@ No feature is complete based solely on a type, enum, model property, or demo des
 
 ## 13. UX Gap Analysis
 
-Assessed only for `WinFormsDataGrid<T>`. Other controls were not exercised.
+Assessed only for `EnterpriseDataGrid<T>`. Other controls were not exercised.
 
 | Behavior | Status |
 |---|---|
@@ -216,7 +216,7 @@ No numeric maturity scores are assigned. A score requires the Section 3 control 
 
 | Control | Evidence-based state |
 |---|---|
-| `WinFormsDataGrid<T>` | Core scrolling, windowing, column management, bands, formatting and filtering work (verified by tests and a smoke run); grouping, hierarchy, row drag, alternate edit modes and automation tests are open. |
+| `EnterpriseDataGrid<T>` | Core scrolling, windowing, column management, bands, formatting and filtering work (verified by tests and a smoke run); grouping, hierarchy, row drag, alternate edit modes and automation tests are open. |
 | All other controls | Not inventoried. |
 
 Originality constraint: parity work targets functionality and workflow, not Telerik's assets, themes, icons or source. Visual comparison should use reviewer-approved descriptions rather than copied artwork.
@@ -234,7 +234,7 @@ Originality constraint: parity work targets functionality and workflow, not Tele
 
 - [DataGrid model](../../src/EnterpriseUI.Grids/DataGrid.cs)
 - [Grid column and feature models](../../src/EnterpriseUI.Grids/GridColumns.cs)
-- [WinForms DataGrid renderer](../../platforms/EnterpriseUI.WinForms/WinFormsDataGrid.cs)
+- [WinForms DataGrid renderer](../../platforms/EnterpriseUI.WinForms/EnterpriseDataGrid.cs)
 - [Grid and theme unit tests](../../tests/EnterpriseUI.UnitTests/DataGridAndThemesTests.cs)
 - [Theme implementation](../../src/EnterpriseUI.Theming/Theme.cs)
 - [Theme designer engine](../../tooling/EnterpriseUI.ThemeDesigner/ThemeDesignerEngine.cs)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -62,10 +62,10 @@ public class SplitContainer : ObservableObject, IUIComponent, IThemeableControl,
 }
 
 /// <summary>
-/// Clean-room DataLayout and LayoutControl (Telerik RadDataLayout / RadLayoutControl equivalent).
+/// Clean-room EnterpriseDataLayout and LayoutControl (Telerik RadDataLayout / RadLayoutControl equivalent).
 /// Auto-generates form layout items from any bound entity type via reflection.
 /// </summary>
-public class DataLayout<TEntity> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseDataLayout<TEntity> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed record DataLayoutFieldItem(string PropertyName, string Label, Type PropertyType, string EditorKind, bool IsReadOnly);
 
@@ -93,7 +93,7 @@ public class DataLayout<TEntity> : ObservableObject, IUIComponent, IThemeableCon
 
     public List<DataLayoutFieldItem> Fields { get; } = new();
 
-    public DataLayout()
+    public EnterpriseDataLayout()
     {
         AutoGenerateFields();
     }
@@ -106,8 +106,8 @@ public class DataLayout<TEntity> : ObservableObject, IUIComponent, IThemeableCon
             if (!prop.CanRead) continue;
             var t = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
             string editor = t == typeof(bool) ? "Switch"
-                : t == typeof(DateTime) || t == typeof(DateTimeOffset) ? "DatePicker"
-                : t == typeof(int) || t == typeof(long) || t == typeof(decimal) || t == typeof(double) ? "NumericTextBox"
+                : t == typeof(DateTime) || t == typeof(DateTimeOffset) ? "EnterpriseDatePicker"
+                : t == typeof(int) || t == typeof(long) || t == typeof(decimal) || t == typeof(double) ? "EnterpriseNumericTextBox"
                 : t.IsEnum ? "ComboBox"
                 : "TextBox";
 
@@ -142,7 +142,7 @@ public class DataLayout<TEntity> : ObservableObject, IUIComponent, IThemeableCon
 /// Clean-room Multi-Page Wizard Control (Telerik RadWizard equivalent).
 /// Supports Welcome, Standard, and Completion pages with validation-gated Next/Previous/Finish transitions.
 /// </summary>
-public class WizardControl : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseWizardControl : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed class WizardPage : ObservableObject
     {
@@ -222,9 +222,9 @@ public class WizardControl : ObservableObject, IUIComponent, IThemeableControl, 
 }
 
 /// <summary>
-/// Clean-room CollapsiblePanel and TaskDialog (Telerik RadCollapsiblePanel / RadTaskDialog equivalents).
+/// Clean-room EnterpriseCollapsiblePanel and EnterpriseTaskDialog (Telerik RadCollapsiblePanel / RadTaskDialog equivalents).
 /// </summary>
-public class CollapsiblePanel : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseCollapsiblePanel : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private bool _isExpanded = true;
     public string Id { get; } = Guid.NewGuid().ToString("N");
@@ -268,7 +268,7 @@ public class CollapsiblePanel : ObservableObject, IUIComponent, IThemeableContro
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }
 
-public class TaskDialog : ObservableObject
+public class EnterpriseTaskDialog : ObservableObject
 {
     public sealed record CommandLinkOption(string Id, string Title, string Description);
 

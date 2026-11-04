@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -11,9 +11,9 @@ using EnterpriseUI.WinForms;
 
 namespace EnterpriseUI.WinFormsDemo.Controls;
 
-public class WinFormsDiagramControl : Control, IThemeableControl
+public class EnterpriseDiagramControl : Control, IThemeableControl
 {
-    private readonly Diagram _diagram = new();
+    private readonly EnterpriseDiagram _diagram = new();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private DiagramNode? _selectedNode;
     private Point _dragStart;
@@ -42,7 +42,7 @@ public class WinFormsDiagramControl : Control, IThemeableControl
         Invalidate();
     }
 
-    public WinFormsDiagramControl()
+    public EnterpriseDiagramControl()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -106,10 +106,10 @@ public class WinFormsDiagramControl : Control, IThemeableControl
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-        var bg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
-        var fg = WinFormsThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
-        var border = WinFormsThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
-        var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
+        var bg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Surface, Color.White);
+        var fg = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.TextColor, Color.Black);
+        var border = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.BorderColor, Color.FromArgb(220, 220, 220));
+        var primary = EnterpriseThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 215));
 
         g.Clear(bg);
 

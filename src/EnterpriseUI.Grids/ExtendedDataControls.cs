@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -40,10 +40,10 @@ public sealed class VirtualCellValuePushedEventArgs : EventArgs
 }
 
 /// <summary>
-/// Clean-room Event-Driven VirtualGrid (Telerik RadVirtualGrid equivalent).
+/// Clean-room Event-Driven EnterpriseVirtualGrid (Telerik RadVirtualGrid equivalent).
 /// Supports arbitrary billions of cells via on-demand CellValueNeeded and CellValuePushed callbacks without materializing row lists.
 /// </summary>
-public class VirtualGrid : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseVirtualGrid : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private int _rowCount = 1_000_000;
     private int _columnCount = 50;
@@ -98,9 +98,9 @@ public class VirtualGrid : ObservableObject, IUIComponent, IThemeableControl, IA
 }
 
 /// <summary>
-/// Clean-room CardView and ListView (Telerik RadCardView / RadListView / RadCheckedListBox equivalents).
+/// Clean-room EnterpriseCardView and ListView (Telerik RadCardView / RadListView / RadCheckedListBox equivalents).
 /// </summary>
-public class CardView<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseCardView<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -136,10 +136,10 @@ public class CardView<TItem> : ObservableObject, IUIComponent, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room DataFilter and FilterView (Telerik RadDataFilter / RadFilterView equivalents).
+/// Clean-room DataFilter and EnterpriseFilterView (Telerik RadDataFilter / RadFilterView equivalents).
 /// Builds composite FilterDescriptor trees and interactive facet checklists.
 /// </summary>
-public class FilterView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseFilterView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     public sealed class FilterCategoryFacet
     {
@@ -198,9 +198,9 @@ public class FilterView : ObservableObject, IUIComponent, IThemeableControl, IAc
 }
 
 /// <summary>
-/// Clean-room DataPager (Telerik RadDataPager equivalent).
+/// Clean-room EnterpriseDataPager (Telerik RadDataPager equivalent).
 /// </summary>
-public class DataPager : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
+public class EnterpriseDataPager : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
     private int _pageIndex;
     private int _pageSize = 25;

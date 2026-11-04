@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,7 +11,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class ChartsDemoView : UserControl
 {
     private readonly BaseDemoView _baseView;
-    private readonly WinFormsChartControl _chartControl;
+    private readonly EnterpriseChartControl _chartControl;
     private readonly System.Windows.Forms.Timer _liveTimer;
     private bool _isLive;
 
@@ -104,7 +104,7 @@ public class ChartsDemoView : UserControl
             btnLiveTicks
         });
 
-        _chartControl = new WinFormsChartControl { Dock = DockStyle.Fill };
+        _chartControl = new EnterpriseChartControl { Dock = DockStyle.Fill };
         LoadDefaultSeries(SeriesType.Column);
 
         _baseView.DemoContainer.Controls.Add(_chartControl);
