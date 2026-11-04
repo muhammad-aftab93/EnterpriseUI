@@ -30,7 +30,7 @@ public class WinFormsSchedulerControl : Control, IThemeableControl
     }
 
     public List<Appointment> Appointments => _scheduler.Appointments;
-    public List<Resource> Resources => _scheduler.Resources;
+    public List<SchedulerResource> Resources => _scheduler.Resources;
 
     public TimeSpan DayStartTime
     {

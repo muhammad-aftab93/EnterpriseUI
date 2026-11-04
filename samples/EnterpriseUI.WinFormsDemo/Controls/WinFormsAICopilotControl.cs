@@ -23,7 +23,7 @@ public class WinFormsAICopilotControl : UserControl, IThemeableControl
 
     public string? ThemeOverride { get; set; }
 
-    public IReadOnlyList<ChatMessage> History => _assistant.History;
+    public List<AIChatMessage> History => _assistant.History;
 
     public IAIServiceProvider? ServiceProvider
     {
@@ -31,7 +31,7 @@ public class WinFormsAICopilotControl : UserControl, IThemeableControl
         set => _assistant.ServiceProvider = value;
     }
 
-    public string? CurrentPrompt
+    public string CurrentPrompt
     {
         get => _assistant.CurrentPrompt;
         set => _assistant.CurrentPrompt = value;
