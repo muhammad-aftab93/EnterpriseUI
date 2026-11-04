@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -16,8 +17,27 @@ public class WinFormsMapControl : Control, IThemeableControl
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private GeoMarker? _hoveredMarker;
 
-    public GeoMap Model => _map;
     public string? ThemeOverride { get; set; }
+
+    public GeoLocation Center
+    {
+        get => _map.Center;
+        set { _map.Center = value; Invalidate(); }
+    }
+
+    public int ZoomLevel
+    {
+        get => _map.ZoomLevel;
+        set { _map.ZoomLevel = value; Invalidate(); }
+    }
+
+    public List<GeoMarker> Markers => _map.Markers;
+
+    public string? AriaLabel
+    {
+        get => _map.AriaLabel;
+        set => _map.AriaLabel = value;
+    }
 
     public WinFormsMapControl()
     {

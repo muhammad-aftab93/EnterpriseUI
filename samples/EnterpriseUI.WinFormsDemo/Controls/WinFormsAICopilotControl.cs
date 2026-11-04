@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,8 +21,23 @@ public class WinFormsAICopilotControl : UserControl, IThemeableControl
     private readonly Label _statusLabel;
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
 
-    public AIAssistant Model => _assistant;
     public string? ThemeOverride { get; set; }
+
+    public IReadOnlyList<ChatMessage> History => _assistant.History;
+
+    public IAIServiceProvider? ServiceProvider
+    {
+        get => _assistant.ServiceProvider;
+        set => _assistant.ServiceProvider = value;
+    }
+
+    public string? CurrentPrompt
+    {
+        get => _assistant.CurrentPrompt;
+        set => _assistant.CurrentPrompt = value;
+    }
+
+    public bool IsGenerating => _assistant.IsGenerating;
 
     public WinFormsAICopilotControl()
     {

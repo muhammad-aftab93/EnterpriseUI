@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -14,8 +15,46 @@ public class WinFormsSchedulerControl : Control, IThemeableControl
 {
     private readonly Scheduler _scheduler = new();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    public Scheduler Model => _scheduler;
     public string? ThemeOverride { get; set; }
+
+    public DateTime SelectedDate
+    {
+        get => _scheduler.SelectedDate;
+        set { _scheduler.SelectedDate = value; Invalidate(); }
+    }
+
+    public SchedulerViewType ActiveView
+    {
+        get => _scheduler.ActiveView;
+        set { _scheduler.ActiveView = value; Invalidate(); }
+    }
+
+    public List<Appointment> Appointments => _scheduler.Appointments;
+    public List<Resource> Resources => _scheduler.Resources;
+
+    public TimeSpan DayStartTime
+    {
+        get => _scheduler.DayStartTime;
+        set { _scheduler.DayStartTime = value; Invalidate(); }
+    }
+
+    public TimeSpan DayEndTime
+    {
+        get => _scheduler.DayEndTime;
+        set { _scheduler.DayEndTime = value; Invalidate(); }
+    }
+
+    public int TimeSlotMinutes
+    {
+        get => _scheduler.TimeSlotMinutes;
+        set { _scheduler.TimeSlotMinutes = value; Invalidate(); }
+    }
+
+    public string? AriaLabel
+    {
+        get => _scheduler.AriaLabel;
+        set => _scheduler.AriaLabel = value;
+    }
 
     public WinFormsSchedulerControl()
     {

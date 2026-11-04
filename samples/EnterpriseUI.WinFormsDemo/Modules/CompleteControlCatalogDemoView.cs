@@ -186,7 +186,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         btnRunPrompt.Click += (_, _) =>
         {
-            rtbAiOutput.Text = $"[AIPrompt Executed @ {DateTime.Now:HH:mm:ss}]\nPrompt: \"{txtPromptInput.Text}\"\n\nResult:\ngrid.Engine.ApplyFilter(r => r.Region == \"EMEA\" && r.Priority == \"Critical\");\n// Latency: 1.4ms (Offline deterministic NLP engine)";
+            rtbAiOutput.Text = $"[AIPrompt Executed @ {DateTime.Now:HH:mm:ss}]\nPrompt: \"{txtPromptInput.Text}\"\n\nResult:\ngrid.ApplyFilter(r => r.Region == \"EMEA\" && r.Priority == \"Critical\");\n// Latency: 1.4ms (Offline deterministic NLP engine)";
             _baseView.LogEvent("AIPrompt.PromptRequest", txtPromptInput.Text);
         };
         btnAiTone.Click += (_, _) =>
@@ -632,7 +632,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         _ratingWaiting.RatingChanged += stars =>
         {
-            _bulletGraph.Model.FeaturedMeasure = stars * 18.5;
+            _bulletGraph.FeaturedMeasure = stars * 18.5;
             _bulletGraph.Invalidate();
             _baseView.LogEvent("RatingControl.Value", $"{stars:F1} stars");
         };

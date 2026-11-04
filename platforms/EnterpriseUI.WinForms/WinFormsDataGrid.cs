@@ -9,9 +9,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EnterpriseUI.Abstractions.Theming;
+using EnterpriseUI.Data;
 using EnterpriseUI.Exporting;
 using EnterpriseUI.Grids;
 using EnterpriseUI.Theming;
@@ -123,8 +125,94 @@ public class WinFormsDataGrid<TItem> : Control, IThemeableControl
         ThemeManager.Instance.ThemeChanged += _themeHandler;
     }
 
-    public DataGrid<TItem> Engine => _engine;
     public string? ThemeOverride { get; set; }
+
+    // ------------------------------------------------------------------
+    // Direct Grid Properties, Collections, Events & Operations
+    // ------------------------------------------------------------------
+
+    public List<GridColumn> Columns => _engine.Columns;
+    public List<GridColumnBand> Bands => _engine.Bands;
+    public DataSourceRequest CurrentRequest => _engine.CurrentRequest;
+    public GridSelectionMode SelectionMode { get => _engine.SelectionMode; set => _engine.SelectionMode = value; }
+    public GridEditMode EditMode { get => _engine.EditMode; set => _engine.EditMode = value; }
+    public bool EnableVirtualization { get => _engine.EnableVirtualization; set => _engine.EnableVirtualization = value; }
+    public bool EnableGrouping { get => _engine.EnableGrouping; set => _engine.EnableGrouping = value; }
+    public bool EnableFiltering { get => _engine.EnableFiltering; set => _engine.EnableFiltering = value; }
+    public bool EnableSorting { get => _engine.EnableSorting; set => _engine.EnableSorting = value; }
+    public bool EnableMultiColumnSorting { get => _engine.EnableMultiColumnSorting; set => _engine.EnableMultiColumnSorting = value; }
+    public bool EnableMasterDetail { get => _engine.EnableMasterDetail; set { _engine.EnableMasterDetail = value; RefreshLayout(); } }
+    public bool ShowGroupPanel { get => _engine.ShowGroupPanel; set { _engine.ShowGroupPanel = value; RefreshLayout(); } }
+    public bool EnableSearchPanel { get => _engine.EnableSearchPanel; set => _engine.EnableSearchPanel = value; }
+    public bool EnableQuickFilterRow { get => _engine.EnableQuickFilterRow; set => _engine.EnableQuickFilterRow = value; }
+    public object? DetailTemplate { get => _engine.DetailTemplate; set => _engine.DetailTemplate = value; }
+
+    public Dictionary<string, string> QuickFilters => _engine.QuickFilters;
+    public Dictionary<string, List<IFilterDescriptor>> SavedFilterPresets => _engine.SavedFilterPresets;
+    public List<GroupSummaryDescriptor> GroupSummaries => _engine.GroupSummaries;
+    public List<GridFormatRule> FormatRules => _engine.FormatRules;
+    public List<GridHierarchyRelation> Relations => _engine.Relations;
+    public GridClipboardCopyMode ClipboardCopyMode { get => _engine.ClipboardCopyMode; set => _engine.ClipboardCopyMode = value; }
+    public string? SearchPanelText { get => _engine.SearchPanelText; set => _engine.SearchPanelText = value; }
+
+    public double ItemHeight { get => _engine.ItemHeight; set { _engine.ItemHeight = value; RefreshLayout(); } }
+    public double ItemWidth { get => _engine.ItemWidth; set { _engine.ItemWidth = value; RefreshLayout(); } }
+    public int TotalItemsCount => _engine.TotalItemsCount;
+    public int RowBuffer { get => _engine.RowBuffer; set => _engine.RowBuffer = value; }
+    public bool CanUndo => _engine.CanUndo;
+    public bool CanRedo => _engine.CanRedo;
+    public bool IsLoading => _engine.IsLoading;
+    public int WindowStart => _engine.WindowStart;
+
+    public IEnumerable<TItem>? DataSource { get => _engine.DataSource; set => _engine.DataSource = value; }
+    public IDataSource<TItem>? CustomDataSource { get => _engine.CustomDataSource; set => _engine.CustomDataSource = value; }
+    public TItem? SelectedItem { get => _engine.SelectedItem; set => _engine.SelectedItem = value; }
+    public IReadOnlyList<TItem> SelectedItems => _engine.SelectedItems;
+    public IReadOnlyList<TItem> RenderedItems => _engine.RenderedItems;
+
+    public event EventHandler? DataWindowChanged { add => _engine.DataWindowChanged += value; remove => _engine.DataWindowChanged -= value; }
+    public event EventHandler? QueryChanged { add => _engine.QueryChanged += value; remove => _engine.QueryChanged -= value; }
+
+    public bool TryGetItemAt(int absoluteIndex, out TItem item) => _engine.TryGetItemAt(absoluteIndex, out item);
+    public bool EnsureRowsLoaded(int firstRow, int rowCount) => _engine.EnsureRowsLoaded(firstRow, rowCount);
+    public Task<IReadOnlyList<TItem>> ReadAllAsync(int? maxRows = null, CancellationToken cancellationToken = default) => _engine.ReadAllAsync(maxRows, cancellationToken);
+    public Task RefreshDataAsync(CancellationToken cancellationToken = default) => _engine.RefreshDataAsync(cancellationToken);
+
+    public void SortBy(string fieldName, ListSortDirection direction) => _engine.SortBy(fieldName, direction);
+    public void CycleSort(string fieldName, bool allowMultiSort = false) => _engine.CycleSort(fieldName, allowMultiSort);
+    public void ClearSort() => _engine.ClearSort();
+
+    public void FilterBy(string fieldName, FilterOperator op, object? value) => _engine.FilterBy(fieldName, op, value);
+    public void ApplyExcelFilter(string fieldName, IEnumerable<object> selectedValues) => _engine.ApplyExcelFilter(fieldName, selectedValues);
+    public void ClearExcelFilter(string fieldName) => _engine.ClearExcelFilter(fieldName);
+    public IReadOnlyList<object> GetDistinctValues(string fieldName, string? contains = null, int maxCount = 1000, CancellationToken cancellationToken = default) => _engine.GetDistinctValues(fieldName, contains, maxCount, cancellationToken);
+    public void SetQuickFilter(string fieldName, string text) => _engine.SetQuickFilter(fieldName, text);
+    public void SaveFilterPreset(string presetName) => _engine.SaveFilterPreset(presetName);
+    public void ApplyFilterPreset(string presetName) => _engine.ApplyFilterPreset(presetName);
+
+    public void GroupBy(string fieldName) => _engine.GroupBy(fieldName);
+    public void RemoveGroup(string fieldName) => _engine.RemoveGroup(fieldName);
+    public void ClearGroups() => _engine.ClearGroups();
+    public void ToggleGroupExpansion(object groupKey) => _engine.ToggleGroupExpansion(groupKey);
+    public void ExpandAllGroups() => _engine.ExpandAllGroups();
+    public void CollapseAllGroups() => _engine.CollapseAllGroups();
+
+    public bool EditCell(TItem item, string fieldName, object? newValue) => _engine.EditCell(item, fieldName, newValue);
+    public bool UndoLastEdit() => _engine.UndoLastEdit();
+    public bool RedoLastEdit() => _engine.RedoLastEdit();
+    public bool ReorderRow(int fromIndex, int toIndex) => _engine.ReorderRow(fromIndex, toIndex);
+    public void ToggleDetailExpansion(TItem rowItem) => _engine.ToggleDetailExpansion(rowItem);
+    public void ExpandAllDetails() => _engine.ExpandAllDetails();
+    public void CollapseAllDetails() => _engine.CollapseAllDetails();
+    public bool IsDetailExpanded(TItem rowItem) => _engine.IsDetailExpanded(rowItem);
+
+    public void SetColumnVisibility(string fieldName, bool visible) => _engine.SetColumnVisibility(fieldName, visible);
+    public void ReorderColumn(string fieldName, int newIndex) => _engine.ReorderColumn(fieldName, newIndex);
+    public bool ResizeColumn(string fieldName, double width) => _engine.ResizeColumn(fieldName, width);
+    public bool MoveColumnBefore(string fieldName, string? beforeFieldName) => _engine.MoveColumnBefore(fieldName, beforeFieldName);
+    public void PinColumn(string fieldName, ColumnPinPosition position) => _engine.PinColumn(fieldName, position);
+    public ColumnLayoutProfile CreateLayoutProfile(string profileName = "Default") => _engine.CreateLayoutProfile(profileName);
+    public void ApplyLayoutProfile(ColumnLayoutProfile profile) => _engine.ApplyLayoutProfile(profile);
 
     public int SelectedRowIndex
     {

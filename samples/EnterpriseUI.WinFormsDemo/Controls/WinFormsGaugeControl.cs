@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -13,8 +14,51 @@ public class WinFormsGaugeControl : Control, IThemeableControl
 {
     private readonly RadialGauge _gauge = new();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    public RadialGauge Model => _gauge;
     public string? ThemeOverride { get; set; }
+
+    public double Value
+    {
+        get => _gauge.Value;
+        set { _gauge.Value = value; Invalidate(); }
+    }
+
+    public double Min
+    {
+        get => _gauge.Min;
+        set { _gauge.Min = value; Invalidate(); }
+    }
+
+    public double Max
+    {
+        get => _gauge.Max;
+        set { _gauge.Max = value; Invalidate(); }
+    }
+
+    public double StartAngle
+    {
+        get => _gauge.StartAngle;
+        set { _gauge.StartAngle = value; Invalidate(); }
+    }
+
+    public double EndAngle
+    {
+        get => _gauge.EndAngle;
+        set { _gauge.EndAngle = value; Invalidate(); }
+    }
+
+    public string? Unit
+    {
+        get => _gauge.Unit;
+        set { _gauge.Unit = value; Invalidate(); }
+    }
+
+    public string? AriaLabel
+    {
+        get => _gauge.AriaLabel;
+        set { _gauge.AriaLabel = value; Invalidate(); }
+    }
+
+    public List<GaugeRange> Ranges => _gauge.Ranges;
 
     public bool IsLinear { get; set; }
 

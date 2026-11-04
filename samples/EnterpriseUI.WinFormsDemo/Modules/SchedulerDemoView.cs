@@ -38,7 +38,7 @@ public class SchedulerDemoView : UserControl
         cmbView.SelectedIndex = 0;
         cmbView.SelectedIndexChanged += (_, _) =>
         {
-            _schedulerControl.Model.ActiveView = cmbView.SelectedIndex == 0 ? SchedulerViewType.Week : SchedulerViewType.Day;
+            _schedulerControl.ActiveView = cmbView.SelectedIndex == 0 ? SchedulerViewType.Week : SchedulerViewType.Day;
             _schedulerControl.Invalidate();
         };
 
@@ -51,7 +51,7 @@ public class SchedulerDemoView : UserControl
         };
         btnAddAppt.Click += (_, _) =>
         {
-            _schedulerControl.Model.Appointments.Add(new Appointment
+            _schedulerControl.Appointments.Add(new Appointment
             {
                 Subject = "Client Discovery & Demo",
                 Start = DateTime.Today.AddHours(14),
@@ -71,7 +71,7 @@ public class SchedulerDemoView : UserControl
         };
         btnToday.Click += (_, _) =>
         {
-            _schedulerControl.Model.SelectedDate = DateTime.Today;
+            _schedulerControl.SelectedDate = DateTime.Today;
             _schedulerControl.Invalidate();
         };
 

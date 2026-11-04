@@ -17,8 +17,39 @@ public class WinFormsChartControl : Control, IThemeableControl
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private int _hoveredIndex = -1;
 
-    public Chart Model => _chart;
     public string? ThemeOverride { get; set; }
+
+    public string? Title
+    {
+        get => _chart.Title;
+        set { _chart.Title = value; Invalidate(); }
+    }
+
+    public List<ChartSeries> Series => _chart.Series;
+
+    public ChartAxis XAxis
+    {
+        get => _chart.XAxis;
+        set { _chart.XAxis = value; Invalidate(); }
+    }
+
+    public ChartAxis YAxis
+    {
+        get => _chart.YAxis;
+        set { _chart.YAxis = value; Invalidate(); }
+    }
+
+    public bool EnableTooltips
+    {
+        get => _chart.EnableTooltips;
+        set => _chart.EnableTooltips = value;
+    }
+
+    public bool EnableZoomPan
+    {
+        get => _chart.EnableZoomPan;
+        set => _chart.EnableZoomPan = value;
+    }
 
     public WinFormsChartControl()
     {

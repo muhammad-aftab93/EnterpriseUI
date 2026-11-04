@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -18,8 +19,28 @@ public class WinFormsDiagramControl : Control, IThemeableControl
     private Point _dragStart;
     private bool _isDragging;
 
-    public Diagram Model => _diagram;
     public string? ThemeOverride { get; set; }
+
+    public List<DiagramNode> Nodes => _diagram.Nodes;
+    public List<DiagramConnector> Connectors => _diagram.Connectors;
+
+    public double ZoomLevel
+    {
+        get => _diagram.ZoomLevel;
+        set { _diagram.ZoomLevel = value; Invalidate(); }
+    }
+
+    public bool SnapToGrid
+    {
+        get => _diagram.SnapToGrid;
+        set => _diagram.SnapToGrid = value;
+    }
+
+    public void AutoLayoutHierarchical()
+    {
+        _diagram.AutoLayoutHierarchical();
+        Invalidate();
+    }
 
     public WinFormsDiagramControl()
     {

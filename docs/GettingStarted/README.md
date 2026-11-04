@@ -129,13 +129,13 @@ public partial class MainForm : Form
         };
 
         // 3. Define Columns
-        _grid.Engine.Columns.Add(new GridColumn { Field = "OrderId", Title = "Order #", Width = 90 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "CustomerName", Title = "Customer", Width = 220 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 200 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "TotalAmount", Title = "Total ($)", Width = 140, Alignment = ColumnTextAlignment.Right });
+        _grid.Columns.Add(new GridColumn { Field = "OrderId", Title = "Order #", Width = 90 });
+        _grid.Columns.Add(new GridColumn { Field = "CustomerName", Title = "Customer", Width = 220 });
+        _grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 200 });
+        _grid.Columns.Add(new GridColumn { Field = "TotalAmount", Title = "Total ($)", Width = 140, Alignment = ColumnTextAlignment.Right });
 
         // 4. Bind Data
-        _grid.Engine.DataSource = GetOrders();
+        _grid.DataSource = GetOrders();
 
         Controls.Add(_grid);
     }

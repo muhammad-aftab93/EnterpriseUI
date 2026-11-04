@@ -67,9 +67,9 @@ public class ChartsDemoView : UserControl
                 val += rnd.NextDouble() * 10 - 5;
                 series.DataPoints.Add(new ChartDataPoint { Category = i, Value = val });
             }
-            _chartControl.Model.Series.Clear();
-            _chartControl.Model.Series.Add(series);
-            _chartControl.Model.Title = $"1,000,000 Point Benchmark (Sub-sampled render in {sw.ElapsedMilliseconds}ms)";
+            _chartControl.Series.Clear();
+            _chartControl.Series.Add(series);
+            _chartControl.Title = $"1,000,000 Point Benchmark (Sub-sampled render in {sw.ElapsedMilliseconds}ms)";
             _chartControl.Invalidate();
         };
 
@@ -113,7 +113,7 @@ public class ChartsDemoView : UserControl
         _liveTimer = new System.Windows.Forms.Timer { Interval = 150 };
         _liveTimer.Tick += (_, _) =>
         {
-            var s = _chartControl.Model.Series[0];
+            var s = _chartControl.Series[0];
             if (s.DataPoints.Count > 0)
             {
                 var rnd = new Random();
@@ -146,12 +146,12 @@ public class ChartsDemoView : UserControl
 
     private void LoadDefaultSeries(SeriesType type)
     {
-        _chartControl.Model.Series.Clear();
+        _chartControl.Series.Clear();
         var series = new ChartSeries { Name = "Fiscal Performance", Type = type };
 
         if (type == SeriesType.Candlestick)
         {
-            _chartControl.Model.Title = "Enterprise Equity & Financial OHLC Candlestick";
+            _chartControl.Title = "Enterprise Equity & Financial OHLC Candlestick";
             var rnd = new Random(42);
             double basePrice = 150;
             for (int i = 1; i <= 12; i++)
@@ -175,7 +175,7 @@ public class ChartsDemoView : UserControl
         }
         else
         {
-            _chartControl.Model.Title = $"{type} Multi-Metric Series Analysis";
+            _chartControl.Title = $"{type} Multi-Metric Series Analysis";
             var categories = new[] { "North America", "EMEA", "APAC", "LATAM", "Global OEM", "Direct SaaS" };
             var values = new[] { 142.5, 98.4, 165.2, 54.0, 88.6, 122.8 };
 
@@ -189,7 +189,7 @@ public class ChartsDemoView : UserControl
             }
         }
 
-        _chartControl.Model.Series.Add(series);
+        _chartControl.Series.Add(series);
         _chartControl.Invalidate();
     }
 }

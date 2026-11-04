@@ -102,10 +102,10 @@ public class GaugesDemoView : UserControl
         };
 
         _radialGauge = new WinFormsGaugeControl { Dock = DockStyle.Fill, IsLinear = false };
-        _radialGauge.Model.AriaLabel = "Server CPU Load";
+        _radialGauge.AriaLabel = "Server CPU Load";
 
         _linearGauge = new WinFormsGaugeControl { Dock = DockStyle.Fill, IsLinear = true };
-        _linearGauge.Model.AriaLabel = "Memory Allocation";
+        _linearGauge.AriaLabel = "Memory Allocation";
 
         split.Panel1.Controls.Add(_radialGauge);
         split.Panel2.Controls.Add(_linearGauge);
@@ -120,7 +120,7 @@ public class GaugesDemoView : UserControl
         _telemetryTimer.Tick += (_, _) =>
         {
             var rnd = new Random();
-            var val = Math.Clamp(_radialGauge.Model.Value + rnd.Next(-4, 5), 0, 100);
+            var val = Math.Clamp(_radialGauge.Value + rnd.Next(-4, 5), 0, 100);
             _slider.Value = (int)val;
             SyncAllGauges(val);
         };
@@ -128,9 +128,9 @@ public class GaugesDemoView : UserControl
 
     private void SyncAllGauges(double val)
     {
-        _radialGauge.Model.Value = val;
-        _linearGauge.Model.Value = val;
-        _bulletGraph.Model.FeaturedMeasure = val;
+        _radialGauge.Value = val;
+        _linearGauge.Value = val;
+        _bulletGraph.FeaturedMeasure = val;
         _digitalGaugeModel.DisplayText = $"{val:000.0}%";
         _lblDigitalReadout.Text = $"DIGITAL LED: {_digitalGaugeModel.DisplayText}";
         _radialGauge.Invalidate();

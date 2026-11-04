@@ -37,7 +37,7 @@ public class MapsDemoView : UserControl
         };
         btnZoomIn.Click += (_, _) =>
         {
-            _mapControl.Model.ZoomLevel++;
+            _mapControl.ZoomLevel++;
             _mapControl.Invalidate();
         };
 
@@ -50,7 +50,7 @@ public class MapsDemoView : UserControl
         };
         btnZoomOut.Click += (_, _) =>
         {
-            _mapControl.Model.ZoomLevel--;
+            _mapControl.ZoomLevel--;
             _mapControl.Invalidate();
         };
 
@@ -64,7 +64,7 @@ public class MapsDemoView : UserControl
         btnFleet.Click += (_, _) =>
         {
             var rnd = new Random();
-            foreach (var m in _mapControl.Model.Markers)
+            foreach (var m in _mapControl.Markers)
             {
                 m.Location = new GeoLocation(
                     m.Location.Latitude + (rnd.NextDouble() * 0.4 - 0.2),
@@ -76,24 +76,24 @@ public class MapsDemoView : UserControl
         toolbar.Controls.AddRange(new Control[] { btnZoomIn, btnZoomOut, btnFleet });
 
         _mapControl = new WinFormsMapControl { Dock = DockStyle.Fill };
-        _mapControl.Model.Center = new GeoLocation(37.7749, -122.4194);
-        _mapControl.Model.ZoomLevel = 8;
+        _mapControl.Center = new GeoLocation(37.7749, -122.4194);
+        _mapControl.ZoomLevel = 8;
 
-        _mapControl.Model.Markers.Add(new GeoMarker
+        _mapControl.Markers.Add(new GeoMarker
         {
             Title = "HQ Data Center",
             Location = new GeoLocation(37.7749, -122.4194),
             Description = "Primary Cloud Region (Tier IV)",
             Color = "#0078d4"
         });
-        _mapControl.Model.Markers.Add(new GeoMarker
+        _mapControl.Markers.Add(new GeoMarker
         {
             Title = "Logistics Hub Alpha",
             Location = new GeoLocation(37.8044, -122.2712),
             Description = "Oakland Port Facility (42 trucks dispatched)",
             Color = "#107c10"
         });
-        _mapControl.Model.Markers.Add(new GeoMarker
+        _mapControl.Markers.Add(new GeoMarker
         {
             Title = "Asset Fleet #108",
             Location = new GeoLocation(37.6213, -122.3790),

@@ -359,7 +359,7 @@ public class EditorsDemoView : UserControl
 
         btnTok.Click += (_, _) =>
         {
-            var tokens = syntaxCtrl.Engine.Tokenize();
+            var tokens = syntaxCtrl.Tokenize();
             lblSynRes.Text = $"Classified {tokens.Count} C# tokens";
             _baseView.LogEvent("SyntaxEditor.Tokenize", $"{tokens.Count} tokens");
         };

@@ -23,11 +23,18 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private readonly VScrollBar _vScroll;
-    public VirtualGrid Engine { get; } = new() { RowCount = 1_000_000, ColumnCount = 12 };
+    private readonly VirtualGrid _grid = new() { RowCount = 1_000_000, ColumnCount = 12 };
     public string? ThemeOverride { get; set; }
     public int SelectedRow { get; private set; }
     public int SelectedCol { get; private set; }
     public event Action<int, int, object?>? CellSelected;
+
+    public int RowCount { get => _grid.RowCount; set { _grid.RowCount = value; Invalidate(); } }
+    public int ColumnCount { get => _grid.ColumnCount; set { _grid.ColumnCount = value; Invalidate(); } }
+    public event EventHandler<VirtualCellValueNeededEventArgs>? CellValueNeeded { add => _grid.CellValueNeeded += value; remove => _grid.CellValueNeeded -= value; }
+    public event EventHandler<VirtualCellValuePushedEventArgs>? CellValuePushed { add => _grid.CellValuePushed += value; remove => _grid.CellValuePushed -= value; }
+    public object? GetCellValue(int rowIndex, int columnIndex) => _grid.GetCellValue(rowIndex, columnIndex);
+    public void SetCellValue(int rowIndex, int columnIndex, object? value) { _grid.SetCellValue(rowIndex, columnIndex, value); Invalidate(); }
 
     public WinFormsVirtualGridControl()
     {
@@ -39,7 +46,7 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
         _vScroll.Scroll += (_, _) => Invalidate();
         Controls.Add(_vScroll);
 
-        Engine.CellValueNeeded += (_, e) =>
+        _grid.CellValueNeeded += (_, e) =>
         {
             e.Value = e.ColumnIndex switch
             {
@@ -64,7 +71,7 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
     {
         base.OnMouseWheel(e);
         int delta = e.Delta > 0 ? -5 : 5;
-        _vScroll.Value = Math.Clamp(_vScroll.Value + delta, _vScroll.Minimum, Math.Max(0, Engine.RowCount - 15));
+        _vScroll.Value = Math.Clamp(_vScroll.Value + delta, _vScroll.Minimum, Math.Max(0, _grid.RowCount - 15));
         Invalidate();
     }
 
@@ -74,10 +81,10 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
         int rowH = 26;
         int headerH = 30;
         int rowIdx = _vScroll.Value + Math.Max(0, (e.Y - headerH) / rowH);
-        int colIdx = Math.Clamp((e.X - 70) / 125, 0, Engine.ColumnCount - 1);
+        int colIdx = Math.Clamp((e.X - 70) / 125, 0, _grid.ColumnCount - 1);
         SelectedRow = rowIdx;
         SelectedCol = colIdx;
-        CellSelected?.Invoke(rowIdx, colIdx, Engine.GetCellValue(rowIdx, colIdx));
+        CellSelected?.Invoke(rowIdx, colIdx, _grid.GetCellValue(rowIdx, colIdx));
         Invalidate();
     }
 
@@ -121,7 +128,7 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
         for (int r = 0; r < visibleRows; r++)
         {
             int actualRow = _vScroll.Value + r;
-            if (actualRow >= Engine.RowCount) break;
+            if (actualRow >= _grid.RowCount) break;
             int ry = headerH + r * rowH;
 
             g.DrawLine(borderPen, 0, ry + rowH, Width, ry + rowH);
@@ -136,7 +143,7 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
                     g.FillRectangle(selBrush, cellRect);
                     g.DrawRectangle(selPen, cellRect);
                 }
-                var val = Engine.GetCellValue(actualRow, c)?.ToString() ?? string.Empty;
+                var val = _grid.GetCellValue(actualRow, c)?.ToString() ?? string.Empty;
                 g.DrawString(val, Font, fgBrush, new RectangleF(cx + 6, ry + 5, colW - 10, rowH - 6));
             }
         }
@@ -151,8 +158,14 @@ public class WinFormsVirtualGridControl : Control, IThemeableControl
 public class WinFormsSyntaxEditorControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    public SyntaxEditor Engine { get; } = new();
+    private readonly SyntaxEditor _syntaxEditor = new();
     public string? ThemeOverride { get; set; }
+
+    public string Language { get => _syntaxEditor.Language; set { _syntaxEditor.Language = value; Invalidate(); } }
+    public bool ShowLineNumbers { get => _syntaxEditor.ShowLineNumbers; set { _syntaxEditor.ShowLineNumbers = value; Invalidate(); } }
+    public bool EnableCodeFolding { get => _syntaxEditor.EnableCodeFolding; set { _syntaxEditor.EnableCodeFolding = value; Invalidate(); } }
+    public string DocumentText { get => _syntaxEditor.DocumentText; set { _syntaxEditor.DocumentText = value; Invalidate(); } }
+    public IReadOnlyList<SyntaxEditor.SyntaxToken> Tokenize() => _syntaxEditor.Tokenize();
 
     public WinFormsSyntaxEditorControl()
     {
@@ -160,7 +173,7 @@ public class WinFormsSyntaxEditorControl : Control, IThemeableControl
         DoubleBuffered = true;
         Font = new Font("Consolas", 9.5f);
         Size = new Size(740, 260);
-        Engine.DocumentText =
+        _syntaxEditor.DocumentText =
 @"// EnterpriseUI SyntaxEditor — Lexical Tokenizer & Folding Engine
 using EnterpriseUI.Grids;
 using EnterpriseUI.Theming;
@@ -208,7 +221,7 @@ namespace EnterpriseUI.Sample
         g.FillRectangle(gutterBrush, 0, 0, gutterW, Height);
         g.DrawLine(borderPen, gutterW, 0, gutterW, Height);
 
-        var lines = Engine.DocumentText.Replace("\r\n", "\n").Split('\n');
+        var lines = _syntaxEditor.DocumentText.Replace("\r\n", "\n").Split('\n');
         int lineH = 20;
         for (int i = 0; i < lines.Length; i++)
         {
@@ -242,9 +255,16 @@ namespace EnterpriseUI.Sample
 public class WinFormsBulletGraphControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    public BulletGraph Model { get; } = new();
+    private readonly BulletGraph _bulletGraph = new();
     public string Title { get; set; } = "Q4 Enterprise ARR Target ($M)";
     public string? ThemeOverride { get; set; }
+
+    public double Minimum { get => _bulletGraph.Minimum; set { _bulletGraph.Minimum = value; Invalidate(); } }
+    public double Maximum { get => _bulletGraph.Maximum; set { _bulletGraph.Maximum = value; Invalidate(); } }
+    public double FeaturedMeasure { get => _bulletGraph.FeaturedMeasure; set { _bulletGraph.FeaturedMeasure = value; Invalidate(); } }
+    public double ComparativeMeasure { get => _bulletGraph.ComparativeMeasure; set { _bulletGraph.ComparativeMeasure = value; Invalidate(); } }
+    public List<GaugeRange> QualitativeRanges => _bulletGraph.QualitativeRanges;
+    public bool IsAchievingTarget => _bulletGraph.IsAchievingTarget;
 
     public WinFormsBulletGraphControl()
     {
@@ -277,7 +297,7 @@ public class WinFormsBulletGraphControl : Control, IThemeableControl
 
         int labelW = 210;
         g.DrawString(Title, boldFont, fgBrush, 10, 14);
-        g.DrawString($"Actual: {Model.FeaturedMeasure:F1}% | Target: {Model.ComparativeMeasure:F1}%", Font, fgBrush, 10, 36);
+        g.DrawString($"Actual: {_bulletGraph.FeaturedMeasure:F1}% | Target: {_bulletGraph.ComparativeMeasure:F1}%", Font, fgBrush, 10, 36);
 
         int barX = labelW;
         int barW = Math.Max(100, Width - labelW - 24);
@@ -285,20 +305,20 @@ public class WinFormsBulletGraphControl : Control, IThemeableControl
         int barH = 36;
 
         Color[] qualColors = { Color.FromArgb(220, 224, 230), Color.FromArgb(190, 198, 210), Color.FromArgb(160, 172, 188) };
-        for (int i = 0; i < Model.QualitativeRanges.Count; i++)
+        for (int i = 0; i < _bulletGraph.QualitativeRanges.Count; i++)
         {
-            var r = Model.QualitativeRanges[i];
-            float rx = barX + (float)(r.From / Model.Maximum) * barW;
-            float rw = (float)((r.To - r.From) / Model.Maximum) * barW;
+            var r = _bulletGraph.QualitativeRanges[i];
+            float rx = barX + (float)(r.From / _bulletGraph.Maximum) * barW;
+            float rw = (float)((r.To - r.From) / _bulletGraph.Maximum) * barW;
             using var qBrush = new SolidBrush(qualColors[i % qualColors.Length]);
             g.FillRectangle(qBrush, rx, barY, rw, barH);
         }
 
-        float featW = (float)(Model.FeaturedMeasure / Model.Maximum) * barW;
+        float featW = (float)(_bulletGraph.FeaturedMeasure / _bulletGraph.Maximum) * barW;
         using var featBrush = new SolidBrush(primary);
         g.FillRectangle(featBrush, barX, barY + 10, featW, barH - 20);
 
-        float targetX = barX + (float)(Model.ComparativeMeasure / Model.Maximum) * barW;
+        float targetX = barX + (float)(_bulletGraph.ComparativeMeasure / _bulletGraph.Maximum) * barW;
         using var targetPen = new Pen(Color.FromArgb(200, 30, 30), 3f);
         g.DrawLine(targetPen, targetX, barY + 4, targetX, barY + barH - 4);
         g.DrawRectangle(borderPen, 0, 0, Width - 1, Height - 1);
@@ -311,9 +331,15 @@ public class WinFormsBulletGraphControl : Control, IThemeableControl
 public class WinFormsCarouselControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
-    public Carousel Model { get; } = new();
+    private readonly Carousel _carousel = new();
     public string? ThemeOverride { get; set; }
     public event Action<string>? SelectedItemChanged;
+
+    public List<object> Items => _carousel.Items;
+    public int SelectedIndex { get => _carousel.SelectedIndex; set { _carousel.SelectedIndex = value; Invalidate(); } }
+    public void MoveNext() { _carousel.MoveNext(); Invalidate(); }
+    public void MovePrevious() { _carousel.MovePrevious(); Invalidate(); }
+    public IReadOnlyList<Carousel.CarouselItemProjection> ComputeProjections() => _carousel.ComputeProjections();
 
     public WinFormsCarouselControl()
     {
@@ -321,7 +347,7 @@ public class WinFormsCarouselControl : Control, IThemeableControl
         DoubleBuffered = true;
         Size = new Size(720, 240);
 
-        Model.Items.AddRange(new object[]
+        _carousel.Items.AddRange(new object[]
         {
             "1. Executive BI & Analytics",
             "2. 1M-Row DataGrid Engine",
@@ -343,9 +369,9 @@ public class WinFormsCarouselControl : Control, IThemeableControl
     protected override void OnMouseClick(MouseEventArgs e)
     {
         base.OnMouseClick(e);
-        if (e.X > Width / 2) Model.MoveNext();
-        else Model.MovePrevious();
-        SelectedItemChanged?.Invoke(Model.Items[Model.SelectedIndex]?.ToString() ?? string.Empty);
+        if (e.X > Width / 2) _carousel.MoveNext();
+        else _carousel.MovePrevious();
+        SelectedItemChanged?.Invoke(_carousel.Items[_carousel.SelectedIndex]?.ToString() ?? string.Empty);
         Invalidate();
     }
 
@@ -360,7 +386,7 @@ public class WinFormsCarouselControl : Control, IThemeableControl
         var primary = WinFormsThemeEngine.GetColor(_theme, DesignTokens.Primary, Color.FromArgb(0, 120, 212));
 
         g.Clear(bg);
-        var projections = Model.ComputeProjections();
+        var projections = _carousel.ComputeProjections();
         float cx = Width / 2f;
         float cy = Height / 2f + 12;
 
@@ -375,7 +401,7 @@ public class WinFormsCarouselControl : Control, IThemeableControl
 
             int alpha = Math.Clamp((int)(p.Opacity * 255), 60, 255);
             using var cardBrush = new SolidBrush(Color.FromArgb(alpha, surface));
-            using var borderPen = new Pen(p.Index == Model.SelectedIndex ? primary : Color.FromArgb(alpha, Color.Gray), p.Index == Model.SelectedIndex ? 2.5f : 1f);
+            using var borderPen = new Pen(p.Index == _carousel.SelectedIndex ? primary : Color.FromArgb(alpha, Color.Gray), p.Index == _carousel.SelectedIndex ? 2.5f : 1f);
             using var textBrush = new SolidBrush(Color.FromArgb(alpha, fg));
             using var cardFont = new Font(Font.FontFamily, Math.Max(7.5f, (float)(10f * p.Scale)), FontStyle.Bold);
 
@@ -393,10 +419,19 @@ public class WinFormsRatingAndWaitingControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private int _marqueeOffset;
-    public RatingControl Rating { get; } = new() { MaxStars = 5, Value = 4 };
-    public WaitingBar Waiting { get; } = new() { IsWaiting = true };
+    private readonly RatingControl _rating = new() { MaxStars = 5, Value = 4 };
+    private readonly WaitingBar _waiting = new() { IsWaiting = true };
     public string? ThemeOverride { get; set; }
     public event Action<double>? RatingChanged;
+
+    public int MaxStars { get => _rating.MaxStars; set { _rating.MaxStars = value; Invalidate(); } }
+    public double Value { get => _rating.Value; set { _rating.Value = value; Invalidate(); } }
+    public bool AllowHalfStars { get => _rating.AllowHalfStars; set => _rating.AllowHalfStars = value; }
+    public WaitingBarStyle WaitingStyle { get => _waiting.WaitingStyle; set { _waiting.WaitingStyle = value; Invalidate(); } }
+    public bool IsWaiting { get => _waiting.IsWaiting; set { _waiting.IsWaiting = value; Invalidate(); } }
+    public string WaitingText { get => _waiting.WaitingText; set { _waiting.WaitingText = value; Invalidate(); } }
+    public void StartWaiting() { _waiting.StartWaiting(); Invalidate(); }
+    public void StopWaiting() { _waiting.StopWaiting(); Invalidate(); }
 
     public WinFormsRatingAndWaitingControl()
     {
@@ -423,8 +458,8 @@ public class WinFormsRatingAndWaitingControl : Control, IThemeableControl
         base.OnMouseClick(e);
         if (e.Y < 45 && e.X >= 130 && e.X <= 300)
         {
-            int star = Math.Clamp((e.X - 130) / 32 + 1, 1, Rating.MaxStars);
-            Rating.Value = star;
+            int star = Math.Clamp((e.X - 130) / 32 + 1, 1, _rating.MaxStars);
+            _rating.Value = star;
             RatingChanged?.Invoke(star);
             Invalidate();
         }
@@ -448,11 +483,11 @@ public class WinFormsRatingAndWaitingControl : Control, IThemeableControl
         using var boldFont = new Font(Font, FontStyle.Bold);
 
         g.DrawString("RadRating Parity:", boldFont, fgBrush, 10, 12);
-        for (int i = 0; i < Rating.MaxStars; i++)
+        for (int i = 0; i < _rating.MaxStars; i++)
         {
-            g.DrawString("★", starFont, i < Rating.Value ? goldBrush : mutedBrush, 130 + i * 32, 5);
+            g.DrawString("★", starFont, i < _rating.Value ? goldBrush : mutedBrush, 130 + i * 32, 5);
         }
-        g.DrawString($"({Rating.Value:F1} / {Rating.MaxStars}.0 — Click stars to rate)", Font, fgBrush, 305, 12);
+        g.DrawString($"({_rating.Value:F1} / {_rating.MaxStars}.0 — Click stars to rate)", Font, fgBrush, 305, 12);
 
         g.DrawString("RadWaitingBar:", boldFont, fgBrush, 10, 52);
         var trackRect = new Rectangle(130, 50, Math.Max(120, Width - 160), 22);

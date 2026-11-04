@@ -38,8 +38,8 @@ public class DiagramsDemoView : UserControl
         btnAddNode.Click += (_, _) =>
         {
             var id = Guid.NewGuid().ToString("N");
-            var count = _diagramControl.Model.Nodes.Count;
-            _diagramControl.Model.Nodes.Add(new DiagramNode
+            var count = _diagramControl.Nodes.Count;
+            _diagramControl.Nodes.Add(new DiagramNode
             {
                 Id = id,
                 Text = $"Microservice #{count + 1}",
@@ -84,19 +84,19 @@ public class DiagramsDemoView : UserControl
 
     private void SetupDefaultArchitecture()
     {
-        _diagramControl.Model.Nodes.Clear();
-        _diagramControl.Model.Connectors.Clear();
+        _diagramControl.Nodes.Clear();
+        _diagramControl.Connectors.Clear();
 
         var node1 = new DiagramNode { Id = "n1", Text = "API Gateway\n(Envoy / YARP)", X = 40, Y = 100, Width = 130, Height = 60 };
         var node2 = new DiagramNode { Id = "n2", Text = "Auth & Identity\n(OAuth / JWT)", X = 240, Y = 40, Width = 130, Height = 60 };
         var node3 = new DiagramNode { Id = "n3", Text = "Order Engine\n(High-Throughput)", X = 240, Y = 160, Width = 140, Height = 60 };
         var node4 = new DiagramNode { Id = "n4", Text = "Distributed DB\n(CockroachDB)", X = 450, Y = 160, Width = 130, Height = 60 };
 
-        _diagramControl.Model.Nodes.AddRange(new[] { node1, node2, node3, node4 });
+        _diagramControl.Nodes.AddRange(new[] { node1, node2, node3, node4 });
 
-        _diagramControl.Model.Connectors.Add(new DiagramConnector { SourceNodeId = "n1", TargetNodeId = "n2", Label = "Validate" });
-        _diagramControl.Model.Connectors.Add(new DiagramConnector { SourceNodeId = "n1", TargetNodeId = "n3", Label = "Dispatch" });
-        _diagramControl.Model.Connectors.Add(new DiagramConnector { SourceNodeId = "n3", TargetNodeId = "n4", Label = "ACID Commit" });
+        _diagramControl.Connectors.Add(new DiagramConnector { SourceNodeId = "n1", TargetNodeId = "n2", Label = "Validate" });
+        _diagramControl.Connectors.Add(new DiagramConnector { SourceNodeId = "n1", TargetNodeId = "n3", Label = "Dispatch" });
+        _diagramControl.Connectors.Add(new DiagramConnector { SourceNodeId = "n3", TargetNodeId = "n4", Label = "ACID Commit" });
     }
 }
 

@@ -44,7 +44,7 @@ public class DashboardDemoView : UserControl
 
         // 2. Chart Component
         _chart = new WinFormsChartControl { Dock = DockStyle.Fill };
-        _chart.Model.Title = "Global Revenue Trend & Forecast";
+        _chart.Title = "Global Revenue Trend & Forecast";
         var s = new ChartSeries { Name = "Revenue", Type = SeriesType.Area };
         s.DataPoints.Add(new ChartDataPoint { Category = "Jan", Value = 320 });
         s.DataPoints.Add(new ChartDataPoint { Category = "Feb", Value = 365 });
@@ -52,7 +52,7 @@ public class DashboardDemoView : UserControl
         s.DataPoints.Add(new ChartDataPoint { Category = "Apr", Value = 390 });
         s.DataPoints.Add(new ChartDataPoint { Category = "May", Value = 460 });
         s.DataPoints.Add(new ChartDataPoint { Category = "Jun", Value = 520 });
-        _chart.Model.Series.Add(s);
+        _chart.Series.Add(s);
 
         mainPanel.Controls.Add(_chart);
         mainPanel.Controls.Add(kpiRow);

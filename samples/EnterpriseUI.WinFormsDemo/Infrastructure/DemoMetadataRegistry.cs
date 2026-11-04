@@ -35,12 +35,12 @@ public static class DemoMetadataRegistry
             SourceCode =
 @"// High-Performance Virtualized WinForms DataGrid
 var grid = new WinFormsDataGrid<GridDemoRecord>();
-grid.Engine.EnableVirtualization = true;
-grid.Engine.Columns.Add(new GridColumn { Field = ""Id"", Title = ""Record ID"" });
-grid.Engine.Columns.Add(new GridColumn { Field = ""Customer"", Title = ""Enterprise Customer"" });
-grid.Engine.Columns.Add(new GridColumn { Field = ""UnitPrice"", Title = ""Unit Price"", FormatString = ""C2"" });
-grid.Engine.DataSource = GenerateSampleData(1000000); // 1,000,000 records
-await grid.Engine.RefreshDataAsync();",
+grid.EnableVirtualization = true;
+grid.Columns.Add(new GridColumn { Field = ""Id"", Title = ""Record ID"" });
+grid.Columns.Add(new GridColumn { Field = ""Customer"", Title = ""Enterprise Customer"" });
+grid.Columns.Add(new GridColumn { Field = ""UnitPrice"", Title = ""Unit Price"", FormatString = ""C2"" });
+grid.DataSource = GenerateSampleData(1000000); // 1,000,000 records
+await grid.RefreshDataAsync();",
             Documentation = "The WinFormsDataGrid draws with GDI+ from the headless DataGrid<T> engine, which caches only a window of rows around the viewport. Sorting and filtering re-query the in-memory source, so measure large datasets on your own hardware before relying on a latency target.",
             BestPractices = "Always enable virtualization for datasets exceeding 1,000 items. Keep row height fixed for constant time O(1) viewport index computation.",
             Troubleshooting = "Ensure DoubleBuffered is true to avoid flicker. Use FormatString rather than custom cell events for high-throughput numeric columns.",
@@ -112,7 +112,7 @@ pivot.Fields.Add(new PivotField { FieldName = ""Revenue"", Area = PivotArea.Data
 @"var chart = new WinFormsChartControl();
 var series = new ChartSeries { Name = ""Equity"", Type = SeriesType.Candlestick };
 series.DataPoints.Add(new ChartDataPoint { Category = ""Day 1"", Open = 150, Close = 158, High = 162, Low = 148 });
-chart.Model.Series.Add(series);",
+chart.Series.Add(series);",
             Documentation = "Charts support hardware-accelerated GDI+ rendering with automated axis normalization and marker decimation.",
             BestPractices = "Use LTTB (Largest Triangle Three Buckets) or bucket decimation when visualizing datasets over 100,000 points.",
             Troubleshooting = "Set EnableZoomPan = true to let users interactively drill down into localized volatility ranges.",
@@ -134,10 +134,10 @@ chart.Model.Series.Add(series);",
             ViewFactory = () => new GaugesDemoView(GetById("gauges-radial-linear")),
             SourceCode =
 @"var gauge = new WinFormsGaugeControl { IsLinear = false };
-gauge.Model.Min = 0;
-gauge.Model.Max = 100;
-gauge.Model.Value = 68;
-gauge.Model.Ranges.Add(new GaugeRange { From = 0, To = 50, Color = ""#107c10"" });",
+gauge.Min = 0;
+gauge.Max = 100;
+gauge.Value = 68;
+gauge.Ranges.Add(new GaugeRange { From = 0, To = 50, Color = ""#107c10"" });",
             Documentation = "Radial and Linear gauges provide instant visual feedback for server health, CPU/RAM utilization, and industrial metrics.",
             BestPractices = "Limit redraws to value changes exceeding 0.5 units to minimize unnecessary paint cycles.",
             Troubleshooting = "Configure StartAngle and EndAngle to align with standard 270-degree industrial gauges.",
@@ -159,8 +159,8 @@ gauge.Model.Ranges.Add(new GaugeRange { From = 0, To = 50, Color = ""#107c10"" }
             ViewFactory = () => new SchedulerDemoView(GetById("scheduler-appointments")),
             SourceCode =
 @"var scheduler = new WinFormsSchedulerControl();
-scheduler.Model.ActiveView = SchedulerViewType.Week;
-scheduler.Model.Appointments.Add(new Appointment
+scheduler.ActiveView = SchedulerViewType.Week;
+scheduler.Appointments.Add(new Appointment
 {
     Subject = ""Sprint Review"",
     Start = DateTime.Today.AddHours(9),
@@ -190,8 +190,8 @@ scheduler.Model.Appointments.Add(new Appointment
 @"var diagram = new WinFormsDiagramControl();
 var n1 = new DiagramNode { Id = ""n1"", Text = ""Gateway"", X = 40, Y = 100 };
 var n2 = new DiagramNode { Id = ""n2"", Text = ""Auth"", X = 240, Y = 40 };
-diagram.Model.Nodes.AddRange(new[] { n1, n2 });
-diagram.Model.Connectors.Add(new DiagramConnector { SourceNodeId = ""n1"", TargetNodeId = ""n2"" });",
+diagram.Nodes.AddRange(new[] { n1, n2 });
+diagram.Connectors.Add(new DiagramConnector { SourceNodeId = ""n1"", TargetNodeId = ""n2"" });",
             Documentation = "Diagrams provide an extensible canvas for process workflows, state machines, and system topologies.",
             BestPractices = "Use orthogonal connector pathing for enterprise architecture and network flow diagrams.",
             Troubleshooting = "Verify all connector source and target IDs exist in the Nodes collection.",
@@ -213,9 +213,9 @@ diagram.Model.Connectors.Add(new DiagramConnector { SourceNodeId = ""n1"", Targe
             ViewFactory = () => new MapsDemoView(GetById("maps-gis-fleet")),
             SourceCode =
 @"var map = new WinFormsMapControl();
-map.Model.Center = new GeoLocation(37.7749, -122.4194);
-map.Model.ZoomLevel = 8;
-map.Model.Markers.Add(new GeoMarker
+map.Center = new GeoLocation(37.7749, -122.4194);
+map.ZoomLevel = 8;
+map.Markers.Add(new GeoMarker
 {
     Title = ""HQ Data Center"",
     Location = new GeoLocation(37.7749, -122.4194),

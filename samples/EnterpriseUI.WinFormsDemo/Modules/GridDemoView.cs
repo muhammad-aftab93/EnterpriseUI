@@ -68,8 +68,8 @@ public class GridDemoView : UserControl
         btnSimulate1M.Click += async (_, _) =>
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            _grid.Engine.DataSource = GenerateSampleData(1000000);
-            await _grid.Engine.RefreshDataAsync();
+            _grid.DataSource = GenerateSampleData(1000000);
+            await _grid.RefreshDataAsync();
             sw.Stop();
             _grid.Invalidate();
             _lblMetrics.Text = $"Active Records: 1,000,000 | Virtualization: Active | Bind Time: {sw.ElapsedMilliseconds} ms";
@@ -84,8 +84,8 @@ public class GridDemoView : UserControl
         };
         btnReset.Click += async (_, _) =>
         {
-            _grid.Engine.DataSource = _allRecords;
-            await _grid.Engine.RefreshDataAsync();
+            _grid.DataSource = _allRecords;
+            await _grid.RefreshDataAsync();
             _grid.Invalidate();
             _lblMetrics.Text = $"Active Records: {_allRecords.Count} | Normal Virtualized Mode";
         };
@@ -99,8 +99,8 @@ public class GridDemoView : UserControl
         };
         btnMultiSort.Click += (_, _) =>
         {
-            _grid.Engine.SortBy("Region", System.ComponentModel.ListSortDirection.Ascending);
-            _grid.Engine.CycleSort("Total", true);
+            _grid.SortBy("Region", System.ComponentModel.ListSortDirection.Ascending);
+            _grid.CycleSort("Total", true);
             _grid.Invalidate();
             _lblMetrics.Text = "Multi-Column Sorting Applied: [Region ASC, Total DESC]";
         };
@@ -114,7 +114,7 @@ public class GridDemoView : UserControl
         };
         btnGroupRegion.Click += (_, _) =>
         {
-            _grid.Engine.GroupBy("Region");
+            _grid.GroupBy("Region");
             _grid.Invalidate();
             _lblMetrics.Text = "Group by Region Active";
         };
@@ -128,7 +128,7 @@ public class GridDemoView : UserControl
         };
         btnClearGroup.Click += (_, _) =>
         {
-            _grid.Engine.ClearGroups();
+            _grid.ClearGroups();
             _grid.Invalidate();
             _lblMetrics.Text = "Grouping Cleared";
         };
@@ -166,7 +166,7 @@ public class GridDemoView : UserControl
         };
         txtSearch.TextChanged += (_, _) =>
         {
-            _grid.Engine.SearchPanelText = txtSearch.Text;
+            _grid.SearchPanelText = txtSearch.Text;
             _grid.Invalidate();
         };
 
@@ -179,10 +179,10 @@ public class GridDemoView : UserControl
         };
         btnColumnChooser.Click += (_, _) =>
         {
-            var col = _grid.Engine.Columns.FirstOrDefault(c => c.Field == "Priority");
+            var col = _grid.Columns.FirstOrDefault(c => c.Field == "Priority");
             if (col != null)
             {
-                _grid.Engine.SetColumnVisibility("Priority", !col.Visible);
+                _grid.SetColumnVisibility("Priority", !col.Visible);
                 _grid.Invalidate();
                 btnColumnChooser.Text = col.Visible ? "Hide Priority Column" : "Show Priority Column";
             }
@@ -197,7 +197,7 @@ public class GridDemoView : UserControl
         };
         btnSavePreset.Click += (_, _) =>
         {
-            _savedProfile = _grid.Engine.CreateLayoutProfile("MyCustomLayout");
+            _savedProfile = _grid.CreateLayoutProfile("MyCustomLayout");
             MessageBox.Show("Column layout profile (visibility, widths, sort order) saved to memory!", "Column Profile Presets", MessageBoxButtons.OK, MessageBoxIcon.Information);
         };
 
@@ -212,7 +212,7 @@ public class GridDemoView : UserControl
         {
             if (_savedProfile != null)
             {
-                _grid.Engine.ApplyLayoutProfile(_savedProfile);
+                _grid.ApplyLayoutProfile(_savedProfile);
                 _grid.Invalidate();
             }
             else
@@ -244,13 +244,13 @@ public class GridDemoView : UserControl
         };
         btnMasterDetail.Click += (_, _) =>
         {
-            _grid.Engine.EnableMasterDetail = !_grid.Engine.EnableMasterDetail;
-            if (_grid.Engine.EnableMasterDetail && _grid.Engine.RenderedItems.Count > 0)
+            _grid.EnableMasterDetail = !_grid.EnableMasterDetail;
+            if (_grid.EnableMasterDetail && _grid.RenderedItems.Count > 0)
             {
-                _grid.Engine.ToggleDetailExpansion(_grid.Engine.RenderedItems[0]);
+                _grid.ToggleDetailExpansion(_grid.RenderedItems[0]);
             }
             _grid.Invalidate();
-            _baseView.LogEvent("MasterDetailToggled", $"EnableMasterDetail: {_grid.Engine.EnableMasterDetail}");
+            _baseView.LogEvent("MasterDetailToggled", $"EnableMasterDetail: {_grid.EnableMasterDetail}");
         };
 
         var btnBanded = new Button
@@ -293,7 +293,7 @@ public class GridDemoView : UserControl
                 };
 
                 const int exportLimit = 100_000;
-                var rows = await _grid.Engine.ReadAllAsync(exportLimit);
+                var rows = await _grid.ReadAllAsync(exportLimit);
                 using var fs = File.Create(sfd.FileName);
                 await ExportEngine.ExportAsync(rows, format, fs);
                 var suffix = rows.Count >= exportLimit ? $" (limited to the first {exportLimit:N0} rows)" : string.Empty;
@@ -345,22 +345,22 @@ public class GridDemoView : UserControl
 
         // DataGrid Setup
         _grid = new WinFormsDataGrid<GridDemoRecord> { Dock = DockStyle.Fill };
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 90 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 180 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 170 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Region", Title = "Region", Width = 110 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "UnitPrice", Title = "Unit Price", FormatString = "C2", Width = 100 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Quantity", Title = "Qty", Width = 70 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Total", Title = "Gross Amount", FormatString = "C2", Width = 110 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Priority", Title = "Priority", Width = 90 });
-        _grid.Engine.Columns.Add(new GridColumn { Field = "Status", Title = "Status", Width = 100 });
+        _grid.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 90 });
+        _grid.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 180 });
+        _grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 170 });
+        _grid.Columns.Add(new GridColumn { Field = "Region", Title = "Region", Width = 110 });
+        _grid.Columns.Add(new GridColumn { Field = "UnitPrice", Title = "Unit Price", FormatString = "C2", Width = 100 });
+        _grid.Columns.Add(new GridColumn { Field = "Quantity", Title = "Qty", Width = 70 });
+        _grid.Columns.Add(new GridColumn { Field = "Total", Title = "Gross Amount", FormatString = "C2", Width = 110 });
+        _grid.Columns.Add(new GridColumn { Field = "Priority", Title = "Priority", Width = 90 });
+        _grid.Columns.Add(new GridColumn { Field = "Status", Title = "Status", Width = 100 });
 
         var orderBand = new GridColumnBand { Title = "Order" };
         var commercialBand = new GridColumnBand { Title = "Commercial" };
         var pricingBand = new GridColumnBand { Title = "Pricing" };
         var workflowBand = new GridColumnBand { Title = "Workflow" };
         commercialBand.ChildBands.Add(pricingBand);
-        _grid.Engine.Bands.AddRange(new[] { orderBand, commercialBand, workflowBand });
+        _grid.Bands.AddRange(new[] { orderBand, commercialBand, workflowBand });
 
         var bandByField = new Dictionary<string, GridColumnBand>
         {
@@ -368,11 +368,11 @@ public class GridDemoView : UserControl
             ["UnitPrice"] = pricingBand, ["Quantity"] = pricingBand, ["Total"] = pricingBand,
             ["Priority"] = workflowBand, ["Status"] = workflowBand
         };
-        foreach (var column in _grid.Engine.Columns)
+        foreach (var column in _grid.Columns)
         {
             column.BandId = bandByField[column.Field].Id;
         }
-        _grid.Engine.FormatRules.Add(new GridFormatRule
+        _grid.FormatRules.Add(new GridFormatRule
         {
             Name = "Gross amount data bar",
             ColumnField = "Total",
@@ -381,7 +381,7 @@ public class GridDemoView : UserControl
             Value2 = 60000m,
             BackgroundColorHex = "#5088d7"
         });
-        _grid.Engine.FormatRules.Add(new GridFormatRule
+        _grid.FormatRules.Add(new GridFormatRule
         {
             Name = "Critical priority highlight",
             ColumnField = "Priority",
@@ -391,7 +391,7 @@ public class GridDemoView : UserControl
             BackgroundColorHex = "#fff0c2",
             ForegroundColorHex = "#713f12"
         });
-        _grid.Engine.FormatRules.Add(new GridFormatRule
+        _grid.FormatRules.Add(new GridFormatRule
         {
             Name = "Quantity color scale",
             ColumnField = "Quantity",
@@ -402,7 +402,7 @@ public class GridDemoView : UserControl
             ForegroundColorHex = "#6aa86e"
         });
 
-        _grid.Engine.DataSource = _allRecords;
+        _grid.DataSource = _allRecords;
         _grid.SelectionChanged += (_, _) => _baseView.LogEvent("RowSelectionChanged", $"SelectedRowIndex: {_grid.SelectedRowIndex}, TotalSelected: {_grid.SelectedIndices.Count}");
         _grid.CellEdited += (_, details) => _baseView.LogEvent("CellEdited", details);
 
@@ -417,7 +417,7 @@ public class GridDemoView : UserControl
             var target = _allRecords[rnd.Next(_allRecords.Count)];
             target.UnitPrice = Math.Max(50, target.UnitPrice + rnd.Next(-15, 25));
             target.Timestamp = DateTime.UtcNow;
-            await _grid.Engine.RefreshDataAsync();
+            await _grid.RefreshDataAsync();
             _grid.Invalidate();
         };
     }
