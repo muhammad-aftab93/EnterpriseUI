@@ -1,0 +1,144 @@
+# Missing Controls Report
+
+Assessment: 2026-11-05. Evidence-based baseline, not a parity certification.
+
+- **Telerik / Data Management / CardView**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Management / CheckedListBox**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Management / DataEntry**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Management / DataLayout**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Management / ListControl**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Management / ListView**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Management / PivotGrid**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Management / PropertyGrid**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Management / TreeView**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Management / TreeMap**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Management / HeatMap**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Management / DataFilter**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Management / FilterView**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Tools / ControlSpy**: No equivalent evidenced; mapping review required.
+- **Telerik / Tools / Form Converter**: No equivalent evidenced; mapping review required.
+- **Telerik / Tools / Element Hierarchy Editor**: No equivalent evidenced; mapping review required.
+- **Telerik / Tools / Shape Editor**: No equivalent evidenced; mapping review required.
+- **Telerik / Tools / Visual Style Builder**: No equivalent evidenced; mapping review required.
+- **Telerik / Tools / Zip library**: No equivalent evidenced; mapping review required.
+- **Telerik / Media / ImageEditor**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Media / WebCam**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Media / PictureBox**: No equivalent evidenced; mapping review required.
+- **Telerik / Document Processing / PdfProcessing**: No equivalent evidenced; mapping review required.
+- **Telerik / Document Processing / SpreadProcessing**: No equivalent evidenced; mapping review required.
+- **Telerik / Document Processing / SpreadStreamProcessing**: No equivalent evidenced; mapping review required.
+- **Telerik / Document Processing / WordsProcessing**: No equivalent evidenced; mapping review required.
+- **Telerik / Interactivity / AIPrompt**: No equivalent evidenced; mapping review required.
+- **Telerik / Interactivity / Chat UI**: No equivalent evidenced; mapping review required.
+- **Telerik / Interactivity / Label**: No equivalent evidenced; mapping review required.
+- **Telerik / Interactivity / SmartPasteButton**: No equivalent evidenced; mapping review required.
+- **Telerik / Interactivity / SpeechToTextButton**: No equivalent evidenced; mapping review required.
+- **Telerik / Interactivity / StepProgressBar**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Interactivity / TrackBar**: No equivalent evidenced; mapping review required.
+- **Telerik / Interactivity / VirtualKeyboard**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Interactivity / NotifyIcon**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / AboutBox**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / ColorDialog**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / DesktopAlert**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Forms and Dialogs / FileDialogs**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / Form**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / FormConverter**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / MarkupDialog**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / MessageBox**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / RadScrollBar**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / RibbonForm**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / ShapedForm**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / StatusStrip**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / TabbedForm**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / TaskDialog**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Forms and Dialogs / ToolbarForm**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / TitleBar**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / ToastNotification**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Forms and Dialogs / TaskbarButton**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / SplashScreen**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / Overlay**: No equivalent evidenced; mapping review required.
+- **Telerik / Forms and Dialogs / Flyout**: No equivalent evidenced; mapping review required.
+- **Telerik / Scheduling / Calendar**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Scheduling / GanttView**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Scheduling / Scheduler**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Editors / AutoCompleteBox**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Editors / BrowseEditor**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / CalculatorDropDown**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Editors / Calculator**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / CheckedDropDownList**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Editors / ColorBox**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / DateOnlyPicker**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / DateTimePicker**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / DomainUpDown**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / DropDownList**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / MaskedEditBox**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / MultiColumnComboBox**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Editors / PopupEditor**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / SpinEditor**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / Spreadsheet**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Editors / TimeOnlyPicker**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / TimePicker**: No equivalent evidenced; mapping review required.
+- **Telerik / Editors / TimeSpanPicker**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Office / PDFViewer**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Office / RichTextEditor**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Office / SpellChecker**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Navigation / ApplicationMenu**: No equivalent evidenced; mapping review required.
+- **Telerik / Navigation / BreadCrumb**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Navigation / CommandBar**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Navigation / ContextMenu**: No equivalent evidenced; mapping review required.
+- **Telerik / Navigation / Menu**: No equivalent evidenced; mapping review required.
+- **Telerik / Navigation / PageView**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Navigation / NavigationView**: No equivalent evidenced; mapping review required.
+- **Telerik / Navigation / OfficeNavigationBar**: No equivalent evidenced; mapping review required.
+- **Telerik / Navigation / Panorama**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Navigation / RibbonBar**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Layout / Dock**: No equivalent evidenced; mapping review required.
+- **Telerik / Layout / GroupBox**: No equivalent evidenced; mapping review required.
+- **Telerik / Layout / LayoutControl**: No equivalent evidenced; mapping review required.
+- **Telerik / Layout / Panel**: No equivalent evidenced; mapping review required.
+- **Telerik / Layout / ScrollablePanel**: No equivalent evidenced; mapping review required.
+- **Telerik / Layout / Separator**: No equivalent evidenced; mapping review required.
+- **Telerik / Layout / SplitContainer**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Framework / UI Framework**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Visualization / BarcodeView**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Visualization / BindingNavigator**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Visualization / ChartView**: No equivalent evidenced; mapping review required.
+- **Telerik / Data Visualization / Diagram**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Visualization / LinearGauge**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Visualization / Map**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Visualization / RadialGauge**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Visualization / Sparkline**: Model/service only; WinForms adapter not evidenced.
+- **Telerik / Data Visualization / Task Board**: No equivalent evidenced; mapping review required.
+- **DevExpress / Grids and Editors / Tree List**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Grids and Editors / Vertical Grid**: No equivalent evidenced; mapping review required.
+- **DevExpress / Grids and Editors / Property Grid**: No equivalent evidenced; mapping review required.
+- **DevExpress / Grids and Editors / Gantt Control**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Data Visualization / Charts**: No equivalent evidenced; mapping review required.
+- **DevExpress / Data Visualization / Diagrams**: No equivalent evidenced; mapping review required.
+- **DevExpress / Data Visualization / Map Control**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Data Visualization / Tree Map Control**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Data Visualization / Sunburst Control**: No equivalent evidenced; mapping review required.
+- **DevExpress / Data Visualization / Sankey Diagram Control**: No equivalent evidenced; mapping review required.
+- **DevExpress / Data Visualization / Heatmap Control**: No equivalent evidenced; mapping review required.
+- **DevExpress / Office-inspired / Ribbon, Bars and Menu**: No equivalent evidenced; mapping review required.
+- **DevExpress / Office-inspired / Rich Text Editor**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Office-inspired / Scheduler**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Office-inspired / Spreadsheet**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Office-inspired / Spell Checker**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Office-inspired / Application Skins**: No equivalent evidenced; mapping review required.
+- **DevExpress / Office-inspired / Office File API**: No equivalent evidenced; mapping review required.
+- **DevExpress / Reporting and Analytics / PDF Viewer**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Reporting and Analytics / Pivot Grid**: Model/service only; WinForms adapter not evidenced.
+- **DevExpress / Reporting and Analytics / Printing and Exporting**: No equivalent evidenced; mapping review required.
+- **DevExpress / Reporting and Analytics / Reporting**: No equivalent evidenced; mapping review required.
+- **DevExpress / Navigation and Layout / Application UI Manager**: No equivalent evidenced; mapping review required.
+- **DevExpress / Navigation and Layout / App Navigation Controls**: No equivalent evidenced; mapping review required.
+- **DevExpress / Navigation and Layout / Docking Library**: No equivalent evidenced; mapping review required.
+- **DevExpress / Navigation and Layout / Form Layout Managers**: No equivalent evidenced; mapping review required.
+- **DevExpress / Navigation and Layout / Forms and User Controls**: No equivalent evidenced; mapping review required.
+- **DevExpress / Navigation and Layout / Messages, Notifications, Dialogs**: No equivalent evidenced; mapping review required.
+- **DevExpress / Templates / WinForms UI Templates**: No equivalent evidenced; mapping review required.
+
+## Specification gate for each row
+
+Specify rendering/layout ownership, public API and events, keyboard/mouse/touch state machine, focus/selection/editing, accessibility providers, theme tokens, localization/RTL, design-time serialization, demos, documentation and benchmark workloads. Implement against that spec; do not publish a placeholder adapter as a complete control.

@@ -1,0 +1,59 @@
+# DevExpress Theme Inventory
+
+Assessment: 2026-11-05. Evidence-based baseline, not a parity certification.
+
+Names are documented or explicitly marked as candidates. This is not a certified complete shipping-theme inventory. Exact visual measurements require permitted runtime inspection; no vendor assets are copied.
+
+| Theme | Family / variant | Evidence | EnterpriseUI support | Source |
+|---|---|---|---|---|
+| WXI | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Basic | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| The Bezier | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| High Contrast | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2019 Colorful | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2019 Dark Gray | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| DevExpress Style | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Pumpkin | Skin / Palette-dependent | Named in the official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Caramel | Legacy or bonus skin / Runtime verification required | Named in the official SkinManager documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/DevExpress.Skins.SkinManager |
+| Coffee | Legacy or bonus skin / Runtime verification required | Named in the official SkinManager documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/DevExpress.Skins.SkinManager |
+| Liquid Sky | Legacy or bonus skin / Runtime verification required | Named in the official SkinManager documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/DevExpress.Skins.SkinManager |
+| Stardust | Legacy or bonus skin / Runtime verification required | Named in the official SkinManager documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/DevExpress.Skins.SkinManager |
+| The Bezier / Tokyo | Vector palette / Palette-dependent | Named palette example in official skins documentation | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2007 Blue | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2007 Black | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2007 Silver | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2010 Blue | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2010 Black | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2010 Silver | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2013 | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2013 Dark Gray | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2013 Light Gray | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2016 Colorful | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Office 2016 Dark | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Visual Studio 2013 Blue | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Visual Studio 2013 Dark | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Visual Studio 2013 Light | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Seven | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Seven Classic | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Sharp | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Sharp Plus | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Metropolis | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Metropolis Dark | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| DevExpress Dark Style | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Blueprint | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Darkroom | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Foggy | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Glass Oceans | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Lilian | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| McSkin | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Money Twins | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Springtime | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Summer | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Valentine | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Whiteprint | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+| Xmas 2008 | Candidate historical skin / Unverified | Candidate only: enumerate licensed runtime skins and palettes before counting | Exact equivalent not verified | https://docs.devexpress.com/WindowsForms/2399/build-an-application/skins |
+
+For every row: visual characteristics, palette, typography, density, spacing, chrome, borders, selection, hover, focus and accessibility measurements are **unverified** unless supported by a linked observation. Vendor pages do not publish a complete token specification. Palette-dependent variants must be inventoried individually.
+
+
+The official SkinManager.Skins API enumerates installed skins. A licensed runtime inventory must include bonus skin registration and every vector palette. Supplied API links for SkinStyle and SkinSvgPalette resolve to a namespace page and are not accepted as a complete enumeration.

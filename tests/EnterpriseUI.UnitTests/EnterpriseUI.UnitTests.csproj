@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\tooling\EnterpriseUI.CodeGenerators\EnterpriseUI.CodeGenerators.csproj" />
+    <ProjectReference Include="..\..\tooling\EnterpriseUI.ThemeDesigner\EnterpriseUI.ThemeDesigner.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />

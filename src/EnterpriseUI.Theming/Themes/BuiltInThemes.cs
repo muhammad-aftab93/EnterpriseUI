@@ -4,6 +4,30 @@ namespace EnterpriseUI.Theming.Themes;
 
 public static class BuiltInThemes
 {
+    public static Theme CreateStudio(ColorScheme scheme = ColorScheme.Light) => CreateProfile("Studio", scheme, 30, 8, "#0067C0", "#75B6FF", "#F6F7F9", "#202020", "#C9CDD3");
+    public static Theme CreateModernOffice(ColorScheme scheme = ColorScheme.Light) => CreateProfile("ModernOffice", scheme, 36, 12, "#087F75", "#66D4C7", "#FFFFFF", "#24272B", "#CBD2D8");
+    public static Theme CreateCompactBusiness(ColorScheme scheme = ColorScheme.Light) => CreateProfile("CompactBusiness", scheme, 26, 6, "#245E9A", "#8FC3ED", "#F8FAFB", "#23272C", "#B8C2CC");
+
+    private static Theme CreateProfile(string name, ColorScheme scheme, int height, int padding, string lightPrimary, string darkPrimary, string lightSurface, string darkSurface, string border)
+    {
+        if (scheme is not (ColorScheme.Light or ColorScheme.Dark))
+            throw new ArgumentOutOfRangeException(nameof(scheme), scheme, "This theme profile supports only light and dark variants.");
+        var dark = scheme == ColorScheme.Dark;
+        return ThemeBuilder.Create(name + (dark ? "-Dark" : "-Light"))
+            .BasedOn(CreateFluent(scheme))
+            .WithPrimaryColor(dark ? darkPrimary : lightPrimary, dark ? "#B5E1FF" : "#124D79", dark ? "#5B99C8" : "#103B60", dark ? "#101820" : "#FFFFFF")
+            .WithToken(DesignTokens.Surface, dark ? darkSurface : lightSurface)
+            .WithToken(DesignTokens.SurfaceAlt, dark ? "#30363D" : "#EEF2F5")
+            .WithToken(DesignTokens.BorderColor, dark ? "#646F7A" : border)
+            .WithToken(DesignTokens.FontFamily, "'Segoe UI', sans-serif")
+            .WithToken(DesignTokens.FontSizeBase, "13px")
+            .WithToken(DesignTokens.ControlHeight, height + "px")
+            .WithToken(DesignTokens.ControlPaddingX, padding + "px")
+            .WithToken(DesignTokens.ControlPaddingY, "4px")
+            .WithToken(DesignTokens.BorderRadius, name == "CompactBusiness" ? "2px" : "4px")
+            .Build();
+    }
+
     public static Theme CreateFluent(ColorScheme scheme = ColorScheme.Light)
     {
         var isDark = scheme == ColorScheme.Dark;

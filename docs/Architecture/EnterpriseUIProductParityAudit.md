@@ -3,6 +3,8 @@
 **Assessment date:** 2026-11-04  
 **Status:** Initial evidence-based baseline; not a parity certification.
 
+**Historical snapshot:** Grid and theme findings below predate later implementation work. Use [the current parity program reports](Parity/README.md) for the generated evidence inventory and remaining gaps; neither report set certifies commercial-suite parity.
+
 ## Executive Finding
 
 EnterpriseUI has substantial framework, WinForms demo, grid, theme, localization, and designer-tooling foundations. The current documentation frequently treats a model property, project name, or demo description as proof of a complete end-user feature. Source and test sampling does not support the published 100% completion scores, WCAG compliance claims, or performance comparisons.

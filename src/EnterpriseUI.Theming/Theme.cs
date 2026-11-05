@@ -1,4 +1,5 @@
 using System.Text;
+using System.Collections.ObjectModel;
 using EnterpriseUI.Abstractions.Theming;
 
 namespace EnterpriseUI.Theming;
@@ -9,17 +10,19 @@ namespace EnterpriseUI.Theming;
 public class Theme : ITheme
 {
     private readonly Dictionary<string, string> _tokens = new(StringComparer.OrdinalIgnoreCase);
+    private readonly ReadOnlyDictionary<string, string> _readOnlyTokens;
 
     public string Name { get; }
     public ThemeType Type { get; }
     public ColorScheme Scheme { get; }
-    public IReadOnlyDictionary<string, string> DesignTokens => _tokens;
+    public IReadOnlyDictionary<string, string> DesignTokens => _readOnlyTokens;
 
     public Theme(string name, ThemeType type, ColorScheme scheme, IDictionary<string, string>? tokens = null)
     {
         Name = name;
         Type = type;
         Scheme = scheme;
+        _readOnlyTokens = new ReadOnlyDictionary<string, string>(_tokens);
 
         if (tokens != null)
         {

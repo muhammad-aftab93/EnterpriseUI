@@ -46,7 +46,7 @@ public class MainForm : Form, IThemeableControl
 
     public MainForm()
     {
-        Text = "EnterpriseUI Demonstration Platform - World-Class Showcase, Learning & Validation Center";
+        Text = "EnterpriseUI Demo Center";
         
         // 1080p target sizing & responsive constraints
         Size = new Size(1920, 1040);
@@ -67,7 +67,7 @@ public class MainForm : Form, IThemeableControl
         _statusDemo = new ToolStripStatusLabel { Text = "Demo: Ready  |" };
         _statusMemory = new ToolStripStatusLabel { Text = "RAM: 0.0 MB  |" };
         _statusLatency = new ToolStripStatusLabel { Text = "Latency: 0 ms  |" };
-        _statusA11y = new ToolStripStatusLabel { Text = "WCAG 2.2 AA: Active" };
+        _statusA11y = new ToolStripStatusLabel { Text = "Accessibility: verification required" };
 
         _statusStrip.Items.AddRange(new ToolStripItem[]
         {
@@ -247,7 +247,7 @@ public class MainForm : Form, IThemeableControl
         Controls.Add(_statusStrip);
 
         // Listen for Theme Changes
-        ThemeManager.Instance.ThemeChanged += (_, newTheme) => OnThemeChanged(newTheme);
+        ThemeManager.Instance.ThemeChanged += HandleThemeChanged;
 
         // Listen for Navigation Changes
         DemoNavigationManager.Instance.DemoSelected += LoadDemo;
@@ -366,9 +366,27 @@ public class MainForm : Form, IThemeableControl
         _statusTheme.Text = $"Theme: {newTheme.Name}  |";
         if (_cmbThemes.SelectedItem?.ToString() != newTheme.Name)
         {
-            _cmbThemes.SelectedItem = newTheme.Name;
+            _cmbThemes.SelectedIndexChanged -= OnThemeComboChanged;
+            try
+            {
+                if (!_cmbThemes.Items.Contains(newTheme.Name)) _cmbThemes.Items.Add(newTheme.Name);
+                _cmbThemes.SelectedItem = newTheme.Name;
+            }
+            finally { _cmbThemes.SelectedIndexChanged += OnThemeComboChanged; }
         }
         EnterpriseThemeEngine.ApplyToControl(this, newTheme);
+    }
+
+    private void HandleThemeChanged(object? sender, ITheme theme) => OnThemeChanged(theme);
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            ThemeManager.Instance.ThemeChanged -= HandleThemeChanged;
+            _memoryMonitorTimer?.Dispose();
+        }
+        base.Dispose(disposing);
     }
 
     private void ApplyTheme(ITheme theme)
@@ -559,6 +577,7 @@ public class MainForm : Form, IThemeableControl
         _currentDemo = demo;
         DemoAnalyticsTracker.Instance.BeginTrack(demo.Id);
 
+        foreach (Control previous in _demoHost.Controls.Cast<Control>().ToArray()) previous.Dispose();
         _demoHost.Controls.Clear();
         var view = demo.ViewFactory();
         view.Dock = DockStyle.Fill;

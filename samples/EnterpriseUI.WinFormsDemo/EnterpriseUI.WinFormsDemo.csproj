@@ -6,10 +6,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\tooling\EnterpriseUI.CodeGenerators\EnterpriseUI.CodeGenerators.csproj" />
+    <ProjectReference Include="..\..\tooling\EnterpriseUI.ThemeDesigner\EnterpriseUI.ThemeDesigner.csproj" />
     <ProjectReference Include="..\..\platforms\EnterpriseUI.WinForms\EnterpriseUI.WinForms.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />

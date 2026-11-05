@@ -359,7 +359,7 @@ await assistant.SendPromptAsync(""Show pending high-priority orders above $2,500
             Features = new[] { "Live Switching", "Dark Mode", "Light Mode", "Fluent", "Material", "Tokens" },
             Tags = new[] { "Theming", "Tokens", "DarkMode", "Material", "Fluent" },
             Industry = "Design Systems & Corporate Branding",
-            ViewFactory = () => new ThemingDemoView(GetById("theming-design-tokens")),
+            ViewFactory = () => new ThemePlaygroundView(GetById("theming-design-tokens")),
             SourceCode =
 @"// Switch application theme dynamically
 var theme = BuiltInThemes.CreateFluent(ColorScheme.Dark);

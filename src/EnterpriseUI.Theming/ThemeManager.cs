@@ -11,6 +11,7 @@ public sealed class ThemeBuilder
     private readonly string _name;
     private ThemeType _baseType = ThemeType.Default;
     private ColorScheme _scheme = ColorScheme.Light;
+    private ITheme? _baseTheme;
     private readonly Dictionary<string, string> _overrides = new(StringComparer.OrdinalIgnoreCase);
 
     private ThemeBuilder(string name)
@@ -22,7 +23,17 @@ public sealed class ThemeBuilder
 
     public ThemeBuilder BasedOn(ThemeType baseType)
     {
+        _baseTheme = null;
         _baseType = baseType;
+        return this;
+    }
+
+    public ThemeBuilder BasedOn(ITheme baseTheme)
+    {
+        ArgumentNullException.ThrowIfNull(baseTheme);
+        _baseTheme = baseTheme;
+        _baseType = baseTheme.Type;
+        _scheme = baseTheme.Scheme;
         return this;
     }
 
@@ -75,7 +86,7 @@ public sealed class ThemeBuilder
             _ => BuiltInThemes.CreateDefault(_scheme)
         };
 
-        var mergedTokens = new Dictionary<string, string>(baseTheme.DesignTokens);
+        var mergedTokens = new Dictionary<string, string>(_baseTheme?.DesignTokens ?? baseTheme.DesignTokens, StringComparer.OrdinalIgnoreCase);
         foreach (var (k, v) in _overrides)
         {
             mergedTokens[k] = v;
@@ -118,6 +129,12 @@ public sealed class ThemeManager : IThemeManager
         RegisterTheme(BuiltInThemes.CreateWindows(ColorScheme.Dark));
         RegisterTheme(BuiltInThemes.CreateHighContrast(isDark: true));
         RegisterTheme(BuiltInThemes.CreateHighContrast(isDark: false));
+        RegisterTheme(BuiltInThemes.CreateStudio(ColorScheme.Light));
+        RegisterTheme(BuiltInThemes.CreateStudio(ColorScheme.Dark));
+        RegisterTheme(BuiltInThemes.CreateModernOffice(ColorScheme.Light));
+        RegisterTheme(BuiltInThemes.CreateModernOffice(ColorScheme.Dark));
+        RegisterTheme(BuiltInThemes.CreateCompactBusiness(ColorScheme.Light));
+        RegisterTheme(BuiltInThemes.CreateCompactBusiness(ColorScheme.Dark));
 
         _currentTheme = _registeredThemes["Fluent-Light"];
     }
@@ -146,6 +163,26 @@ public sealed class ThemeManager : IThemeManager
         {
             throw new KeyNotFoundException($"Theme '{themeName}' is not registered.");
         }
+    }
+
+    public Theme ImportTheme(string json, bool apply = false)
+    {
+        var document = ThemeDocument.FromJson(json);
+        var theme = document.Build(name => _registeredThemes.GetValueOrDefault(name));
+        if (apply) ApplyTheme(theme);
+        else RegisterTheme(theme);
+        return theme;
+    }
+
+    public string ExportTheme(string version = "1.0.0") => ThemeDocument.FromTheme(CurrentTheme, version).ToJson();
+
+    public async Task<Theme> ReloadThemeAsync(string filePath, CancellationToken cancellationToken = default)
+    {
+        var file = new FileInfo(filePath);
+        if (file.Length > 1048576) throw new InvalidDataException("Theme files must be at most 1 MiB.");
+        var json = await File.ReadAllTextAsync(filePath, cancellationToken).ConfigureAwait(true);
+        cancellationToken.ThrowIfCancellationRequested();
+        return ImportTheme(json, apply: true);
     }
 
     public void SetColorScheme(ColorScheme scheme)
