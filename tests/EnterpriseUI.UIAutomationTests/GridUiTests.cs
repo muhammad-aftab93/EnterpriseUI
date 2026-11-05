@@ -52,6 +52,149 @@ public class ToolboxTests
     }
 }
 
+public class DirectGridApiTests
+{
+    [Fact]
+    public void PublicEngineFeaturesHaveDirectControlApis()
+    {
+        var engineType = typeof(DataGrid<Row>);
+        var controlType = typeof(EnterpriseDataGrid<Row>);
+        const System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Public
+            | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static
+            | System.Reflection.BindingFlags.DeclaredOnly;
+
+        foreach (var method in engineType.GetMethods(flags).Where(method => !method.IsSpecialName
+            && method.Name is not ("Dispose" or "DisposeAsync" or "UpdateViewport")))
+        {
+            var parameterTypes = method.GetParameters().Select(parameter =>
+                parameter.ParameterType == engineType ? controlType : parameter.ParameterType).ToArray();
+            var facadeMethod = controlType.GetMethod(method.Name, parameterTypes);
+            Assert.True(facadeMethod != null, $"Missing direct grid method: {method.Name}");
+            Assert.Equal(method.ReturnType, facadeMethod!.ReturnType);
+        }
+
+        foreach (var property in engineType.GetProperties(flags).Where(property => property.Name is not ("Parent" or "Children")))
+        {
+            var facadeProperty = controlType.GetProperty(property.Name);
+            Assert.True(facadeProperty != null, $"Missing direct grid property: {property.Name}");
+            Assert.Equal(property.PropertyType, facadeProperty!.PropertyType);
+            if (property.SetMethod?.IsPublic == true)
+                Assert.True(facadeProperty.SetMethod?.IsPublic == true, $"Read-only facade property: {property.Name}");
+        }
+
+        foreach (var engineEvent in engineType.GetEvents(flags))
+        {
+            var eventName = engineEvent.Name == "CellEdited" ? "CellEditCompleted" : engineEvent.Name;
+            Assert.Equal(engineEvent.EventHandlerType, controlType.GetEvent(eventName)?.EventHandlerType);
+        }
+    }
+
+    [Fact]
+    public void PagingAndRangeFiltersCanBeUsedWithoutTheEngine()
+    {
+        RunSta(() =>
+        {
+            using var grid = CreateGrid(40);
+            grid.PagingMode = GridPagingMode.Client;
+            grid.SetPageSize(10);
+            Wait(grid.RefreshDataAsync());
+
+            Assert.Equal(4, grid.PageCount);
+            Assert.True(grid.LastPage());
+            Assert.Equal(3, grid.PageIndex);
+            Assert.True(grid.FirstPage());
+            Assert.True(grid.NextPage());
+            Assert.True(grid.PreviousPage());
+
+            grid.FilterBy("Id", FilterOperator.IsBetween, 5, 10);
+            Wait(grid.RefreshDataAsync());
+            Assert.True(grid.HasFilter("Id"));
+            Assert.Equal(6, grid.TotalRecordCount);
+            grid.SaveFilterPreset("Range");
+            var json = grid.ExportFilterPresets();
+            grid.ClearFilters();
+            grid.SavedFilterPresets.Clear();
+            Assert.Empty(grid.ImportFilterPresets(json));
+            Assert.True(grid.SavedFilterPresets.ContainsKey("Range"));
+            Assert.True(grid.ApplyFilterPreset("Range"));
+            Assert.False(grid.ApplyFilterPreset("Missing"));
+            Wait(grid.RefreshDataAsync());
+            Assert.Equal(6, grid.TotalRecordCount);
+        });
+    }
+
+    [Fact]
+    public void EditingTransactionsAndEventsAreAvailableDirectly()
+    {
+        RunSta(() =>
+        {
+            using var grid = CreateGrid(10);
+            var item = grid.DataSource!.First();
+            var edits = 0;
+            var commits = 0;
+            EventHandler<GridCellEditedEventArgs> handler = (_, _) => edits++;
+            grid.CellEditCompleted += handler;
+            grid.ChangesCommitted += (_, _) => commits++;
+
+            grid.BeginTransaction();
+            Assert.True(grid.IsInTransaction);
+            Assert.True(grid.TryEditCell(item, "Name", "Updated").Success);
+            Assert.True(grid.IsCellDirty(item, "Name"));
+            Assert.True(grid.HasPendingChanges);
+            Assert.Single(grid.PendingChanges);
+            grid.CommitTransaction();
+            Assert.Equal(1, commits);
+            Assert.Equal(1, edits);
+            Assert.False(grid.HasPendingChanges);
+            grid.CellEditCompleted -= handler;
+            Assert.True(grid.TryEditCell(item, "Name", "Again").Success);
+            Assert.Equal(1, edits);
+            grid.ClearUndoHistory();
+            Assert.False(grid.CanUndo);
+        });
+    }
+
+    [Fact]
+    public void SearchingAndAccessibilityAreAvailableDirectly()
+    {
+        RunSta(() =>
+        {
+            using var grid = CreateGrid(10);
+            grid.SearchMode = GridSearchMode.Highlight;
+            var notifications = 0;
+            grid.SearchResultChanged += (_, _) => notifications++;
+            var search = grid.SearchAsync("Name 0001");
+            Wait(search);
+            Assert.True(search.Result.MatchCount > 0);
+            Assert.Same(search.Result, grid.SearchResult);
+            Assert.True(notifications > 0);
+            Assert.True(grid.GoToMatch(0));
+            Assert.Contains("Test rows", grid.DescribeGrid());
+        });
+    }
+
+    [Fact]
+    public void RelationsCanBeConfiguredDirectlyOnTheControl()
+    {
+        RunSta(() =>
+        {
+            using var grid = CreateGrid(10);
+            var children = Rows(5);
+            var relation = grid.AddRelation("Children", "Id", "Id", children, typeof(Row));
+            Wait(grid.RefreshDataAsync());
+
+            Assert.Same(relation, Assert.Single(grid.Relations));
+            Assert.Same(children, relation.ChildSource);
+            Assert.True(grid.RemoveRelation("Children"));
+            Assert.Empty(grid.Relations);
+
+            var tree = grid.AddSelfReference("Id", "Id");
+            Assert.Equal(HierarchyMode.SelfReferencing, tree.Mode);
+            Assert.True(grid.RemoveRelation("Tree"));
+        });
+    }
+}
+
 public class RenderingTests
 {
     [Fact]
@@ -443,7 +586,7 @@ public class PagingGroupingAndEditingTests
             using var grid = CreateGrid(10, g => g.EditMode = GridEditMode.Batch);
             Assert.True(grid.TryGetItemAt(0, out var item));
             Assert.True(grid.EditCell(item, "Name", "Changed"));
-            Assert.True(grid.Engine.HasPendingChanges);
+            Assert.True(grid.HasPendingChanges);
 
             Assert.Equal(1, grid.RollbackChanges());
             Assert.Equal("Name 0001", item.Name);

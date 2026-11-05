@@ -28,7 +28,7 @@ GridAccessibility builds screen reader text from engine state; the control's Acc
 
 ## Usage guide
 
-grid.AriaLabel = "Sales records"; GridAccessibility.DescribeGrid(grid.Engine); GridAccessibility.Audit(theme).
+grid.AriaLabel = "Sales records"; grid.DescribeGrid(); GridAccessibility.Audit(theme).
 
 ## Examples
 

@@ -25,7 +25,7 @@ Expanded relations contribute DetailHeader and DetailData rows to the materializ
 
 ## Usage guide
 
-grid.Engine.AddRelation(name, keyField, foreignField, childRows, typeof(Child)); relation.ChildRelations.Add(...); grid.EnableMasterDetail = true.
+grid.AddRelation(name, keyField, foreignField, childRows, typeof(Child)); relation.ChildRelations.Add(...); grid.EnableMasterDetail = true.
 
 ## Examples
 
@@ -46,7 +46,7 @@ public static class GeneratedGridFluent
                     g.EnableMasterDetail = true;
                     g.ShowGroupPanel = false;
                     var relation1Rows = new List<OrderRow>(); // supply the child rows
-                    var relation1 = g.Engine.AddRelation("Orders", "Id", "CustomerId", relation1Rows, typeof(OrderRow));
+                    var relation1 = g.AddRelation("Orders", "Id", "CustomerId", relation1Rows, typeof(OrderRow));
                     var relation1Child1 = new GridHierarchyRelation { RelationName = "Lines", KeyField = "OrderId", ForeignField = "OrderId", ChildItemType = typeof(OrderLineRow), ChildSource = new List<OrderLineRow>() };
                     relation1.ChildRelations.Add(relation1Child1);
                 })

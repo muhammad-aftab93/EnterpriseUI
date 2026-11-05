@@ -74,7 +74,7 @@ public class AccessibleTreeTests
             name.ValidationRules.Add(new RequiredRule { Message = "Name is required" });
             Assert.True(grid.TryGetItemAt(0, out var item));
 
-            Assert.False(grid.Engine.TryEditCell(item, "Name", string.Empty).Success);
+            Assert.False(grid.TryEditCell(item, "Name", string.Empty).Success);
             grid.Invalidate();
 
             var cell = grid.AccessibilityObject.GetChild(1)!.GetChild(1)!;

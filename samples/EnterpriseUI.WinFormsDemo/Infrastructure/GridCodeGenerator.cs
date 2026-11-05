@@ -310,14 +310,14 @@ public static class GridCodeGenerator
             index++;
             if (relation.Mode == HierarchyMode.SelfReferencing)
             {
-                yield return $"{gridVar}.Engine.AddSelfReference({Quote(relation.KeyField)}, {Quote(relation.ForeignField)});";
+                yield return $"{gridVar}.AddSelfReference({Quote(relation.KeyField)}, {Quote(relation.ForeignField)});";
                 continue;
             }
 
             var childType = relation.ChildItemType?.Name ?? "object";
             var variable = $"relation{index}";
             yield return $"var {variable}Rows = new List<{childType}>(); // supply the child rows";
-            yield return $"var {variable} = {gridVar}.Engine.AddRelation({Quote(relation.RelationName)}, {Quote(relation.KeyField)}, {Quote(relation.ForeignField)}, {variable}Rows, typeof({childType}));";
+            yield return $"var {variable} = {gridVar}.AddRelation({Quote(relation.RelationName)}, {Quote(relation.KeyField)}, {Quote(relation.ForeignField)}, {variable}Rows, typeof({childType}));";
             if (relation.Mode != HierarchyMode.MasterDetail) yield return $"{variable}.Mode = HierarchyMode.{relation.Mode};";
             if (relation.LoadChildrenAsync != null) yield return $"// {variable} loads its children lazily through LoadChildrenAsync (delegate not serializable)";
             foreach (var line in NestedRelationStatements(relation, variable, 1)) yield return line;
@@ -358,7 +358,7 @@ public static class GridCodeGenerator
         foreach (var filter in FreeFilters(s))
         {
             yield return filter.Value2 != null
-                ? $"{gridVar}.Engine.FilterBy({Quote(filter.Member)}, FilterOperator.{filter.Operator}, {Literal(filter.Value)}, {Literal(filter.Value2)});"
+                ? $"{gridVar}.FilterBy({Quote(filter.Member)}, FilterOperator.{filter.Operator}, {Literal(filter.Value)}, {Literal(filter.Value2)});"
                 : $"{gridVar}.FilterBy({Quote(filter.Member)}, FilterOperator.{filter.Operator}, {Literal(filter.Value)});";
         }
 
@@ -540,7 +540,7 @@ public static class GridCodeGenerator
         var remaining = s.Flags.Where(f => !DedicatedFlags.Contains(f.Name)).ToList();
         var configure = new List<string>();
         configure.AddRange(remaining.Select(f => $"g.{f.Name} = {Literal(f.Value)};"));
-        configure.AddRange(s.Request.Filters.OfType<FilterDescriptor>().Where(f => f.Value2 != null).Select(f => $"g.Engine.FilterBy({Quote(f.Member)}, FilterOperator.{f.Operator}, {Literal(f.Value)}, {Literal(f.Value2)});"));
+        configure.AddRange(s.Request.Filters.OfType<FilterDescriptor>().Where(f => f.Value2 != null).Select(f => $"g.FilterBy({Quote(f.Member)}, FilterOperator.{f.Operator}, {Literal(f.Value)}, {Literal(f.Value2)});"));
         configure.AddRange(s.Columns.Where(c => c.ExcelFilterValues.Count > 0).Select(c => $"g.ApplyExcelFilter({Quote(c.Field)}, new object[] {{ {string.Join(", ", c.ExcelFilterValues.Select(Literal))} }});"));
         configure.AddRange(RelationStatements(s, "g", ColumnListSelector));
         if (configure.Count > 0) calls.Add($".Configure(g =>\n    {{\n{string.Join("\n", configure.Select(l => "        " + l))}\n    }})");

@@ -43,7 +43,7 @@ public static partial class GridScenarios
 
     private static void ReportCounts(ScenarioHost host, EnterpriseDataGrid<GridDemoRecord> grid)
     {
-        void Update() => host.Metric($"{grid.TotalRecordCount:N0} records | {grid.Engine.PagerText} | selected: {grid.Selection.SelectedRows.Count}");
+        void Update() => host.Metric($"{grid.TotalRecordCount:N0} records | {grid.PagerText} | selected: {grid.Selection.SelectedRows.Count}");
         grid.DataWindowChanged += (_, _) => Update();
         grid.SelectionChanged += (_, _) => Update();
         grid.PageChanged += (_, _) => Update();
@@ -98,10 +98,10 @@ public static partial class GridScenarios
                 host.Combo("Mode:", new[] { "Client", "Server", "Virtual", "Infinite", "None" }, "Client", v => grid.PagingMode = Enum.Parse<GridPagingMode>(v));
                 host.Combo("Page size:", new[] { "10", "25", "50", "100" }, "25", v => grid.PageSize = int.Parse(v));
                 host.Separator();
-                host.Button("|<", () => grid.Engine.FirstPage());
-                host.Button("<", () => grid.Engine.PreviousPage());
-                host.Button(">", () => grid.Engine.NextPage());
-                host.Button(">|", () => grid.Engine.LastPage());
+                host.Button("|<", () => grid.FirstPage());
+                host.Button("<", () => grid.PreviousPage());
+                host.Button(">", () => grid.NextPage());
+                host.Button(">|", () => grid.LastPage());
                 host.Button("Go to page 5", () => grid.GoToPage(4));
                 host.Toggle("Show pager", true, v => grid.ShowPager = v);
                 ReportCounts(host, grid);
@@ -165,12 +165,12 @@ public static partial class GridScenarios
                 host.Button("Region = EMEA", () => grid.FilterBy("Region", FilterOperator.IsEqualTo, "EMEA"));
                 host.Button("Gross > 20,000", () => grid.FilterBy("Total", FilterOperator.IsGreaterThan, 20000m));
                 host.Button("Customer contains 'con'", () => grid.FilterBy("Customer", FilterOperator.Contains, "con"));
-                host.Button("Qty between 5 and 10", () => grid.Engine.FilterBy("Quantity", FilterOperator.IsBetween, 5, 10));
+                host.Button("Qty between 5 and 10", () => grid.FilterBy("Quantity", FilterOperator.IsBetween, 5, 10));
                 host.Button("Clear filters", () => { grid.ClearFilters(); grid.QuickFilters.Clear(); });
                 host.Separator();
                 host.Button("Save preset", () => grid.SaveFilterPreset("workshop"));
-                host.Button("Apply preset", () => { if (!grid.Engine.ApplyFilterPreset("workshop")) host.Metric("Save a preset first."); });
-                host.Button("Copy presets JSON", () => { Clipboard.SetText(grid.Engine.ExportFilterPresets()); host.Metric("Filter presets copied to the clipboard."); });
+                host.Button("Apply preset", () => { if (!grid.ApplyFilterPreset("workshop")) host.Metric("Save a preset first."); });
+                host.Button("Copy presets JSON", () => { Clipboard.SetText(grid.ExportFilterPresets()); host.Metric("Filter presets copied to the clipboard."); });
                 host.Toggle("Search panel", false, v => grid.ShowSearchPanel = v);
                 grid.DataWindowChanged += (_, _) => host.Metric($"{grid.TotalRecordCount:N0} of 3,000 rows match");
                 return grid;
@@ -217,7 +217,7 @@ public static partial class GridScenarios
             Description = "Expand a customer to see its orders, and an order to see its lines. Relations nest without a depth limit; children can load lazily on first expansion.",
             Features = new[] { "Nested relations", "Lazy loading", "Expand/collapse all", "Child columns", "Search reveals matches" },
             Documentation = "A GridHierarchyRelation joins child rows on KeyField/ForeignField. ChildRelations adds further levels. LoadChildrenAsync defers loading until the row is expanded.",
-            Usage = "grid.Engine.AddRelation(name, keyField, foreignField, childRows, typeof(Child)); relation.ChildRelations.Add(...); grid.EnableMasterDetail = true.",
+            Usage = "grid.AddRelation(name, keyField, foreignField, childRows, typeof(Child)); relation.ChildRelations.Add(...); grid.EnableMasterDetail = true.",
             Architecture = "Expanded relations contribute DetailHeader and DetailData rows to the materialized row list, so selection, search and export all see them.",
             Accessibility = "Detail rows announce their level and expanded state; Alt+Right and Alt+Left expand and collapse the focused row.",
             Api = "DataGrid<T> -> AddRelation, AddSelfReference, ToggleRowExpansion, ExpandAllDetails, CollapseAllDetails; GridHierarchyRelation -> ChildRelations, LoadChildrenAsync",
@@ -229,7 +229,7 @@ public static partial class GridScenarios
                 grid.Columns.Add(new GridColumn { Field = "Name", Title = "Customer", Width = 240 });
                 grid.Columns.Add(new GridColumn { Field = "Country", Title = "Country", Width = 120 });
                 grid.Columns.Add(new GridColumn { Field = "Segment", Title = "Segment", Width = 120 });
-                var orderRelation = grid.Engine.AddRelation("Orders", "Id", "CustomerId", orders, typeof(OrderRow));
+                var orderRelation = grid.AddRelation("Orders", "Id", "CustomerId", orders, typeof(OrderRow));
                 orderRelation.ChildRelations.Add(new GridHierarchyRelation { RelationName = "Lines", KeyField = "OrderId", ForeignField = "OrderId", ChildItemType = typeof(OrderLineRow), ChildSource = lines });
                 grid.DataSource = customers;
                 host.Attach(grid);
@@ -284,7 +284,7 @@ public static partial class GridScenarios
                 host.Button("Restore layout", () =>
                 {
                     if (saved == null) { host.Metric("Save a layout first."); return; }
-                    var warnings = grid.Engine.ApplyLayoutProfile(GridLayoutSerializer.FromJson(saved));
+                    var warnings = grid.ApplyLayoutProfile(GridLayoutSerializer.FromJson(saved));
                     host.Metric(warnings.Count == 0 ? "Layout restored." : $"Layout restored with {warnings.Count} warning(s).");
                 });
                 return grid;
@@ -298,7 +298,7 @@ public static partial class GridScenarios
             Description = "Add and delete rows with undo, drag selected rows to reorder, or drag them into the second grid (Ctrl copies). Both grids share the same item type.",
             Features = new[] { "Add row", "Delete rows", "Undo/redo", "Drag reorder", "Cross-grid drag and drop", "Row styling" },
             Documentation = "Structural edits work on in-memory list sources and are undoable. MoveRows reorders as one undo step; TransferRows moves or copies rows to another grid.",
-            Usage = "grid.AllowRowDrag = true; grid.AllowRowDrop = true; grid.AddRow(item); grid.RemoveRows(grid.SelectedItems); grid.Engine.MoveRows(items, before).",
+            Usage = "grid.AllowRowDrag = true; grid.AllowRowDrop = true; grid.AddRow(item); grid.RemoveRows(grid.SelectedItems); grid.MoveRows(items, before).",
             Accessibility = "Moves are announced ('Moved 3 rows'); every drag action also has a keyboard path through Delete, Ctrl+Z and the context menu.",
             Api = "DataGrid<T> -> AddRow, RemoveRows, MoveRows, ReorderRow, TransferRows; EnterpriseDataGrid<T> -> AllowRowDrag, AllowRowDrop, AllowRowDelete, RowStyleNeeded",
             Build = host =>
@@ -320,7 +320,7 @@ public static partial class GridScenarios
                 host.Button("Delete selected", () => host.Metric($"Deleted {left.RemoveRows(left.SelectedItems.ToList())} row(s)"));
                 host.Button("Undo", () => left.UndoLastEdit());
                 host.Button("Redo", () => left.RedoLastEdit());
-                host.Button("Move selected to top", () => left.Engine.MoveRows(left.SelectedItems.ToList(), left.DataSource?.FirstOrDefault()));
+                host.Button("Move selected to top", () => left.MoveRows(left.SelectedItems.ToList(), left.DataSource?.FirstOrDefault()));
                 host.Metric("Drag selected rows between the grids; hold Ctrl to copy.");
 
                 var layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };
@@ -366,7 +366,7 @@ public static partial class GridScenarios
                 grid.DataSource = GridScenarioData.Employees(60);
                 host.Attach(grid);
 
-                void Report() => host.Metric($"Edit mode: {grid.EditMode} | pending: {grid.Engine.PendingChanges.Count} | errors: {grid.Engine.ValidationSummary.Count} | undo: {(grid.CanUndo ? "yes" : "no")}");
+                void Report() => host.Metric($"Edit mode: {grid.EditMode} | pending: {grid.PendingChanges.Count} | errors: {grid.ValidationSummary.Count} | undo: {(grid.CanUndo ? "yes" : "no")}");
                 grid.CellEdited += (_, d) => { host.Log("CellEdited", d); Report(); };
                 grid.ValidationFailed += (_, e) => host.Metric(e.Errors.FirstOrDefault()?.Message ?? "Validation failed");
 

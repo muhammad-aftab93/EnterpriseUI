@@ -25,7 +25,7 @@ public class EnterpriseDataGrid : EnterpriseDataGrid<object>
 /// export, printing, drag and drop, theme-derived colors (including high contrast) and UI Automation support.
 /// </summary>
 [ToolboxItem(false)]
-public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl
+public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INotifyPropertyChanged
 {
     private const int FilterListLimit = 1000;
 
@@ -150,7 +150,9 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl
 
     public string? ThemeOverride { get; set; }
 
-    /// <summary>The underlying engine for features the control does not wrap.</summary>
+    /// <summary>The underlying engine retained for compatibility; grid features are also available directly on the control.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public DataGrid<TItem> Engine => _engine;
 
     // ------------------------------------------------------------------
@@ -188,7 +190,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl
 
     public GridPagingMode PagingMode { get => _engine.PagingMode; set { _engine.PagingMode = value; RefreshLayout(); } }
     public int PageSize { get => _engine.PageSize; set => _engine.PageSize = value; }
-    public int PageIndex => _engine.PageIndex;
+    public int PageIndex { get => _engine.PageIndex; set => _engine.PageIndex = value; }
     public int PageCount => _engine.PageCount;
     public bool GoToPage(int pageIndex) => _engine.GoToPage(pageIndex);
 
@@ -233,7 +235,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl
     public IReadOnlyList<object> GetDistinctValues(string fieldName, string? contains = null, int maxCount = 1000, CancellationToken cancellationToken = default) => _engine.GetDistinctValues(fieldName, contains, maxCount, cancellationToken);
     public void SetQuickFilter(string fieldName, string text) => _engine.SetQuickFilter(fieldName, text);
     public void SaveFilterPreset(string presetName) => _engine.SaveFilterPreset(presetName);
-    public void ApplyFilterPreset(string presetName) => _engine.ApplyFilterPreset(presetName);
+    public bool ApplyFilterPreset(string presetName) => _engine.ApplyFilterPreset(presetName);
 
     public void GroupBy(string fieldName) => _engine.GroupBy(fieldName);
     public void RemoveGroup(string fieldName) => _engine.RemoveGroup(fieldName);
@@ -250,6 +252,10 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl
     public bool ReorderRow(int fromIndex, int toIndex) => _engine.ReorderRow(fromIndex, toIndex);
     public bool AddRow(TItem item, int? index = null) => _engine.AddRow(item, index);
     public int RemoveRows(IEnumerable<TItem> items) => _engine.RemoveRows(items);
+    public GridHierarchyRelation AddRelation(string name, string keyField, string foreignField, System.Collections.IEnumerable childSource, Type? childItemType = null) => _engine.AddRelation(name, keyField, foreignField, childSource, childItemType);
+    public GridHierarchyRelation AddSelfReference(string keyField, string parentField) => _engine.AddSelfReference(keyField, parentField);
+    public bool RemoveRelation(string name) => _engine.RemoveRelation(name);
+    public void NotifyRelationsChanged() => _engine.NotifyRelationsChanged();
     public void ToggleDetailExpansion(TItem rowItem) => _engine.ToggleDetailExpansion(rowItem);
     public void ExpandAllDetails() => _engine.ExpandAllDetails();
     public void CollapseAllDetails() => _engine.CollapseAllDetails();
@@ -261,7 +267,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl
     public bool MoveColumnBefore(string fieldName, string? beforeFieldName) => _engine.MoveColumnBefore(fieldName, beforeFieldName);
     public void PinColumn(string fieldName, ColumnPinPosition position) => _engine.PinColumn(fieldName, position);
     public ColumnLayoutProfile CreateLayoutProfile(string profileName = "Default") => _engine.CreateLayoutProfile(profileName);
-    public void ApplyLayoutProfile(ColumnLayoutProfile profile) => _engine.ApplyLayoutProfile(profile);
+    public IReadOnlyList<string> ApplyLayoutProfile(ColumnLayoutProfile profile) => _engine.ApplyLayoutProfile(profile);
 
     /// <summary>Display row of the focused or first selected row, or -1.</summary>
     public int SelectedRowIndex

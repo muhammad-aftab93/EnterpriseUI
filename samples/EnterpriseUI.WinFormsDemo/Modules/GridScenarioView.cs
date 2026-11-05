@@ -115,7 +115,7 @@ public sealed class ScenarioHost
         grid.QueryChanged += (_, _) => _view.ScheduleCodeRefresh();
         grid.PageChanged += (_, _) => _view.ScheduleCodeRefresh();
         grid.DataWindowChanged += (_, _) => _view.ScheduleCodeRefresh();
-        grid.Engine.PropertyChanged += (_, _) => _view.ScheduleCodeRefresh();
+        grid.PropertyChanged += (_, _) => _view.ScheduleCodeRefresh();
         return grid;
     }
 

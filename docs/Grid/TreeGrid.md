@@ -24,7 +24,7 @@ A self-reference relation turns flat rows into a tree. The engine builds the vis
 
 ## Usage guide
 
-grid.Engine.AddSelfReference("Id", "ParentId"); grid.Engine.TreeExpandedByDefault = true; grid.Engine.ExpandAllTreeNodes().
+grid.AddSelfReference("Id", "ParentId"); grid.TreeExpandedByDefault = true; grid.ExpandAllTreeNodes().
 
 ## Examples
 
@@ -43,7 +43,7 @@ public static class GeneratedGridFluent
             .Configure(g =>
                 {
                     g.ShowGroupPanel = false;
-                    g.Engine.AddSelfReference("Id", "ParentId");
+                    g.AddSelfReference("Id", "ParentId");
                 })
             .DataSource(data)
             .Build();

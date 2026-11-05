@@ -176,7 +176,7 @@ public static partial class GridScenarios
             Description = "Navigate with the keyboard only, run the WCAG contrast audit for the active theme, and read what a screen reader hears for the grid, a row and a cell.",
             Features = new[] { "UI Automation tree", "Keyboard map", "Contrast audit", "Live-region announcements", "High contrast", "Focus ring" },
             Documentation = "The grid exposes a Table > Row > Cell UI Automation tree with names built from the live state (sorted, filtered, selected, error). Colors are derived from theme tokens and corrected to meet WCAG 2.2 AA for text and non-text indicators.",
-            Usage = "grid.AriaLabel = \"Sales records\"; GridAccessibility.DescribeGrid(grid.Engine); GridAccessibility.Audit(theme).",
+            Usage = "grid.AriaLabel = \"Sales records\"; grid.DescribeGrid(); GridAccessibility.Audit(theme).",
             Accessibility = "Windows high contrast uses system colors; selection, focus, errors and search matches stay distinguishable without color through shape, outline and text.",
             Api = "GridAccessibility -> DescribeGrid, DescribeRow, DescribeCell, DescribeColumnHeader, Audit, KeyboardMap; GridPalette.FromTheme",
             Build = host =>
@@ -193,18 +193,18 @@ public static partial class GridScenarios
                     host.Metric($"{ThemeManager.Instance.CurrentTheme.Name}: {checks.Count - failed.Count}/{checks.Count} contrast checks pass" + (failed.Count > 0 ? $" (failing: {string.Join(", ", failed.Select(f => f.Name))})" : string.Empty));
                     foreach (var check in checks) host.Log("ContrastCheck", $"{check.Name}: {check.Ratio:0.0}:1 (needs {check.Required:0.0}) {(check.Passes ? "pass" : "FAIL")}");
                 });
-                host.Button("Describe grid", () => host.Metric(GridAccessibility.DescribeGrid(grid.Engine)));
+                host.Button("Describe grid", () => host.Metric(grid.DescribeGrid()));
                 host.Button("Describe focus cell", () =>
                 {
                     var f = grid.Selection;
                     var columns = GridColumnLayout.OrderVisible(grid.Columns);
                     if (f.FocusedRow >= 0 && grid.TryGetRowAt(f.FocusedRow, out var row) && f.FocusedColumn >= 0)
-                        host.Metric(GridAccessibility.DescribeCell(grid.Engine, row, columns[f.FocusedColumn], f.FocusedColumn, columns.Count));
+                        host.Metric(grid.DescribeCell(row, columns[f.FocusedColumn], f.FocusedColumn, columns.Count));
                     else host.Metric("Focus a cell first (click a cell or press an arrow key).");
                 });
                 host.Button("Keyboard map", () => MessageBox.Show(string.Join(Environment.NewLine, GridAccessibility.KeyboardMap.Select(k => $"{k.Keys,-22} {k.Action}")), "DataGrid keyboard map"));
                 host.Button("High contrast theme", () => ThemeManager.Instance.ApplyTheme(BuiltInThemes.CreateHighContrast(true)));
-                host.Button("Enter invalid quantity", () => { if (grid.TryGetItemAt(0, out var item)) host.Metric(grid.Engine.TryEditCell(item, "Quantity", 500).Success ? "Accepted" : "Rejected: Quantity must be 1 to 100 (announced to screen readers)"); });
+                host.Button("Enter invalid quantity", () => { if (grid.TryGetItemAt(0, out var item)) host.Metric(grid.TryEditCell(item, "Quantity", 500).Success ? "Accepted" : "Rejected: Quantity must be 1 to 100 (announced to screen readers)"); });
                 return grid;
             }
         };
@@ -290,7 +290,7 @@ public static partial class GridScenarios
                         quote.Updated = DateTime.Now;
                         updates++;
                     }
-                    host.Metric($"{updates:N0} updates | {updates / Math.Max(1, started.Elapsed.TotalSeconds):N0} updates/s | {grid.Engine.AutoRefreshDelay.TotalMilliseconds:N0} ms re-query debounce");
+                    host.Metric($"{updates:N0} updates | {updates / Math.Max(1, started.Elapsed.TotalSeconds):N0} updates/s | {grid.AutoRefreshDelay.TotalMilliseconds:N0} ms re-query debounce");
                 };
                 grid.Disposed += (_, _) => timer.Dispose();
 
@@ -333,8 +333,8 @@ public static partial class GridScenarios
                     return QueryEngine.Execute(store.AsQueryable(), request);
                 });
 
-                grid.Engine.DataLoadFailed += (_, e) => host.Metric($"Load failed: {e.Exception.Message} - press Retry.");
-                grid.DataWindowChanged += (_, _) => host.Metric($"{grid.TotalRecordCount:N0} rows in store | {Volatile.Read(ref requests)} requests | {grid.Engine.PagerText}");
+                grid.DataLoadFailed += (_, e) => host.Metric($"Load failed: {e.Exception.Message} - press Retry.");
+                grid.DataWindowChanged += (_, _) => host.Metric($"{grid.TotalRecordCount:N0} rows in store | {Volatile.Read(ref requests)} requests | {grid.PagerText}");
 
                 host.AsyncButton("Load 500,000 rows", async () =>
                 {
@@ -362,7 +362,7 @@ public static partial class GridScenarios
             Description = "Expand a customer to see its orders in a nested table. Turn on lazy loading to fetch children on first expansion, or remove the relation to fall back to a property summary.",
             Features = new[] { "Master/detail", "Lazy child loading", "Property summary fallback", "Expand/collapse all", "Search in details" },
             Documentation = "With EnableMasterDetail and a relation, each parent row can expand to a child table. Without a relation the grid shows the parent's properties in a summary row.",
-            Usage = "var relation = grid.Engine.AddRelation(\"Orders\", \"Id\", \"CustomerId\", orders, typeof(OrderRow)); relation.LoadChildrenAsync = async (parent, ct) => await api.OrdersAsync(parent, ct);",
+            Usage = "var relation = grid.AddRelation(\"Orders\", \"Id\", \"CustomerId\", orders, typeof(OrderRow)); relation.LoadChildrenAsync = async (parent, ct) => await api.OrdersAsync(parent, ct);",
             Accessibility = "Expanded state is exposed on the row; Alt+Right expands and Alt+Left collapses; the child table's header row is announced with its title.",
             Api = "DataGrid<T> -> EnableMasterDetail, AddRelation, RemoveRelation, ToggleDetailExpansion, ExpandAllDetails; GridHierarchyRelation -> LoadChildrenAsync, DetailItemsSelector",
             Build = host =>
@@ -373,7 +373,7 @@ public static partial class GridScenarios
                 grid.Columns.Add(new GridColumn { Field = "Name", Title = "Customer", Width = 240 });
                 grid.Columns.Add(new GridColumn { Field = "Country", Title = "Country", Width = 120 });
                 grid.Columns.Add(new GridColumn { Field = "Segment", Title = "Segment", Width = 120 });
-                var relation = grid.Engine.AddRelation("Orders", "Id", "CustomerId", orders, typeof(OrderRow));
+                var relation = grid.AddRelation("Orders", "Id", "CustomerId", orders, typeof(OrderRow));
                 relation.ChildColumns.Add(new GridColumn { Field = "OrderId", Title = "Order", Width = 90 });
                 relation.ChildColumns.Add(new GridColumn { Field = "OrderDate", Title = "Date", FormatString = "d", Width = 100 });
                 relation.ChildColumns.Add(new GridColumn { Field = "Amount", Title = "Amount", FormatString = "C2", Width = 110, Alignment = ColumnTextAlignment.Right });
@@ -388,9 +388,9 @@ public static partial class GridScenarios
                     relation.LoadChildrenAsync = v
                         ? async (parent, ct) => { await Task.Delay(300, ct); return orders.Where(o => o.CustomerId == ((CustomerRow)parent).Id).ToList(); }
                         : null;
-                    grid.Engine.NotifyRelationsChanged();
+                    grid.NotifyRelationsChanged();
                 });
-                host.Button("Remove relation (property summary)", () => { grid.Engine.RemoveRelation("Orders"); grid.Engine.NotifyRelationsChanged(); });
+                host.Button("Remove relation (property summary)", () => { grid.RemoveRelation("Orders"); grid.NotifyRelationsChanged(); });
                 host.Toggle("Search panel", false, v => grid.ShowSearchPanel = v);
                 host.Metric($"{customers.Count} customers, {orders.Count} orders");
                 return grid;
@@ -404,7 +404,7 @@ public static partial class GridScenarios
             Description = "Rows form a tree through ParentId. Expand and collapse nodes with the chevron or Alt+Right/Left; search expands the path to each match; summaries stay exact.",
             Features = new[] { "Self-reference tree", "Expand to reveal search matches", "Cycle-safe", "Column summaries", "Sorting within levels" },
             Documentation = "AddSelfReference(keyField, parentField) turns the grid's own rows into a tree. Sorting orders siblings, filtering keeps the ancestors of matches, and cyclic parent chains are detected instead of looping.",
-            Usage = "grid.Engine.AddSelfReference(\"Id\", \"ParentId\"); grid.Engine.TreeExpandedByDefault = true; grid.Engine.ExpandAllTreeNodes().",
+            Usage = "grid.AddSelfReference(\"Id\", \"ParentId\"); grid.TreeExpandedByDefault = true; grid.ExpandAllTreeNodes().",
             Accessibility = "Tree rows announce level and expanded state; the chevron is also reachable with Alt+Right and Alt+Left.",
             Api = "DataGrid<T> -> AddSelfReference, TreeExpandedByDefault, ToggleTreeNode, ExpandAllTreeNodes, CollapseAllTreeNodes, IsTreeMode",
             Build = host =>
@@ -414,13 +414,13 @@ public static partial class GridScenarios
                 grid.Columns.Add(new GridColumn { Field = "Role", Title = "Role", Width = 140 });
                 grid.Columns.Add(new GridColumn { Field = "Budget", Title = "Budget", FormatString = "C0", Width = 120, Alignment = ColumnTextAlignment.Right, FooterSummaries = { new GridColumnSummary(AggregateFunction.Sum, "C0") } });
                 grid.Columns.Add(new GridColumn { Field = "Headcount", Title = "Headcount", Width = 100, Alignment = ColumnTextAlignment.Right });
-                grid.Engine.AddSelfReference("Id", "ParentId");
+                grid.AddSelfReference("Id", "ParentId");
                 grid.DataSource = GridScenarioData.Organization();
                 host.Attach(grid);
 
-                host.Button("Expand all", grid.Engine.ExpandAllTreeNodes);
-                host.Button("Collapse all", grid.Engine.CollapseAllTreeNodes);
-                host.Toggle("Expanded by default", false, v => { grid.Engine.TreeExpandedByDefault = v; grid.Engine.NotifyRelationsChanged(); });
+                host.Button("Expand all", grid.ExpandAllTreeNodes);
+                host.Button("Collapse all", grid.CollapseAllTreeNodes);
+                host.Toggle("Expanded by default", false, v => { grid.TreeExpandedByDefault = v; grid.NotifyRelationsChanged(); });
                 host.Button("Sort by budget", () => grid.SortBy("Budget", ListSortDirection.Descending));
                 host.Button("Clear sort", grid.ClearSort);
                 host.Toggle("Search panel", false, v => grid.ShowSearchPanel = v);
@@ -471,7 +471,7 @@ public static partial class GridScenarios
                 host.Attach(grid);
 
                 string? layout = null;
-                void Report() => host.Metric($"{grid.TotalRecordCount:N0} orders | {grid.Engine.PagerText} | pending: {grid.Engine.PendingChanges.Count} | errors: {grid.Engine.ValidationSummary.Count} | selected: {grid.Selection.SelectedRows.Count}");
+                void Report() => host.Metric($"{grid.TotalRecordCount:N0} orders | {grid.PagerText} | pending: {grid.PendingChanges.Count} | errors: {grid.ValidationSummary.Count} | selected: {grid.Selection.SelectedRows.Count}");
                 grid.DataWindowChanged += (_, _) => Report();
                 grid.SelectionChanged += (_, _) => Report();
                 grid.CellEdited += (_, d) => { host.Log("CellEdited", d); Report(); };
@@ -486,7 +486,7 @@ public static partial class GridScenarios
                 host.Button("Discard", () => host.Metric($"Discarded {grid.RollbackChanges()} change(s)"));
                 host.Separator();
                 host.Button("Save layout", () => { layout = GridLayoutSerializer.ToJson(grid.CreateLayoutProfile("workbench")); host.Metric("Layout saved."); });
-                host.Button("Restore layout", () => { if (layout != null) grid.Engine.ApplyLayoutProfile(GridLayoutSerializer.FromJson(layout)); else host.Metric("Save a layout first."); });
+                host.Button("Restore layout", () => { if (layout != null) grid.ApplyLayoutProfile(GridLayoutSerializer.FromJson(layout)); else host.Metric("Save a layout first."); });
                 host.AsyncButton("Export Excel", async () =>
                 {
                     var path = Path.Combine(Path.GetTempPath(), $"orders-{DateTime.Now:yyyyMMdd-HHmmss}.xlsx");

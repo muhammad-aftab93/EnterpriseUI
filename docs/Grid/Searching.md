@@ -28,7 +28,7 @@ DataGrid<T> implements search over visible, searchable columns using formatted c
 
 ## Usage guide
 
-grid.ShowSearchPanel = true; grid.SearchPanelText = "acme"; grid.Engine.SearchMode = GridSearchMode.Highlight; await grid.Engine.SearchAsync("acme"); grid.Engine.NextMatch(); await grid.Engine.FindRowByPrefixAsync("Name", "Ac").
+grid.ShowSearchPanel = true; grid.SearchPanelText = "acme"; grid.SearchMode = GridSearchMode.Highlight; await grid.SearchAsync("acme"); grid.NextMatch(); await grid.FindRowByPrefixAsync("Name", "Ac").
 
 ## Examples
 

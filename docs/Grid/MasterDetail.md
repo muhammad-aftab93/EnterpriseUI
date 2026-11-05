@@ -26,7 +26,7 @@ Master/detail is a relation whose children appear below the expanded parent as a
 
 ## Usage guide
 
-var relation = grid.Engine.AddRelation("Orders", "Id", "CustomerId", orders, typeof(OrderRow)); relation.LoadChildrenAsync = async (parent, ct) => await api.OrdersAsync(parent, ct);
+var relation = grid.AddRelation("Orders", "Id", "CustomerId", orders, typeof(OrderRow)); relation.LoadChildrenAsync = async (parent, ct) => await api.OrdersAsync(parent, ct);
 
 ## Examples
 
@@ -47,7 +47,7 @@ public static class GeneratedGridFluent
                     g.EnableMasterDetail = true;
                     g.ShowGroupPanel = false;
                     var relation1Rows = new List<OrderRow>(); // supply the child rows
-                    var relation1 = g.Engine.AddRelation("Orders", "Id", "CustomerId", relation1Rows, typeof(OrderRow));
+                    var relation1 = g.AddRelation("Orders", "Id", "CustomerId", relation1Rows, typeof(OrderRow));
                 })
             .DataSource(data)
             .Build();

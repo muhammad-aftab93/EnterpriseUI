@@ -28,7 +28,7 @@ Structural edits (add, remove, move, transfer) operate on the in-memory list beh
 
 ## Usage guide
 
-grid.AllowRowDrag = true; grid.AllowRowDrop = true; grid.AddRow(item); grid.RemoveRows(grid.SelectedItems); grid.Engine.MoveRows(items, before).
+grid.AllowRowDrag = true; grid.AllowRowDrop = true; grid.AddRow(item); grid.RemoveRows(grid.SelectedItems); grid.MoveRows(items, before).
 
 ## Examples
 
