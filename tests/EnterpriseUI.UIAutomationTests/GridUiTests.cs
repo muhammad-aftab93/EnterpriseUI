@@ -12,6 +12,46 @@ using static EnterpriseUI.Tests.Support.WinFormsTestSupport;
 
 namespace EnterpriseUI.Tests.UI;
 
+public class ToolboxTests
+{
+    [Fact]
+    public void ToolboxControlsUseEnterpriseNamesAndHaveDefaultConstructors()
+    {
+        var controls = typeof(EnterpriseDataGrid).Assembly.GetExportedTypes()
+            .Where(type => typeof(Control).IsAssignableFrom(type)
+                && !type.IsAbstract && !type.ContainsGenericParameters)
+            .ToArray();
+
+        Assert.Contains(typeof(EnterpriseDataGrid), controls);
+        Assert.All(controls, type =>
+        {
+            Assert.StartsWith("Enterprise", type.Name);
+            Assert.NotNull(type.GetConstructor(Type.EmptyTypes));
+        });
+        Assert.True(((ToolboxItemAttribute)TypeDescriptor.GetAttributes(typeof(EnterpriseDataGrid))
+            [typeof(ToolboxItemAttribute)]!).Equals(ToolboxItemAttribute.Default));
+        Assert.Equal(ToolboxItemAttribute.None, TypeDescriptor.GetAttributes(typeof(EnterpriseDataGrid<object>))
+            [typeof(ToolboxItemAttribute)]);
+    }
+
+    [Fact]
+    public void NonGenericGridCanBindAndRenderTypedRows()
+    {
+        RunSta(() =>
+        {
+            using var grid = new EnterpriseDataGrid { Width = 700, Height = 400 };
+            grid.Columns.Add(new GridColumn { Field = "Name", Title = "Name", Width = 200 });
+            grid.DataSource = Rows(10);
+            Wait(grid.RefreshDataAsync());
+
+            Assert.Equal(10, grid.TotalItemsCount);
+            using var bitmap = new Bitmap(grid.Width, grid.Height);
+            grid.DrawToBitmap(bitmap, new Rectangle(0, 0, grid.Width, grid.Height));
+            Assert.Equal("Name 0001", PropertyPath.GetValue(grid.DataSource!.First(), "Name"));
+        });
+    }
+}
+
 public class RenderingTests
 {
     [Fact]

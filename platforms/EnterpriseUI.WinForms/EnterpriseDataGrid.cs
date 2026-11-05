@@ -14,11 +14,17 @@ using EnterpriseUI.Theming;
 
 namespace EnterpriseUI.WinForms;
 
+[ToolboxItem(true)]
+public class EnterpriseDataGrid : EnterpriseDataGrid<object>
+{
+}
+
 /// <summary>
 /// Windows Forms data grid with DPI-aware GDI+ rendering over <see cref="DataGrid{TItem}"/>: paging, sorting, filtering, grouping,
 /// master/detail and tree hierarchy, row/cell/column selection, in-cell/popup editing with validation, summaries, search highlighting,
 /// export, printing, drag and drop, theme-derived colors (including high contrast) and UI Automation support.
 /// </summary>
+[ToolboxItem(false)]
 public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl
 {
     private const int FilterListLimit = 1000;

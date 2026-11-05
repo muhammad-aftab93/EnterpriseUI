@@ -28,6 +28,26 @@ dotnet add YourApp.csproj package EnterpriseUI.WinForms --version 1.0.0 --source
 
 NuGet restores the required EnterpriseUI component packages alongside the WinForms package.
 
+## Visual Studio Toolbox
+
+The non-generic `EnterpriseDataGrid` can be added from the Windows Forms Toolbox. It supports runtime data binding through `IEnumerable<object>` and explicitly configured columns. Use `EnterpriseDataGrid<TItem>` or `GridBuilder<TItem>` in code when you need strongly typed grid APIs.
+
+Toolbox entries use the `Enterprise` prefix, such as `EnterpriseButtonControl` and `EnterpriseTextBoxControl`. Only concrete Windows Forms controls appear in the Toolbox; component-engine models and open generic types do not.
+
+When replacing a local package without changing version `1.0.0`, NuGet may continue using an older cached DLL. If you see names starting with `WinForms`:
+
+1. Close Visual Studio to release the designer's assemblies.
+2. Remove only the cached WinForms package (not the local feed):
+
+    ```powershell
+    Remove-Item "$env:USERPROFILE\.nuget\packages\enterpriseui.winforms\1.0.0" -Recurse -Force
+    ```
+
+3. Restore and rebuild the consuming application from the local feed, then reopen its designer.
+4. If the Toolbox still shows old entries, reset the Toolbox or remove and re-add this library's entries through **Choose Items**.
+
+Existing forms using the old `WinForms...Control` type names must be updated to their `Enterprise...Control` equivalents.
+
 ## Quick Start
 
 Add this control to a Windows Forms form:
