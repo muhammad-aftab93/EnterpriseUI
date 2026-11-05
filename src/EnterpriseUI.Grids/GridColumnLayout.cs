@@ -250,6 +250,14 @@ public static class GridColumnLayout
         return spans;
     }
 
+    /// <summary>The bands a column sits in, outermost first; empty when it has no band.</summary>
+    public static IReadOnlyList<GridColumnBand> GetBandPath(GridColumn column, IReadOnlyList<GridColumnBand> bands)
+    {
+        ArgumentNullException.ThrowIfNull(column);
+        ArgumentNullException.ThrowIfNull(bands);
+        return ResolvePath(column, bands, BuildParentMap(bands));
+    }
+
     private static Dictionary<GridColumnBand, GridColumnBand?> BuildParentMap(IReadOnlyList<GridColumnBand> bands)
     {
         var map = new Dictionary<GridColumnBand, GridColumnBand?>(ReferenceEqualityComparer.Instance);

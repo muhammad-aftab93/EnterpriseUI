@@ -7,6 +7,8 @@
     <ProjectReference Include="..\..\src\EnterpriseUI.Icons\EnterpriseUI.Icons.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Data\EnterpriseUI.Data.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Grids\EnterpriseUI.Grids.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Exporting\EnterpriseUI.Exporting.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Printing\EnterpriseUI.Printing.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Validation\EnterpriseUI.Validation.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Accessibility\EnterpriseUI.Accessibility.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Localization\EnterpriseUI.Localization.csproj" />

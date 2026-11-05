@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\src\EnterpriseUI.Navigation\EnterpriseUI.Navigation.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Layout\EnterpriseUI.Layout.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Exporting\EnterpriseUI.Exporting.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Printing\EnterpriseUI.Printing.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Charts\EnterpriseUI.Charts.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Gauges\EnterpriseUI.Gauges.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Scheduling\EnterpriseUI.Scheduling.csproj" />

@@ -4,6 +4,7 @@
     <ProjectReference Include="..\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />
     <ProjectReference Include="..\EnterpriseUI.Abstractions\EnterpriseUI.Abstractions.csproj" />
     <ProjectReference Include="..\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />
+    <ProjectReference Include="..\EnterpriseUI.Exporting\EnterpriseUI.Exporting.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

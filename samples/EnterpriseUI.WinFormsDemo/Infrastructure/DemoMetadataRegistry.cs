@@ -707,7 +707,43 @@ var allControls = TelerikWinFormsControlRegistry.AllControls;",
             Troubleshooting = "Use the All 118 Controls Catalog tab to search and jump to any control across the solution.",
             ApiReference = "TelerikWinFormsControlRegistry.AllControls (118 Controls)"
         });
+        RegisterGridWorkshop();
     }
+
+    private static void RegisterGridWorkshop()
+    {
+        foreach (var scenario in GridScenarios.All)
+        {
+            var captured = scenario;
+            _allDemos.Add(new DemoItem
+            {
+                Id = captured.Id,
+                Title = captured.Title,
+                Description = captured.Description,
+                Category = DemoCategoryType.GridsAndData,
+                SubCategory = "DataGrid Workshop",
+                TargetControlName = "EnterpriseDataGrid<T>",
+                Features = captured.Features,
+                Tags = new[] { "Grid", "DataGrid", "Workshop" },
+                Industry = "Cross-Industry",
+                IsFeatured = captured.Id is "grid-enterprise" or "grid-basics",
+                IsNew = true,
+                ViewFactory = () => new GridScenarioView(GetById(captured.Id), captured),
+                SourceCode = "// Open the Generated Code tab: C#, Designer, Fluent API, JSON and a complete exportable example are generated from the live grid state.",
+                Documentation = captured.Documentation,
+                BasicUsage = captured.Usage,
+                ArchitectureNotes = captured.Architecture,
+                PerformanceNotes = captured.Performance,
+                AccessibilityNotes = captured.Accessibility,
+                BestPractices = captured.BestPractices,
+                Troubleshooting = captured.Troubleshooting,
+                ApiReference = captured.Api,
+                RelatedControls = string.IsNullOrEmpty(captured.Related) ? Related : captured.Related
+            });
+        }
+    }
+
+    private const string Related = "EnterpriseDataGrid<T>, DataGrid<T>, GridBuilder<T>, EnterpriseTreeList, EnterprisePivotGrid";
 
     public static DemoItem GetById(string id)
     {

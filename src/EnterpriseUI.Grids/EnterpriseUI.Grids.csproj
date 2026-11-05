@@ -6,6 +6,7 @@
     <ProjectReference Include="..\EnterpriseUI.Data\EnterpriseUI.Data.csproj" />
     <ProjectReference Include="..\EnterpriseUI.Theming\EnterpriseUI.Theming.csproj" />
     <ProjectReference Include="..\EnterpriseUI.Icons\EnterpriseUI.Icons.csproj" />
+    <ProjectReference Include="..\EnterpriseUI.Exporting\EnterpriseUI.Exporting.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

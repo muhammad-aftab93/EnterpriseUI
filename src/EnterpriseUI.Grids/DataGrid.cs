@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,26 +20,37 @@ public sealed record GroupSummaryDescriptor(string Member, AggregateFunction Fun
 
 public sealed record GridEditRecord<TItem>(TItem Item, string FieldName, object? OldValue, object? NewValue);
 
+/// <summary>A computed footer value for one column summary.</summary>
+public sealed record GridFooterValue(GridColumn Column, GridColumnSummary Summary, object? Value, string Text);
+
 /// <summary>
-/// Superset Enterprise DataGrid combining Telerik UI for .NET Grid and DevExpress GridControl.
-/// Features: Virtual scrolling, grouping, hierarchy, sorting, multi-column sorting, Excel-style filtering,
-/// column bands, column chooser, presets, row/cell editing, master-detail, column pinning.
+/// Enterprise DataGrid engine: windowed or paged data access, multi-column sorting, filtering (column, value list, search),
+/// grouping with aggregates, master/detail and tree hierarchies, selection, validated editing with undo/redo and transactions,
+/// footer summaries and calculated columns, and layout profiles. Rendering is left to the platform controls.
 /// </summary>
-public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirtualizedControl, IThemeableControl, IAccessibleControl
+/// <remarks>
+/// Property and method calls are expected on the UI thread. Data loads run asynchronously and raise
+/// <see cref="DataWindowChanged"/> when rows are ready; failures raise <see cref="DataLoadFailed"/>.
+/// </remarks>
+public partial class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirtualizedControl, IThemeableControl, IAccessibleControl
 {
+    [Flags]
+    private enum LoadKind
+    {
+        /// <summary>Fetch rows for the visible window only.</summary>
+        Window = 0,
+        /// <summary>Sort, filter, group or paging changed; recompute summaries and drop cached orderings.</summary>
+        Query = 1,
+        /// <summary>Underlying data changed; also drop the source cache and hierarchy lookups.</summary>
+        Data = 2 | Query
+    }
+
     private readonly VirtualizationManager _virtualizer = new();
     private IEnumerable<TItem>? _dataSource;
     private IDataSource<TItem>? _boundDataSource;
-    private DataSourceResult<TItem>? _currentResult;
-    private TItem? _selectedItem;
-    private readonly HashSet<TItem> _selectedItems = new();
-    private readonly HashSet<object> _expandedGroupKeys = new();
-    private readonly HashSet<TItem> _expandedDetailRows = new();
-    private readonly Stack<GridEditRecord<TItem>> _undoStack = new();
-    private readonly Stack<GridEditRecord<TItem>> _redoStack = new();
-    private string? _searchPanelText;
-    private CompositeFilterDescriptor? _searchFilter;
-    private readonly Dictionary<string, CompositeFilterDescriptor> _excelFilters = new(StringComparer.OrdinalIgnoreCase);
+    private INotifyCollectionChanged? _observedCollection;
+    private int _totalRecords;
+    private bool _hasResult;
     private IReadOnlyList<TItem> _window = Array.Empty<TItem>();
     private int _windowStart;
     private int _wantedFirstRow;
@@ -45,9 +59,13 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
     private volatile bool _isLoading;
     private double _horizontalOffset;
     private double _verticalOffset;
-
-    public bool CanUndo => _undoStack.Count > 0;
-    public bool CanRedo => _redoStack.Count > 0;
+    private string? _searchPanelText;
+    private IFilterDescriptor? _searchFilter;
+    private readonly Dictionary<string, IFilterDescriptor> _excelFilters = new(StringComparer.OrdinalIgnoreCase);
+    private IReadOnlyList<GridFooterValue> _footerValues = Array.Empty<GridFooterValue>();
+    private Exception? _lastError;
+    private int _updateDepth;
+    private bool _pendingRefresh;
 
     public string Id { get; } = Guid.NewGuid().ToString("N");
     public string? Name { get; set; }
@@ -57,30 +75,50 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
     public IUIComponent? Parent { get; set; }
     public IReadOnlyList<IUIComponent> Children => Array.Empty<IUIComponent>();
 
-    // Grid Options & Columns
+    public DataGrid()
+    {
+        Selection.Changed += (_, _) =>
+        {
+            OnPropertyChanged(nameof(SelectedItem));
+            OnPropertyChanged(nameof(SelectedItems));
+            SelectionChanged?.Invoke(this, EventArgs.Empty);
+        };
+    }
+
+    // Grid options & columns
     public List<GridColumn> Columns { get; } = new();
     public List<GridColumnBand> Bands { get; } = new();
     public DataSourceRequest CurrentRequest { get; } = new();
-    public GridSelectionMode SelectionMode { get; set; } = GridSelectionMode.SingleRow;
-    public GridEditMode EditMode { get; set; } = GridEditMode.None;
     public bool EnableVirtualization { get; set; } = true;
     public bool EnableGrouping { get; set; } = true;
     public bool EnableFiltering { get; set; } = true;
     public bool EnableSorting { get; set; } = true;
     public bool EnableMultiColumnSorting { get; set; } = true;
-    public bool EnableMasterDetail { get; set; } = false;
+    public bool EnableMasterDetail { get; set; }
     public bool ShowGroupPanel { get; set; } = true;
     public bool EnableSearchPanel { get; set; } = true;
-    public bool EnableQuickFilterRow { get; set; } = false;
+    public bool EnableQuickFilterRow { get; set; }
+    public bool EnableAlternateRows { get; set; } = true;
     public object? DetailTemplate { get; set; }
 
-    // Quick Filters & Presets
+    // Quick filters & presets
     public Dictionary<string, string> QuickFilters { get; } = new(StringComparer.OrdinalIgnoreCase);
     public Dictionary<string, List<IFilterDescriptor>> SavedFilterPresets { get; } = new(StringComparer.OrdinalIgnoreCase);
     public List<GroupSummaryDescriptor> GroupSummaries { get; } = new();
     public List<GridFormatRule> FormatRules { get; } = new();
-    public List<GridHierarchyRelation> Relations { get; } = new();
     public GridClipboardCopyMode ClipboardCopyMode { get; set; } = GridClipboardCopyMode.CellsWithHeaders;
+
+    /// <summary>Raised for each displayed row so applications can style rows at runtime.</summary>
+    public event EventHandler<GridRowStyleEventArgs<TItem>>? RowStyleNeeded;
+
+    public GridRowStyleEventArgs<TItem>? GetRowStyle(TItem item, int rowIndex)
+    {
+        var handler = RowStyleNeeded;
+        if (handler == null) return null;
+        var args = new GridRowStyleEventArgs<TItem>(item, rowIndex);
+        handler(this, args);
+        return args;
+    }
 
     public string? SearchPanelText
     {
@@ -94,14 +132,19 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
         }
     }
 
-    // Virtualization properties
+    // Virtualization
     public double ViewportWidth { get; private set; } = 800;
     public double ViewportHeight { get; private set; } = 600;
     public double ItemHeight { get => _virtualizer.ItemHeight; set => _virtualizer.ItemHeight = value; }
     public double ItemWidth { get => _virtualizer.ItemWidth; set => _virtualizer.ItemWidth = value; }
-    public int TotalItemsCount => _currentResult?.Total ?? 0;
     public IndexRange VisibleRowRange { get; private set; }
     public IndexRange VisibleColumnRange { get; private set; }
+
+    /// <summary>Rows displayed on the current page (including group, detail and tree rows).</summary>
+    public int TotalItemsCount => IsMaterialized ? PageRowCount(_rows.Length) : PageRowCount(_totalRecords);
+
+    /// <summary>Data records matching the filters across all pages, excluding group headers and child rows.</summary>
+    public int TotalRecordCount => _totalRecords;
 
     // Accessibility
     public AriaRole Role { get; set; } = AriaRole.Grid;
@@ -118,17 +161,33 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
     // Theming
     public string? ThemeOverride { get; set; }
 
-    // Data Binding
+    // Data binding
     public IEnumerable<TItem>? DataSource
     {
         get => _dataSource;
         set
         {
-            if (SetProperty(ref _dataSource, value))
+            if (ReferenceEquals(_dataSource, value))
             {
-                _boundDataSource = value != null ? new DataSource<TItem>(value) : null;
-                ResetAndRefresh();
+                return;
             }
+
+            if (_observedCollection != null)
+            {
+                _observedCollection.CollectionChanged -= OnSourceCollectionChanged;
+                _observedCollection = null;
+            }
+
+            _dataSource = value;
+            _boundDataSource = value != null ? new DataSource<TItem>(value) : null;
+            if (value is INotifyCollectionChanged notify)
+            {
+                _observedCollection = notify;
+                notify.CollectionChanged += OnSourceCollectionChanged;
+            }
+
+            OnPropertyChanged();
+            ResetAndRefresh(LoadKind.Data);
         }
     }
 
@@ -138,45 +197,35 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
         set
         {
             _boundDataSource = value;
-            ResetAndRefresh();
+            ResetAndRefresh(LoadKind.Data);
         }
     }
 
-    public TItem? SelectedItem
-    {
-        get => _selectedItem;
-        set
-        {
-            if (SetProperty(ref _selectedItem, value))
-            {
-                _selectedItems.Clear();
-                if (value != null) _selectedItems.Add(value);
-                OnPropertyChanged(nameof(SelectedItems));
-            }
-        }
-    }
+    /// <summary>Last data load failure, or null after a successful load.</summary>
+    public Exception? LastError => _lastError;
 
-    public IReadOnlyList<TItem> SelectedItems => _selectedItems.ToList();
-
-    /// <summary>Rows currently cached in memory; the first entry is row <see cref="WindowStart"/> of the filtered, sorted result.</summary>
-    public IReadOnlyList<TItem> RenderedItems => _window;
-
-    public int WindowStart => _windowStart;
     public bool IsLoading => _isLoading;
 
     /// <summary>Extra rows fetched before and after the requested range to make scrolling smooth.</summary>
     public int RowBuffer { get; set; } = 100;
 
+    public IReadOnlyList<TItem> RenderedItems => IsMaterialized ? _materialized : _window;
+    public int WindowStart => _windowStart;
+
     public event EventHandler? DataWindowChanged;
     public event EventHandler? QueryChanged;
+    public event EventHandler<GridDataLoadFailedEventArgs>? DataLoadFailed;
+    public event EventHandler<GridAnnouncementEventArgs>? Announcement;
 
-    /// <summary>Returns the row at an absolute index of the filtered, sorted result if it is cached.</summary>
+    /// <summary>Raised when a bound change notification or <see cref="NotifyDataChanged"/> reloaded the grid.</summary>
+    public event EventHandler? DataRefreshed;
+
+    /// <summary>Returns the data item at a display row of the current page if it is a data row and cached.</summary>
     public bool TryGetItemAt(int absoluteIndex, out TItem item)
     {
-        var local = absoluteIndex - _windowStart;
-        if (local >= 0 && local < _window.Count)
+        if (TryGetRowAt(absoluteIndex, out var row) && row.Kind == GridRowKind.Data && row.Item != null)
         {
-            item = _window[local];
+            item = row.Item;
             return true;
         }
 
@@ -195,21 +244,42 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
             return true;
         }
 
-        var lastRow = Math.Min(TotalItemsCount, _wantedFirstRow + _wantedRowCount);
-        var windowEnd = _windowStart + _window.Count;
-        if (_currentResult != null && _wantedFirstRow >= _windowStart && lastRow <= windowEnd)
+        if (UsesMaterializedRows)
+        {
+            if (!_materializedValid && !_isLoading)
+            {
+                _ = RefreshSafeAsync(LoadKind.Window);
+            }
+
+            return _materializedValid;
+        }
+
+        if (IsWindowSatisfied())
         {
             return true;
         }
 
         if (!_isLoading)
         {
-            _ = RefreshDataAsync();
+            _ = RefreshSafeAsync(LoadKind.Window);
         }
+
         return false;
     }
 
-    /// <summary>Reads rows matching the current filters and sort order from the start, for export and printing; null reads all.</summary>
+    private bool IsWindowSatisfied()
+    {
+        if (!_hasResult)
+        {
+            return false;
+        }
+
+        var lastRow = Math.Min(TotalItemsCount, _wantedFirstRow + _wantedRowCount);
+        var windowEnd = _windowStart + _window.Count;
+        return lastRow <= _wantedFirstRow || (_wantedFirstRow >= _windowStart && lastRow <= windowEnd);
+    }
+
+    /// <summary>Reads every row matching the current filters and sort order from the start, for export and printing; null reads all.</summary>
     public async Task<IReadOnlyList<TItem>> ReadAllAsync(int? maxRows = null, CancellationToken cancellationToken = default)
     {
         if (_boundDataSource == null)
@@ -220,24 +290,50 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
         var request = CurrentRequest.Clone();
         request.Skip = 0;
         request.Take = maxRows ?? 0;
-        var result = await _boundDataSource.ReadAsync(request, cancellationToken);
+        request.Aggregates.Clear();
+        var result = await _boundDataSource.ReadAsync(request, cancellationToken).ConfigureAwait(false);
         return result.Data?.ToList() ?? new List<TItem>();
     }
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
-        await RefreshDataAsync(cancellationToken);
+        await RefreshDataAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task RefreshDataAsync(CancellationToken cancellationToken = default)
+    /// <summary>Reloads from the source, discarding cached orderings; call after changing items outside the grid.</summary>
+    public Task RefreshDataAsync(CancellationToken cancellationToken = default) => LoadAsync(LoadKind.Data, cancellationToken);
+
+    /// <summary>Fire-and-forget load that reports failures through <see cref="DataLoadFailed"/> instead of throwing on a background task.</summary>
+    private async Task RefreshSafeAsync(LoadKind kind)
     {
+        try
+        {
+            await LoadAsync(kind, CancellationToken.None).ConfigureAwait(true);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            _lastError = ex;
+            _isLoading = false;
+            DataLoadFailed?.Invoke(this, new GridDataLoadFailedEventArgs(ex));
+        }
+    }
+
+    private async Task LoadAsync(LoadKind kind, CancellationToken cancellationToken)
+    {
+        if (_updateDepth > 0)
+        {
+            _pendingRefresh = true;
+            return;
+        }
+
         var version = Interlocked.Increment(ref _refreshVersion);
 
         if (_boundDataSource == null)
         {
-            _currentResult = new DataSourceResult<TItem> { Data = Array.Empty<TItem>(), Total = 0 };
-            _window = Array.Empty<TItem>();
-            _windowStart = 0;
+            ClearLoadedRows();
             RaiseDataWindowChanged();
             return;
         }
@@ -245,28 +341,36 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
         _isLoading = true;
         try
         {
-            var start = Math.Max(0, _wantedFirstRow - RowBuffer);
-            var request = CurrentRequest.Clone();
-            request.Skip = start;
-            request.Take = _wantedRowCount + 2 * RowBuffer;
-
-            var result = await _boundDataSource.ReadAsync(request, cancellationToken);
-            if (version != _refreshVersion) return;
-
-            if (result.Total > 0 && start >= result.Total)
+            if ((kind & LoadKind.Query) != 0 || !UsesMaterializedRows)
             {
-                _wantedFirstRow = Math.Max(0, result.Total - _wantedRowCount);
-                start = Math.Max(0, _wantedFirstRow - RowBuffer);
-                request.Skip = start;
-                result = await _boundDataSource.ReadAsync(request, cancellationToken);
-                if (version != _refreshVersion) return;
+                _materializedValid = false;
             }
 
-            _currentResult = result;
-            _window = result.Data?.ToArray() ?? Array.Empty<TItem>();
-            _windowStart = result.Total == 0 ? 0 : start;
-            _isLoading = false;
-            RaiseDataWindowChanged();
+            if ((kind & LoadKind.Query) != 0)
+            {
+                _clientCache = null;
+            }
+
+            if (kind == LoadKind.Data)
+            {
+                (_boundDataSource as IInvalidatableDataSource)?.Invalidate();
+                _hierarchy.Clear();
+                _runningTotals.Clear();
+            }
+
+            if (UsesMaterializedRows)
+            {
+                await LoadMaterializedAsync(version, kind, cancellationToken).ConfigureAwait(true);
+            }
+            else
+            {
+                await LoadWindowAsync(version, kind, cancellationToken).ConfigureAwait(true);
+            }
+
+            if (version == _refreshVersion)
+            {
+                _lastError = null;
+            }
         }
         finally
         {
@@ -277,20 +381,155 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
         }
     }
 
+    private void ClearLoadedRows()
+    {
+        _totalRecords = 0;
+        _window = Array.Empty<TItem>();
+        _windowStart = 0;
+        _materialized = Array.Empty<TItem>();
+        _rows = Array.Empty<RowRef>();
+        _materializedValid = false;
+        _footerValues = Array.Empty<GridFooterValue>();
+        _hasResult = true;
+    }
+
+    private async Task LoadWindowAsync(int version, LoadKind kind, CancellationToken cancellationToken)
+    {
+        for (var attempt = 0; attempt < 3; attempt++)
+        {
+            var pageOffset = PageOffset;
+            var start = Math.Max(0, _wantedFirstRow - RowBuffer);
+            var take = _wantedRowCount + 2 * RowBuffer;
+            IReadOnlyList<TItem> data;
+            int total;
+
+            if (PagingMode == GridPagingMode.Client)
+            {
+                if (_clientCache == null)
+                {
+                    var all = CurrentRequest.Clone();
+                    all.Skip = 0;
+                    all.Take = 0;
+                    ApplyAggregates(all, kind);
+                    var allResult = await _boundDataSource!.ReadAsync(all, cancellationToken).ConfigureAwait(true);
+                    if (version != _refreshVersion) return;
+                    _clientCache = allResult.Data?.ToArray() ?? Array.Empty<TItem>();
+                    CaptureFooter(allResult, kind);
+                }
+
+                total = _clientCache.Count;
+                var pageRows = Math.Clamp(total - pageOffset, 0, PageSize);
+                start = Math.Min(start, pageRows);
+                var count = Math.Clamp(take, 0, pageRows - start);
+                data = new ReadOnlyListSlice<TItem>(_clientCache, pageOffset + start, count);
+            }
+            else
+            {
+                if (PagingMode == GridPagingMode.Virtual && PageSize > 0)
+                {
+                    var end = (int)Math.Ceiling((_wantedFirstRow + _wantedRowCount + RowBuffer) / (double)PageSize) * PageSize;
+                    start = start / PageSize * PageSize;
+                    take = Math.Max(PageSize, end - start);
+                }
+                else if (PagingMode == GridPagingMode.Server)
+                {
+                    take = Math.Max(1, Math.Min(take, PageSize - start));
+                }
+                else if (PagingMode == GridPagingMode.Infinite)
+                {
+                    take = Math.Max(1, Math.Min(take, Math.Max(1, _infiniteLoaded - start)));
+                }
+
+                var request = CurrentRequest.Clone();
+                request.Skip = pageOffset + start;
+                request.Take = take;
+                ApplyAggregates(request, kind);
+
+                var result = await _boundDataSource!.ReadAsync(request, cancellationToken).ConfigureAwait(true);
+                if (version != _refreshVersion) return;
+
+                total = result.Total;
+                data = result.Data?.ToArray() ?? Array.Empty<TItem>();
+                CaptureFooter(result, kind);
+            }
+
+            if (version != _refreshVersion) return;
+
+            // A filter or page-size change can leave the requested page or scroll position past the end of the data.
+            if (total > 0 && PagingMode is GridPagingMode.Client or GridPagingMode.Server && pageOffset >= total)
+            {
+                _pageIndex = Math.Max(0, (total - 1) / PageSize);
+                continue;
+            }
+
+            var displayRows = PageRowCount(total);
+            if (total > 0 && start >= displayRows && displayRows > 0 && PagingMode != GridPagingMode.Client)
+            {
+                _wantedFirstRow = Math.Max(0, displayRows - _wantedRowCount);
+                continue;
+            }
+
+            _totalRecords = total;
+            _window = data;
+            _windowStart = total == 0 ? 0 : start;
+            _hasResult = true;
+            _isLoading = false;
+            RaiseDataWindowChanged();
+
+            if (!IsWindowSatisfied() && version == _refreshVersion)
+            {
+                // The viewport moved while this fetch was running.
+                _ = RefreshSafeAsync(LoadKind.Window);
+            }
+
+            if ((kind & LoadKind.Query) != 0 && RunningTotalColumns().Any())
+            {
+                _ = ComputeRunningTotalsSafeAsync();
+            }
+
+            return;
+        }
+    }
+
+    private void ApplyAggregates(DataSourceRequest request, LoadKind kind)
+    {
+        request.Aggregates.Clear();
+        if ((kind & LoadKind.Query) != 0)
+        {
+            request.Aggregates.AddRange(BuildFooterAggregates());
+        }
+    }
+
+    private void CaptureFooter(DataSourceResult<TItem> result, LoadKind kind)
+    {
+        if ((kind & LoadKind.Query) != 0)
+        {
+            _footerValues = BuildFooterValues(result.AggregateResults);
+        }
+    }
+
     /// <summary>Restarts from the first row because a sort, filter, group or source change invalidates the scroll position.</summary>
-    private void ResetAndRefresh()
+    private void ResetAndRefresh(LoadKind kind = LoadKind.Query)
     {
         _wantedFirstRow = 0;
         _verticalOffset = 0;
+        _pageIndex = 0;
+        _infiniteLoaded = PageSize;
+        _detailExpansions.Clear();
+        _treeToggles.Clear();
+        _groupToggles.Clear();
+        Selection.Clear();
         QueryChanged?.Invoke(this, EventArgs.Empty);
-        _ = RefreshDataAsync();
+        _ = RefreshSafeAsync(kind);
     }
 
     private void RaiseDataWindowChanged()
     {
+        Selection.SetBounds(TotalItemsCount, GridColumnLayout.OrderVisible(Columns).Count);
         UpdateViewport(_horizontalOffset, _verticalOffset, ViewportWidth, ViewportHeight);
         OnPropertyChanged(nameof(RenderedItems));
         OnPropertyChanged(nameof(TotalItemsCount));
+        OnPropertyChanged(nameof(TotalRecordCount));
         DataWindowChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -313,525 +552,86 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
         }
     }
 
-    // ==========================================
-    // MULTI-COLUMN SORTING & SEQUENCES
-    // ==========================================
+    // ------------------------------------------------------------------
+    // Batched and real-time updates
+    // ------------------------------------------------------------------
 
-    public void SortBy(string fieldName, ListSortDirection direction)
+    /// <summary>Suspends reloads until <see cref="EndUpdate"/>; nesting is supported.</summary>
+    public void BeginUpdate() => _updateDepth++;
+
+    public void EndUpdate()
     {
-        CurrentRequest.Sorts.Clear();
-        foreach (var col in Columns)
+        if (_updateDepth == 0) return;
+        if (--_updateDepth == 0 && _pendingRefresh)
         {
-            col.SortDirection = null;
-            col.SortIndex = -1;
-        }
-
-        var targetCol = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (targetCol != null)
-        {
-            targetCol.SortDirection = direction;
-            targetCol.SortIndex = 0;
-        }
-
-        CurrentRequest.Sorts.Add(new SortDescriptor(fieldName, direction));
-        ResetAndRefresh();
-    }
-
-    public void CycleSort(string fieldName, bool allowMultiSort = false)
-    {
-        var targetCol = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (targetCol == null || !targetCol.Sortable) return;
-
-        if (!allowMultiSort || !EnableMultiColumnSorting)
-        {
-            foreach (var col in Columns.Where(c => c != targetCol))
-            {
-                col.SortDirection = null;
-                col.SortIndex = -1;
-            }
-            CurrentRequest.Sorts.Clear();
-        }
-
-        // Tri-state cycle: null -> Ascending -> Descending -> null
-        if (targetCol.SortDirection == null)
-        {
-            targetCol.SortDirection = ListSortDirection.Ascending;
-            targetCol.SortIndex = CurrentRequest.Sorts.Count;
-            CurrentRequest.Sorts.Add(new SortDescriptor(fieldName, ListSortDirection.Ascending));
-        }
-        else if (targetCol.SortDirection == ListSortDirection.Ascending)
-        {
-            targetCol.SortDirection = ListSortDirection.Descending;
-            var existing = CurrentRequest.Sorts.FirstOrDefault(s => s.Member.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-            if (existing != null) existing.SortDirection = ListSortDirection.Descending;
-        }
-        else
-        {
-            targetCol.SortDirection = null;
-            targetCol.SortIndex = -1;
-            CurrentRequest.Sorts.RemoveAll(s => s.Member.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-            ReindexSortSequences();
-        }
-
-        ResetAndRefresh();
-    }
-
-    public void ClearSort()
-    {
-        CurrentRequest.Sorts.Clear();
-        foreach (var col in Columns)
-        {
-            col.SortDirection = null;
-            col.SortIndex = -1;
-        }
-        ResetAndRefresh();
-    }
-
-    private void ReindexSortSequences()
-    {
-        for (int i = 0; i < CurrentRequest.Sorts.Count; i++)
-        {
-            var sort = CurrentRequest.Sorts[i];
-            var col = Columns.FirstOrDefault(c => c.Field.Equals(sort.Member, StringComparison.OrdinalIgnoreCase));
-            if (col != null) col.SortIndex = i;
+            _pendingRefresh = false;
+            _ = RefreshSafeAsync(LoadKind.Data);
         }
     }
 
-    // ==========================================
-    // FILTERING, EXCEL FILTERS & SEARCH PANEL
-    // ==========================================
+    /// <summary>Delay used to coalesce bursts of collection change notifications into one reload.</summary>
+    public TimeSpan AutoRefreshDelay { get; set; } = TimeSpan.FromMilliseconds(150);
 
-    public void FilterBy(string fieldName, FilterOperator op, object? value)
+    /// <summary>Reload automatically when the bound collection raises <see cref="INotifyCollectionChanged"/>.</summary>
+    public bool AutoRefreshOnCollectionChange { get; set; } = true;
+
+    private int _refreshRequests;
+
+    private void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        RemoveColumnFilters(fieldName);
-        if (value != null || op is FilterOperator.IsNull or FilterOperator.IsNotNull)
+        if (AutoRefreshOnCollectionChange)
         {
-            CurrentRequest.Filters.Add(new FilterDescriptor(fieldName, op, value));
-        }
-        ResetAndRefresh();
-    }
-
-    private void RemoveColumnFilters(string fieldName)
-    {
-        if (_excelFilters.Remove(fieldName, out var previous))
-        {
-            CurrentRequest.Filters.Remove(previous);
-        }
-
-        var column = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        column?.ExcelFilterValues.Clear();
-        QuickFilters.Remove(fieldName);
-        CurrentRequest.Filters.RemoveAll(f => f is FilterDescriptor fd && fd.Member.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-    }
-
-    public void ApplyExcelFilter(string fieldName, IEnumerable<object> selectedValues)
-    {
-        var col = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (col == null) return;
-
-        RemoveColumnFilters(col.Field);
-
-        var composite = new CompositeFilterDescriptor { LogicalOperator = FilterLogicalOperator.Or };
-
-        foreach (var val in selectedValues)
-        {
-            col.ExcelFilterValues.Add(val);
-            composite.FilterDescriptors.Add(new FilterDescriptor(fieldName, FilterOperator.IsEqualTo, val));
-        }
-
-        if (composite.FilterDescriptors.Count > 0)
-        {
-            CurrentRequest.Filters.Add(composite);
-            _excelFilters[col.Field] = composite;
-        }
-
-        ResetAndRefresh();
-    }
-
-    public void ClearExcelFilter(string fieldName)
-    {
-        if (_excelFilters.Remove(fieldName, out var previous))
-        {
-            CurrentRequest.Filters.Remove(previous);
-        }
-
-        var column = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        column?.ExcelFilterValues.Clear();
-        ResetAndRefresh();
-    }
-
-    /// <summary>Distinct non-null values of a column in the bound in-memory source, optionally text-filtered; stops after <paramref name="maxCount"/>.</summary>
-    public IReadOnlyList<object> GetDistinctValues(string fieldName, string? contains = null, int maxCount = 1000, CancellationToken cancellationToken = default)
-    {
-        var prop = typeof(TItem).GetProperty(fieldName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase);
-        if (prop == null || _dataSource == null || maxCount <= 0)
-        {
-            return Array.Empty<object>();
-        }
-
-        var seen = new HashSet<object>();
-        var values = new List<object>();
-        foreach (var item in _dataSource)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var value = prop.GetValue(item);
-            if (value == null || !seen.Add(value))
-            {
-                continue;
-            }
-
-            if (!string.IsNullOrEmpty(contains) && !(value.ToString() ?? string.Empty).Contains(contains, StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
-
-            values.Add(value);
-            if (values.Count >= maxCount)
-            {
-                break;
-            }
-        }
-
-        return values.OrderBy(v => v, Comparer<object>.Create((a, b) => a is IComparable ca && a.GetType() == b.GetType() ? ca.CompareTo(b) : string.Compare(a.ToString(), b.ToString(), StringComparison.OrdinalIgnoreCase))).ToList();
-    }
-
-    public void SetQuickFilter(string fieldName, string text)
-    {
-        RemoveColumnFilters(fieldName);
-        if (string.IsNullOrWhiteSpace(text))
-        {
-        }
-        else
-        {
-            QuickFilters[fieldName] = text;
-            CurrentRequest.Filters.Add(new FilterDescriptor(fieldName, FilterOperator.Contains, text));
-        }
-        ResetAndRefresh();
-    }
-
-    private void ApplySearchPanelFilter(string? query)
-    {
-        if (_searchFilter != null)
-        {
-            CurrentRequest.Filters.Remove(_searchFilter);
-            _searchFilter = null;
-        }
-
-        if (!string.IsNullOrWhiteSpace(query))
-        {
-            var searchComposite = new CompositeFilterDescriptor { LogicalOperator = FilterLogicalOperator.Or };
-            foreach (var col in Columns.Where(c => c.Visible && c.Searchable))
-            {
-                searchComposite.FilterDescriptors.Add(new FilterDescriptor(col.Field, FilterOperator.Contains, query));
-            }
-
-            if (searchComposite.FilterDescriptors.Count > 0)
-            {
-                CurrentRequest.Filters.Add(searchComposite);
-                _searchFilter = searchComposite;
-            }
-        }
-
-        ResetAndRefresh();
-    }
-
-    public void SaveFilterPreset(string presetName)
-    {
-        SavedFilterPresets[presetName] = new List<IFilterDescriptor>(CurrentRequest.Filters);
-    }
-
-    public void ApplyFilterPreset(string presetName)
-    {
-        if (SavedFilterPresets.TryGetValue(presetName, out var filters))
-        {
-            CurrentRequest.Filters.Clear();
-            CurrentRequest.Filters.AddRange(filters);
-            ResetAndRefresh();
+            NotifyDataChanged();
         }
     }
 
-    // ==========================================
-    // GROUPING & DRAG-TO-GROUP
-    // ==========================================
-
-    public void GroupBy(string fieldName)
+    /// <summary>Tells the grid items were added, removed or modified outside it; bursts of calls produce a single reload.</summary>
+    public void NotifyDataChanged()
     {
-        if (!CurrentRequest.Groups.Any(g => g.Member.Equals(fieldName, StringComparison.OrdinalIgnoreCase)))
-        {
-            CurrentRequest.Groups.Add(new GroupDescriptor { Member = fieldName });
-            ResetAndRefresh();
-        }
+        var request = Interlocked.Increment(ref _refreshRequests);
+        _ = DebouncedRefreshAsync(request);
     }
 
-    public void RemoveGroup(string fieldName)
+    private async Task DebouncedRefreshAsync(int request)
     {
-        CurrentRequest.Groups.RemoveAll(g => g.Member.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        ResetAndRefresh();
-    }
-
-    public void ClearGroups()
-    {
-        CurrentRequest.Groups.Clear();
-        ResetAndRefresh();
-    }
-
-    public void ToggleGroupExpansion(object groupKey)
-    {
-        if (!_expandedGroupKeys.Add(groupKey))
-        {
-            _expandedGroupKeys.Remove(groupKey);
-        }
-        OnPropertyChanged(nameof(RenderedItems));
-    }
-
-    public void ExpandAllGroups()
-    {
-        foreach (var grp in CurrentRequest.Groups)
-        {
-            _expandedGroupKeys.Add(grp.Member);
-        }
-        OnPropertyChanged(nameof(RenderedItems));
-    }
-
-    public void CollapseAllGroups()
-    {
-        _expandedGroupKeys.Clear();
-        OnPropertyChanged(nameof(RenderedItems));
-    }
-
-    // ==========================================
-    // EDITING, BATCH EDITING & UNDO/REDO
-    // ==========================================
-
-    public bool EditCell(TItem item, string fieldName, object? newValue)
-    {
-        if (item == null) return false;
-        var prop = typeof(TItem).GetProperty(fieldName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase);
-        if (prop == null || !prop.CanWrite) return false;
-
-        var oldValue = prop.GetValue(item);
         try
         {
-            var converted = newValue != null && newValue.GetType() != prop.PropertyType
-                ? Convert.ChangeType(newValue, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType)
-                : newValue;
-
-            prop.SetValue(item, converted);
-            _undoStack.Push(new GridEditRecord<TItem>(item, fieldName, oldValue, converted));
-            _redoStack.Clear();
-            OnPropertyChanged(nameof(CanUndo));
-            OnPropertyChanged(nameof(CanRedo));
-            OnPropertyChanged(nameof(RenderedItems));
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    public bool UndoLastEdit()
-    {
-        if (_undoStack.Count == 0) return false;
-        var record = _undoStack.Pop();
-        var prop = typeof(TItem).GetProperty(record.FieldName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase);
-        if (prop != null && prop.CanWrite)
-        {
-            prop.SetValue(record.Item, record.OldValue);
-            _redoStack.Push(record);
-            OnPropertyChanged(nameof(CanUndo));
-            OnPropertyChanged(nameof(CanRedo));
-            OnPropertyChanged(nameof(RenderedItems));
-            return true;
-        }
-        return false;
-    }
-
-    public bool RedoLastEdit()
-    {
-        if (_redoStack.Count == 0) return false;
-        var record = _redoStack.Pop();
-        var prop = typeof(TItem).GetProperty(record.FieldName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase);
-        if (prop != null && prop.CanWrite)
-        {
-            prop.SetValue(record.Item, record.NewValue);
-            _undoStack.Push(record);
-            OnPropertyChanged(nameof(CanUndo));
-            OnPropertyChanged(nameof(CanRedo));
-            OnPropertyChanged(nameof(RenderedItems));
-            return true;
-        }
-        return false;
-    }
-
-    public bool ReorderRow(int fromIndex, int toIndex)
-    {
-        if (_dataSource is IList<TItem> list && fromIndex >= 0 && fromIndex < list.Count && toIndex >= 0 && toIndex < list.Count && fromIndex != toIndex)
-        {
-            var item = list[fromIndex];
-            list.RemoveAt(fromIndex);
-            list.Insert(toIndex, item);
-            _ = RefreshDataAsync();
-            return true;
-        }
-        return false;
-    }
-
-    public void ToggleDetailExpansion(TItem rowItem)
-    {
-        if (!_expandedDetailRows.Add(rowItem))
-        {
-            _expandedDetailRows.Remove(rowItem);
-        }
-        OnPropertyChanged(nameof(RenderedItems));
-    }
-
-    public void ExpandAllDetails()
-    {
-        foreach (var item in RenderedItems)
-        {
-            _expandedDetailRows.Add(item);
-        }
-        OnPropertyChanged(nameof(RenderedItems));
-    }
-
-    public void CollapseAllDetails()
-    {
-        _expandedDetailRows.Clear();
-        OnPropertyChanged(nameof(RenderedItems));
-    }
-
-    public bool IsDetailExpanded(TItem rowItem) => _expandedDetailRows.Contains(rowItem);
-
-    // ==========================================
-    // COLUMN CHOOSER, PRESETS & REORDERING
-    // ==========================================
-
-    public void SetColumnVisibility(string fieldName, bool visible)
-    {
-        var col = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (col != null && col.CanHide)
-        {
-            col.Visible = visible;
-            OnPropertyChanged(nameof(Columns));
-            _ = RefreshDataAsync();
-        }
-    }
-
-    public void ReorderColumn(string fieldName, int newIndex)
-    {
-        var col = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (col != null && newIndex >= 0 && newIndex < Columns.Count)
-        {
-            Columns.Remove(col);
-            Columns.Insert(newIndex, col);
-            OnPropertyChanged(nameof(Columns));
-        }
-    }
-
-    /// <summary>Sets a column width within its min/max limits; returns false for unknown columns or resizing disabled.</summary>
-    public bool ResizeColumn(string fieldName, double width)
-    {
-        var col = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (col == null || !col.Resizable)
-        {
-            return false;
-        }
-
-        col.Width = GridColumnLayout.ClampWidth(col, width);
-        OnPropertyChanged(nameof(Columns));
-        return true;
-    }
-
-    /// <summary>Moves a column before another (or to the end when null); the column adopts the target's pin zone.</summary>
-    public bool MoveColumnBefore(string fieldName, string? beforeFieldName)
-    {
-        var col = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (col == null || !col.Reorderable)
-        {
-            return false;
-        }
-
-        GridColumn? target = null;
-        if (beforeFieldName != null)
-        {
-            target = Columns.FirstOrDefault(c => c.Field.Equals(beforeFieldName, StringComparison.OrdinalIgnoreCase));
-            if (target == null || ReferenceEquals(target, col))
+            if (AutoRefreshDelay > TimeSpan.Zero)
             {
-                return false;
+                await Task.Delay(AutoRefreshDelay).ConfigureAwait(true);
             }
-        }
 
-        Columns.Remove(col);
-        Columns.Insert(target == null ? Columns.Count : Columns.IndexOf(target), col);
-        if (target != null)
-        {
-            col.PinPosition = target.PinPosition;
-        }
-
-        OnPropertyChanged(nameof(Columns));
-        return true;
-    }
-
-    public void PinColumn(string fieldName, ColumnPinPosition position)
-    {
-        var col = Columns.FirstOrDefault(c => c.Field.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-        if (col != null)
-        {
-            col.PinPosition = position;
-            OnPropertyChanged(nameof(Columns));
-        }
-    }
-
-    public ColumnLayoutProfile CreateLayoutProfile(string profileName = "Default")
-    {
-        var profile = new ColumnLayoutProfile { ProfileName = profileName };
-        for (int i = 0; i < Columns.Count; i++)
-        {
-            var c = Columns[i];
-            profile.Columns.Add(new ColumnStateSnapshot
+            if (request != Volatile.Read(ref _refreshRequests))
             {
-                Field = c.Field,
-                Visible = c.Visible,
-                Width = c.Width,
-                DisplayIndex = i,
-                PinPosition = c.PinPosition,
-                SortDirection = c.SortDirection,
-                SortIndex = c.SortIndex
-            });
-        }
-        return profile;
-    }
-
-    public void ApplyLayoutProfile(ColumnLayoutProfile profile)
-    {
-        var dict = profile.Columns.ToDictionary(c => c.Field, StringComparer.OrdinalIgnoreCase);
-        foreach (var col in Columns)
-        {
-            if (dict.TryGetValue(col.Field, out var state))
-            {
-                col.Visible = state.Visible;
-                col.Width = state.Width;
-                col.PinPosition = state.PinPosition;
-                col.SortDirection = state.SortDirection;
-                col.SortIndex = state.SortIndex;
+                return;
             }
-        }
 
-        // Reorder
-        var sorted = Columns.OrderBy(c => dict.TryGetValue(c.Field, out var s) ? s.DisplayIndex : int.MaxValue).ToList();
-        Columns.Clear();
-        Columns.AddRange(sorted);
-        ResetAndRefresh();
+            await RefreshSafeAsync(LoadKind.Data).ConfigureAwait(true);
+            DataRefreshed?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception ex) when (ex is not OutOfMemoryException)
+        {
+            _lastError = ex;
+            DataLoadFailed?.Invoke(this, new GridDataLoadFailedEventArgs(ex));
+        }
     }
 
     public void OnThemeChanged(ITheme newTheme) { }
 
     public void Dispose()
     {
-        _selectedItems.Clear();
-        _expandedGroupKeys.Clear();
-        _expandedDetailRows.Clear();
+        if (_observedCollection != null)
+        {
+            _observedCollection.CollectionChanged -= OnSourceCollectionChanged;
+            _observedCollection = null;
+        }
+
+        Interlocked.Increment(ref _refreshVersion);
+        Selection.Clear();
+        _detailExpansions.Clear();
+        _treeToggles.Clear();
+        _groupToggles.Clear();
+        _hierarchy.Clear();
     }
 
     public ValueTask DisposeAsync()
@@ -839,4 +639,36 @@ public class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem>, IVirt
         Dispose();
         return ValueTask.CompletedTask;
     }
+}
+
+/// <summary>Read-only window over a list without copying it.</summary>
+internal sealed class ReadOnlyListSlice<T> : IReadOnlyList<T>
+{
+    private readonly IReadOnlyList<T> _source;
+    private readonly int _start;
+
+    public ReadOnlyListSlice(IReadOnlyList<T> source, int start, int count)
+    {
+        _source = source;
+        _start = start;
+        Count = Math.Max(0, count);
+    }
+
+    public int Count { get; }
+
+    public T this[int index]
+    {
+        get
+        {
+            if ((uint)index >= (uint)Count) throw new ArgumentOutOfRangeException(nameof(index));
+            return _source[_start + index];
+        }
+    }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        for (var i = 0; i < Count; i++) yield return _source[_start + i];
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

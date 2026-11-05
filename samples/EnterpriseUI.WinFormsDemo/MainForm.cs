@@ -470,8 +470,16 @@ public class MainForm : Form, IThemeableControl
         rootA11y.Nodes.Add(new TreeNode("High Contrast & Theme Compliance") { Tag = DemoMetadataRegistry.GetById("theming-design-tokens") });
         rootA11y.Nodes.Add(new TreeNode("Automated QA Verification Suite") { Tag = DemoMetadataRegistry.GetById("qa-validation-suite") });
 
+        // 7. DataGrid workshop: one page per feature area
+        var rootGridWorkshop = new TreeNode($"DataGrid Workshop ({GridScenarios.All.Count} Pages)") { Tag = "Category_GridWorkshop" };
+        foreach (var scenario in GridScenarios.All)
+        {
+            rootGridWorkshop.Nodes.Add(new TreeNode(scenario.Title) { Tag = DemoMetadataRegistry.GetById(scenario.Id) });
+        }
+
         _navTree.Nodes.AddRange(new[]
         {
+            rootGridWorkshop,
             rootControls,
             rootAll118,
             rootFeatures,
@@ -481,6 +489,7 @@ public class MainForm : Form, IThemeableControl
             rootA11y
         });
 
+        rootGridWorkshop.Expand();
         rootControls.Expand();
         rootAll118.Expand();
         rootFeatures.Expand();

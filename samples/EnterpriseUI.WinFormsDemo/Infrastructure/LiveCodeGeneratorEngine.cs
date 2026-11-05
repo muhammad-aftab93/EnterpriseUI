@@ -23,7 +23,8 @@ public enum CodeOutputFormat
     XmlConfig,
     ThemeConfig,
     ControlStateConfig,
-    DependencyInjection
+    DependencyInjection,
+    ExportableExample
 }
 
 public sealed record PropertyMutationRecord(
@@ -46,6 +47,11 @@ public static class LiveCodeGeneratorEngine
         CodeOutputFormat format,
         IReadOnlyList<PropertyMutationRecord> mutations)
     {
+        if (GridCodeGenerator.TryGenerate(targetControl, demo, format, out var gridCode))
+        {
+            return gridCode;
+        }
+
         var theme = ThemeManager.Instance.CurrentTheme;
         var controlType = targetControl?.GetType() ?? typeof(Control);
         var typeName = FormatFriendlyTypeName(controlType);

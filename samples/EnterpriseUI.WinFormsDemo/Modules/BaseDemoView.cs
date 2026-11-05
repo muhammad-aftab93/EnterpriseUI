@@ -39,6 +39,9 @@ public class BaseDemoView : UserControl, IThemeableControl
     public string? ThemeOverride { get; set; }
     public Panel DemoContainer => _demoContainer;
 
+    /// <summary>The control whose live state feeds the generated code; defaults to the first control of the demo container.</summary>
+    public object? CodeTarget { get; set; }
+
     public BaseDemoView()
     {
         Dock = DockStyle.Fill;
@@ -210,7 +213,8 @@ public class BaseDemoView : UserControl, IThemeableControl
             "XML Configuration",
             "Theme Configuration",
             "Control State Snapshot",
-            "DI Service Registration"
+            "DI Service Registration",
+            "Exportable Example (complete file)"
         });
         _cmbCodeFormat.SelectedIndex = 0;
         _cmbCodeFormat.SelectedIndexChanged += (_, _) => RefreshLiveCode();
@@ -472,13 +476,13 @@ public class BaseDemoView : UserControl, IThemeableControl
 
     public void RefreshLiveCode(object? targetOverride = null)
     {
-        object? target = targetOverride;
+        object? target = targetOverride ?? CodeTarget;
         if (target == null && _demoContainer.Controls.Count > 0)
         {
             target = _demoContainer.Controls[0];
         }
 
-        var format = (CodeOutputFormat)Math.Clamp(_cmbCodeFormat.SelectedIndex, 0, 7);
+        var format = (CodeOutputFormat)Math.Clamp(_cmbCodeFormat.SelectedIndex, 0, 8);
         _codeBox.Text = LiveCodeGeneratorEngine.GenerateCode(target ?? this, _boundDemo, format, _mutations);
         _explainerBox.Text = LiveCodeGeneratorEngine.GenerateExplanation(target ?? this, _boundDemo, _mutations);
     }
