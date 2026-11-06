@@ -33,6 +33,7 @@ public static class GridLayoutSerializer
 /// <summary>Named layouts ("column profiles") that users can save, switch between and persist.</summary>
 public sealed class GridLayoutStore
 {
+    private static readonly JsonSerializerOptions StoreJsonOptions = new() { WriteIndented = true, PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } };
     private readonly Dictionary<string, ColumnLayoutProfile> _profiles = new(StringComparer.OrdinalIgnoreCase);
 
     public IReadOnlyCollection<string> Names => _profiles.Keys.OrderBy(n => n, StringComparer.OrdinalIgnoreCase).ToList();
@@ -54,11 +55,11 @@ public sealed class GridLayoutStore
 
     public bool Remove(string name) => _profiles.Remove(name);
 
-    public string ExportJson() => JsonSerializer.Serialize(_profiles.Values.ToList(), new JsonSerializerOptions { WriteIndented = true, Converters = { new JsonStringEnumConverter() } });
+    public string ExportJson() => JsonSerializer.Serialize(_profiles.Values.ToList(), StoreJsonOptions);
 
     public void ImportJson(string json)
     {
-        var profiles = JsonSerializer.Deserialize<List<ColumnLayoutProfile>>(json, new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() }, PropertyNameCaseInsensitive = true }) ?? new();
+        var profiles = JsonSerializer.Deserialize<List<ColumnLayoutProfile>>(json, StoreJsonOptions) ?? new();
         foreach (var profile in profiles.Where(p => !string.IsNullOrWhiteSpace(p.ProfileName))) _profiles[profile.ProfileName] = profile;
     }
 

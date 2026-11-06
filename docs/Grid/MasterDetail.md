@@ -14,11 +14,11 @@ Expand a customer to see its orders in a nested table. Turn on lazy loading to f
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Lazy child loading | Load on demand | Implemented |  |
-| Property summary detail row | Row details | Implemented |  |
-| Tabbed child views | Multiple child templates as tabs | Partial | HierarchyMode.TabbedDetail is modelled but not drawn as tabs. |
+| Lazy child loading | Relation.LoadChildrenAsync with loading row | Implemented |  |
+| Property summary detail row | Parent property summary when no relation exists | Implemented |  |
+| Tabbed child views | Several relations render as sequential blocks | Partial | HierarchyMode.TabbedDetail is modelled but not drawn as tabs. |
 
 ## Architecture notes
 

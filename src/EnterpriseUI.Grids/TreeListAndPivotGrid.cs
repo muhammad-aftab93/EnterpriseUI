@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -8,7 +8,6 @@ namespace EnterpriseUI.Grids;
 
 /// <summary>
 /// EnterpriseTreeList combining hierarchical tree navigation with multi-column grid features.
-/// Superset of Telerik EnterpriseTreeList and DevExpress EnterpriseTreeList.
 /// </summary>
 public class EnterpriseTreeList<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
@@ -63,7 +62,6 @@ public class PivotField
 
 /// <summary>
 /// EnterprisePivotGrid for multi-dimensional cross-tabulated OLAP-style data analysis.
-/// Superset of Telerik EnterprisePivotGrid and DevExpress EnterprisePivotGrid.
 /// </summary>
 public class EnterprisePivotGrid<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

@@ -356,7 +356,7 @@ public static class ExpressionEngine
             }
         }
 
-        private ExpressionNode ParseCall(Token name)
+        private FunctionNode ParseCall(Token name)
         {
             Expect(TokenKind.LeftParen, "(");
             var args = new List<ExpressionNode>();
@@ -640,7 +640,7 @@ internal sealed class FunctionNode : ExpressionNode
         if (_args.Count != count) throw new ExpressionException($"{_name} takes {count} argument(s).");
     }
 
-    private object? Unary(List<object?> values, Func<decimal, decimal> function)
+    private decimal? Unary(List<object?> values, Func<decimal, decimal> function)
     {
         Require(1);
         return NumericValue.TryGet(values[0], out var n) ? function(n) : null;

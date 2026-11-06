@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Map;
@@ -9,15 +9,15 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class MapsDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseMapControl _mapControl;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseMapControl _mapControl=new EnterpriseMapControl();
 
     public MapsDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -75,7 +75,7 @@ public class MapsDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { btnZoomIn, btnZoomOut, btnFleet });
 
-        _mapControl = new EnterpriseMapControl { Dock = DockStyle.Fill };
+        _mapControl.Dock = DockStyle.Fill ;
         _mapControl.Center = new GeoLocation(37.7749, -122.4194);
         _mapControl.ZoomLevel = 8;
 

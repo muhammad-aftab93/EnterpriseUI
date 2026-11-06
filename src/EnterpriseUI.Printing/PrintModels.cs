@@ -430,5 +430,10 @@ public sealed class PrintService : ObservableObject
     }
 
     /// <summary>Builds the page plan for a document.</summary>
-    public PrintPlan CreatePlan(ExportDocument document, PrintTemplate? template = null) => PrintPaginator.Paginate(document, template);
+    public PrintPlan CreatePlan(ExportDocument document, PrintTemplate? template = null)
+    {
+        var effectiveTemplate = template ?? PrintTemplate.Standard();
+        if (template == null) effectiveTemplate.Settings = CurrentSettings.Clone();
+        return PrintPaginator.Paginate(document, effectiveTemplate);
+    }
 }

@@ -11,9 +11,10 @@
     <Product>EnterpriseUI Unified Open Source Component Platform</Product>
     <Copyright>Copyright © 2026 EnterpriseUI Open Source Contributors. Licensed under the Apache License, Version 2.0.</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/enterpriseui/enterpriseui</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/enterpriseui/enterpriseui</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/muhammad-aftab93/EnterpriseUI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/muhammad-aftab93/EnterpriseUI</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Description>Open-source EnterpriseUI components for .NET. Source code and documentation: https://github.com/muhammad-aftab93/EnterpriseUI</Description>
     <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>

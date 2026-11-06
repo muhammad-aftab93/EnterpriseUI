@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Charts;
 using EnterpriseUI.Data;
@@ -25,7 +25,7 @@ public static class ShowcaseRunner
     {
         Console.WriteLine("=========================================================");
         Console.WriteLine(" EnterpriseUI Commercial Component Ecosystem Showcase");
-        Console.WriteLine(" Superset of Telerik UI + DevExpress Architecture");
+        Console.WriteLine(" EnterpriseUI Component Architecture");
         Console.WriteLine("=========================================================\n");
 
         // 1. Theme Engine Showcase

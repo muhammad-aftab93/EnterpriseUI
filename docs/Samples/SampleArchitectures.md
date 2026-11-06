@@ -1,4 +1,4 @@
-﻿# EnterpriseUI Reference Application Architectures
+# EnterpriseUI Reference Application Architectures
 
 This document details 10 reference enterprise architectures built using the EnterpriseUI platform.
 

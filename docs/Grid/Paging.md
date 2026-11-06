@@ -15,13 +15,13 @@ Switch between client paging, server-style paging, virtual scrolling and infinit
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Client paging | RadDataPager over bound data | Implemented |  |
-| Server paging | Custom paging with virtual mode | Implemented |  |
-| Virtual scrolling over paged sources | Virtual mode | Implemented |  |
-| Infinite scroll / load more | Not built in | Implemented |  |
-| Keyboard paging | Pager keyboard | Implemented |  |
+| Client paging | PagingMode.Client with pager bar, page size menu, first/prev/next/last | Implemented |  |
+| Server paging | PagingMode.Server sends skip/take to the data source and reads the total | Implemented |  |
+| Virtual scrolling over paged sources | PagingMode.Virtual with page-aligned window fetches | Implemented |  |
+| Infinite scroll / load more | PagingMode.Infinite with Load more button and scroll-triggered fetch | Implemented |  |
+| Keyboard paging | Ctrl+PageUp / Ctrl+PageDown and announcements | Implemented |  |
 
 ## Architecture notes
 

@@ -9,19 +9,21 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class ScenariosDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly TabControl _scenarioTabs;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly TabControl _scenarioTabs=new TabControl();
 
     public ScenariosDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
-        _scenarioTabs = new TabControl { Dock = DockStyle.Fill, Padding = new Point(12, 5) };
+        _scenarioTabs.Dock = DockStyle.Fill;
+
+        _scenarioTabs.Padding = new Point(12, 5) ;
 
         // 1. CRM Scenario
         _scenarioTabs.TabPages.Add(CreateCrmTab());
@@ -41,7 +43,7 @@ public class ScenariosDemoView : UserControl
         _baseView.DemoContainer.Controls.Add(_scenarioTabs);
     }
 
-    private TabPage CreateCrmTab()
+    private static TabPage CreateCrmTab()
     {
         var tab = new TabPage("CRM & Lead Tracking");
         var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12) };
@@ -73,7 +75,7 @@ public class ScenariosDemoView : UserControl
         return tab;
     }
 
-    private TabPage CreateErpTab()
+    private static TabPage CreateErpTab()
     {
         var tab = new TabPage("ERP & Manufacturing");
         var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12) };
@@ -105,7 +107,7 @@ public class ScenariosDemoView : UserControl
         return tab;
     }
 
-    private TabPage CreateHealthcareTab()
+    private static TabPage CreateHealthcareTab()
     {
         var tab = new TabPage("Healthcare & Clinical EHR");
         var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12) };
@@ -137,7 +139,7 @@ public class ScenariosDemoView : UserControl
         return tab;
     }
 
-    private TabPage CreateTradingTab()
+    private static TabPage CreateTradingTab()
     {
         var tab = new TabPage("Financial Trading & Real-Time Books");
         var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12) };
@@ -169,7 +171,7 @@ public class ScenariosDemoView : UserControl
         return tab;
     }
 
-    private TabPage CreateHrAndProjectTab()
+    private static TabPage CreateHrAndProjectTab()
     {
         var tab = new TabPage("HR & Project Management");
         var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12) };

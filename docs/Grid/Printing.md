@@ -16,11 +16,11 @@ Preview and print with repeated header rows, fit-to-width or percent scaling, he
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Print preview and page setup | Print preview | Implemented |  |
-| Scaling, repeated headers, column splitting, page order | Print settings | Implemented |  |
-| Header/footer tokens and templates | Header and footer | Implemented |  |
+| Print preview and page setup | PrintPreviewDialog and PageSetupDialog over paginated geometry | Implemented |  |
+| Scaling, repeated headers, column splitting, page order | Fit to width/page, percent, header repeat, down-then-over or over-then-down | Implemented |  |
+| Header/footer tokens and templates | {title} {date} {page} {pages} tokens and named templates | Implemented |  |
 
 ## Architecture notes
 

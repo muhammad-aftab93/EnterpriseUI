@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +12,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Layout;
 
 /// <summary>
-/// Clean-room Multi-Panel SplitContainer (Telerik RadSplitContainer equivalent).
+/// Clean-room Multi-Panel SplitContainer.
 /// Supports proportional sizing, minimum size constraints, and panel collapse/restore.
 /// </summary>
 public class SplitContainer : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -62,7 +62,7 @@ public class SplitContainer : ObservableObject, IUIComponent, IThemeableControl,
 }
 
 /// <summary>
-/// Clean-room EnterpriseDataLayout and LayoutControl (Telerik RadDataLayout / RadLayoutControl equivalent).
+/// Clean-room EnterpriseDataLayout and LayoutControl.
 /// Auto-generates form layout items from any bound entity type via reflection.
 /// </summary>
 public class EnterpriseDataLayout<TEntity> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -139,7 +139,7 @@ public class EnterpriseDataLayout<TEntity> : ObservableObject, IUIComponent, ITh
 }
 
 /// <summary>
-/// Clean-room Multi-Page Wizard Control (Telerik RadWizard equivalent).
+/// Clean-room Multi-Page Wizard Control.
 /// Supports Welcome, Standard, and Completion pages with validation-gated Next/Previous/Finish transitions.
 /// </summary>
 public class EnterpriseWizardControl : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -222,7 +222,7 @@ public class EnterpriseWizardControl : ObservableObject, IUIComponent, IThemeabl
 }
 
 /// <summary>
-/// Clean-room EnterpriseCollapsiblePanel and EnterpriseTaskDialog (Telerik RadCollapsiblePanel / RadTaskDialog equivalents).
+/// Clean-room EnterpriseCollapsiblePanel and EnterpriseTaskDialog.
 /// </summary>
 public class EnterpriseCollapsiblePanel : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

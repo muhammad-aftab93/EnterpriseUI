@@ -14,11 +14,11 @@ Click a header to cycle ascending, descending and none; Ctrl+click adds a sort l
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Single and multi-column sorting | SortDescriptors, AllowSort | Implemented |  |
-| Custom comparer | Custom sorting event | Implemented |  |
-| Sort indicators and indexes | Sort glyphs | Implemented |  |
+| Single and multi-column sorting | Tri-state header click, Ctrl+click for more levels, programmatic SortBy | Implemented |  |
+| Custom comparer | GridColumn.CustomComparer | Implemented |  |
+| Sort indicators and indexes | Arrow and level number in the header | Implemented |  |
 
 ## Architecture notes
 

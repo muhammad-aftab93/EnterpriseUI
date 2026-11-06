@@ -14,10 +14,10 @@ Switch themes live. Every grid element (rows, selection, focus, search matches, 
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Fluent, Office, Material, Bootstrap, Windows, Modern; light and dark | Theme library | Implemented |  |
-| Live theme switching | Theme change | Implemented |  |
+| Fluent, Office, Material, Bootstrap, Windows, Modern; light and dark | All grid colors come from theme tokens | Implemented |  |
+| Live theme switching | Palette cache invalidated and repaint on ThemeChanged | Implemented |  |
 
 ## Architecture notes
 

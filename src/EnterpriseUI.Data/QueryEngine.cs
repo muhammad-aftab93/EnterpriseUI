@@ -404,7 +404,7 @@ public static class QueryEngine
         return negate ? Expression.Not(result) : result;
     }
 
-    private static Expression CompareToZero(FilterOperator op, Expression comparison)
+    private static BinaryExpression CompareToZero(FilterOperator op, Expression comparison)
     {
         var zero = Expression.Constant(0);
         return op switch

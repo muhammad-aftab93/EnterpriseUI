@@ -19,10 +19,10 @@ Everything together: stacked bands, pinned key column, paging, grouping with tot
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Fluent configuration API | n/a | Implemented |  |
-| Code generation from live state | n/a | Implemented |  |
+| Fluent configuration API | GridBuilder<T> | Implemented |  |
+| Code generation from live state | C#, Designer, Fluent, JSON, XML and a complete exportable example (compiled in CI-style validation) | Implemented |  |
 
 ## Architecture notes
 

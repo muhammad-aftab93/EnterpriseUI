@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Abstractions.Theming;
@@ -11,17 +11,33 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class ThemingDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly ComboBox _cmbThemes;
-    private readonly ListView _tokensList;
-    private readonly Panel _swatchPanel;
+
+    private static readonly object[] CachedValues1 = new object[]
+        {
+            "Fluent (Light)",
+            "Fluent (Dark)",
+            "Material (Light)",
+            "Material (Dark)",
+            "Office (Light)",
+            "Office (Dark)",
+            "Windows (Light)",
+            "Windows (Dark)",
+            "Modern (Light)",
+            "Modern (Dark)",
+            "High Contrast (Black)",
+            "High Contrast (White)"
+        };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly ComboBox _cmbThemes=new ComboBox();
+    private readonly ListView _tokensList=new ListView();
+    private readonly Panel _swatchPanel=new Panel();
 
     public ThemingDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -40,27 +56,13 @@ public class ThemingDemoView : UserControl
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
         };
 
-        _cmbThemes = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Location = new Point(185, 10),
-            Width = 190
-        };
-        _cmbThemes.Items.AddRange(new object[]
-        {
-            "Fluent (Light)",
-            "Fluent (Dark)",
-            "Material (Light)",
-            "Material (Dark)",
-            "Office (Light)",
-            "Office (Dark)",
-            "Windows (Light)",
-            "Windows (Dark)",
-            "Modern (Light)",
-            "Modern (Dark)",
-            "High Contrast (Black)",
-            "High Contrast (White)"
-        });
+        _cmbThemes.            DropDownStyle = ComboBoxStyle.DropDownList;
+
+        _cmbThemes.            Location = new Point(185, 10);
+
+        _cmbThemes.            Width = 190
+;
+        _cmbThemes.Items.AddRange(CachedValues1);
         _cmbThemes.SelectedIndex = 0;
         _cmbThemes.SelectedIndexChanged += (_, _) => ApplyTheme(_cmbThemes.SelectedIndex);
 
@@ -89,22 +91,23 @@ public class ThemingDemoView : UserControl
             }
         };
 
-        _swatchPanel = new Panel
-        {
-            Location = new Point(665, 9),
-            Size = new Size(340, 28)
-        };
+        _swatchPanel.            Location = new Point(665, 9);
+
+        _swatchPanel.            Size = new Size(340, 28)
+;
 
         topPanel.Controls.AddRange(new Control[] { lblSelect, _cmbThemes, btnCustomColor, _swatchPanel });
 
-        _tokensList = new ListView
-        {
-            Dock = DockStyle.Fill,
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true,
-            Font = new Font("Consolas", 9.5f)
-        };
+        _tokensList.            Dock = DockStyle.Fill;
+
+        _tokensList.            View = View.Details;
+
+        _tokensList.            FullRowSelect = true;
+
+        _tokensList.            GridLines = true;
+
+        _tokensList.            Font = new Font("Consolas", 9.5f)
+;
         _tokensList.Columns.Add("Design Token Key", 240);
         _tokensList.Columns.Add("Resolved Runtime Value", 260);
         _tokensList.Columns.Add("Token Classification", 180);
@@ -117,7 +120,7 @@ public class ThemingDemoView : UserControl
 
     private void ApplyTheme(int index)
     {
-        ITheme theme = index switch
+        Theme theme = index switch
         {
             0 => BuiltInThemes.CreateFluent(ColorScheme.Light),
             1 => BuiltInThemes.CreateFluent(ColorScheme.Dark),

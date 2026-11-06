@@ -15,14 +15,14 @@ Edit with F2, Enter or double-click. Required, range and regex rules reject bad 
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| In-cell editing with typed editors | Editors per column type | Implemented |  |
-| Popup / form editing | Edit form | Implemented |  |
-| Batch editing | Batch edit | Implemented |  |
-| Validation rules and messages | CellValidating, RowValidating | Implemented |  |
-| Undo and redo | Not built in | Implemented |  |
-| Inline row editing | Row edit mode | Partial | No all-cells-at-once row editor. |
+| In-cell editing with typed editors | Text, combo, date and checkbox editors; F2, Enter, double-click, Tab | Implemented |  |
+| Popup / form editing | Row edit dialog with atomic commit and one undo step | Implemented |  |
+| Batch editing | Pending changes, commit and rollback, dirty markers | Implemented |  |
+| Validation rules and messages | Required, range, length, regex, delegate and async rules; row validators; error marker, tooltip and text | Implemented |  |
+| Undo and redo | Undo stack with transactions | Implemented |  |
+| Inline row editing | Behaves like in-cell editing with row validators | Partial | No all-cells-at-once row editor. |
 
 ## Architecture notes
 

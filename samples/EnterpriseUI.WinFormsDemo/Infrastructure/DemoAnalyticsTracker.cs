@@ -15,6 +15,7 @@ public sealed class DemoAnalyticsTracker
     public long LastAllocatedBytes { get; private set; }
     public int TotalDemosViewed { get; private set; }
     public string ActiveDemoId { get; private set; } = string.Empty;
+    public long LastManagedMemoryBytes { get; private set; }
 
     public event Action? MetricsUpdated;
 
@@ -37,8 +38,8 @@ public sealed class DemoAnalyticsTracker
 
     public string GetFormattedMemory()
     {
-        var mem = GC.GetTotalMemory(false);
-        return $"{mem / (1024.0 * 1024.0):F2} MB";
+        LastManagedMemoryBytes = GC.GetTotalMemory(false);
+        return $"{LastManagedMemoryBytes / (1024.0 * 1024.0):F2} MB";
     }
 }
 

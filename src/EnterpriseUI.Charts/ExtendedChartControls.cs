@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,7 +11,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Charts;
 
 /// <summary>
-/// Clean-room Hierarchical EnterpriseTreeMap Control (Telerik RadTreeMap equivalent).
+/// Clean-room Hierarchical EnterpriseTreeMap Control.
 /// Computes normalized proportional bounding boxes for weighted hierarchical nodes.
 /// </summary>
 public class EnterpriseTreeMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -86,7 +86,7 @@ public class EnterpriseTreeMap : ObservableObject, IUIComponent, IThemeableContr
 }
 
 /// <summary>
-/// Clean-room 2D Matrix EnterpriseHeatMap Control (Telerik RadHeatMap equivalent).
+/// Clean-room 2D Matrix EnterpriseHeatMap Control.
 /// </summary>
 public class EnterpriseHeatMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
@@ -132,7 +132,7 @@ public class EnterpriseHeatMap : ObservableObject, IUIComponent, IThemeableContr
 }
 
 /// <summary>
-/// Clean-room Inline Micro-EnterpriseChart EnterpriseSparkline (Telerik RadSparkline equivalent).
+/// Clean-room Inline Micro-EnterpriseChart EnterpriseSparkline.
 /// Supports Line, Column, Area, and WinLoss sparkline modes with high/low/first/last markers.
 /// </summary>
 public class EnterpriseSparkline : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl

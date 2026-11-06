@@ -14,6 +14,7 @@ public sealed record ThemeExportResult(string ThemeName, string CssVariables, st
 /// </summary>
 public class ThemeDesignerEngine
 {
+    private static readonly JsonSerializerOptions TokenJsonOptions = new() { WriteIndented = true };
     private Theme _activeTheme;
     private ThemeDocument _metadata;
 
@@ -42,7 +43,7 @@ public class ThemeDesignerEngine
     {
         var css = _activeTheme.ToCssVariables("eui");
         var documentJson = CreateDocument().ToJson();
-        var json = JsonSerializer.Serialize(_activeTheme.DesignTokens, new JsonSerializerOptions { WriteIndented = true });
+        var json = JsonSerializer.Serialize(_activeTheme.DesignTokens, TokenJsonOptions);
         var source = new System.Text.StringBuilder();
         source.AppendLine($"var myTheme = ThemeBuilder.Create({JsonSerializer.Serialize(_activeTheme.Name)})");
         source.AppendLine($"    .BasedOn(ThemeType.{_activeTheme.Type})");

@@ -11,6 +11,7 @@ namespace EnterpriseUI.Grids;
 
 public partial class DataGrid<TItem>
 {
+    private static readonly System.Text.Json.JsonSerializerOptions PresetJsonOptions = new() { WriteIndented = true };
     public GridColumn? FindColumn(string field) =>
         string.IsNullOrEmpty(field) ? null : Columns.FirstOrDefault(c => c.Field.Equals(field, StringComparison.OrdinalIgnoreCase));
 
@@ -412,7 +413,7 @@ public partial class DataGrid<TItem>
     public string ExportFilterPresets()
     {
         var presets = SavedFilterPresets.ToDictionary(p => p.Key, p => FilterSerializer.Serialize(p.Value), StringComparer.OrdinalIgnoreCase);
-        return System.Text.Json.JsonSerializer.Serialize(presets, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+        return System.Text.Json.JsonSerializer.Serialize(presets, PresetJsonOptions);
     }
 
     /// <summary>Loads presets written by <see cref="ExportFilterPresets"/>; returns warnings for filters that could not be restored.</summary>

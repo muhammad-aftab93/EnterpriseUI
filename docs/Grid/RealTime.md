@@ -13,9 +13,9 @@ Quotes implement INotifyPropertyChanged and tick many times a second. The grid r
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Real-time updates | Property change notifications | Implemented |  |
+| Real-time updates | INotifyPropertyChanged tracking for the visible window with debounced re-query | Implemented |  |
 
 ## Architecture notes
 

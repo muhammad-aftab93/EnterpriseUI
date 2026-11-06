@@ -16,7 +16,7 @@ public sealed class ValueComparer : IComparer<object?>, IComparer
 
         if (x is string sx && y is string sy)
         {
-            return string.Compare(sx, sy, StringComparison.CurrentCulture);
+            return CultureInfo.CurrentCulture.CompareInfo.Compare(sx, sy, CompareOptions.None);
         }
 
         if (NumericValue.TryGet(x, out var nx) && NumericValue.TryGet(y, out var ny))
@@ -29,7 +29,7 @@ public sealed class ValueComparer : IComparer<object?>, IComparer
             return comparable.CompareTo(y);
         }
 
-        return string.Compare(Convert.ToString(x, CultureInfo.CurrentCulture), Convert.ToString(y, CultureInfo.CurrentCulture), StringComparison.CurrentCulture);
+        return CultureInfo.CurrentCulture.CompareInfo.Compare(Convert.ToString(x, CultureInfo.CurrentCulture), Convert.ToString(y, CultureInfo.CurrentCulture), CompareOptions.None);
     }
 
     int IComparer.Compare(object? x, object? y) => Compare(x, y);
@@ -210,7 +210,7 @@ public static class AggregateCalculator
         }
     }
 
-    private static object? SumAsDecimal(List<object?> values)
+    private static decimal? SumAsDecimal(List<object?> values)
     {
         decimal total = 0;
         foreach (var value in values)
@@ -270,7 +270,7 @@ public static class AggregateCalculator
         return ordered[mid - 1];
     }
 
-    private static object? Variance(List<object?> values, bool sqrt)
+    private static double? Variance(List<object?> values, bool sqrt)
     {
         if (values.Count < 2) return null;
         var numbers = new List<double>(values.Count);

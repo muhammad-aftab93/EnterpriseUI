@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Gauges;
@@ -10,21 +10,21 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class GaugesDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseGaugeControl _radialGauge;
-    private readonly EnterpriseGaugeControl _linearGauge;
-    private readonly EnterpriseBulletGraphControl _bulletGraph;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseGaugeControl _radialGauge=new EnterpriseGaugeControl();
+    private readonly EnterpriseGaugeControl _linearGauge=new EnterpriseGaugeControl();
+    private readonly EnterpriseBulletGraphControl _bulletGraph=new EnterpriseBulletGraphControl();
     private readonly EnterpriseDigitalGauge _digitalGaugeModel = new();
-    private readonly Label _lblDigitalReadout;
-    private readonly System.Windows.Forms.Timer _telemetryTimer;
-    private readonly TrackBar _slider;
+    private readonly Label _lblDigitalReadout=new Label();
+    private readonly System.Windows.Forms.Timer _telemetryTimer=new System.Windows.Forms.Timer();
+    private readonly TrackBar _slider=new TrackBar();
 
     public GaugesDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -43,15 +43,18 @@ public class GaugesDemoView : UserControl
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
 
-        _slider = new TrackBar
-        {
-            Minimum = 0,
-            Maximum = 100,
-            Value = 74,
-            Location = new Point(150, 6),
-            Width = 200,
-            TickStyle = TickStyle.None
-        };
+        _slider.            Minimum = 0;
+
+        _slider.            Maximum = 100;
+
+        _slider.            Value = 74;
+
+        _slider.            Location = new Point(150, 6);
+
+        _slider.            Width = 200;
+
+        _slider.            TickStyle = TickStyle.None
+;
 
         var btnSimulate = new Button
         {
@@ -61,16 +64,20 @@ public class GaugesDemoView : UserControl
             FlatStyle = FlatStyle.Flat
         };
 
-        _lblDigitalReadout = new Label
-        {
-            Text = "DIGITAL LED: 074.0%",
-            Location = new Point(555, 10),
-            AutoSize = true,
-            Font = new Font("Consolas", 11f, FontStyle.Bold),
-            BackColor = Color.FromArgb(20, 26, 32),
-            ForeColor = Color.FromArgb(0, 230, 118),
-            Padding = new Padding(8, 4, 8, 4)
-        };
+        _lblDigitalReadout.            Text = "DIGITAL LED: 074.0%";
+
+        _lblDigitalReadout.            Location = new Point(555, 10);
+
+        _lblDigitalReadout.            AutoSize = true;
+
+        _lblDigitalReadout.            Font = new Font("Consolas", 11f, FontStyle.Bold);
+
+        _lblDigitalReadout.            BackColor = Color.FromArgb(20, 26, 32);
+
+        _lblDigitalReadout.            ForeColor = Color.FromArgb(0, 230, 118);
+
+        _lblDigitalReadout.            Padding = new Padding(8, 4, 8, 4)
+;
 
         _slider.ValueChanged += (_, _) =>
         {
@@ -87,12 +94,12 @@ public class GaugesDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { lblSlider, _slider, btnSimulate, _lblDigitalReadout });
 
-        _bulletGraph = new EnterpriseBulletGraphControl
-        {
-            Dock = DockStyle.Bottom,
-            Height = 76,
-            Title = "RadBulletGraph KPI — Server Cluster Throughput vs SLA Target"
-        };
+        _bulletGraph.            Dock = DockStyle.Bottom;
+
+        _bulletGraph.            Height = 76;
+
+        _bulletGraph.            Title = "RadBulletGraph KPI — Server Cluster Throughput vs SLA Target"
+;
 
         var split = new System.Windows.Forms.SplitContainer
         {
@@ -101,10 +108,14 @@ public class GaugesDemoView : UserControl
             SplitterDistance = 350
         };
 
-        _radialGauge = new EnterpriseGaugeControl { Dock = DockStyle.Fill, IsLinear = false };
+        _radialGauge.Dock = DockStyle.Fill;
+
+        _radialGauge.IsLinear = false ;
         _radialGauge.AriaLabel = "Server CPU Load";
 
-        _linearGauge = new EnterpriseGaugeControl { Dock = DockStyle.Fill, IsLinear = true };
+        _linearGauge.Dock = DockStyle.Fill;
+
+        _linearGauge.IsLinear = true ;
         _linearGauge.AriaLabel = "Memory Allocation";
 
         split.Panel1.Controls.Add(_radialGauge);
@@ -116,7 +127,7 @@ public class GaugesDemoView : UserControl
 
         SyncAllGauges(74);
 
-        _telemetryTimer = new System.Windows.Forms.Timer { Interval = 120 };
+        _telemetryTimer.Interval = 120 ;
         _telemetryTimer.Tick += (_, _) =>
         {
             var rnd = new Random();

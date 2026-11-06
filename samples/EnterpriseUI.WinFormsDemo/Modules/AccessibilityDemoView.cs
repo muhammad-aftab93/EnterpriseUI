@@ -8,15 +8,25 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class AccessibilityDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly ListBox _announcementLog;
+
+    private static readonly string[] CachedValues5 = new[] { "4.1.3 Status Messages", "Dynamic notifications announced via IAccessibilityAnnouncer live regions", "COMPLIANT" };
+
+    private static readonly string[] CachedValues4 = new[] { "4.1.2 Name, Role, Value", "AriaRole, AriaLabel, and expanded states exposed to accessibility tree", "COMPLIANT" };
+
+    private static readonly string[] CachedValues3 = new[] { "2.4.7 Focus Visible", "High-visibility focus halo rendered on active controls", "COMPLIANT" };
+
+    private static readonly string[] CachedValues2 = new[] { "2.1.1 Keyboard Accessible", "All grid navigation, editing and commands reachable via Tab/Arrows", "COMPLIANT" };
+
+    private static readonly string[] CachedValues1 = new[] { "1.4.3 Contrast (Minimum)", "Text contrast ratio >= 4.5:1 against surface background", "COMPLIANT" };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly ListBox _announcementLog=new ListBox();
 
     public AccessibilityDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -76,11 +86,11 @@ public class AccessibilityDemoView : UserControl
         auditList.Columns.Add("Requirement Description", 320);
         auditList.Columns.Add("Audit Result", 100);
 
-        auditList.Items.Add(new ListViewItem(new[] { "1.4.3 Contrast (Minimum)", "Text contrast ratio >= 4.5:1 against surface background", "COMPLIANT" }));
-        auditList.Items.Add(new ListViewItem(new[] { "2.1.1 Keyboard Accessible", "All grid navigation, editing and commands reachable via Tab/Arrows", "COMPLIANT" }));
-        auditList.Items.Add(new ListViewItem(new[] { "2.4.7 Focus Visible", "High-visibility focus halo rendered on active controls", "COMPLIANT" }));
-        auditList.Items.Add(new ListViewItem(new[] { "4.1.2 Name, Role, Value", "AriaRole, AriaLabel, and expanded states exposed to accessibility tree", "COMPLIANT" }));
-        auditList.Items.Add(new ListViewItem(new[] { "4.1.3 Status Messages", "Dynamic notifications announced via IAccessibilityAnnouncer live regions", "COMPLIANT" }));
+        auditList.Items.Add(new ListViewItem(CachedValues1));
+        auditList.Items.Add(new ListViewItem(CachedValues2));
+        auditList.Items.Add(new ListViewItem(CachedValues3));
+        auditList.Items.Add(new ListViewItem(CachedValues4));
+        auditList.Items.Add(new ListViewItem(CachedValues5));
 
         // Live Log of announcements
         var logLabel = new Label
@@ -91,11 +101,10 @@ public class AccessibilityDemoView : UserControl
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
 
-        _announcementLog = new ListBox
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Consolas", 9f)
-        };
+        _announcementLog.            Dock = DockStyle.Fill;
+
+        _announcementLog.            Font = new Font("Consolas", 9f)
+;
 
         AccessibilityManager.Instance.AnnouncementRequested += (msg, politeness) =>
         {

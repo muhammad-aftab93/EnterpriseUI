@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -30,11 +30,21 @@ public class GridDemoRecord
 
 public class GridDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseDataGrid<GridDemoRecord> _grid;
+
+    private static readonly string[] CachedValues5 = new[] { "Completed", "Processing", "Pending", "Verified" };
+
+    private static readonly string[] CachedValues4 = new[] { "Normal", "High", "Critical", "Low" };
+
+    private static readonly string[] CachedValues3 = new[] { "North America", "EMEA", "APAC", "LATAM" };
+
+    private static readonly string[] CachedValues2 = new[] { "Cloud Infrastructure Suite", "Real-Time Telemetry Node", "Enterprise Security Agent", "Workflow Execution Core", "High-Throughput Analytics" };
+
+    private static readonly string[] CachedValues1 = new[] { "Acme Corporation", "Contoso Global", "Fabrikam Aerospace", "Northwind Logistics", "Tailspin Technologies", "AdventureWorks Financial" };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseDataGrid<GridDemoRecord> _grid=new EnterpriseDataGrid<GridDemoRecord>();
     private readonly List<GridDemoRecord> _allRecords;
-    private readonly System.Windows.Forms.Timer _signalRTimer;
-    private readonly Label _lblMetrics;
+    private readonly System.Windows.Forms.Timer _signalRTimer=new System.Windows.Forms.Timer();
+    private readonly Label _lblMetrics=new Label();
     private ColumnLayoutProfile? _savedProfile;
     private bool _isLiveStreaming;
 
@@ -43,7 +53,7 @@ public class GridDemoView : UserControl
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -315,13 +325,14 @@ public class GridDemoView : UserControl
             _grid.ShowPrintPreviewDialog();
         };
 
-        _lblMetrics = new Label
-        {
-            Text = $"Records: {_allRecords.Count} | Multi-Sort & Inline Edit Ready",
-            Location = new Point(798, 12),
-            AutoSize = true,
-            Font = new Font("Segoe UI", 9f, FontStyle.Bold)
-        };
+        _lblMetrics.            Text = $"Records: {_allRecords.Count} | Multi-Sort & Inline Edit Ready";
+
+        _lblMetrics.            Location = new Point(798, 12);
+
+        _lblMetrics.            AutoSize = true;
+
+        _lblMetrics.            Font = new Font("Segoe UI", 9f, FontStyle.Bold)
+;
 
         toolbar.Controls.AddRange(new Control[]
         {
@@ -344,7 +355,7 @@ public class GridDemoView : UserControl
         });
 
         // DataGrid Setup
-        _grid = new EnterpriseDataGrid<GridDemoRecord> { Dock = DockStyle.Fill };
+        _grid.Dock = DockStyle.Fill ;
         _grid.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 90 });
         _grid.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 180 });
         _grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 170 });
@@ -410,7 +421,7 @@ public class GridDemoView : UserControl
         _baseView.DemoContainer.Controls.Add(toolbar);
 
         // SignalR Simulation Timer
-        _signalRTimer = new System.Windows.Forms.Timer { Interval = 100 };
+        _signalRTimer.Interval = 100 ;
         _signalRTimer.Tick += async (_, _) =>
         {
             var rnd = new Random();
@@ -424,11 +435,11 @@ public class GridDemoView : UserControl
 
     private static List<GridDemoRecord> GenerateSampleData(int count)
     {
-        var customers = new[] { "Acme Corporation", "Contoso Global", "Fabrikam Aerospace", "Northwind Logistics", "Tailspin Technologies", "AdventureWorks Financial" };
-        var products = new[] { "Cloud Infrastructure Suite", "Real-Time Telemetry Node", "Enterprise Security Agent", "Workflow Execution Core", "High-Throughput Analytics" };
-        var regions = new[] { "North America", "EMEA", "APAC", "LATAM" };
-        var priorities = new[] { "Normal", "High", "Critical", "Low" };
-        var statuses = new[] { "Completed", "Processing", "Pending", "Verified" };
+        var customers = CachedValues1;
+        var products = CachedValues2;
+        var regions = CachedValues3;
+        var priorities = CachedValues4;
+        var statuses = CachedValues5;
 
         var list = new List<GridDemoRecord>(count);
         var rng = new Random(1337);

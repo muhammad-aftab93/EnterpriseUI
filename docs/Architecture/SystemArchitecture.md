@@ -1,4 +1,4 @@
-﻿# EnterpriseUI Architecture & Systems Design Guide
+# EnterpriseUI Architecture & Systems Design Guide
 
 ## 1. Architectural Philosophy
 

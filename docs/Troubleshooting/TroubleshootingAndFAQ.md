@@ -1,4 +1,4 @@
-﻿# EnterpriseUI Troubleshooting & Knowledge Base
+# EnterpriseUI Troubleshooting & Knowledge Base
 
 This guide outlines diagnostic procedures, error resolutions, and answers to frequently asked questions across the EnterpriseUI framework.
 
@@ -57,8 +57,8 @@ flowchart TD
 
 ## 3. Frequently Asked Questions (FAQ)
 
-#### Q: How does EnterpriseUI compare in memory usage to DevExpress and Telerik?
-**A:** EnterpriseUI achieves up to **60% lower memory consumption** during large-scale grid rendering because it calculates 2D index windows on-demand and does not maintain heavyweight wrapper visual objects for off-screen cells.
+#### Q: How should I measure grid memory usage?
+**A:** Run the benchmark project against your dataset and record the runtime, hardware, query, row count, and viewport size. Windowed rendering reduces the number of visible rows drawn, but total memory also depends on the data source and active features.
 
 #### Q: Can I run EnterpriseUI with Native AOT compilation?
 **A:** Yes. The core math, layout calculations, theming engine, and virtualization are 100% Native AOT compatible. When using `QueryEngine`, statically typed expressions are favored over unconstrained runtime reflection.

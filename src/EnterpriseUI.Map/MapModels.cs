@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -16,7 +16,7 @@ public class GeoMarker : ObservableObject
 }
 
 /// <summary>
-/// Superset GIS Map control combining DevExpress MapControl and Telerik RadMap.
+/// Superset GIS Map control.
 /// </summary>
 public class EnterpriseGeoMap : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

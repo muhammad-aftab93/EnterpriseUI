@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -40,7 +40,7 @@ public sealed class VirtualCellValuePushedEventArgs : EventArgs
 }
 
 /// <summary>
-/// Clean-room Event-Driven EnterpriseVirtualGrid (Telerik RadVirtualGrid equivalent).
+/// Clean-room Event-Driven EnterpriseVirtualGrid.
 /// Supports arbitrary billions of cells via on-demand CellValueNeeded and CellValuePushed callbacks without materializing row lists.
 /// </summary>
 public class EnterpriseVirtualGrid : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -98,7 +98,7 @@ public class EnterpriseVirtualGrid : ObservableObject, IUIComponent, IThemeableC
 }
 
 /// <summary>
-/// Clean-room EnterpriseCardView and ListView (Telerik RadCardView / RadListView / RadCheckedListBox equivalents).
+/// Clean-room EnterpriseCardView and ListView.
 /// </summary>
 public class EnterpriseCardView<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
@@ -136,7 +136,7 @@ public class EnterpriseCardView<TItem> : ObservableObject, IUIComponent, IThemea
 }
 
 /// <summary>
-/// Clean-room DataFilter and EnterpriseFilterView (Telerik RadDataFilter / RadFilterView equivalents).
+/// Clean-room DataFilter and EnterpriseFilterView.
 /// Builds composite FilterDescriptor trees and interactive facet checklists.
 /// </summary>
 public class EnterpriseFilterView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -198,7 +198,7 @@ public class EnterpriseFilterView : ObservableObject, IUIComponent, IThemeableCo
 }
 
 /// <summary>
-/// Clean-room EnterpriseDataPager (Telerik RadDataPager equivalent).
+/// Clean-room EnterpriseDataPager.
 /// </summary>
 public class EnterpriseDataPager : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

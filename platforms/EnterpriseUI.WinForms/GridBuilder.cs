@@ -12,10 +12,12 @@ namespace EnterpriseUI.WinForms;
 /// Fluent configuration of an <see cref="EnterpriseDataGrid{TItem}"/>: columns, bands, paging, selection, editing, query state,
 /// summaries, formatting and validation. <see cref="Build"/> returns the configured control.
 /// </summary>
-public sealed class GridBuilder<TItem>
+public sealed class GridBuilder<TItem> : IDisposable
 {
     private readonly EnterpriseDataGrid<TItem> _grid = new() { Dock = DockStyle.Fill };
     private IEnumerable<TItem>? _data;
+    private bool _built;
+    private bool _disposed;
 
     private GridBuilder()
     {
@@ -160,8 +162,17 @@ public sealed class GridBuilder<TItem>
     /// <summary>Returns the configured grid; the data source is attached last so the first load already has the full query.</summary>
     public EnterpriseDataGrid<TItem> Build()
     {
+        ObjectDisposedException.ThrowIf(_disposed, this);
         if (_data != null) _grid.DataSource = _data;
+        _built = true;
         return _grid;
+    }
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+        _disposed = true;
+        if (!_built) _grid.Dispose();
     }
 
     private GridColumn FindColumn(string field) =>

@@ -1,8 +1,8 @@
-﻿# EnterpriseUI.WinFormsDemo - World-Class Showcase & Demonstration Platform
+# EnterpriseUI.WinFormsDemo - World-Class Showcase & Demonstration Platform
 
 ## Executive Summary
 
-`EnterpriseUI.WinFormsDemo` has been transformed from a single-grid sample into a comprehensive, world-class enterprise demonstration, validation, documentation, benchmarking, and learning platform. Modeled after premier industry showcase suites such as the **DevExpress Demo Center**, **Telerik UI Demos**, **Syncfusion Demo Studio**, and **Infragistics Showcase**, the application provides 100% interactive discovery across the entire EnterpriseUI ecosystem.
+`EnterpriseUI.WinFormsDemo` hosts component demonstrations, a property inspector, event logs, generated configuration, theme editing, and learning material. The demo registry maps each page to its target components and documentation.
 
 ```mermaid
 flowchart TD
@@ -163,7 +163,7 @@ The Learning Center (`LearningCenterDemoView`) serves as an embedded technical u
 - **Core Architecture Guides**: Headless MVVM core, zero-dependency engine decoupling, and platform-native GDI+ rendering.
 - **Virtualization Guidance**: Memory footprint minimization, fixed-height cell optimization, and asynchronous paging.
 - **Anti-Pattern Remediation**: Identifies common developer mistakes (such as allocating Pens/Brushes in render loops or calling `Invalidate()` unthrottled) and provides copy-paste remediations.
-- **Migration Guides**: Detailed class-to-class and method-to-method translation tables for engineering teams migrating from **DevExpress WinForms** or **Telerik UI for WinForms**.
+- **Integration Guides**: Setup, data binding, theming, and configuration examples for existing applications.
 
 ---
 

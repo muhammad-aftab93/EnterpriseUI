@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,9 +12,50 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 /// <summary>The DataGrid workshop: one page per feature area, each driven by the live grid and generating code from its state.</summary>
 public static partial class GridScenarios
 {
+
+    private static readonly string[] CachedValues18 = new[] { "CellsWithHeaders", "Cells", "None" };
+
+    private static readonly string[] CachedValues17 = new[] { "SingleRow", "MultipleRows", "CheckboxRow", "CellRange", "SingleCell", "Column", "None" };
+
+    private static readonly string[] CachedValues16 = new[] { "Single/multiple rows", "Checkbox column", "Cell range", "Column selection", "Select all", "Clipboard copy" };
+
+    private static readonly string[] CachedValues15 = new[] { "InCell", "InlineRow", "PopupModal", "Batch", "Form", "None" };
+
+    private static readonly object[] CachedValues14 = new object[] { "Engineering", "Sales", "Finance", "Operations", "Support" };
+
+    private static readonly string[] CachedValues13 = new[] { "In-cell editing", "Popup/form editing", "Batch commit/rollback", "Validation rules", "Undo/redo", "Typed editors" };
+
+    private static readonly string[] CachedValues12 = new[] { "Add row", "Delete rows", "Undo/redo", "Drag reorder", "Cross-grid drag and drop", "Row styling" };
+
+    private static readonly string[] CachedValues11 = new[] { "Pinning", "Column chooser", "Reorder", "Resize", "Best fit", "Stacked bands", "Layout persistence", "Column types" };
+
+    private static readonly string[] CachedValues10 = new[] { "Nested relations", "Lazy loading", "Expand/collapse all", "Child columns", "Search reveals matches" };
+
+    private static readonly string[] CachedValues9 = new[] { "Multi-level groups", "Group summaries", "Group footers", "Expand/collapse", "Group panel drag" };
+
+    private static readonly string[] CachedValues8 = new[] { "Filter row", "Excel-style value list", "18 operators", "Between", "Presets", "Search panel" };
+
+    private static readonly string[] CachedValues7 = new[] { "Single sort", "Multi-column sort", "Custom comparer", "Sort indicators", "Programmatic sort" };
+
+    private static readonly string[] CachedValues6 = new[] { "10", "25", "50", "100" };
+
+    private static readonly string[] CachedValues5 = new[] { "Client", "Server", "Virtual", "Infinite", "None" };
+
+    private static readonly string[] CachedValues4 = new[] { "Client paging", "Server paging", "Virtual scroll", "Infinite scroll", "Page size", "Pager UI" };
+
+    private static readonly string[] CachedValues3 = new[] { "Compact (24)", "Standard (28)", "Comfortable (36)" };
+
+    private static readonly string[] CachedValues2 = new[] { "Data binding", "Typed columns", "Row density", "Keyboard navigation", "Status bar" };
+
+    private static readonly object[] CachedValues1 = new object[] { "Low", "Normal", "High", "Critical" };
     private const string Related = "EnterpriseDataGrid<T>, DataGrid<T>, GridBuilder<T>, EnterpriseTreeList, EnterprisePivotGrid";
 
-    public static IReadOnlyList<GridScenario> All { get; } = BuildAll();
+    public static IReadOnlyList<GridScenario> All { get; }
+
+    static GridScenarios()
+    {
+        All = BuildAll();
+    }
 
     private static List<GridScenario> BuildAll()
     {
@@ -34,7 +75,7 @@ public static partial class GridScenarios
         grid.Columns.Add(new GridColumn { Field = "UnitPrice", Title = "Unit Price", FormatString = "C2", Width = 100, Alignment = ColumnTextAlignment.Right });
         grid.Columns.Add(new GridColumn { Field = "Quantity", Title = "Qty", Width = 70, Alignment = ColumnTextAlignment.Right });
         grid.Columns.Add(new GridColumn { Field = "Total", Title = "Gross Amount", FormatString = "C2", Width = 110, Alignment = ColumnTextAlignment.Right, ReadOnly = true });
-        grid.Columns.Add(new GridColumn { Field = "Priority", Title = "Priority", Width = 90, ComboItems = new object[] { "Low", "Normal", "High", "Critical" } });
+        grid.Columns.Add(new GridColumn { Field = "Priority", Title = "Priority", Width = 90, ComboItems = CachedValues1 });
         grid.Columns.Add(new GridColumn { Field = "Status", Title = "Status", Width = 100 });
         grid.Columns.Add(new GridColumn { Field = "Timestamp", Title = "Date", FormatString = "d", Width = 100 });
         grid.DataSource = data;
@@ -56,7 +97,7 @@ public static partial class GridScenarios
             Id = "grid-basics",
             Title = "Grid Basics - Columns, Rows and Windowed Rendering",
             Description = "A bound grid with typed columns, alternating rows, a status bar and keyboard navigation. Toggle the chrome and row density; the code tabs follow.",
-            Features = new[] { "Data binding", "Typed columns", "Row density", "Keyboard navigation", "Status bar" },
+            Features = CachedValues2,
             Documentation = "EnterpriseDataGrid<T> draws with GDI+ from DataGrid<T>, which fetches only the rows near the viewport. Columns map to public properties of T.",
             Usage = "Add GridColumn entries (Field, Title, Width, FormatString), assign DataSource, then optionally call RefreshDataAsync after external changes.",
             BestPractices = "Keep row height fixed, format values with FormatString and give the grid an AriaLabel.",
@@ -68,7 +109,7 @@ public static partial class GridScenarios
                 host.Toggle("Filter row", false, v => grid.ShowFilterRow = v);
                 host.Toggle("Group panel", true, v => grid.ShowGroupPanel = v);
                 host.Toggle("Status bar", true, v => grid.ShowSummaryFooter = v);
-                host.Combo("Row height:", new[] { "Compact (24)", "Standard (28)", "Comfortable (36)" }, "Standard (28)", v => grid.ItemHeight = v.Contains("24") ? 24 : v.Contains("36") ? 36 : 28);
+                host.Combo("Row height:", CachedValues3, "Standard (28)", v => grid.ItemHeight = v.Contains("24") ? 24 : v.Contains("36") ? 36 : 28);
                 host.Button("Best fit columns", grid.BestFitAllColumns);
                 host.Button("Select first row", () => grid.SelectedRowIndex = 0);
                 ReportCounts(host, grid);
@@ -81,7 +122,7 @@ public static partial class GridScenarios
             Id = "grid-paging",
             Title = "Paging - Client, Server, Virtual and Infinite Modes",
             Description = "Switch between client paging, server-style paging, virtual scrolling and infinite load-more over 5,000 rows. The pager appears for paged modes.",
-            Features = new[] { "Client paging", "Server paging", "Virtual scroll", "Infinite scroll", "Page size", "Pager UI" },
+            Features = CachedValues4,
             Documentation = "PagingMode decides how rows are requested. Client reads the filtered, sorted result once and pages in memory; Server sends skip/take to the data source; Infinite appends pages while scrolling.",
             Usage = "Set PagingMode and PageSize; use GoToPage, NextPage and PageChanged. Selection and detail expansion reset when the page changes.",
             Architecture = "Paging sits between the query result and the row window; sorting, filtering and grouping run over the full result before a page is cut.",
@@ -95,8 +136,8 @@ public static partial class GridScenarios
                 grid.PagingMode = GridPagingMode.Client;
                 grid.PageSize = 25;
                 host.Attach(grid);
-                host.Combo("Mode:", new[] { "Client", "Server", "Virtual", "Infinite", "None" }, "Client", v => grid.PagingMode = Enum.Parse<GridPagingMode>(v));
-                host.Combo("Page size:", new[] { "10", "25", "50", "100" }, "25", v => grid.PageSize = int.Parse(v));
+                host.Combo("Mode:", CachedValues5, "Client", v => grid.PagingMode = Enum.Parse<GridPagingMode>(v));
+                host.Combo("Page size:", CachedValues6, "25", v => grid.PageSize = int.Parse(v));
                 host.Separator();
                 host.Button("|<", () => grid.FirstPage());
                 host.Button("<", () => grid.PreviousPage());
@@ -114,7 +155,7 @@ public static partial class GridScenarios
             Id = "grid-sorting",
             Title = "Sorting - Multi-Column, Custom Order and Tri-State Headers",
             Description = "Click a header to cycle ascending, descending and none; Ctrl+click adds a sort level. Priority sorts by business rank instead of alphabet.",
-            Features = new[] { "Single sort", "Multi-column sort", "Custom comparer", "Sort indicators", "Programmatic sort" },
+            Features = CachedValues7,
             Documentation = "Sorts are SortDescriptor entries in the grid's request. Columns with CustomComparer sort in memory with that comparer.",
             Usage = "Call SortBy(field, direction) to replace the sort, CycleSort(field, true) to add a level, ClearSort() to reset.",
             Accessibility = "Sorted headers are announced as 'sorted ascending' and the change is announced to screen readers.",
@@ -151,7 +192,7 @@ public static partial class GridScenarios
             Id = "grid-filtering",
             Title = "Filtering - Filter Row, Value Lists, Operators and Presets",
             Description = "Type in the filter row, open the funnel in a header for a value list, or apply operator filters from the toolbar. Presets save and restore a whole filter set.",
-            Features = new[] { "Filter row", "Excel-style value list", "18 operators", "Between", "Presets", "Search panel" },
+            Features = CachedValues8,
             Documentation = "Filters are descriptors evaluated by the query engine. The funnel shows distinct values with search; the filter row applies Contains.",
             Usage = "FilterBy(field, operator, value), SetQuickFilter(field, text), ApplyExcelFilter(field, values), SaveFilterPreset(name).",
             Performance = "Filters compile to expression trees for in-memory sources and translate to OData-style requests for remote sources.",
@@ -182,7 +223,7 @@ public static partial class GridScenarios
             Id = "grid-grouping",
             Title = "Grouping - Multi-Level Groups, Summaries and Footers",
             Description = "Group by one or more columns from the toolbar, the group panel or a header menu. Group headers show counts and aggregates; footers repeat the totals.",
-            Features = new[] { "Multi-level groups", "Group summaries", "Group footers", "Expand/collapse", "Group panel drag" },
+            Features = CachedValues9,
             Documentation = "Groups are computed over the whole filtered result, so group counts and aggregates are exact even with paging or virtualization.",
             Usage = "GroupBy(field), RemoveGroup(field), ExpandAllGroups(), GroupSummaries.Add(new GroupSummaryDescriptor(field, AggregateFunction.Sum, \"{0:C0}\")).",
             Performance = "Grouping flattens the group tree into a row list once per query; collapsed groups cost no row rendering.",
@@ -215,7 +256,7 @@ public static partial class GridScenarios
             Id = "grid-hierarchy",
             Title = "Hierarchy - Three-Level Customers, Orders and Order Lines",
             Description = "Expand a customer to see its orders, and an order to see its lines. Relations nest without a depth limit; children can load lazily on first expansion.",
-            Features = new[] { "Nested relations", "Lazy loading", "Expand/collapse all", "Child columns", "Search reveals matches" },
+            Features = CachedValues10,
             Documentation = "A GridHierarchyRelation joins child rows on KeyField/ForeignField. ChildRelations adds further levels. LoadChildrenAsync defers loading until the row is expanded.",
             Usage = "grid.AddRelation(name, keyField, foreignField, childRows, typeof(Child)); relation.ChildRelations.Add(...); grid.EnableMasterDetail = true.",
             Architecture = "Expanded relations contribute DetailHeader and DetailData rows to the materialized row list, so selection, search and export all see them.",
@@ -246,7 +287,7 @@ public static partial class GridScenarios
             Id = "grid-columns",
             Title = "Column Management - Pin, Hide, Reorder, Resize, Bands and Layouts",
             Description = "Drag headers to reorder or onto the group panel, drag the edge to resize, double-click the edge for best fit, right-click for pin, hide and the column chooser. Save and restore layouts as JSON.",
-            Features = new[] { "Pinning", "Column chooser", "Reorder", "Resize", "Best fit", "Stacked bands", "Layout persistence", "Column types" },
+            Features = CachedValues11,
             Documentation = "Column state (visibility, width, order, pinning, sorts, groups, filters, page size) round-trips through ColumnLayoutProfile and GridLayoutSerializer.",
             Usage = "var json = GridLayoutSerializer.ToJson(grid.CreateLayoutProfile()); grid.ApplyLayoutProfile(GridLayoutSerializer.FromJson(json)). Unknown columns produce warnings instead of exceptions.",
             Accessibility = "Column order changes are announced; the focused cell stays visible when pinned columns are used.",
@@ -296,7 +337,7 @@ public static partial class GridScenarios
             Id = "grid-rows",
             Title = "Rows - Add, Delete, Reorder and Drag Between Grids",
             Description = "Add and delete rows with undo, drag selected rows to reorder, or drag them into the second grid (Ctrl copies). Both grids share the same item type.",
-            Features = new[] { "Add row", "Delete rows", "Undo/redo", "Drag reorder", "Cross-grid drag and drop", "Row styling" },
+            Features = CachedValues12,
             Documentation = "Structural edits work on in-memory list sources and are undoable. MoveRows reorders as one undo step; TransferRows moves or copies rows to another grid.",
             Usage = "grid.AllowRowDrag = true; grid.AllowRowDrop = true; grid.AddRow(item); grid.RemoveRows(grid.SelectedItems); grid.MoveRows(items, before).",
             Accessibility = "Moves are announced ('Moved 3 rows'); every drag action also has a keyboard path through Delete, Ctrl+Z and the context menu.",
@@ -337,7 +378,7 @@ public static partial class GridScenarios
             Id = "grid-editing",
             Title = "Editing - In-Cell, Popup, Batch and Validation",
             Description = "Edit with F2, Enter or double-click. Required, range and regex rules reject bad values with a message; switch to popup or batch mode and commit or roll back.",
-            Features = new[] { "In-cell editing", "Popup/form editing", "Batch commit/rollback", "Validation rules", "Undo/redo", "Typed editors" },
+            Features = CachedValues13,
             Documentation = "Editors follow the column type: checkbox, combo box, date picker or text. Validation rules sit on the column; invalid values are rejected and the cell shows an error marker with its message.",
             Usage = "grid.EditMode = GridEditMode.Batch; column.ValidationRules.Add(new RangeRule(30000, 200000) { Message = \"...\" }); grid.CommitChanges() / RollbackChanges().",
             Accessibility = "Errors are announced assertively, shown as a marker plus text (not color alone) and exposed in the cell's accessible name.",
@@ -353,7 +394,7 @@ public static partial class GridScenarios
                 var email = new GridColumn { Field = "Email", Title = "Email", Width = 230 };
                 email.ValidationRules.Add(new RegexRule(@"^[^@\s]+@[^@\s]+\.[^@\s]+$") { Message = "Enter a valid email address" });
                 grid.Columns.Add(email);
-                grid.Columns.Add(new GridColumn { Field = "Department", Title = "Department", Width = 120, ComboItems = new object[] { "Engineering", "Sales", "Finance", "Operations", "Support" } });
+                grid.Columns.Add(new GridColumn { Field = "Department", Title = "Department", Width = 120, ComboItems = CachedValues14 });
                 var salary = new GridColumn { Field = "Salary", Title = "Salary", Width = 100, FormatString = "C0", Alignment = ColumnTextAlignment.Right };
                 salary.ValidationRules.Add(new RangeRule(30000m, 200000m) { Message = "Salary must be between 30,000 and 200,000" });
                 salary.FooterSummaries.Add(new GridColumnSummary(AggregateFunction.Average, "C0"));
@@ -368,9 +409,9 @@ public static partial class GridScenarios
 
                 void Report() => host.Metric($"Edit mode: {grid.EditMode} | pending: {grid.PendingChanges.Count} | errors: {grid.ValidationSummary.Count} | undo: {(grid.CanUndo ? "yes" : "no")}");
                 grid.CellEdited += (_, d) => { host.Log("CellEdited", d); Report(); };
-                grid.ValidationFailed += (_, e) => host.Metric(e.Errors.FirstOrDefault()?.Message ?? "Validation failed");
+                grid.ValidationFailed += (_, e) => host.Metric(e.Errors.Count == 0 ? "Validation failed" : e.Errors[0].Message);
 
-                host.Combo("Edit mode:", new[] { "InCell", "InlineRow", "PopupModal", "Batch", "Form", "None" }, "InCell", v => { grid.EditMode = Enum.Parse<GridEditMode>(v); Report(); });
+                host.Combo("Edit mode:", CachedValues15, "InCell", v => { grid.EditMode = Enum.Parse<GridEditMode>(v); Report(); });
                 host.Button("Commit", () => { var r = grid.CommitChanges(); host.Metric(r.Success ? $"Committed {r.Changes.Count} change(s)" : $"Commit blocked by {r.Errors.Count} error(s)"); });
                 host.Button("Roll back", () => host.Metric($"Rolled back {grid.RollbackChanges()} change(s)"));
                 host.Button("Undo", () => grid.UndoLastEdit());
@@ -386,7 +427,7 @@ public static partial class GridScenarios
             Id = "grid-selection",
             Title = "Selection - Rows, Checkboxes, Cells, Ranges and Columns",
             Description = "Pick a selection mode, then click, Shift+click, Ctrl+click or drag. Ctrl+A selects all, Ctrl+C copies with headers, arrow keys move the focus cell.",
-            Features = new[] { "Single/multiple rows", "Checkbox column", "Cell range", "Column selection", "Select all", "Clipboard copy" },
+            Features = CachedValues16,
             Documentation = "GridSelectionModel tracks rows, cell ranges and columns by display position and implements the click, drag and keyboard gestures in one testable class.",
             Usage = "grid.SelectionMode = GridSelectionMode.CellRange; grid.Selection.SelectAll(); grid.SelectedItems; grid.CopySelectionToClipboard().",
             Accessibility = "The focus cell has a 2 px ring in every theme, selection never relies on color alone in high contrast, and selection changes are exposed through UI Automation.",
@@ -398,11 +439,11 @@ public static partial class GridScenarios
                 host.Attach(grid);
                 void Report() => host.Metric($"Mode: {grid.SelectionMode} | rows: {grid.Selection.SelectedRows.Count} | cells: {(grid.Selection.HasSelection ? grid.Selection.SelectedCellCount : 0):N0} | focus: row {grid.Selection.FocusedRow}, column {grid.Selection.FocusedColumn}");
                 grid.SelectionChanged += (_, _) => Report();
-                host.Combo("Mode:", new[] { "SingleRow", "MultipleRows", "CheckboxRow", "CellRange", "SingleCell", "Column", "None" }, "MultipleRows", v => { grid.SelectionMode = Enum.Parse<GridSelectionMode>(v); Report(); });
+                host.Combo("Mode:", CachedValues17, "MultipleRows", v => { grid.SelectionMode = Enum.Parse<GridSelectionMode>(v); Report(); });
                 host.Button("Select all", () => grid.Selection.SelectAll());
                 host.Button("Clear", () => grid.Selection.Clear());
                 host.Button("Copy", grid.CopySelectionToClipboard);
-                host.Combo("Copy mode:", new[] { "CellsWithHeaders", "Cells", "None" }, "CellsWithHeaders", v => grid.ClipboardCopyMode = Enum.Parse<GridClipboardCopyMode>(v));
+                host.Combo("Copy mode:", CachedValues18, "CellsWithHeaders", v => grid.ClipboardCopyMode = Enum.Parse<GridClipboardCopyMode>(v));
                 Report();
                 return grid;
             }

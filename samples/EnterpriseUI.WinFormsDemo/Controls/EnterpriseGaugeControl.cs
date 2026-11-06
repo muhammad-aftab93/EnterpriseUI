@@ -49,7 +49,7 @@ public class EnterpriseGaugeControl : Control, IThemeableControl
     public string? Unit
     {
         get => _gauge.Unit;
-        set { _gauge.Unit = value; Invalidate(); }
+        set { _gauge.Unit = value ?? string.Empty; Invalidate(); }
     }
 
     public string? AriaLabel

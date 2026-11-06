@@ -16,11 +16,11 @@ Search all columns from the built-in panel (Ctrl+F). Filter mode hides rows that
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Search panel with highlight and match navigation | Search row | Implemented |  |
-| Incremental type-ahead | Incremental search | Implemented |  |
-| Search in hierarchy and expand to reveal | Search in child views | Implemented |  |
+| Search panel with highlight and match navigation | Ctrl+F panel, filter or highlight mode, count, next/previous, F3 | Implemented |  |
+| Incremental type-ahead | Typing jumps to the first matching row in the focused column | Implemented |  |
+| Search in hierarchy and expand to reveal | Searches child tables and expands to matches | Implemented |  |
 
 ## Architecture notes
 

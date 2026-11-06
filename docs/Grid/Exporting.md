@@ -19,12 +19,12 @@ Export every row matching the current query in a streaming pass with progress an
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Excel workbook (xlsx), CSV, PDF, HTML, JSON, XML | ExportToExcelML, Spreadsheet, CSV, PDF, HTML | Implemented |  |
-| Groups, hierarchy, summaries, formatting, bands | Export options | Implemented |  |
-| Progress and cancellation | Async export events | Implemented |  |
-| PDF typography | PDF with embedded fonts | Partial | Characters outside WinAnsi are not rendered faithfully. |
+| Excel workbook (xlsx), CSV, PDF, HTML, JSON, XML | Streaming providers; atomic file writes; formulas sanitized for CSV | Implemented |  |
+| Groups, hierarchy, summaries, formatting, bands | Outline levels, child rows or sheets, footers, conditional colors, stacked headers | Implemented |  |
+| Progress and cancellation | IProgress<ExportProgress> and CancellationToken; dialog with cancel | Implemented |  |
+| PDF typography | Standard Latin text, no embedded fonts | Partial | Characters outside WinAnsi are not rendered faithfully. |
 
 ## Architecture notes
 

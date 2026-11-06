@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Infrastructure;
@@ -7,16 +7,16 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class QaValidationDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly ListView _testsList;
-    private readonly Label _lblSummary;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly ListView _testsList=new ListView();
+    private readonly Label _lblSummary=new Label();
 
     public QaValidationDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -71,23 +71,27 @@ public class QaValidationDemoView : UserControl
 
         actionsPanel.Controls.AddRange(new Control[] { btnRunAll, btnExportDiag });
 
-        _lblSummary = new Label
-        {
-            Text = "Status: 14 Shipped Modules Verified | Unit: 412 Tests | Integration: 128 Tests | Accessibility: 84 Checks",
-            Dock = DockStyle.Top,
-            Height = 24,
-            Font = new Font("Segoe UI", 9f, FontStyle.Bold),
-            ForeColor = Color.FromArgb(16, 124, 65)
-        };
+        _lblSummary.            Text = "Status: 14 Shipped Modules Verified | Unit: 412 Tests | Integration: 128 Tests | Accessibility: 84 Checks";
 
-        _testsList = new ListView
-        {
-            Dock = DockStyle.Fill,
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true,
-            Font = new Font("Segoe UI", 9f)
-        };
+        _lblSummary.            Dock = DockStyle.Top;
+
+        _lblSummary.            Height = 24;
+
+        _lblSummary.            Font = new Font("Segoe UI", 9f, FontStyle.Bold);
+
+        _lblSummary.            ForeColor = Color.FromArgb(16, 124, 65)
+;
+
+        _testsList.            Dock = DockStyle.Fill;
+
+        _testsList.            View = View.Details;
+
+        _testsList.            FullRowSelect = true;
+
+        _testsList.            GridLines = true;
+
+        _testsList.            Font = new Font("Segoe UI", 9f)
+;
         _testsList.Columns.Add("Test Suite Module", 220);
         _testsList.Columns.Add("Target Assembly", 180);
         _testsList.Columns.Add("Execution Result", 120);

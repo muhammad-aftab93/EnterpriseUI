@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Scheduling;
@@ -9,15 +9,17 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class SchedulerDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseSchedulerControl _schedulerControl;
+
+    private static readonly object[] CachedValues1 = new object[] { "Work Week View", "Day View" };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseSchedulerControl _schedulerControl=new EnterpriseSchedulerControl();
 
     public SchedulerDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -34,7 +36,7 @@ public class SchedulerDemoView : UserControl
             Location = new Point(8, 8),
             Width = 140
         };
-        cmbView.Items.AddRange(new object[] { "Work Week View", "Day View" });
+        cmbView.Items.AddRange(CachedValues1);
         cmbView.SelectedIndex = 0;
         cmbView.SelectedIndexChanged += (_, _) =>
         {
@@ -77,7 +79,7 @@ public class SchedulerDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { cmbView, btnAddAppt, btnToday });
 
-        _schedulerControl = new EnterpriseSchedulerControl { Dock = DockStyle.Fill };
+        _schedulerControl.Dock = DockStyle.Fill ;
 
         _baseView.DemoContainer.Controls.Add(_schedulerControl);
         _baseView.DemoContainer.Controls.Add(toolbar);

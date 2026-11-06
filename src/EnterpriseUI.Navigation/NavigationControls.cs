@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -22,7 +22,7 @@ public class TreeViewNode : ObservableObject
 }
 
 /// <summary>
-/// Superset EnterpriseTreeView combining Telerik EnterpriseTreeView and DevExpress EnterpriseTreeList navigation.
+/// Superset EnterpriseTreeView.
 /// </summary>
 public class EnterpriseTreeView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {
@@ -77,7 +77,7 @@ public class RibbonTab
 }
 
 /// <summary>
-/// Superset Ribbon Bar combining DevExpress RibbonControl and Telerik RadRibbonBar.
+/// Superset Ribbon Bar.
 /// </summary>
 public class EnterpriseRibbonBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

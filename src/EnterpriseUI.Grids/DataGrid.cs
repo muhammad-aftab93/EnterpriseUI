@@ -417,7 +417,7 @@ public partial class DataGrid<TItem> : ObservableObject, IDataBoundControl<TItem
                     CaptureFooter(allResult, kind);
                 }
 
-                total = _clientCache.Count;
+                total = _clientCache.Length;
                 var pageRows = Math.Clamp(total - pageOffset, 0, PageSize);
                 start = Math.Min(start, pageRows);
                 var count = Math.Clamp(take, 0, pageRows - start);

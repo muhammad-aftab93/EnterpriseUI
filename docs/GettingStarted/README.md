@@ -1,4 +1,4 @@
-﻿# Getting Started with EnterpriseUI
+# Getting Started with EnterpriseUI
 
 This guide walks you through bootstrapping your first application with EnterpriseUI on **.NET 8+** in under 5 minutes.
 

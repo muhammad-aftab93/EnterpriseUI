@@ -79,7 +79,7 @@ internal sealed class GridHierarchyResolver
         }
     }
 
-    public bool IsLazy(GridHierarchyRelation relation) =>
+    public static bool IsLazy(GridHierarchyRelation relation) =>
         relation.DetailItemsSelector == null && relation.ChildSource == null && relation.LoadChildrenAsync != null;
 
     public bool IsLoaded(object parent, GridHierarchyRelation relation)

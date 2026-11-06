@@ -15,11 +15,11 @@ Show aggregates under columns (sum, average, count, min, max, median and more), 
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Column footer summaries | SummaryRowItems (bottom) | Implemented |  |
-| Group summaries | Group summary items | Implemented |  |
-| Running totals and calculated columns | Calculated/unbound columns | Implemented |  |
+| Column footer summaries | Footer rows with 11 aggregate functions and formats | Implemented |  |
+| Group summaries | Per-group aggregates in header and footer | Implemented |  |
+| Running totals and calculated columns | Expression columns and running totals | Implemented |  |
 
 ## Architecture notes
 

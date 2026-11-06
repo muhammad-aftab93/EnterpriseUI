@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -12,24 +12,63 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class BaseDemoView : UserControl, IThemeableControl
 {
-    private readonly SplitContainer _splitter;
-    private readonly Panel _demoContainer;
-    private readonly TabControl _infoTabs;
+
+    private static readonly string[] CachedValues8 = new[] { "RTL Mirroring & Font Glyphs", "i18n", "PASS", "Bidirectional text rendering validated" };
+
+    private static readonly string[] CachedValues7 = new[] { "Zero Memory Leakage (IDisposable)", "Memory", "PASS", "GC handles released upon view unmount" };
+
+    private static readonly string[] CachedValues6 = new[] { "DPI Scale Awareness (Per-Monitor v2)", "Display", "PASS", "GDI+ coordinates correctly scaled" };
+
+    private static readonly string[] CachedValues5 = new[] { "WCAG 2.2 AA Contrast Ratio", "Accessibility", "PASS", "Contrast ratio >= 4.5:1 compliant" };
+
+    private static readonly string[] CachedValues4 = new[] { "Theme Token Resolution", "Theming", "PASS", "All tokens (Surface, Text, Primary) mapped" };
+
+    private static readonly string[] CachedValues3 = new[] { "Component Initialization & Rendering", "Functional", "PASS", "Verified zero exceptions on creation" };
+
+    private static readonly object[] CachedValues2 = new object[]
+        {
+            "C# Imperative Code",
+            "WinForms Designer Code",
+            "Fluent Builder API",
+            "JSON Configuration",
+            "XML Configuration",
+            "Theme Configuration",
+            "Control State Snapshot",
+            "DI Service Registration",
+            "Exportable Example (complete file)"
+        };
+
+    private static readonly object[] CachedValues1 = new object[]
+        {
+            "Basic Example",
+            "Advanced Example",
+            "Performance Example",
+            "Accessibility Example",
+            "Localization Example",
+            "RTL Example",
+            "Theme Example",
+            "Enterprise Example",
+            "Generated-Code Example",
+            "Best Practices Example"
+        };
+    private readonly SplitContainer _splitter=new SplitContainer();
+    private readonly Panel _demoContainer=new Panel();
+    private readonly TabControl _infoTabs=new TabControl();
     private readonly RichTextBox _overviewBox;
     private readonly RichTextBox _usageBox;
-    private readonly ListView _featureList;
+    private readonly ListView _featureList=new ListView();
     private readonly RichTextBox _performanceBox;
     private readonly RichTextBox _a11yBox;
     private readonly RichTextBox _localizationBox;
-    private readonly ListView _eventList;
+    private readonly ListView _eventList=new ListView();
     private readonly RichTextBox _troubleshootBox;
-    private readonly ComboBox _cmbCodeFormat;
-    private readonly RichTextBox _codeBox;
+    private readonly ComboBox _cmbCodeFormat=new ComboBox();
+    private readonly RichTextBox _codeBox=new RichTextBox();
     private readonly RichTextBox _explainerBox;
-    private readonly RichTextBox _apiBox;
-    private readonly ListView _qaList;
-    private readonly ComboBox _cmbExampleMode;
-    private readonly Label _lblActiveModeHint;
+    private readonly RichTextBox _apiBox=new RichTextBox();
+    private readonly ListView _qaList=new ListView();
+    private readonly ComboBox _cmbExampleMode=new ComboBox();
+    private readonly Label _lblActiveModeHint=new Label();
     private readonly List<PropertyMutationRecord> _mutations = new();
 
     private DemoItem? _boundDemo;
@@ -47,13 +86,14 @@ public class BaseDemoView : UserControl, IThemeableControl
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _splitter = new SplitContainer
-        {
-            Dock = DockStyle.Fill,
-            Orientation = Orientation.Horizontal,
-            SplitterDistance = 460,
-            SplitterWidth = 6
-        };
+        _splitter.            Dock = DockStyle.Fill;
+
+        _splitter.            Orientation = Orientation.Horizontal;
+
+        _splitter.            SplitterDistance = 460;
+
+        _splitter.            SplitterWidth = 6
+;
 
         var examplePresetBar = new FlowLayoutPanel
         {
@@ -73,51 +113,38 @@ public class BaseDemoView : UserControl, IThemeableControl
             Font = new Font("Segoe UI", 8.75f, FontStyle.Bold)
         };
 
-        _cmbExampleMode = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Width = 195,
-            Font = new Font("Segoe UI", 8.75f)
-        };
-        _cmbExampleMode.Items.AddRange(new object[]
-        {
-            "Basic Example",
-            "Advanced Example",
-            "Performance Example",
-            "Accessibility Example",
-            "Localization Example",
-            "RTL Example",
-            "Theme Example",
-            "Enterprise Example",
-            "Generated-Code Example",
-            "Best Practices Example"
-        });
+        _cmbExampleMode.            DropDownStyle = ComboBoxStyle.DropDownList;
+
+        _cmbExampleMode.            Width = 195;
+
+        _cmbExampleMode.            Font = new Font("Segoe UI", 8.75f)
+;
+        _cmbExampleMode.Items.AddRange(CachedValues1);
         _cmbExampleMode.SelectedIndex = 0;
         _cmbExampleMode.SelectedIndexChanged += (_, _) => ApplyExampleMode(_cmbExampleMode.SelectedItem?.ToString() ?? "Basic Example");
 
-        _lblActiveModeHint = new Label
-        {
-            Text = "Mode: Standard Configuration • Live Code & Documentation Sync Active",
-            AutoSize = true,
-            Padding = new Padding(10, 5, 4, 0),
-            ForeColor = Color.FromArgb(0, 102, 180)
-        };
+        _lblActiveModeHint.            Text = "Mode: Standard Configuration • Live Code & Documentation Sync Active";
+
+        _lblActiveModeHint.            AutoSize = true;
+
+        _lblActiveModeHint.            Padding = new Padding(10, 5, 4, 0);
+
+        _lblActiveModeHint.            ForeColor = Color.FromArgb(0, 102, 180)
+;
 
         examplePresetBar.Controls.AddRange(new Control[] { lblPreset, _cmbExampleMode, _lblActiveModeHint });
 
-        _demoContainer = new Panel
-        {
-            Dock = DockStyle.Fill,
-            Padding = new Padding(10)
-        };
+        _demoContainer.            Dock = DockStyle.Fill;
+
+        _demoContainer.            Padding = new Padding(10)
+;
         _splitter.Panel1.Controls.Add(_demoContainer);
         _splitter.Panel1.Controls.Add(examplePresetBar);
 
-        _infoTabs = new TabControl
-        {
-            Dock = DockStyle.Fill,
-            Padding = new Point(12, 5)
-        };
+        _infoTabs.            Dock = DockStyle.Fill;
+
+        _infoTabs.            Padding = new Point(12, 5)
+;
 
         // 1. Overview & Architecture
         var tabOverview = new TabPage("Overview & Architecture");
@@ -131,16 +158,14 @@ public class BaseDemoView : UserControl, IThemeableControl
 
         // 3. Feature Matrix
         var tabFeatures = new TabPage("Feature Matrix");
-        _featureList = new ListView
-        {
-            Dock = DockStyle.Fill,
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true
-        };
+        _featureList.            Dock = DockStyle.Fill;
+        _featureList.            View = View.Details;
+        _featureList.            FullRowSelect = true;
+        _featureList.            GridLines = true
+;
         _featureList.Columns.Add("Capability / Feature", 260);
         _featureList.Columns.Add("Scope & Tag", 160);
-        _featureList.Columns.Add("Benchmark Parity", 180);
+        _featureList.Columns.Add("Integration", 180);
         _featureList.Columns.Add("Implementation Status", 140);
         tabFeatures.Controls.Add(_featureList);
 
@@ -164,19 +189,20 @@ public class BaseDemoView : UserControl, IThemeableControl
         var eventPanel = new Panel { Dock = DockStyle.Fill };
         var eventToolbar = new Panel { Dock = DockStyle.Top, Height = 32, Padding = new Padding(4) };
         var btnClearEvents = new Button { Text = "Clear Event Log", Location = new Point(4, 4), Size = new Size(120, 24), FlatStyle = FlatStyle.Flat };
-        btnClearEvents.Click += (_, _) => _eventList.Items.Clear();
         eventToolbar.Controls.Add(btnClearEvents);
 
-        _eventList = new ListView
-        {
-            Dock = DockStyle.Fill,
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true
-        };
+        _eventList.            Dock = DockStyle.Fill;
+
+        _eventList.            View = View.Details;
+
+        _eventList.            FullRowSelect = true;
+
+        _eventList.            GridLines = true
+;
         _eventList.Columns.Add("Timestamp", 120);
         _eventList.Columns.Add("Event Name", 180);
         _eventList.Columns.Add("Payload / Details", 420);
+        btnClearEvents.Click += (_, _) => _eventList.Items.Clear();
         eventPanel.Controls.Add(_eventList);
         eventPanel.Controls.Add(eventToolbar);
         tabEvents.Controls.Add(eventPanel);
@@ -199,23 +225,10 @@ public class BaseDemoView : UserControl, IThemeableControl
         };
 
         var lblFormat = new Label { Text = "Output Format:", AutoSize = true, Padding = new Padding(4, 5, 4, 0) };
-        _cmbCodeFormat = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Width = 190
-        };
-        _cmbCodeFormat.Items.AddRange(new object[]
-        {
-            "C# Imperative Code",
-            "WinForms Designer Code",
-            "Fluent Builder API",
-            "JSON Configuration",
-            "XML Configuration",
-            "Theme Configuration",
-            "Control State Snapshot",
-            "DI Service Registration",
-            "Exportable Example (complete file)"
-        });
+        _cmbCodeFormat.            DropDownStyle = ComboBoxStyle.DropDownList;
+        _cmbCodeFormat.            Width = 190
+;
+        _cmbCodeFormat.Items.AddRange(CachedValues2);
         _cmbCodeFormat.SelectedIndex = 0;
         _cmbCodeFormat.SelectedIndexChanged += (_, _) => RefreshLiveCode();
 
@@ -261,15 +274,18 @@ public class BaseDemoView : UserControl, IThemeableControl
 
         codeToolbar.Controls.AddRange(new Control[] { lblFormat, _cmbCodeFormat, btnCopy, btnExport, btnSaveSample, btnResetCode });
 
-        _codeBox = new RichTextBox
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            Font = new Font("Consolas", 9.25f),
-            BackColor = Color.FromArgb(250, 250, 252),
-            BorderStyle = BorderStyle.None,
-            WordWrap = false
-        };
+        _codeBox.            Dock = DockStyle.Fill;
+
+        _codeBox.            ReadOnly = true;
+
+        _codeBox.            Font = new Font("Consolas", 9.25f);
+
+        _codeBox.            BackColor = Color.FromArgb(250, 250, 252);
+
+        _codeBox.            BorderStyle = BorderStyle.None;
+
+        _codeBox.            WordWrap = false
+;
         codePanel.Controls.Add(_codeBox);
         codePanel.Controls.Add(codeToolbar);
         tabCode.Controls.Add(codePanel);
@@ -281,25 +297,21 @@ public class BaseDemoView : UserControl, IThemeableControl
 
         // 11. API Explorer
         var tabApi = new TabPage("API Explorer");
-        _apiBox = new RichTextBox
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            Font = new Font("Consolas", 9.5f),
-            BackColor = Color.FromArgb(250, 250, 252),
-            BorderStyle = BorderStyle.None
-        };
+        _apiBox.            Dock = DockStyle.Fill;
+        _apiBox.            ReadOnly = true;
+        _apiBox.            Font = new Font("Consolas", 9.5f);
+        _apiBox.            BackColor = Color.FromArgb(250, 250, 252);
+        _apiBox.            BorderStyle = BorderStyle.None
+;
         tabApi.Controls.Add(_apiBox);
 
         // 12. QA Validation Suite
         var tabQa = new TabPage("QA Verification");
-        _qaList = new ListView
-        {
-            Dock = DockStyle.Fill,
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true
-        };
+        _qaList.            Dock = DockStyle.Fill;
+        _qaList.            View = View.Details;
+        _qaList.            FullRowSelect = true;
+        _qaList.            GridLines = true
+;
         _qaList.Columns.Add("Requirement / Test Target", 260);
         _qaList.Columns.Add("Category", 120);
         _qaList.Columns.Add("Status", 90);
@@ -466,7 +478,7 @@ public class BaseDemoView : UserControl, IThemeableControl
         _featureList.Items.Clear();
         foreach (var feat in demo.Features)
         {
-            _featureList.Items.Add(new ListViewItem(new[] { feat, "Core / Engine", "Telerik Parity", "Active & Validated" }));
+            _featureList.Items.Add(new ListViewItem(new[] { feat, "Core / Engine", "Demo", "Configured" }));
         }
         foreach (var m in _mutations)
         {
@@ -510,7 +522,7 @@ public class BaseDemoView : UserControl, IThemeableControl
         _featureList.Items.Clear();
         foreach (var feat in demo.Features)
         {
-            _featureList.Items.Add(new ListViewItem(new[] { feat, "Core / Engine", "Telerik Parity", "Active & Validated" }));
+            _featureList.Items.Add(new ListViewItem(new[] { feat, "Core / Engine", "Demo", "Configured" }));
         }
 
         _performanceBox.Text =
@@ -542,12 +554,12 @@ public class BaseDemoView : UserControl, IThemeableControl
         _apiBox.Text = demo.ApiReference;
 
         _qaList.Items.Clear();
-        _qaList.Items.Add(new ListViewItem(new[] { "Component Initialization & Rendering", "Functional", "PASS", "Verified zero exceptions on creation" }));
-        _qaList.Items.Add(new ListViewItem(new[] { "Theme Token Resolution", "Theming", "PASS", "All tokens (Surface, Text, Primary) mapped" }));
-        _qaList.Items.Add(new ListViewItem(new[] { "WCAG 2.2 AA Contrast Ratio", "Accessibility", "PASS", "Contrast ratio >= 4.5:1 compliant" }));
-        _qaList.Items.Add(new ListViewItem(new[] { "DPI Scale Awareness (Per-Monitor v2)", "Display", "PASS", "GDI+ coordinates correctly scaled" }));
-        _qaList.Items.Add(new ListViewItem(new[] { "Zero Memory Leakage (IDisposable)", "Memory", "PASS", "GC handles released upon view unmount" }));
-        _qaList.Items.Add(new ListViewItem(new[] { "RTL Mirroring & Font Glyphs", "i18n", "PASS", "Bidirectional text rendering validated" }));
+        _qaList.Items.Add(new ListViewItem(CachedValues3));
+        _qaList.Items.Add(new ListViewItem(CachedValues4));
+        _qaList.Items.Add(new ListViewItem(CachedValues5));
+        _qaList.Items.Add(new ListViewItem(CachedValues6));
+        _qaList.Items.Add(new ListViewItem(CachedValues7));
+        _qaList.Items.Add(new ListViewItem(CachedValues8));
 
         RefreshLiveCode();
     }

@@ -40,12 +40,13 @@ public class EnterpriseTextBoxControl : UserControl, IThemeableControl
         set => _innerTextBox.PlaceholderText = value;
     }
 
+    [System.Diagnostics.CodeAnalysis.AllowNull]
     public override string Text
     {
         get => _innerTextBox.Text;
         set
         {
-            _innerTextBox.Text = value;
+            _innerTextBox.Text = value ?? string.Empty;
             Invalidate();
         }
     }
@@ -155,10 +156,11 @@ public class EnterpriseButtonTextBoxControl : UserControl, IThemeableControl
     public string? ThemeOverride { get; set; }
     public bool EnableFileBrowseOnRightClick { get; set; }
 
+    [System.Diagnostics.CodeAnalysis.AllowNull]
     public override string Text
     {
         get => _textBox.Text;
-        set => _textBox.Text = value;
+        set => _textBox.Text = value ?? string.Empty;
     }
 
     public string LeftButtonText
@@ -211,7 +213,7 @@ public class EnterpriseButtonTextBoxControl : UserControl, IThemeableControl
                 using var ofd = new OpenFileDialog { Title = "RadBrowseEditor — Select File", Filter = "All Files (*.*)|*.*" };
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    _textBox.Text = ofd.FileName;
+                    Text = ofd.FileName;
                 }
             }
             RightButtonClick?.Invoke(this, e);

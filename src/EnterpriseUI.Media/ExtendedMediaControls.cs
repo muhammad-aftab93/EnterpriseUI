@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Media;
 
 /// <summary>
-/// Clean-room EnterpriseWebCam Capture Controller and PictureBox (Telerik RadWebCam / RadPictureBox equivalents).
+/// Clean-room EnterpriseWebCam Capture Controller and PictureBox.
 /// </summary>
 public class EnterpriseWebCam : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

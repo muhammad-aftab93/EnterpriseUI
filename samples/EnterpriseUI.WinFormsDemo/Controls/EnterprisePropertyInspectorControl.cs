@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -16,21 +16,41 @@ namespace EnterpriseUI.WinFormsDemo.Controls;
 /// </summary>
 public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
 {
-    private readonly PropertyGrid _propertyGrid;
-    private readonly ListBox _eventLog;
-    private readonly TabControl _tabControl;
-    private readonly ComboBox _cmbCodeFormat;
-    private readonly RichTextBox _generatedCodeBox;
-    private readonly RichTextBox _explainerBox;
-    private readonly ComboBox _cmbDock;
-    private readonly CheckBox _chkRtl;
-    private readonly CheckBox _chkEnabled;
-    private readonly NumericUpDown _numPadding;
-    private readonly ComboBox _cmbPlaygroundTheme;
-    private readonly ComboBox _cmbDataSourcePreset;
-    private readonly CheckBox _chkAllowDrop;
-    private readonly CheckBox _chkCausesValidation;
-    private readonly RichTextBox _stateViewerBox;
+
+    private static readonly object[] CachedValues2 = new object[]
+        {
+            "C# Imperative Code",
+            "WinForms Designer Code",
+            "Fluent Builder API",
+            "JSON Configuration",
+            "XML Configuration",
+            "Theme Configuration",
+            "Control State Snapshot",
+            "DI Service Registration"
+        };
+
+    private static readonly object[] CachedValues1 = new object[]
+        {
+            "Default Dataset",
+            "High-Volume (100K+)",
+            "Filtered Audit Subset",
+            "Regional EMEA/APAC"
+        };
+    private readonly PropertyGrid _propertyGrid=new PropertyGrid();
+    private readonly ListBox _eventLog=new ListBox();
+    private readonly TabControl _tabControl=new TabControl();
+    private readonly ComboBox _cmbCodeFormat=new ComboBox();
+    private readonly RichTextBox _generatedCodeBox=new RichTextBox();
+    private readonly RichTextBox _explainerBox=new RichTextBox();
+    private readonly ComboBox _cmbDock=new ComboBox();
+    private readonly CheckBox _chkRtl=new CheckBox();
+    private readonly CheckBox _chkEnabled=new CheckBox();
+    private readonly NumericUpDown _numPadding=new NumericUpDown();
+    private readonly ComboBox _cmbPlaygroundTheme=new ComboBox();
+    private readonly ComboBox _cmbDataSourcePreset=new ComboBox();
+    private readonly CheckBox _chkAllowDrop=new CheckBox();
+    private readonly CheckBox _chkCausesValidation=new CheckBox();
+    private readonly RichTextBox _stateViewerBox=new RichTextBox();
     private readonly List<PropertyMutationRecord> _mutations = new();
 
     private object? _inspectedTarget;
@@ -49,21 +69,18 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _tabControl = new TabControl
-        {
-            Dock = DockStyle.Fill,
-            Padding = new Point(6, 4)
-        };
+        _tabControl.            Dock = DockStyle.Fill;
+
+        _tabControl.            Padding = new Point(6, 4)
+;
 
         // 1. Live Property Grid Tab
         var tabProps = new TabPage("Property Grid");
-        _propertyGrid = new PropertyGrid
-        {
-            Dock = DockStyle.Fill,
-            HelpVisible = true,
-            ToolbarVisible = true,
-            Font = new Font("Segoe UI", 9f)
-        };
+        _propertyGrid.            Dock = DockStyle.Fill;
+        _propertyGrid.            HelpVisible = true;
+        _propertyGrid.            ToolbarVisible = true;
+        _propertyGrid.            Font = new Font("Segoe UI", 9f)
+;
         _propertyGrid.PropertyValueChanged += OnPropertyGridValueChanged;
         tabProps.Controls.Add(_propertyGrid);
 
@@ -80,13 +97,11 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
         };
 
         var lblDock = new Label { Text = "Dock Mode:", Location = new Point(12, 42), AutoSize = true };
-        _cmbDock = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Location = new Point(130, 38),
-            Width = 260,
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-        };
+        _cmbDock.            DropDownStyle = ComboBoxStyle.DropDownList;
+        _cmbDock.            Location = new Point(130, 38);
+        _cmbDock.            Width = 260;
+        _cmbDock.            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+;
         foreach (var d in Enum.GetValues<DockStyle>()) _cmbDock.Items.Add(d);
         _cmbDock.SelectedItem = DockStyle.Fill;
         _cmbDock.SelectedIndexChanged += (_, _) =>
@@ -98,15 +113,13 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
         };
 
         var lblPad = new Label { Text = "Padding (px):", Location = new Point(12, 76), AutoSize = true };
-        _numPadding = new NumericUpDown
-        {
-            Minimum = 0,
-            Maximum = 64,
-            Value = 10,
-            Location = new Point(130, 74),
-            Width = 260,
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-        };
+        _numPadding.            Minimum = 0;
+        _numPadding.            Maximum = 64;
+        _numPadding.            Value = 10;
+        _numPadding.            Location = new Point(130, 74);
+        _numPadding.            Width = 260;
+        _numPadding.            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+;
         _numPadding.ValueChanged += (_, _) =>
         {
             if (_syncingPlayground || _inspectedTarget is not Control ctrl) return;
@@ -118,12 +131,12 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             RecordMutation(ctrl.GetType().Name, "Padding", oldVal, ctrl.Padding.ToString());
         };
 
-        _chkRtl = new CheckBox
-        {
-            Text = "Enable Right-To-Left (RTL) Mirroring",
-            Location = new Point(12, 112),
-            AutoSize = true
-        };
+        _chkRtl.            Text = "Enable Right-To-Left (RTL) Mirroring";
+
+        _chkRtl.            Location = new Point(12, 112);
+
+        _chkRtl.            AutoSize = true
+;
         _chkRtl.CheckedChanged += (_, _) =>
         {
             if (_syncingPlayground || _inspectedTarget is not Control ctrl) return;
@@ -133,13 +146,14 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             RecordMutation(ctrl.GetType().Name, "RightToLeft", oldVal, ctrl.RightToLeft.ToString());
         };
 
-        _chkEnabled = new CheckBox
-        {
-            Text = "Control Enabled (Interactive State)",
-            Location = new Point(12, 142),
-            Checked = true,
-            AutoSize = true
-        };
+        _chkEnabled.            Text = "Control Enabled (Interactive State)";
+
+        _chkEnabled.            Location = new Point(12, 142);
+
+        _chkEnabled.            Checked = true;
+
+        _chkEnabled.            AutoSize = true
+;
         _chkEnabled.CheckedChanged += (_, _) =>
         {
             if (_syncingPlayground || _inspectedTarget is not Control ctrl) return;
@@ -165,13 +179,11 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
         };
 
         var lblThemeSel = new Label { Text = "Theme Selector:", Location = new Point(12, 218), AutoSize = true, Font = new Font("Segoe UI", 8.75f, FontStyle.Bold) };
-        _cmbPlaygroundTheme = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Location = new Point(130, 214),
-            Width = 260,
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-        };
+        _cmbPlaygroundTheme.            DropDownStyle = ComboBoxStyle.DropDownList;
+        _cmbPlaygroundTheme.            Location = new Point(130, 214);
+        _cmbPlaygroundTheme.            Width = 260;
+        _cmbPlaygroundTheme.            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+;
         foreach (var t in ThemeManager.Instance.AvailableThemes) _cmbPlaygroundTheme.Items.Add(t.Name);
         if (_cmbPlaygroundTheme.Items.Count > 0) _cmbPlaygroundTheme.SelectedIndex = 0;
         _cmbPlaygroundTheme.SelectedIndexChanged += (_, _) =>
@@ -181,20 +193,12 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
         };
 
         var lblDataSource = new Label { Text = "Data Source:", Location = new Point(12, 250), AutoSize = true, Font = new Font("Segoe UI", 8.75f, FontStyle.Bold) };
-        _cmbDataSourcePreset = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Location = new Point(130, 246),
-            Width = 260,
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-        };
-        _cmbDataSourcePreset.Items.AddRange(new object[]
-        {
-            "Default Dataset",
-            "High-Volume (100K+)",
-            "Filtered Audit Subset",
-            "Regional EMEA/APAC"
-        });
+        _cmbDataSourcePreset.            DropDownStyle = ComboBoxStyle.DropDownList;
+        _cmbDataSourcePreset.            Location = new Point(130, 246);
+        _cmbDataSourcePreset.            Width = 260;
+        _cmbDataSourcePreset.            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+;
+        _cmbDataSourcePreset.Items.AddRange(CachedValues1);
         _cmbDataSourcePreset.SelectedIndex = 0;
         _cmbDataSourcePreset.SelectedIndexChanged += (_, _) =>
         {
@@ -210,7 +214,11 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
 
-        _chkAllowDrop = new CheckBox { Text = "Allow Drag & Drop Operations", Location = new Point(12, 304), AutoSize = true };
+        _chkAllowDrop.Text = "Allow Drag & Drop Operations";
+
+        _chkAllowDrop.Location = new Point(12, 304);
+
+        _chkAllowDrop.AutoSize = true ;
         _chkAllowDrop.CheckedChanged += (_, _) =>
         {
             if (_syncingPlayground || _inspectedTarget is not Control ctrl) return;
@@ -219,7 +227,13 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             RecordMutation(ctrl.GetType().Name, "AllowDrop", oldVal, ctrl.AllowDrop.ToString());
         };
 
-        _chkCausesValidation = new CheckBox { Text = "Causes Input Validation", Location = new Point(12, 328), Checked = true, AutoSize = true };
+        _chkCausesValidation.Text = "Causes Input Validation";
+
+        _chkCausesValidation.Location = new Point(12, 328);
+
+        _chkCausesValidation.Checked = true;
+
+        _chkCausesValidation.AutoSize = true ;
         _chkCausesValidation.CheckedChanged += (_, _) =>
         {
             if (_syncingPlayground || _inspectedTarget is not Control ctrl) return;
@@ -236,15 +250,18 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
 
-        _stateViewerBox = new RichTextBox
-        {
-            Location = new Point(12, 378),
-            Size = new Size(378, 150),
-            Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-            ReadOnly = true,
-            Font = new Font("Consolas", 8.25f),
-            BackColor = Color.FromArgb(248, 250, 252)
-        };
+        _stateViewerBox.            Location = new Point(12, 378);
+
+        _stateViewerBox.            Size = new Size(378, 150);
+
+        _stateViewerBox.            Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+        _stateViewerBox.            ReadOnly = true;
+
+        _stateViewerBox.            Font = new Font("Consolas", 8.25f);
+
+        _stateViewerBox.            BackColor = Color.FromArgb(248, 250, 252)
+;
 
         playgroundPanel.Controls.AddRange(new Control[]
         {
@@ -265,22 +282,11 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             WrapContents = true
         };
 
-        _cmbCodeFormat = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Width = 175
-        };
-        _cmbCodeFormat.Items.AddRange(new object[]
-        {
-            "C# Imperative Code",
-            "WinForms Designer Code",
-            "Fluent Builder API",
-            "JSON Configuration",
-            "XML Configuration",
-            "Theme Configuration",
-            "Control State Snapshot",
-            "DI Service Registration"
-        });
+        _cmbCodeFormat.            DropDownStyle = ComboBoxStyle.DropDownList;
+
+        _cmbCodeFormat.            Width = 175
+;
+        _cmbCodeFormat.Items.AddRange(CachedValues2);
         _cmbCodeFormat.SelectedIndex = 0;
         _cmbCodeFormat.SelectedIndexChanged += (_, _) => RefreshGeneratedCode();
 
@@ -309,38 +315,37 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
 
         codeToolbar.Controls.AddRange(new Control[] { _cmbCodeFormat, btnCopyCode, btnExportCode, btnSaveSample, btnResetCode });
 
-        _generatedCodeBox = new RichTextBox
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            Font = new Font("Consolas", 8.75f),
-            BackColor = Color.FromArgb(250, 250, 252),
-            BorderStyle = BorderStyle.None,
-            WordWrap = false
-        };
+        _generatedCodeBox.            Dock = DockStyle.Fill;
+
+        _generatedCodeBox.            ReadOnly = true;
+
+        _generatedCodeBox.            Font = new Font("Consolas", 8.75f);
+
+        _generatedCodeBox.            BackColor = Color.FromArgb(250, 250, 252);
+
+        _generatedCodeBox.            BorderStyle = BorderStyle.None;
+
+        _generatedCodeBox.            WordWrap = false
+;
         tabCode.Controls.Add(_generatedCodeBox);
         tabCode.Controls.Add(codeToolbar);
 
         // 4. Code Explainer Tab
         var tabExplain = new TabPage("Code Explainer");
-        _explainerBox = new RichTextBox
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            Font = new Font("Segoe UI", 9f),
-            BackColor = Color.FromArgb(250, 250, 252),
-            BorderStyle = BorderStyle.None
-        };
+        _explainerBox.            Dock = DockStyle.Fill;
+        _explainerBox.            ReadOnly = true;
+        _explainerBox.            Font = new Font("Segoe UI", 9f);
+        _explainerBox.            BackColor = Color.FromArgb(250, 250, 252);
+        _explainerBox.            BorderStyle = BorderStyle.None
+;
         tabExplain.Controls.Add(_explainerBox);
 
         // 5. Event Monitor Tab
         var tabEvents = new TabPage("Events");
-        _eventLog = new ListBox
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Consolas", 8.5f),
-            IntegralHeight = false
-        };
+        _eventLog.            Dock = DockStyle.Fill;
+        _eventLog.            Font = new Font("Consolas", 8.5f);
+        _eventLog.            IntegralHeight = false
+;
         var clearBtn = new Button
         {
             Text = "Clear Events",
@@ -376,7 +381,7 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             ctrl.Invalidate(true);
         }
 
-        RecordMutation(targetName, propName, oldVal, newVal);
+        RecordMutation(targetName, propName ?? "Property", oldVal, newVal);
     }
 
     public void RecordMutation(string targetTypeName, string propertyName, string oldValue, string newValue)

@@ -1,4 +1,4 @@
-﻿# EnterpriseUI Theming System & Design Tokens Guide
+# EnterpriseUI Theming System & Design Tokens Guide
 
 Theming in EnterpriseUI is built around **Design Tokens**, token inheritance, and universal cross-platform translation. A single theme definition drives styling across Web (CSS Variables), Windows Forms (GDI+ brushes & pens), WPF (XAML SolidColorBrushes), and Mobile (MAUI colors).
 

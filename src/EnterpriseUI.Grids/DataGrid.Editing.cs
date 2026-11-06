@@ -216,7 +216,7 @@ public partial class DataGrid<TItem>
         if (had || errors.Count > 0) ValidationChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private List<GridValidationError> RunCellRules(object item, GridColumn? column, string field, object? old, object? converted)
+    private static List<GridValidationError> RunCellRules(object item, GridColumn? column, string field, object? old, object? converted)
     {
         var errors = new List<GridValidationError>();
         if (column == null) return errors;
@@ -230,7 +230,7 @@ public partial class DataGrid<TItem>
         return errors;
     }
 
-    private async Task<List<GridValidationError>> RunAsyncCellRulesAsync(object item, GridColumn? column, string field, object? old, object? converted, CancellationToken cancellationToken)
+    private async static Task<List<GridValidationError>> RunAsyncCellRulesAsync(object item, GridColumn? column, string field, object? old, object? converted, CancellationToken cancellationToken)
     {
         var errors = new List<GridValidationError>();
         if (column == null) return errors;
@@ -515,7 +515,7 @@ public partial class DataGrid<TItem>
     private static bool DependsOn(GridColumn column, string field) =>
         column.IsCalculated && ExpressionEngine.TryCompile(column.Expression!, out var compiled, out _) && compiled!.Fields.Any(f => f.Equals(field, StringComparison.OrdinalIgnoreCase));
 
-    private bool TryConvertEditValue(object? value, Type targetType, out object? result, out string? error)
+    private static bool TryConvertEditValue(object? value, Type targetType, out object? result, out string? error)
     {
         error = null;
         var underlying = Nullable.GetUnderlyingType(targetType);

@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -6,7 +6,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Editors;
 
 /// <summary>
-/// Superset DateTime Editor combining Telerik EnterpriseDatePicker / TimePicker and DevExpress DateEdit.
+/// Superset DateTime Editor.
 /// </summary>
 public class EnterpriseDatePicker : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -55,7 +55,7 @@ public class EnterpriseDatePicker : ObservableObject, IInteractiveControl, IThem
 }
 
 /// <summary>
-/// Superset Dropdown and Lookup Editor combining Telerik ComboBox / DropDownList and DevExpress LookUpEdit / SearchLookUpEdit.
+/// Superset Dropdown and Lookup Editor.
 /// </summary>
 public class ComboBox<TItem> : ObservableObject, IInteractiveControl, IDataBoundControl<TItem>, IThemeableControl, IAccessibleControl
 {
@@ -105,7 +105,7 @@ public class ComboBox<TItem> : ObservableObject, IInteractiveControl, IDataBound
 }
 
 /// <summary>
-/// Superset Toggle Switch combining Telerik Switch and DevExpress ToggleSwitch.
+/// Superset Toggle Switch.
 /// </summary>
 public class Switch : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {

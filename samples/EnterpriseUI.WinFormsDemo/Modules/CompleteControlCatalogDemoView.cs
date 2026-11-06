@@ -15,39 +15,47 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class CompleteControlCatalogDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly TabControl _tabs;
-    private readonly EnterpriseVirtualGridControl _virtualGrid;
-    private readonly EnterpriseSyntaxEditorControl _syntaxEditor;
-    private readonly EnterpriseBulletGraphControl _bulletGraph;
-    private readonly EnterpriseCarouselControl _carousel;
-    private readonly EnterpriseRatingAndWaitingControl _ratingWaiting;
-    private readonly EnterpriseClockControl _clock;
-    private readonly EnterpriseCalloutControl _callout;
-    private readonly EnterpriseRangeSelectorControl _rangeSelector;
-    private readonly EnterpriseSlideRotatorPipsControl _slideRotatorPips;
-    private readonly System.Windows.Forms.Timer _marqueeTimer;
+
+    private static readonly object[] CachedValues1 = new object[]
+        {
+            "UTC+0 (London / Enterprise HQ)",
+            "UTC-5 (New York / Wall Street)",
+            "UTC+1 (Zurich / Frankfurt)",
+            "UTC+9 (Tokyo / Nikkei Desk)"
+        };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly TabControl _tabs=new TabControl();
+    private readonly EnterpriseVirtualGridControl _virtualGrid=new EnterpriseVirtualGridControl();
+    private readonly EnterpriseSyntaxEditorControl _syntaxEditor=new EnterpriseSyntaxEditorControl();
+    private readonly EnterpriseBulletGraphControl _bulletGraph=new EnterpriseBulletGraphControl();
+    private readonly EnterpriseCarouselControl _carousel=new EnterpriseCarouselControl();
+    private readonly EnterpriseRatingAndWaitingControl _ratingWaiting=new EnterpriseRatingAndWaitingControl();
+    private readonly EnterpriseClockControl _clock=new EnterpriseClockControl();
+    private readonly EnterpriseCalloutControl _callout=new EnterpriseCalloutControl();
+    private readonly EnterpriseRangeSelectorControl _rangeSelector=new EnterpriseRangeSelectorControl();
+    private readonly EnterpriseSlideRotatorPipsControl _slideRotatorPips=new EnterpriseSlideRotatorPipsControl();
+    private readonly System.Windows.Forms.Timer _marqueeTimer=new System.Windows.Forms.Timer();
 
     public CompleteControlCatalogDemoView(DemoItem metadata, int initialTabIndex = 0)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
-        _tabs = new TabControl
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Segoe UI", 9f),
-            Padding = new Point(8, 4)
-        };
+        _tabs.            Dock = DockStyle.Fill;
+
+        _tabs.            Font = new Font("Segoe UI", 9f);
+
+        _tabs.            Padding = new Point(8, 4)
+;
 
         // =====================================================================
-        // TAB 1: Complete 118-Control Telerik Documentation Catalog & Launcher
+        // Component catalog and demo launcher.
         // =====================================================================
-        var tabCatalog = new TabPage("📋 All 118 Controls Catalog");
+        var tabCatalog = new TabPage("Component Catalog");
         var catalogTop = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
@@ -57,11 +65,11 @@ public class CompleteControlCatalogDemoView : UserControl
             WrapContents = false
         };
 
-        var lblFilter = new Label { Text = "Search 118 Controls:", AutoSize = true, Padding = new Padding(0, 5, 4, 0), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
-        var txtSearchCatalog = new System.Windows.Forms.TextBox { Width = 220, PlaceholderText = "e.g., RadAIPrompt, RadGridView, RadClock..." };
+        var lblFilter = new Label { Text = "Search components:", AutoSize = true, Padding = new Padding(0, 5, 4, 0), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
+        var txtSearchCatalog = new System.Windows.Forms.TextBox { Width = 220, PlaceholderText = "Grid, editor, clock..." };
         var cmbCatFilter = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 210 };
-        cmbCatFilter.Items.Add("All Categories (118 Controls)");
-        foreach (var cat in TelerikWinFormsControlRegistry.AllControls.Select(c => c.Category).Distinct())
+        cmbCatFilter.Items.Add("All Categories");
+        foreach (var cat in EnterpriseControlRegistry.AllControls.Select(c => c.Category).Distinct())
         {
             cmbCatFilter.Items.Add(cat);
         }
@@ -78,7 +86,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var lblCatalogCount = new Label
         {
-            Text = $"Showing {TelerikWinFormsControlRegistry.AllControls.Count} / {TelerikWinFormsControlRegistry.AllControls.Count} Official Controls (100% Parity)",
+            Text = $"{EnterpriseControlRegistry.AllControls.Count} catalog entries",
             AutoSize = true,
             Padding = new Padding(10, 5, 0, 0),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold),
@@ -93,7 +101,7 @@ public class CompleteControlCatalogDemoView : UserControl
             GridLines = true,
             Font = new Font("Segoe UI", 9f)
         };
-        lvCatalog.Columns.Add("Telerik Control", 200);
+        lvCatalog.Columns.Add("Component", 200);
         lvCatalog.Columns.Add("EnterpriseUI Implementation", 250);
         lvCatalog.Columns.Add("Category", 185);
         lvCatalog.Columns.Add("Key Enterprise Features", 390);
@@ -106,16 +114,16 @@ public class CompleteControlCatalogDemoView : UserControl
             var q = txtSearchCatalog.Text.Trim();
             var cat = cmbCatFilter.SelectedIndex <= 0 ? null : cmbCatFilter.SelectedItem?.ToString();
 
-            var filtered = TelerikWinFormsControlRegistry.AllControls.Where(c =>
+            var filtered = EnterpriseControlRegistry.AllControls.Where(c =>
                 (cat == null || string.Equals(c.Category, cat, StringComparison.OrdinalIgnoreCase)) &&
                 (string.IsNullOrEmpty(q) ||
-                 c.TelerikName.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                 c.Name.Contains(q, StringComparison.OrdinalIgnoreCase) ||
                  c.EnterpriseUIName.Contains(q, StringComparison.OrdinalIgnoreCase) ||
                  c.KeyFeatures.Contains(q, StringComparison.OrdinalIgnoreCase))).ToList();
 
             foreach (var entry in filtered)
             {
-                var item = new ListViewItem(entry.TelerikName) { Tag = entry };
+                var item = new ListViewItem(entry.Name) { Tag = entry };
                 item.SubItems.Add(entry.EnterpriseUIName);
                 item.SubItems.Add(entry.Category);
                 item.SubItems.Add(entry.KeyFeatures);
@@ -123,16 +131,16 @@ public class CompleteControlCatalogDemoView : UserControl
                 lvCatalog.Items.Add(item);
             }
             lvCatalog.EndUpdate();
-            lblCatalogCount.Text = $"Showing {filtered.Count} / {TelerikWinFormsControlRegistry.AllControls.Count} Official Controls (100% Parity)";
+            lblCatalogCount.Text = $"Showing {filtered.Count} of {EnterpriseControlRegistry.AllControls.Count} catalog entries";
         }
 
         txtSearchCatalog.TextChanged += (_, _) => PopulateCatalogList();
         cmbCatFilter.SelectedIndexChanged += (_, _) => PopulateCatalogList();
         btnLaunchSelected.Click += (_, _) =>
         {
-            if (lvCatalog.SelectedItems.Count > 0 && lvCatalog.SelectedItems[0].Tag is TelerikControlCatalogEntry entry)
+            if (lvCatalog.SelectedItems.Count > 0 && lvCatalog.SelectedItems[0].Tag is ControlCatalogEntry entry)
             {
-                _baseView.LogEvent("Catalog.LaunchControl", $"{entry.TelerikName} -> {entry.EnterpriseUIName}");
+                _baseView.LogEvent("Catalog.LaunchControl", $"{entry.Name} -> {entry.EnterpriseUIName}");
                 var targetDemo = DemoMetadataRegistry.GetById(entry.DemoSuiteId);
                 DemoNavigationManager.Instance.NavigateTo(targetDemo);
             }
@@ -384,11 +392,10 @@ public class CompleteControlCatalogDemoView : UserControl
         var tabSlideMedia = new TabPage("🎞️ SlideView, Rotator, PipsPager, EnterpriseImageEditor & EnterpriseWebCam");
         var mediaPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12), AutoScroll = true };
 
-        _slideRotatorPips = new EnterpriseSlideRotatorPipsControl
-        {
-            Dock = DockStyle.Top,
-            Height = 195
-        };
+        _slideRotatorPips.            Dock = DockStyle.Top;
+
+        _slideRotatorPips.            Height = 195
+;
         _slideRotatorPips.SlideChanged += (idx, title) =>
         {
             _baseView.LogEvent("SlideView.SlideChanged", $"Slide #{idx + 1}: {title}");
@@ -481,16 +488,12 @@ public class CompleteControlCatalogDemoView : UserControl
         var tabClockCallout = new TabPage("🕒 Clock, Callout & RangeSelector");
         var clockPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
-        _clock = new EnterpriseClockControl { Location = new Point(16, 14), Size = new Size(240, 260) };
+        _clock.Location = new Point(16, 14);
+
+        _clock.Size = new Size(240, 260) ;
 
         var cmbTz = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(280, 18), Width = 260 };
-        cmbTz.Items.AddRange(new object[]
-        {
-            "UTC+0 (London / Enterprise HQ)",
-            "UTC-5 (New York / Wall Street)",
-            "UTC+1 (Zurich / Frankfurt)",
-            "UTC+9 (Tokyo / Nikkei Desk)"
-        });
+        cmbTz.Items.AddRange(CachedValues1);
         cmbTz.SelectedIndex = 0;
         cmbTz.SelectedIndexChanged += (_, _) =>
         {
@@ -505,17 +508,15 @@ public class CompleteControlCatalogDemoView : UserControl
             _baseView.LogEvent("Clock.TimeZoneChanged", _clock.TimeZoneLabel);
         };
 
-        _callout = new EnterpriseCalloutControl
-        {
-            Location = new Point(280, 56),
-            Size = new Size(560, 105)
-        };
+        _callout.            Location = new Point(280, 56);
 
-        _rangeSelector = new EnterpriseRangeSelectorControl
-        {
-            Location = new Point(280, 174),
-            Size = new Size(560, 100)
-        };
+        _callout.            Size = new Size(560, 105)
+;
+
+        _rangeSelector.            Location = new Point(280, 174);
+
+        _rangeSelector.            Size = new Size(560, 100)
+;
         _rangeSelector.RangeChanged += (s, e) =>
         {
             _callout.CalloutTitle = $"RadCallout — Live Range Window: {s:F1}% to {e:F1}%";
@@ -611,7 +612,7 @@ public class CompleteControlCatalogDemoView : UserControl
             SplitterDistance = 190
         };
 
-        _virtualGrid = new EnterpriseVirtualGridControl { Dock = DockStyle.Fill };
+        _virtualGrid.Dock = DockStyle.Fill ;
         _virtualGrid.CellSelected += (r, c, val) =>
         {
             _baseView.LogEvent("EnterpriseVirtualGrid.CellSelected", $"Row {r:N0}, Col {c} => '{val}'");
@@ -624,11 +625,13 @@ public class CompleteControlCatalogDemoView : UserControl
             SplitterDistance = 500
         };
 
-        _syntaxEditor = new EnterpriseSyntaxEditorControl { Dock = DockStyle.Fill };
+        _syntaxEditor.Dock = DockStyle.Fill ;
         var rightVisualsPanel = new Panel { Dock = DockStyle.Fill };
-        _bulletGraph = new EnterpriseBulletGraphControl { Dock = DockStyle.Top, Height = 68 };
-        _ratingWaiting = new EnterpriseRatingAndWaitingControl { Dock = DockStyle.Top, Height = 72 };
-        _carousel = new EnterpriseCarouselControl { Dock = DockStyle.Fill };
+        _bulletGraph.Dock = DockStyle.Top;
+        _bulletGraph.Height = 68 ;
+        _ratingWaiting.Dock = DockStyle.Top;
+        _ratingWaiting.Height = 72 ;
+        _carousel.Dock = DockStyle.Fill ;
 
         _ratingWaiting.RatingChanged += stars =>
         {
@@ -666,7 +669,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         _baseView.DemoContainer.Controls.Add(_tabs);
 
-        _marqueeTimer = new System.Windows.Forms.Timer { Interval = 120 };
+        _marqueeTimer.Interval = 120 ;
         _marqueeTimer.Tick += (_, _) => _ratingWaiting.StepMarquee();
         _marqueeTimer.Start();
     }

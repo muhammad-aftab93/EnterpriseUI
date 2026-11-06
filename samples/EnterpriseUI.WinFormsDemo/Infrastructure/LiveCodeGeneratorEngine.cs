@@ -41,6 +41,7 @@ public sealed record PropertyMutationRecord(
 /// </summary>
 public static class LiveCodeGeneratorEngine
 {
+    private static readonly JsonSerializerOptions ConfigurationJsonOptions = new() { WriteIndented = true };
     public static string GenerateCode(
         object? targetControl,
         DemoItem? demo,
@@ -305,7 +306,7 @@ public static class LiveCodeGeneratorEngine
             }).ToArray()
         };
 
-        return JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true });
+        return JsonSerializer.Serialize(payload, ConfigurationJsonOptions);
     }
 
     private static string GenerateXmlConfig(

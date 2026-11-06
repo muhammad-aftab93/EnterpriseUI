@@ -15,11 +15,11 @@ Pick a selection mode, then click, Shift+click, Ctrl+click or drag. Ctrl+A selec
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Row, checkbox, cell, range, column selection | SelectionMode, MultiSelect | Implemented |  |
-| Keyboard navigation and focus cell | Keyboard navigation | Implemented |  |
-| Clipboard copy | Copy with headers | Implemented |  |
+| Row, checkbox, cell, range, column selection | Seven modes with mouse, keyboard and drag gestures | Implemented |  |
+| Keyboard navigation and focus cell | Arrows, Home/End, PageUp/Down, Ctrl variants, Tab in editing | Implemented |  |
+| Clipboard copy | Ctrl+C for rows, ranges and columns; copy modes | Implemented |  |
 
 ## Architecture notes
 

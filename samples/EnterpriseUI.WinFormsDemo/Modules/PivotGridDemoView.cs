@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Controls;
@@ -8,15 +8,15 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class PivotGridDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterprisePivotGridControl _pivotGrid;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterprisePivotGridControl _pivotGrid=new EnterprisePivotGridControl();
 
     public PivotGridDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -36,7 +36,7 @@ public class PivotGridDemoView : UserControl
         };
         toolbar.Controls.Add(lblInfo);
 
-        _pivotGrid = new EnterprisePivotGridControl { Dock = DockStyle.Fill };
+        _pivotGrid.Dock = DockStyle.Fill ;
 
         _baseView.DemoContainer.Controls.Add(_pivotGrid);
         _baseView.DemoContainer.Controls.Add(toolbar);

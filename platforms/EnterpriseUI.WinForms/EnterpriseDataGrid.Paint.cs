@@ -678,7 +678,8 @@ public partial class EnterpriseDataGrid<TItem>
         var indent = f.Gutter + (row.Level + 1) * S(16);
         var title = row.Relation?.Title ?? "Details";
         if (row.IsLoading) title += " (loading...)";
-        var sample = row.Parent == null || row.Relation == null ? null : _engine.GetChildren(row.Relation, row.Parent).FirstOrDefault();
+        var children = row.Parent == null || row.Relation == null ? Array.Empty<object>() : _engine.GetChildren(row.Relation, row.Parent);
+        var sample = children.Count == 0 ? null : children[0];
         var columns = row.Relation == null ? Array.Empty<GridColumn>() : _engine.GetDetailColumns(row.Relation, sample).ToArray();
 
         TextRenderer.DrawText(g, title, HeaderFont, new Rectangle(indent, slot.Bounds.Y, S(120), slot.Bounds.Height), p.Text, LeftText);

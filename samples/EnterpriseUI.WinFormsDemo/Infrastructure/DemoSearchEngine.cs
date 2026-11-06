@@ -20,9 +20,7 @@ public sealed class DemoNavigationManager
 
     public void ToggleFavorite(string demoId)
     {
-        if (_favoriteIds.Contains(demoId))
-            _favoriteIds.Remove(demoId);
-        else
+        if (!_favoriteIds.Remove(demoId))
             _favoriteIds.Add(demoId);
 
         BookmarksChanged?.Invoke();
@@ -55,20 +53,20 @@ public sealed class DemoSearchEngine
         if (string.IsNullOrWhiteSpace(query))
             return source.ToList();
 
-        var q = query.Trim().ToLowerInvariant();
+        var q = query.Trim();
         return source.Where(d =>
-            d.Title.ToLowerInvariant().Contains(q) ||
-            d.Description.ToLowerInvariant().Contains(q) ||
-            d.TargetControlName.ToLowerInvariant().Contains(q) ||
-            d.Category.ToString().ToLowerInvariant().Contains(q) ||
-            d.SubCategory.ToLowerInvariant().Contains(q) ||
-            d.Industry.ToLowerInvariant().Contains(q) ||
-            d.ApiReference.ToLowerInvariant().Contains(q) ||
-            d.Documentation.ToLowerInvariant().Contains(q) ||
-            d.BestPractices.ToLowerInvariant().Contains(q) ||
-            d.SourceCode.ToLowerInvariant().Contains(q) ||
-            d.Features.Any(f => f.ToLowerInvariant().Contains(q)) ||
-            d.Tags.Any(t => t.ToLowerInvariant().Contains(q))
+            d.Title.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.Description.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.TargetControlName.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.Category.ToString().Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.SubCategory.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.Industry.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.ApiReference.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.Documentation.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.BestPractices.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.SourceCode.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+            d.Features.Any(feature => feature.Contains(q, StringComparison.OrdinalIgnoreCase)) ||
+            d.Tags.Any(tag => tag.Contains(q, StringComparison.OrdinalIgnoreCase))
         ).ToList();
     }
 }

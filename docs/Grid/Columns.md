@@ -17,13 +17,13 @@ Drag headers to reorder or onto the group panel, drag the edge to resize, double
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Reorder, resize, pin, hide | Reordering, resizing, pinning, column chooser | Implemented |  |
-| Best fit and auto-size modes | BestFitColumns | Implemented |  |
-| Stacked header bands | Column groups view | Implemented |  |
-| Layout persistence | Save/load layout | Implemented |  |
-| Column types | Checkbox, combo, date, progress, link, command columns | Implemented |  |
+| Reorder, resize, pin, hide | Header drag, edge drag, pin left/right menu, chooser submenu | Implemented |  |
+| Best fit and auto-size modes | BestFitColumn / BestFitAllColumns, AutoSizeMode Fill or BestFit | Implemented |  |
+| Stacked header bands | Nested bands with unlimited depth | Implemented |  |
+| Layout persistence | JSON layouts with sorts, groups, filters; named layout store with file persistence | Implemented |  |
+| Column types | Boolean, ComboBox, Date, Progress, Hyperlink and Command rendering | Implemented |  |
 
 ## Architecture notes
 

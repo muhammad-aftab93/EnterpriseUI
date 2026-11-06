@@ -4,13 +4,14 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <IsTrimmable>false</IsTrimmable>
+    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\tooling\EnterpriseUI.CodeGenerators\EnterpriseUI.CodeGenerators.csproj" />
     <ProjectReference Include="..\..\tooling\EnterpriseUI.ThemeDesigner\EnterpriseUI.ThemeDesigner.csproj" />
     <ProjectReference Include="..\..\platforms\EnterpriseUI.WinForms\EnterpriseUI.WinForms.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Core\EnterpriseUI.Core.csproj" />

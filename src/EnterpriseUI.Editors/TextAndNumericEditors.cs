@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -6,7 +6,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Editors;
 
 /// <summary>
-/// Superset Text Editor combining Telerik TextBox and DevExpress TextEdit.
+/// Superset Text Editor.
 /// </summary>
 public class TextBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -75,7 +75,7 @@ public enum NumericFormat
 }
 
 /// <summary>
-/// Superset Numeric Editor combining Telerik EnterpriseNumericTextBox and DevExpress SpinEdit.
+/// Superset Numeric Editor.
 /// </summary>
 public class EnterpriseNumericTextBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {

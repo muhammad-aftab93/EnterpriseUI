@@ -28,6 +28,7 @@ public sealed class ThemeDocument
     };
 
     private static readonly Regex TokenName = new("^[A-Za-z][A-Za-z0-9_-]{0,127}$", RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
+    private static readonly System.Buffers.SearchValues<char> InvalidTokenCharacters = System.Buffers.SearchValues.Create(";{}<>");
 
     public static ThemeDocument FromTheme(ITheme theme, string version = "1.0.0")
     {
@@ -74,7 +75,7 @@ public sealed class ThemeDocument
         {
             if (!TokenName.IsMatch(pair.Key)) throw new InvalidDataException($"Invalid token or variable name: {pair.Key}.");
             if (string.IsNullOrWhiteSpace(pair.Value) || pair.Value.Length > 4096 || pair.Value.Any(char.IsControl)
-                || pair.Value.IndexOfAny(new[] { ';', '{', '}', '<', '>' }) >= 0)
+                || pair.Value.AsSpan().IndexOfAny(InvalidTokenCharacters) >= 0)
                 throw new InvalidDataException($"Invalid value for {pair.Key}.");
         }
     }

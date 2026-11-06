@@ -177,7 +177,7 @@ public sealed class XlsxExportProvider : IExportProvider
         stream.Write(bytes, 0, bytes.Length);
     }
 
-    private sealed class SheetWriter
+    private sealed class SheetWriter : IDisposable
     {
         private readonly ZipArchive _zip;
         private readonly ExportSheet _sheet;
@@ -207,6 +207,8 @@ public sealed class XlsxExportProvider : IExportProvider
         }
 
         public long DataRows => _dataRows;
+
+        public void Dispose() => _writer?.Dispose();
 
         public void Begin(int sheetIndex, bool first)
         {
@@ -519,20 +521,23 @@ public sealed class XlsxExportProvider : IExportProvider
             writer.Begin(names.Count, names.Count == 1);
         }
 
-        Open();
-        foreach (var row in sheet.Rows)
+        try
         {
-            ct.ThrowIfCancellationRequested();
-            if (row.Kind == ExportRowKind.Data && writer!.DataRows >= limit)
+            Open();
+            foreach (var row in sheet.Rows)
             {
-                writer.End();
-                Open();
+                ct.ThrowIfCancellationRequested();
+                if (row.Kind == ExportRowKind.Data && writer!.DataRows >= limit)
+                {
+                    writer.End();
+                    Open();
+                }
+                writer!.WriteRow(row);
             }
-            writer!.WriteRow(row);
+            writer!.WriteFooter(sheet.Footer);
+            writer.End();
         }
-
-        writer!.WriteFooter(sheet.Footer);
-        writer.End();
+        finally { writer?.Dispose(); }
     }
 
     private static string UniqueName(string requested, List<string> existing)

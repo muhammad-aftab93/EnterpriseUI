@@ -13,29 +13,29 @@ using EnterpriseUI.WinFormsDemo.Modules;
 
 namespace EnterpriseUI.WinFormsDemo;
 
-public class MainForm : Form, IThemeableControl
+public partial class MainForm : Form, IThemeableControl
 {
-    private readonly EnterpriseRibbonControl _ribbon;
-    private readonly SplitContainer _mainSplit;
-    private readonly SplitContainer _centerSplit;
-    private readonly Panel _leftNavPanel;
-    private readonly TextBox _searchBox;
-    private readonly TreeView _navTree;
-    private readonly Panel _demoWorkspaceContainer;
-    private readonly Panel _breadcrumbBar;
-    private readonly Label _lblBreadcrumb;
-    private readonly Button _btnFavorite;
-    private readonly ComboBox _cmbRecent;
-    private readonly ComboBox _cmbThemes;
-    private readonly Panel _demoHost;
-    private readonly EnterprisePropertyInspectorControl _inspector;
-    private readonly StatusStrip _statusStrip;
+    private readonly EnterpriseRibbonControl _ribbon=new EnterpriseRibbonControl();
+    private readonly SplitContainer _mainSplit=new SplitContainer();
+    private readonly SplitContainer _centerSplit=new SplitContainer();
+    private readonly Panel _leftNavPanel=new Panel();
+    private readonly TextBox _searchBox=new TextBox();
+    private readonly TreeView _navTree=new TreeView();
+    private readonly Panel _demoWorkspaceContainer=new Panel();
+    private readonly Panel _breadcrumbBar=new Panel();
+    private readonly Label _lblBreadcrumb=new Label();
+    private readonly Button _btnFavorite=new Button();
+    private readonly ComboBox _cmbRecent=new ComboBox();
+    private readonly ComboBox _cmbThemes=new ComboBox();
+    private readonly Panel _demoHost=new Panel();
+    private readonly EnterprisePropertyInspectorControl _inspector=new EnterprisePropertyInspectorControl();
+    private readonly StatusStrip _statusStrip=new StatusStrip();
     private readonly ToolStripStatusLabel _statusTheme;
     private readonly ToolStripStatusLabel _statusDemo;
     private readonly ToolStripStatusLabel _statusMemory;
     private readonly ToolStripStatusLabel _statusLatency;
     private readonly ToolStripStatusLabel _statusA11y;
-    private readonly System.Windows.Forms.Timer _memoryMonitorTimer;
+    private readonly System.Windows.Forms.Timer _memoryMonitorTimer=new System.Windows.Forms.Timer();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private DemoItem? _currentDemo;
 
@@ -55,14 +55,8 @@ public class MainForm : Form, IThemeableControl
         WindowState = FormWindowState.Maximized;
         Font = new Font("Segoe UI", 9.5f);
         DoubleBuffered = true;
-
-        // 1. Top Ribbon Control
-        _ribbon = new EnterpriseRibbonControl();
         _ribbon.BackstageClicked += ShowBackstageDialog;
         _ribbon.TabChanged += OnRibbonTabChanged;
-
-        // 2. Bottom Status Strip
-        _statusStrip = new StatusStrip();
         _statusTheme = new ToolStripStatusLabel { Text = $"Theme: {_theme.Name}  |" };
         _statusDemo = new ToolStripStatusLabel { Text = "Demo: Ready  |" };
         _statusMemory = new ToolStripStatusLabel { Text = "RAM: 0.0 MB  |" };
@@ -79,35 +73,39 @@ public class MainForm : Form, IThemeableControl
         });
 
         // 3. Main Split Container (Left Nav | Center & Right Inspector)
-        _mainSplit = new SplitContainer
-        {
-            Dock = DockStyle.Fill,
-            Orientation = Orientation.Vertical,
-            FixedPanel = FixedPanel.Panel1,
-            SplitterWidth = 6
-        };
+        _mainSplit.            Dock = DockStyle.Fill;
+
+        // 3. Main Split Container (Left Nav | Center & Right Inspector)
+        _mainSplit.            Orientation = Orientation.Vertical;
+
+        // 3. Main Split Container (Left Nav | Center & Right Inspector)
+        _mainSplit.            FixedPanel = FixedPanel.Panel1;
+
+        // 3. Main Split Container (Left Nav | Center & Right Inspector)
+        _mainSplit.            SplitterWidth = 6
+;
 
         // Left Navigation Panel
-        _leftNavPanel = new Panel { Dock = DockStyle.Fill };
+        _leftNavPanel.Dock = DockStyle.Fill ;
 
         var searchPanel = new Panel { Dock = DockStyle.Top, Height = 44, Padding = new Padding(8) };
-        _searchBox = new TextBox
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Segoe UI", 9.5f),
-            PlaceholderText = "Search controls, features, scenarios..."
-        };
+        _searchBox.            Dock = DockStyle.Fill;
+        _searchBox.            Font = new Font("Segoe UI", 9.5f);
+        _searchBox.            PlaceholderText = "Search controls, features, scenarios..."
+;
         _searchBox.TextChanged += (_, _) => ApplySearchFilter(_searchBox.Text);
         searchPanel.Controls.Add(_searchBox);
 
-        _navTree = new TreeView
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Segoe UI", 9.5f),
-            ShowLines = true,
-            ShowPlusMinus = true,
-            HideSelection = false
-        };
+        _navTree.            Dock = DockStyle.Fill;
+
+        _navTree.            Font = new Font("Segoe UI", 9.5f);
+
+        _navTree.            ShowLines = true;
+
+        _navTree.            ShowPlusMinus = true;
+
+        _navTree.            HideSelection = false
+;
         _navTree.AfterSelect += OnNavNodeSelected;
 
         _leftNavPanel.Controls.Add(_navTree);
@@ -115,34 +113,42 @@ public class MainForm : Form, IThemeableControl
         _mainSplit.Panel1.Controls.Add(_leftNavPanel);
 
         // Center Split (Center Demo Host | Right Property Inspector)
-        _centerSplit = new SplitContainer
-        {
-            Dock = DockStyle.Fill,
-            Orientation = Orientation.Vertical,
-            FixedPanel = FixedPanel.Panel2,
-            SplitterWidth = 6
-        };
+        _centerSplit.            Dock = DockStyle.Fill;
+
+        // Center Split (Center Demo Host | Right Property Inspector)
+        _centerSplit.            Orientation = Orientation.Vertical;
+
+        // Center Split (Center Demo Host | Right Property Inspector)
+        _centerSplit.            FixedPanel = FixedPanel.Panel2;
+
+        // Center Split (Center Demo Host | Right Property Inspector)
+        _centerSplit.            SplitterWidth = 6
+;
 
         // Workspace Container with EnterpriseBreadcrumb & Action Toolbar
-        _demoWorkspaceContainer = new Panel { Dock = DockStyle.Fill };
+        _demoWorkspaceContainer.Dock = DockStyle.Fill ;
 
-        _breadcrumbBar = new Panel
-        {
-            Dock = DockStyle.Top,
-            Height = 40,
-            Padding = new Padding(12, 6, 12, 6),
-            BackColor = Color.FromArgb(246, 248, 250)
-        };
+        _breadcrumbBar.            Dock = DockStyle.Top;
 
-        _lblBreadcrumb = new Label
-        {
-            Text = "🏠 Home > Control Explorer > Ready",
-            Dock = DockStyle.Left,
-            AutoSize = true,
-            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
-            ForeColor = Color.FromArgb(60, 64, 70),
-            TextAlign = ContentAlignment.MiddleLeft
-        };
+        _breadcrumbBar.            Height = 40;
+
+        _breadcrumbBar.            Padding = new Padding(12, 6, 12, 6);
+
+        _breadcrumbBar.            BackColor = Color.FromArgb(246, 248, 250)
+;
+
+        _lblBreadcrumb.            Text = "🏠 Home > Control Explorer > Ready";
+
+        _lblBreadcrumb.            Dock = DockStyle.Left;
+
+        _lblBreadcrumb.            AutoSize = true;
+
+        _lblBreadcrumb.            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold);
+
+        _lblBreadcrumb.            ForeColor = Color.FromArgb(60, 64, 70);
+
+        _lblBreadcrumb.            TextAlign = ContentAlignment.MiddleLeft
+;
 
         var rightToolbar = new FlowLayoutPanel
         {
@@ -152,13 +158,14 @@ public class MainForm : Form, IThemeableControl
             WrapContents = false
         };
 
-        _btnFavorite = new Button
-        {
-            Text = "⭐ Favorite",
-            Size = new Size(100, 28),
-            FlatStyle = FlatStyle.Flat,
-            Font = new Font("Segoe UI", 9f)
-        };
+        _btnFavorite.            Text = "⭐ Favorite";
+
+        _btnFavorite.            Size = new Size(100, 28);
+
+        _btnFavorite.            FlatStyle = FlatStyle.Flat;
+
+        _btnFavorite.            Font = new Font("Segoe UI", 9f)
+;
         _btnFavorite.Click += OnFavoriteToggle;
 
         var lblRecent = new Label
@@ -169,12 +176,12 @@ public class MainForm : Form, IThemeableControl
             Font = new Font("Segoe UI", 9f)
         };
 
-        _cmbRecent = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Size = new Size(170, 28),
-            Font = new Font("Segoe UI", 9f)
-        };
+        _cmbRecent.            DropDownStyle = ComboBoxStyle.DropDownList;
+
+        _cmbRecent.            Size = new Size(170, 28);
+
+        _cmbRecent.            Font = new Font("Segoe UI", 9f)
+;
         _cmbRecent.SelectedIndexChanged += OnRecentSelected;
 
         var lblThemes = new Label
@@ -185,12 +192,12 @@ public class MainForm : Form, IThemeableControl
             Font = new Font("Segoe UI", 9f)
         };
 
-        _cmbThemes = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Size = new Size(160, 28),
-            Font = new Font("Segoe UI", 9f)
-        };
+        _cmbThemes.            DropDownStyle = ComboBoxStyle.DropDownList;
+
+        _cmbThemes.            Size = new Size(160, 28);
+
+        _cmbThemes.            Font = new Font("Segoe UI", 9f)
+;
         PopulateThemeSelector();
         _cmbThemes.SelectedIndexChanged += OnThemeComboChanged;
 
@@ -203,18 +210,17 @@ public class MainForm : Form, IThemeableControl
         _breadcrumbBar.Controls.Add(_lblBreadcrumb);
         _breadcrumbBar.Controls.Add(rightToolbar);
 
-        _demoHost = new Panel
-        {
-            Dock = DockStyle.Fill,
-            BackColor = Color.White
-        };
+        _demoHost.            Dock = DockStyle.Fill;
+
+        _demoHost.            BackColor = Color.White
+;
 
         _demoWorkspaceContainer.Controls.Add(_demoHost);
         _demoWorkspaceContainer.Controls.Add(_breadcrumbBar);
 
         _centerSplit.Panel1.Controls.Add(_demoWorkspaceContainer);
 
-        _inspector = new EnterprisePropertyInspectorControl { Dock = DockStyle.Fill };
+        _inspector.Dock = DockStyle.Fill ;
         _inspector.PropertyMutated += rec =>
         {
             if (_demoHost.Controls.Count > 0)
@@ -256,12 +262,13 @@ public class MainForm : Form, IThemeableControl
         PopulateNavigationTree();
 
         // Memory Monitor Timer
-        _memoryMonitorTimer = new System.Windows.Forms.Timer { Interval = 1000 };
+        _memoryMonitorTimer.Interval = 1000 ;
         _memoryMonitorTimer.Tick += (_, _) =>
         {
             _statusMemory.Text = $"RAM: {DemoAnalyticsTracker.Instance.GetFormattedMemory()}  |";
         };
         _memoryMonitorTimer.Start();
+        RegisterRibbonActions();
 
         // Load Default Demo & Apply Optimal Left/Right Panel Widths
         Load += (_, _) => ApplyOptimalPanelWidths();
@@ -384,6 +391,7 @@ public class MainForm : Form, IThemeableControl
         if (disposing)
         {
             ThemeManager.Instance.ThemeChanged -= HandleThemeChanged;
+            DemoNavigationManager.Instance.DemoSelected -= LoadDemo;
             _memoryMonitorTimer?.Dispose();
         }
         base.Dispose(disposing);
@@ -428,18 +436,17 @@ public class MainForm : Form, IThemeableControl
             rootControls.Nodes.Add(subNode);
         }
 
-        // 1B. Browse All 118 Official Controls (Telerik Documentation Catalog)
-        var rootAll118 = new TreeNode($"Browse All {EnterpriseUI.Editors.TelerikWinFormsControlRegistry.AllControls.Count} Controls (Official Catalog)")
+        var rootAll118 = new TreeNode($"Component Catalog ({EnterpriseUI.Editors.EnterpriseControlRegistry.AllControls.Count} entries)")
         {
-            Tag = DemoMetadataRegistry.GetById("complete-telerik-parity-catalog")
+            Tag = DemoMetadataRegistry.GetById("component-catalog")
         };
-        foreach (var catGrp in EnterpriseUI.Editors.TelerikWinFormsControlRegistry.AllControls.GroupBy(c => c.Category))
+        foreach (var catGrp in EnterpriseUI.Editors.EnterpriseControlRegistry.AllControls.GroupBy(c => c.Category))
         {
             var catNode = new TreeNode($"{catGrp.Key} ({catGrp.Count()})");
             foreach (var ctrl in catGrp)
             {
                 var targetDemo = DemoMetadataRegistry.GetById(ctrl.DemoSuiteId);
-                catNode.Nodes.Add(new TreeNode($"{ctrl.TelerikName} → {ctrl.EnterpriseUIName}") { Tag = targetDemo });
+                catNode.Nodes.Add(new TreeNode($"{ctrl.Name} → {ctrl.EnterpriseUIName}") { Tag = targetDemo });
             }
             rootAll118.Nodes.Add(catNode);
         }
@@ -447,7 +454,7 @@ public class MainForm : Form, IThemeableControl
         // 2. Browse by Feature
         var rootFeatures = new TreeNode("Browse by Feature") { Tag = "Category_Features" };
         rootFeatures.Nodes.Add(new TreeNode("Million-Row Virtualization") { Tag = DemoMetadataRegistry.GetById("grid-virtualization-1m") });
-        rootFeatures.Nodes.Add(new TreeNode("Event-Driven EnterpriseVirtualGrid (1M×12), EnterpriseSyntaxEditor & EnterpriseCarousel") { Tag = DemoMetadataRegistry.GetById("complete-telerik-parity-catalog") });
+        rootFeatures.Nodes.Add(new TreeNode("Event-Driven EnterpriseVirtualGrid (1M×12), EnterpriseSyntaxEditor & EnterpriseCarousel") { Tag = DemoMetadataRegistry.GetById("component-catalog") });
         rootFeatures.Nodes.Add(new TreeNode("EnterpriseGanttView, QR/Code128 Barcode, Kanban, EnterpriseTreeMap & SignaturePad") { Tag = DemoMetadataRegistry.GetById("specialized-gantt-barcode-kanban") });
         rootFeatures.Nodes.Add(new TreeNode("EnterpriseBreadcrumb, StepProgress, EnterprisePanorama, Wizard & DesktopAlerts") { Tag = DemoMetadataRegistry.GetById("navigation-layout-alerts-suite") });
         rootFeatures.Nodes.Add(new TreeNode("Multi-Sort, Grouping & Bands") { Tag = DemoMetadataRegistry.GetById("grid-virtualization-1m") });
@@ -524,9 +531,9 @@ public class MainForm : Form, IThemeableControl
         }
 
         var results = DemoSearchEngine.Search(DemoMetadataRegistry.AllDemos, query);
-        var catalogMatches = EnterpriseUI.Editors.TelerikWinFormsControlRegistry.AllControls
+        var catalogMatches = EnterpriseUI.Editors.EnterpriseControlRegistry.AllControls
             .Where(c =>
-                c.TelerikName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                c.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
                 c.EnterpriseUIName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
                 c.Category.Contains(query, StringComparison.OrdinalIgnoreCase) ||
                 c.KeyFeatures.Contains(query, StringComparison.OrdinalIgnoreCase))
@@ -548,7 +555,7 @@ public class MainForm : Form, IThemeableControl
             foreach (var c in catalogMatches)
             {
                 var targetDemo = DemoMetadataRegistry.GetById(c.DemoSuiteId);
-                ctrlRoot.Nodes.Add(new TreeNode($"{c.TelerikName} → {c.EnterpriseUIName}") { Tag = targetDemo });
+                ctrlRoot.Nodes.Add(new TreeNode($"{c.Name} → {c.EnterpriseUIName}") { Tag = targetDemo });
             }
             _navTree.Nodes.Add(ctrlRoot);
             ctrlRoot.Expand();
@@ -624,8 +631,8 @@ public class MainForm : Form, IThemeableControl
             case "Editors & Docs":
                 LoadDemo(DemoMetadataRegistry.GetById("editors-fluent-validation"));
                 break;
-            case "Telerik Parity":
-                LoadDemo(DemoMetadataRegistry.GetById("complete-telerik-parity-catalog"));
+            case "Component Catalog":
+                LoadDemo(DemoMetadataRegistry.GetById("component-catalog"));
                 break;
             case "Intelligence":
                 LoadDemo(DemoMetadataRegistry.GetById("ai-copilot-assistant"));

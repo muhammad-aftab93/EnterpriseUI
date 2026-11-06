@@ -85,6 +85,20 @@ public sealed class EmployeeRow
 
 public static class GridScenarioData
 {
+
+    private static readonly string[] CachedValues7 = new[] { "Open", "Shipped", "Invoiced", "Paid" };
+
+    private static readonly string[] CachedValues6 = new[] { "Enterprise", "SMB", "Public" };
+
+    private static readonly string[] CachedValues5 = new[] { "USA", "Germany", "Japan", "Brazil", "UK" };
+
+    private static readonly string[] CachedValues4 = new[] { "Engineering", "Sales", "Operations", "Finance" };
+
+    private static readonly string[] CachedValues3 = new[] { "Stone", "Rivera", "Nguyen", "Kaur", "Meyer", "Okafor", "Silva", "Tanaka" };
+
+    private static readonly string[] CachedValues2 = new[] { "Ava", "Liam", "Noah", "Mia", "Zoe", "Eli", "Ivy", "Max", "Uma", "Leo" };
+
+    private static readonly string[] CachedValues1 = new[] { "Engineering", "Sales", "Finance", "Operations", "Support" };
     private static readonly string[] Customers = { "Acme Corporation", "Contoso Global", "Fabrikam Aerospace", "Northwind Logistics", "Tailspin Technologies", "AdventureWorks Financial" };
     private static readonly string[] Products = { "Cloud Infrastructure Suite", "Real-Time Telemetry Node", "Enterprise Security Agent", "Workflow Execution Core", "High-Throughput Analytics" };
     private static readonly string[] Regions = { "North America", "EMEA", "APAC", "LATAM" };
@@ -115,9 +129,9 @@ public static class GridScenarioData
 
     public static List<EmployeeRow> Employees(int count)
     {
-        var departments = new[] { "Engineering", "Sales", "Finance", "Operations", "Support" };
-        var first = new[] { "Ava", "Liam", "Noah", "Mia", "Zoe", "Eli", "Ivy", "Max", "Uma", "Leo" };
-        var last = new[] { "Stone", "Rivera", "Nguyen", "Kaur", "Meyer", "Okafor", "Silva", "Tanaka" };
+        var departments = CachedValues1;
+        var first = CachedValues2;
+        var last = CachedValues3;
         var rng = new Random(7);
         return Enumerable.Range(1, count).Select(i =>
         {
@@ -165,7 +179,7 @@ public static class GridScenarioData
         }
 
         var ceo = Add(null, "Corporate HQ", "Chief Executive", 4_500_000m, 6);
-        foreach (var division in new[] { "Engineering", "Sales", "Operations", "Finance" })
+        foreach (var division in CachedValues4)
         {
             var d = Add(ceo.Id, division, "Division Head", 1_200_000m, 12);
             for (var team = 1; team <= 3; team++)
@@ -183,9 +197,9 @@ public static class GridScenarioData
     public static (List<CustomerRow> Customers, List<OrderRow> Orders, List<OrderLineRow> Lines) Sales(int customers = 40)
     {
         var rng = new Random(21);
-        var countries = new[] { "USA", "Germany", "Japan", "Brazil", "UK" };
-        var segments = new[] { "Enterprise", "SMB", "Public" };
-        var statuses = new[] { "Open", "Shipped", "Invoiced", "Paid" };
+        var countries = CachedValues5;
+        var segments = CachedValues6;
+        var statuses = CachedValues7;
         var customerRows = new List<CustomerRow>();
         var orders = new List<OrderRow>();
         var lines = new List<OrderLineRow>();

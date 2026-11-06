@@ -43,7 +43,7 @@ public partial class DataGrid<TItem>
             ValueSelector = s.Column.ValueSelector
         }).ToList();
 
-    private IReadOnlyList<GridFooterValue> BuildFooterValues(IReadOnlyList<AggregateResult> results)
+    private List<GridFooterValue> BuildFooterValues(IReadOnlyList<AggregateResult> results)
     {
         var values = new List<GridFooterValue>();
         foreach (var (column, summary, alias) in EnumerateSummaries())

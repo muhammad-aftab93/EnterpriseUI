@@ -1,4 +1,4 @@
-﻿# EnterpriseUI Security & Compliance Architecture
+# EnterpriseUI Security & Compliance Architecture
 
 EnterpriseUI is architected for deployment in high-security, regulated environments (banking, defense, healthcare, government) adhering to **OWASP Top 10**, **SOC 2 Type II**, and **HIPAA** compliance requirements.
 
@@ -13,7 +13,7 @@ EnterpriseUI is architected for deployment in high-security, regulated environme
 | **Repudiation** | User denies performing a destructive action (e.g., deleting a batch of records). | Components integrate with `ComponentTelemetry` and `SecurityManager` for audit logging of all CRUD actions. |
 | **Information Disclosure** | Sensitive fields (e.g., SSN, credit cards) leaking into HTML source or export files. | Field-level authorization filters omit restricted properties at the expression-tree level before data serialization. |
 | **Denial of Service** | Deeply nested complex filters or massive datasets causing UI lockup or OutOfMemory. | Expression tree compiler enforces recursion limits. Virtualization engine uses constant memory. |
-| **Elevation of Privilege** | Client-side bypass of disabled or hidden buttons. | Server-side validation parity. UI-level `IAuthorizedControl` state mirrors backend RBAC claims. |
+| **Elevation of Privilege** | Client-side bypass of disabled or hidden buttons. | Server-side validation coverage. UI-level `IAuthorizedControl` state mirrors backend RBAC claims. |
 
 ---
 

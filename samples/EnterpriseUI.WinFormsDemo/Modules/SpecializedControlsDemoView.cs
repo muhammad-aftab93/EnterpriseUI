@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Controls;
@@ -8,30 +8,32 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class SpecializedControlsDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseGanttControl _gantt;
-    private readonly EnterpriseBarcodeControl _barcode;
-    private readonly EnterpriseKanbanBoardControl _kanban;
-    private readonly EnterpriseTreeMapControl _treeMap;
-    private readonly EnterpriseSignaturePadControl _signaturePad;
-    private readonly EnterpriseVirtualKeyboardControl _virtualKeyboard;
-    private readonly TabControl _tabs;
+
+    private static readonly object[] CachedValues1 = new object[] { "QrCode2D", "Code128Linear", "DataMatrix2D" };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseGanttControl _gantt=new EnterpriseGanttControl();
+    private readonly EnterpriseBarcodeControl _barcode=new EnterpriseBarcodeControl();
+    private readonly EnterpriseKanbanBoardControl _kanban=new EnterpriseKanbanBoardControl();
+    private readonly EnterpriseTreeMapControl _treeMap=new EnterpriseTreeMapControl();
+    private readonly EnterpriseSignaturePadControl _signaturePad=new EnterpriseSignaturePadControl();
+    private readonly EnterpriseVirtualKeyboardControl _virtualKeyboard=new EnterpriseVirtualKeyboardControl();
+    private readonly TabControl _tabs=new TabControl();
 
     public SpecializedControlsDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
-        _tabs = new TabControl
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Segoe UI", 9.5f),
-            Padding = new Point(10, 5)
-        };
+        _tabs.            Dock = DockStyle.Fill;
+
+        _tabs.            Font = new Font("Segoe UI", 9.5f);
+
+        _tabs.            Padding = new Point(10, 5)
+;
 
         // Tab 1: Gantt EnterpriseChart (RadGanttView equivalent)
         var tabGantt = new TabPage("📅 Gantt Project View");
@@ -58,7 +60,7 @@ public class SpecializedControlsDemoView : UserControl
             FlatStyle = FlatStyle.Flat
         };
 
-        _gantt = new EnterpriseGanttControl { Dock = DockStyle.Fill };
+        _gantt.Dock = DockStyle.Fill ;
 
         chkCritPath.CheckedChanged += (_, _) =>
         {
@@ -98,7 +100,7 @@ public class SpecializedControlsDemoView : UserControl
             DropDownStyle = ComboBoxStyle.DropDownList,
             Width = 150
         };
-        cmbSymbology.Items.AddRange(new object[] { "QrCode2D", "Code128Linear", "DataMatrix2D" });
+        cmbSymbology.Items.AddRange(CachedValues1);
         cmbSymbology.SelectedIndex = 0;
 
         var lblPayload = new Label { Text = "Payload:", AutoSize = true, Padding = new Padding(8, 6, 4, 0) };
@@ -108,7 +110,7 @@ public class SpecializedControlsDemoView : UserControl
             Width = 280
         };
 
-        _barcode = new EnterpriseBarcodeControl { Dock = DockStyle.Fill };
+        _barcode.Dock = DockStyle.Fill ;
 
         cmbSymbology.SelectedIndexChanged += (_, _) =>
         {
@@ -149,7 +151,7 @@ public class SpecializedControlsDemoView : UserControl
             FlatStyle = FlatStyle.Flat
         };
 
-        _kanban = new EnterpriseKanbanBoardControl { Dock = DockStyle.Fill };
+        _kanban.Dock = DockStyle.Fill ;
         _kanban.CardAdvanced += card =>
         {
             _baseView.LogEvent("KanbanBoard.CardAdvanced", $"{card.Id} moved to {card.Lane}");
@@ -177,7 +179,7 @@ public class SpecializedControlsDemoView : UserControl
 
         // Tab 4: Hierarchical EnterpriseTreeMap (RadTreeMap equivalent)
         var tabTreeMap = new TabPage("🗺️ EnterpriseTreeMap Analytics");
-        _treeMap = new EnterpriseTreeMapControl { Dock = DockStyle.Fill };
+        _treeMap.Dock = DockStyle.Fill ;
         _treeMap.NodeSelected += leaf =>
         {
             _baseView.LogEvent("EnterpriseTreeMap.SelectedNode", $"{leaf.Label} (${leaf.Weight}M)");
@@ -194,7 +196,7 @@ public class SpecializedControlsDemoView : UserControl
             BackColor = Color.FromArgb(245, 247, 250)
         };
         var btnClearSig = new Button { Text = "Clear Ink Signature", AutoSize = true, FlatStyle = FlatStyle.Flat };
-        _signaturePad = new EnterpriseSignaturePadControl { Dock = DockStyle.Fill };
+        _signaturePad.Dock = DockStyle.Fill ;
         _signaturePad.SignatureChanged += strokes =>
         {
             _baseView.LogEvent("SignaturePad.StrokeCount", strokes.ToString());
@@ -206,7 +208,7 @@ public class SpecializedControlsDemoView : UserControl
 
         // Tab 6: Touch Virtual Keyboard (RadVirtualKeyboard equivalent)
         var tabKeyboard = new TabPage("⌨️ Virtual Keyboard");
-        _virtualKeyboard = new EnterpriseVirtualKeyboardControl { Dock = DockStyle.Fill };
+        _virtualKeyboard.Dock = DockStyle.Fill ;
         _virtualKeyboard.KeyPressed += key =>
         {
             _baseView.LogEvent("VirtualKeyboard.TypedBuffer", _virtualKeyboard.TypedBuffer);

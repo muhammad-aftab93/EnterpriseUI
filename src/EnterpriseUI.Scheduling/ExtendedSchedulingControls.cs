@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -34,7 +34,7 @@ public class GanttTask : ObservableObject
 public sealed record GanttDependency(string PredecessorTaskId, string SuccessorTaskId, GanttDependencyType Type = GanttDependencyType.FinishToStart);
 
 /// <summary>
-/// Clean-room EnterpriseGanttView Project Scheduling Control (Telerik RadGanttView equivalent).
+/// Clean-room EnterpriseGanttView Project Scheduling Control.
 /// Computes critical path tasks, total project span, and WBS completion roll-ups.
 /// </summary>
 public class EnterpriseGanttView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -93,7 +93,7 @@ public class EnterpriseGanttView : ObservableObject, IUIComponent, IThemeableCon
 }
 
 /// <summary>
-/// Clean-room Multi-Month Calendar Control (Telerik RadCalendar equivalent).
+/// Clean-room Multi-Month Calendar Control.
 /// Supports multi-month matrices, special holidays, blackout dates, and multiple date selection.
 /// </summary>
 public class Calendar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl

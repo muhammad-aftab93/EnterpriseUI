@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -20,9 +20,10 @@ public class RibbonActionItem
 
 public class EnterpriseRibbonControl : Control, IThemeableControl
 {
-    private readonly List<string> _tabs = new() { "Home", "Data & Grids", "Visualizations", "Navigation & Layout", "Editors & Docs", "Telerik Parity", "Intelligence", "Theming", "QA & Lab" };
+    private readonly List<string> _tabs = new() { "Home", "Data & Grids", "Visualizations", "Navigation & Layout", "Editors & Docs", "Component Catalog", "Intelligence", "Theming", "QA & Lab" };
     private int _selectedTabIndex = 0;
     private readonly List<RibbonActionItem> _actions = new();
+    private readonly Dictionary<string, List<RibbonActionItem>> _registeredActions = new(StringComparer.Ordinal);
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private RibbonActionItem? _hoveredAction;
 
@@ -72,7 +73,17 @@ public class EnterpriseRibbonControl : Control, IThemeableControl
 
     public void RegisterAction(string tab, string text, Action onClick)
     {
-        // helper
+        ArgumentException.ThrowIfNullOrWhiteSpace(tab);
+        ArgumentException.ThrowIfNullOrWhiteSpace(text);
+        ArgumentNullException.ThrowIfNull(onClick);
+        if (!_tabs.Contains(tab)) _tabs.Add(tab);
+        if (!_registeredActions.TryGetValue(tab, out var actions))
+            _registeredActions[tab] = actions = new List<RibbonActionItem>();
+        var existing = actions.FirstOrDefault(action => action.Text == text);
+        if (existing != null) existing.Action = onClick;
+        else actions.Add(new RibbonActionItem { Text = text, Action = onClick });
+        RebuildActions();
+        Invalidate();
     }
 
     private void RebuildActions()
@@ -112,7 +123,7 @@ public class EnterpriseRibbonControl : Control, IThemeableControl
                 _actions.Add(new RibbonActionItem { Text = "SignaturePad &\nTouch Keyboard", Category = "Touch" });
                 _actions.Add(new RibbonActionItem { Text = "PDF, Spread &\nZipLibrary", Category = "Documents" });
                 break;
-            case "Telerik Parity":
+            case "Component Catalog":
                 _actions.Add(new RibbonActionItem { Text = "EnterpriseVirtualGrid\n(1M×12 Cells)", Category = "Data" });
                 _actions.Add(new RibbonActionItem { Text = "Gantt, Barcode\n& Kanban", Category = "Planning" });
                 _actions.Add(new RibbonActionItem { Text = "EnterpriseTreeMap &\nBulletGraph", Category = "Analytics" });
@@ -135,6 +146,16 @@ public class EnterpriseRibbonControl : Control, IThemeableControl
                 _actions.Add(new RibbonActionItem { Text = "API Object\nInspector", Category = "Developer" });
                 _actions.Add(new RibbonActionItem { Text = "Regression\nMatrix", Category = "QA" });
                 break;
+        }
+
+        if (_registeredActions.TryGetValue(curTab, out var registered))
+        {
+            foreach (var action in registered)
+            {
+                var builtIn = _actions.FirstOrDefault(existing => existing.Text == action.Text);
+                if (builtIn != null) builtIn.Action = action.Action;
+                else _actions.Add(action);
+            }
         }
 
         // Compute Layout

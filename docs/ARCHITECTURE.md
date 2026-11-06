@@ -1,8 +1,8 @@
-﻿# EnterpriseUI Component Ecosystem: Architecture & Design Guide
+# EnterpriseUI Component Ecosystem: Architecture & Design Guide
 
 ## Executive Summary
 
-**EnterpriseUI** is a unified, commercial-grade UI component ecosystem designed for **.NET 8+** (with .NET 9+ compatibility). It unites the best capabilities, performance characteristics, and extensibility models found in **Telerik UI** and **DevExpress**, eliminating redundancy and duplicate controls by delivering a single, cohesive **superset** platform.
+**EnterpriseUI** is a modular component platform for **.NET 8+**. Shared models and services own domain behavior; platform adapters own rendering, input, and native integration.
 
 ---
 
@@ -73,26 +73,8 @@ EnterpriseUI.slnx
 
 ---
 
-## 2. Superset Taxonomy: Union of Telerik & DevExpress
+## 2. Superset Taxonomy: Union of reference & legacy
 
-| Component Category | Telerik Equivalent | DevExpress Equivalent | **EnterpriseUI Unified Superset Control** |
-|---|---|---|---|
-| **Data Grid** | Telerik Grid / RadGridView | DevExpress GridControl | `EnterpriseUI.Grids.DataGrid<T>`: Virtualized 2D scrolling, master-detail hierarchy, Excel-style filter menu, in-cell & batch editing, column pinning, multi-level grouping with aggregates. |
-| **Hierarchical Grid** | Telerik EnterpriseTreeList | DevExpress EnterpriseTreeList | `EnterpriseUI.Grids.EnterpriseTreeList<T>`: Self-referencing & nested hierarchy, virtual scrolling, node drag-and-drop. |
-| **Cross-Tab Grid** | Telerik EnterprisePivotGrid | DevExpress EnterprisePivotGrid | `EnterpriseUI.Grids.EnterprisePivotGrid<T>`: Multi-dimensional OLAP analysis, row/column/data/filter areas, subtotals and grand totals. |
-| **Ribbon Navigation** | RadRibbonBar | DevExpress RibbonControl | `EnterpriseUI.Navigation.EnterpriseRibbonBar`: Contextual tabs, backstage view, Quick Access Toolbar, minimized/expanded modes. |
-| **Docking / MDI** | RadDocking | DevExpress EnterpriseDockManager / DocumentManager | `EnterpriseUI.Layout.EnterpriseDockManager`: Float, tabbed document, auto-hide pin, splitters, layout serialization. |
-| **EnterpriseScheduler** | Telerik EnterpriseScheduler | DevExpress SchedulerControl | `EnterpriseUI.Scheduling.EnterpriseScheduler`: Day, Week, WorkWeek, Month, Timeline, Agenda, RFC 5545 iCalendar recurrence engine. |
-| **Data Visualization** | Telerik EnterpriseChart / ChartView | DevExpress ChartControl | `EnterpriseUI.Charts.EnterpriseChart`: Bar, Column, Line, Area, Pie, Donut, Scatter, Candlestick, Radar, Funnel, Treemap, Sankey. |
-| **Gauges** | RadRadialGauge / RadLinearGauge | DevExpress GaugeControl | `EnterpriseUI.Gauges.EnterpriseRadialGauge`, `EnterpriseLinearGauge`: Scales, pointers, ranges, tick intervals, bullet graphs. |
-| **Diagramming** | RadDiagram | DevExpress DiagramControl | `EnterpriseUI.Diagrams.EnterpriseDiagram`: Shapes, orthogonal connector routing, automatic hierarchical tree layout. |
-| **Reporting** | Telerik Reporting | DevExpress XtraReports | `EnterpriseUI.Reporting.ReportDefinition`: Report bands (header, detail, group, footer), parameters, expressions. |
-| **BI Dashboard** | Telerik Dashboard | DevExpress Dashboard | `EnterpriseUI.Dashboard.Dashboard`: Responsive KPI metric cards, synchronized drill-down and cross-filtering. |
-| **AI Copilot** | Telerik AI Prompt | DevExpress AI Assistant | `EnterpriseUI.AI.EnterpriseAIAssistant`: Contextual prompts, streaming completions, natural language to `DataSourceRequest` translation. |
-| **Office Spreadsheet** | RadSpreadsheet | DevExpress EnterpriseSpreadsheetControl | `EnterpriseUI.Office.EnterpriseSpreadsheetControl`: Multi-worksheet, cell formulas, formatting, Excel export. |
-| **Rich Text Editor** | RadRichTextBox | DevExpress RichEditControl | `EnterpriseUI.RichText.EnterpriseRichTextEditor`: WYSIWYG formatting, undo/redo stack, document paragraphs. |
-| **GIS Mapping** | RadMap | DevExpress MapControl | `EnterpriseUI.Map.EnterpriseGeoMap`: Geocoordinates, markers, layer clustering, zoom/pan bounds. |
-| **Process Flow** | RadDiagram Workflow | DevExpress Workflow | `EnterpriseUI.Workflow.EnterpriseWorkflowEngine`: Step states, transition graphs, execution advancement. |
 
 ---
 

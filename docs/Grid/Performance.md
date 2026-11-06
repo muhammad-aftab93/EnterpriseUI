@@ -13,10 +13,10 @@ Bind, sort, filter and group one million in-memory rows and see the elapsed time
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Windowed rendering over very large data | Virtualization | Implemented |  |
-| Benchmarks | n/a | Implemented |  |
+| Windowed rendering over very large data | Only the viewport rows are materialized; fixed row height | Implemented |  |
+| Benchmarks | benchmarks/EnterpriseUI.Benchmarks measures memory, render, scroll, filter, sort, grouping, export and print | Implemented |  |
 
 ## Architecture notes
 

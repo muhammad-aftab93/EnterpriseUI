@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
@@ -15,7 +15,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Editors;
 
 /// <summary>
-/// Clean-room Masked Edit Box (Telerik RadMaskedEditBox equivalent).
+/// Clean-room Masked Edit Box.
 /// Supports standard masks (0 = digit, L = letter, A = alphanumeric, * = any) and unmasked extraction.
 /// </summary>
 public class EnterpriseMaskedTextBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
@@ -102,7 +102,7 @@ public class EnterpriseMaskedTextBox : ObservableObject, IInteractiveControl, IT
 }
 
 /// <summary>
-/// Clean-room EnterpriseAutoCompleteBox and TokenizedTextBox (Telerik RadAutoCompleteBox / RadTokenizedTextBox equivalent).
+/// Clean-room EnterpriseAutoCompleteBox and TokenizedTextBox.
 /// </summary>
 public class EnterpriseAutoCompleteBox : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -170,7 +170,7 @@ public class EnterpriseAutoCompleteBox : ObservableObject, IInteractiveControl, 
 }
 
 /// <summary>
-/// Clean-room Multi-Column ComboBox (Telerik RadMultiColumnComboBox equivalent).
+/// Clean-room Multi-Column ComboBox.
 /// </summary>
 public class EnterpriseMultiColumnComboBox<TItem> : ComboBox<TItem>
 {
@@ -181,7 +181,7 @@ public class EnterpriseMultiColumnComboBox<TItem> : ComboBox<TItem>
 }
 
 /// <summary>
-/// Clean-room Checked DropDownList (Telerik RadCheckedDropDownList equivalent).
+/// Clean-room Checked DropDownList.
 /// </summary>
 public class EnterpriseCheckedDropDownList<TItem> : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -232,7 +232,7 @@ public class EnterpriseCheckedDropDownList<TItem> : ObservableObject, IInteracti
 }
 
 /// <summary>
-/// Clean-room ColorBox and ColorSelector (Telerik RadColorBox / RadColorDialog equivalent).
+/// Clean-room ColorBox and ColorSelector.
 /// </summary>
 public class ColorPicker : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -279,7 +279,7 @@ public class ColorPicker : ObservableObject, IInteractiveControl, IThemeableCont
 }
 
 /// <summary>
-/// Clean-room TrackBar and RangeSlider (Telerik RadTrackBar / RadRangeSelector equivalent).
+/// Clean-room TrackBar and RangeSlider.
 /// </summary>
 public class RangeSlider : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -326,7 +326,7 @@ public class RangeSlider : ObservableObject, IInteractiveControl, IThemeableCont
 }
 
 /// <summary>
-/// Clean-room Rating Control (Telerik RadRating equivalent).
+/// Clean-room Rating Control.
 /// </summary>
 public class EnterpriseRatingControl : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -366,7 +366,7 @@ public class EnterpriseRatingControl : ObservableObject, IInteractiveControl, IT
 }
 
 /// <summary>
-/// Clean-room EnterpriseTimeSpanPicker and Clock Control (Telerik RadTimeSpanPicker / RadClock equivalent).
+/// Clean-room EnterpriseTimeSpanPicker and Clock Control.
 /// </summary>
 public class EnterpriseTimeSpanPicker : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {
@@ -409,7 +409,7 @@ public class EnterpriseTimeSpanPicker : ObservableObject, IInteractiveControl, I
 }
 
 /// <summary>
-/// Clean-room Calculator DropDown Editor (Telerik RadCalculatorDropDown equivalent).
+/// Clean-room Calculator DropDown Editor.
 /// Evaluates arithmetic expressions with memory register (M+, M-, MR, MC) and calculation audit trail.
 /// </summary>
 public class EnterpriseCalculatorDropDown : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
@@ -468,7 +468,7 @@ public class EnterpriseCalculatorDropDown : ObservableObject, IInteractiveContro
 }
 
 /// <summary>
-/// Clean-room Syntax Editor and Code Tokenizer (Telerik RadSyntaxEditor equivalent).
+/// Clean-room Syntax Editor and Code Tokenizer.
 /// Supports C#, SQL, JSON, and XML lexical highlighting and collapsible folding regions.
 /// </summary>
 public class EnterpriseSyntaxEditor : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
@@ -503,7 +503,7 @@ public class EnterpriseSyntaxEditor : ObservableObject, IInteractiveControl, ITh
         {
             string kind = "Identifier";
             if (m.Value.StartsWith("//", StringComparison.Ordinal)) kind = "Comment";
-            else if (m.Value.StartsWith("\"", StringComparison.Ordinal)) kind = "StringLiteral";
+            else if (m.Value.StartsWith('"')) kind = "StringLiteral";
             else if (CSharpKeywords.Contains(m.Value)) kind = "Keyword";
             else if (char.IsDigit(m.Value[0])) kind = "Number";
 
@@ -535,7 +535,7 @@ public class EnterpriseSyntaxEditor : ObservableObject, IInteractiveControl, ITh
 }
 
 /// <summary>
-/// Clean-room SpellChecker Engine (Telerik RadSpellChecker equivalent).
+/// Clean-room SpellChecker Engine.
 /// Uses Levenshtein edit distance to identify misspelled words and rank dictionary suggestions.
 /// </summary>
 public class SpellChecker : ObservableObject
@@ -588,7 +588,7 @@ public class SpellChecker : ObservableObject
 
 /// <summary>
 /// Clean-room EnterpriseActionButton, SplitButton, DropDownButton, and ToggleButton suite
-/// (Telerik RadButton, RadSplitButton, RadDropDownButton, RadToggleButton equivalents).
+///.
 /// </summary>
 public class EnterpriseActionButton : ObservableObject, IInteractiveControl, IThemeableControl, IAccessibleControl
 {

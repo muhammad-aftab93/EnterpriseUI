@@ -391,7 +391,7 @@ public partial class DataGrid<TItem>
         {
             if (!_detailExpansions.Contains(new DetailKey(parent, relation))) continue;
 
-            var loading = _hierarchy.IsLazy(relation) && !_hierarchy.IsLoaded(parent, relation);
+            var loading = GridHierarchyResolver.IsLazy(relation) && !_hierarchy.IsLoaded(parent, relation);
             if (loading) StartLazyLoad(parent, relation);
 
             var children = loading ? Array.Empty<object>() : _hierarchy.GetChildren(relation, parent);

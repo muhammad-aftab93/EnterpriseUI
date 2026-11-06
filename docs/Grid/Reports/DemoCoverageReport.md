@@ -1,6 +1,6 @@
 # 9. Demo coverage report
 
-Generated 2026-11-05. The `DataGrid Workshop` in `EnterpriseUI.WinFormsDemo` has 20 pages. Every page binds a live grid, offers toolbar actions that exercise the feature, and its *Generated Code* tab produces C#, Designer code, Fluent API, JSON, XML and a complete exportable example from the live state. All generated sources were compiled during validation.
+Generated 2026-11-06. The `DataGrid Workshop` in `EnterpriseUI.WinFormsDemo` has 20 pages. Every page binds a live grid, offers toolbar actions that exercise the feature, and its *Generated Code* tab produces C#, Designer code, Fluent API, JSON, XML and a complete exportable example from the live state. All generated sources were compiled during validation.
 
 | Page | Demo id | Documentation | Catalog features demonstrated | Feature tags |
 |---|---|---|---:|---:|

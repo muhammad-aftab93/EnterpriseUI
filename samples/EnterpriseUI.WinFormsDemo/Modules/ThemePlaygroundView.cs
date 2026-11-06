@@ -17,11 +17,11 @@ public class ThemePlaygroundView : UserControl
     private readonly TextBox _json;
     private readonly Label _status;
     private readonly Panel _preview;
-    private readonly EnterpriseDataGrid<PreviewRow> _grid;
+    private readonly EnterpriseDataGrid<PreviewRow> _grid=new EnterpriseDataGrid<PreviewRow>();
     private readonly NumericUpDown _density;
     private readonly NumericUpDown _spacing;
     private readonly NumericUpDown _fontSize;
-    private readonly System.Windows.Forms.Timer _debounce;
+    private readonly System.Windows.Forms.Timer _debounce=new System.Windows.Forms.Timer();
     private bool _loading;
     private Font? _previewFont;
     private readonly ITheme _originalTheme;
@@ -78,7 +78,12 @@ public class ThemePlaygroundView : UserControl
         editors.Controls.Add(new TextBox { Text = "Customer", Width = 140 });
         editors.Controls.Add(new CheckBox { Text = "Active", Checked = true, AutoSize = true });
         editors.Controls.Add(new Button { Text = "Save", Width = 80, ForeColor = SystemColors.ControlText });
-        _grid = new EnterpriseDataGrid<PreviewRow> { Dock = DockStyle.Fill, ShowGroupPanel = false, ShowSearchPanel = false, EnableMasterDetail = false, AriaLabel = "Theme preview", ShowSummaryFooter = false };
+        _grid.Dock = DockStyle.Fill;
+        _grid.ShowGroupPanel = false;
+        _grid.ShowSearchPanel = false;
+        _grid.EnableMasterDetail = false;
+        _grid.AriaLabel = "Theme preview";
+        _grid.ShowSummaryFooter = false ;
         _grid.Columns.Add(new GridColumn { Field = nameof(PreviewRow.Name), Title = "Customer", Width = 200 });
         _grid.Columns.Add(new GridColumn { Field = nameof(PreviewRow.Status), Title = "Status", Width = 120 });
         _grid.Columns.Add(new GridColumn { Field = nameof(PreviewRow.Amount), Title = "Amount", Width = 120, FormatString = "C2" });
@@ -98,7 +103,7 @@ public class ThemePlaygroundView : UserControl
         body.Controls.Add(_tokens, 0, 0); body.Controls.Add(right, 1, 0);
         _status = new Label { Dock = DockStyle.Bottom, Height = 28, TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(8, 0, 0, 0) };
         Controls.Add(body); Controls.Add(_status); Controls.Add(toolbar);
-        _debounce = new System.Windows.Forms.Timer { Interval = 180 };
+        _debounce.Interval = 180 ;
         _debounce.Tick += (_, _) => { _debounce.Stop(); CommitTokenEdits(); };
         LoadTokens(); ApplyPreview();
     }

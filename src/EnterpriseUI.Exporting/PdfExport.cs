@@ -409,7 +409,7 @@ public sealed class PdfExportProvider : IExportProvider
                     var center = column?.Alignment == ExportAlignment.Center;
                     var tx = right ? x + w - 3 - textWidth : center ? x + (w - textWidth) / 2 : x + 3 + (i == 0 ? indent : 0);
                     byte fr = 0, fg = 0, fb = 0;
-                    if (style != null) ExportFormatting.TryParseColor(style.ForeColorHex, out fr, out fg, out fb);
+                    if (style != null && !ExportFormatting.TryParseColor(style.ForeColorHex, out fr, out fg, out fb)) fr = fg = fb = 0;
                     page.Text(tx, TextY(), clipped, font, bold, fr, fg, fb);
                 }
                 break;

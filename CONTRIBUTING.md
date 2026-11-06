@@ -16,7 +16,7 @@ This project adheres to the Contributor Covenant Code of Conduct. By participati
 
 To maintain absolute independence and compliance:
 
-- **100% Original Code**: Never submit decompiled code, proprietary vendor snippets, or reverse-engineered implementations from closed-source commercial libraries (such as DevExpress, Telerik, or Syncfusion).
+- **Original Code**: Never submit decompiled code, proprietary snippets, or reverse-engineered implementations from closed-source libraries.
 - **Zero Commercial Dependencies**: Pull requests introducing commercial SDK dependencies, proprietary licensing logic, activation requirements, or phone-home telemetry will be rejected immediately.
 - **Clean-Room Implementation**: All controls, algorithms, and features must be authored independently based on open specifications, web standards, and public documentation.
 

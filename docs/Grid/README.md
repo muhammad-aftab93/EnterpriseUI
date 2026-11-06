@@ -29,8 +29,7 @@ One page per feature area (generated), plus reports. Every page has: overview, a
 
 ## Reports
 
-- [1. Telerik RadGridView feature matrix](Reports/TelerikFeatureMatrix.md)
-- [2. EnterpriseUI DataGrid feature matrix](Reports/EnterpriseUIFeatureMatrix.md)
+- [EnterpriseUI DataGrid feature matrix](Reports/EnterpriseUIFeatureMatrix.md)
 - [3. Missing features](Reports/MissingFeaturesReport.md)
 - [4. Paging architecture](Reports/PagingArchitecture.md)
 - [5. Hierarchy architecture](Reports/HierarchyArchitecture.md)

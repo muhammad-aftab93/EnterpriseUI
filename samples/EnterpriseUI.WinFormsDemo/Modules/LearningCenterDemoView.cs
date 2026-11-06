@@ -7,16 +7,16 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class LearningCenterDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly TreeView _topicsTree;
-    private readonly RichTextBox _contentBox;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly TreeView _topicsTree=new TreeView();
+    private readonly RichTextBox _contentBox=new RichTextBox();
 
     public LearningCenterDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -27,23 +27,26 @@ public class LearningCenterDemoView : UserControl
             SplitterDistance = 260
         };
 
-        _topicsTree = new TreeView
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Segoe UI", 9.5f),
-            ShowLines = true,
-            ShowPlusMinus = true
-        };
+        _topicsTree.            Dock = DockStyle.Fill;
+
+        _topicsTree.            Font = new Font("Segoe UI", 9.5f);
+
+        _topicsTree.            ShowLines = true;
+
+        _topicsTree.            ShowPlusMinus = true
+;
         _topicsTree.AfterSelect += (_, e) => ShowTopicContent(e.Node?.Tag?.ToString() ?? string.Empty);
 
-        _contentBox = new RichTextBox
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            Font = new Font("Segoe UI", 10f),
-            BackColor = Color.White,
-            Padding = new Padding(16)
-        };
+        _contentBox.            Dock = DockStyle.Fill;
+
+        _contentBox.            ReadOnly = true;
+
+        _contentBox.            Font = new Font("Segoe UI", 10f);
+
+        _contentBox.            BackColor = Color.White;
+
+        _contentBox.            Padding = new Padding(16)
+;
 
         split.Panel1.Controls.Add(_topicsTree);
         split.Panel2.Controls.Add(_contentBox);
@@ -67,8 +70,6 @@ public class LearningCenterDemoView : UserControl
         rootPatterns.Nodes.Add(new TreeNode("Common Anti-Patterns to Avoid") { Tag = "AntiPatterns" });
 
         var rootMigration = new TreeNode("3. Enterprise Migration Guides") { Tag = "Migration" };
-        rootMigration.Nodes.Add(new TreeNode("Migrating from DevExpress WinForms") { Tag = "DevExpressMigration" });
-        rootMigration.Nodes.Add(new TreeNode("Migrating from Telerik UI for WinForms") { Tag = "TelerikMigration" });
         rootMigration.Nodes.Add(new TreeNode("Migrating from Legacy System.Windows.Forms") { Tag = "LegacyWinForms" });
 
         var rootAccess = new TreeNode("4. Accessibility & Compliance") { Tag = "Accessibility" };
@@ -91,7 +92,7 @@ public class LearningCenterDemoView : UserControl
                     "Core Tenets:\n" +
                     "• Headless Core Models: Pure C# business logic, virtualization algorithms, query compilation, and validation live in src/EnterpriseUI.* with zero UI framework dependencies.\n" +
                     "• Native Platform Renderers: WinForms, WPF, Blazor, MAUI, and ASP.NET Core provide platform-native double-buffered rendering while sharing 100% of state models.\n" +
-                    "• Design Token Theming: 1-to-1 parity across Fluent, Material, Bootstrap, Office, and High-Contrast palettes.\n" +
+                    "• Design Token Theming: Shared appearance tokens and runtime theme switching.\n" +
                     "• Zero-Allocation Querying: QueryEngine compiles dynamic LINQ expression trees at runtime for sub-millisecond filtering and sorting.";
                 break;
             case "Mvvm":
@@ -125,33 +126,6 @@ public class LearningCenterDemoView : UserControl
                     "   → Fix: Use async Task or reactive event aggregators.\n\n" +
                     "❌ Anti-Pattern 4: Allocating new Pens and Brushes on every OnPaint pass.\n" +
                     "   → Fix: Cache GDI+ drawing resources or use using blocks efficiently.";
-                break;
-            case "DevExpressMigration":
-                _contentBox.Text =
-                    "MIGRATING FROM DEVEXPRESS WINFORMS\n\n" +
-                    "DevExpress Concept → EnterpriseUI Equivalent:\n" +
-                    "• DevExpress GridControl / GridView → EnterpriseDataGrid<T> / DataGrid<T>\n" +
-                    "• DevExpress EnterpriseTreeList → EnterpriseTreeList<T> / EnterpriseTreeListControl\n" +
-                    "• DevExpress PivotGridControl → EnterprisePivotGrid<T> / EnterprisePivotGridControl\n" +
-                    "• DevExpress XtraCharts → EnterpriseChart / EnterpriseChartControl\n" +
-                    "• DevExpress SchedulerControl → EnterpriseScheduler / EnterpriseSchedulerControl\n" +
-                    "• DevExpress XtraReports → ReportDefinition / EnterpriseReportViewer\n" +
-                    "• DevExpress RibbonControl → EnterpriseRibbonBar / EnterpriseRibbonControl\n" +
-                    "• DevExpress LookUpEdit → ComboBox<T>\n" +
-                    "• DevExpress SpinEdit → EnterpriseNumericTextBox";
-                break;
-            case "TelerikMigration":
-                _contentBox.Text =
-                    "MIGRATING FROM TELERIK UI FOR WINFORMS\n\n" +
-                    "Telerik Concept → EnterpriseUI Equivalent:\n" +
-                    "• RadGridView → EnterpriseDataGrid<T>\n" +
-                    "• RadChartView → EnterpriseChartControl\n" +
-                    "• RadScheduler → EnterpriseSchedulerControl\n" +
-                    "• RadDiagram → EnterpriseDiagramControl\n" +
-                    "• RadMap → EnterpriseMapControl\n" +
-                    "• RadPdfViewer → EnterprisePdfViewer / DocumentsDemoView\n" +
-                    "• RadRibbonBar → EnterpriseRibbonControl\n" +
-                    "• RadThemeManager → ThemeManager.Instance";
                 break;
             default:
                 _contentBox.Text = $"Documentation for {tag} loaded. Select a subtopic from the navigation tree.";

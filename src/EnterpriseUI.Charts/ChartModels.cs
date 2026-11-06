@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -66,7 +66,7 @@ public class ChartAxis
 }
 
 /// <summary>
-/// Superset EnterpriseChart component combining Telerik EnterpriseChart and DevExpress ChartControl.
+/// Superset EnterpriseChart component.
 /// </summary>
 public class EnterpriseChart : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

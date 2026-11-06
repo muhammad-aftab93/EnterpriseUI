@@ -34,6 +34,7 @@ public sealed record GridPalette(
     string ErrorBack,
     bool HighContrast)
 {
+    private static readonly char[] ColorSeparators = { ',', ' ', '/' };
     public static GridPalette FromTheme(ITheme theme)
     {
         ArgumentNullException.ThrowIfNull(theme);
@@ -99,7 +100,7 @@ public sealed record GridPalette(
         var close = value.LastIndexOf(')');
         if (open > 0 && close > open && value[..open].Trim().ToLowerInvariant() is "rgb" or "rgba")
         {
-            var parts = value[(open + 1)..close].Split(new[] { ',', ' ', '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = value[(open + 1)..close].Split(ColorSeparators, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length is 3 or 4 &&
                 double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var r) &&
                 double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var g) &&

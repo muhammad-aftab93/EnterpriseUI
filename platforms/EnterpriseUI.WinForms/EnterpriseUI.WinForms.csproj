@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <PackageVersion>1.0.0</PackageVersion>
     <Title>EnterpriseUI WinForms - EnterpriseDataGrid</Title>
-    <Description>Open-source Windows Forms controls for .NET 8, featuring EnterpriseDataGrid: a typed, virtualized data grid with sorting, filtering, grouping, in-cell editing, validation, master-detail and tree views, summaries, search, export, printing, theming, and UI Automation support. Includes the EnterpriseUI WinForms control suite. Licensed under Apache-2.0.</Description>
+    <Description>Open-source Windows Forms controls for .NET 8, featuring EnterpriseDataGrid: a typed, virtualized data grid with sorting, filtering, grouping, in-cell editing, validation, master-detail and tree views, summaries, search, export, printing, theming, and UI Automation support. Includes the EnterpriseUI WinForms control suite. Licensed under Apache-2.0. Source code and documentation: https://github.com/muhammad-aftab93/EnterpriseUI</Description>
     <PackageTags>WinForms;WindowsForms;DataGrid;EnterpriseDataGrid;Virtualization;DataBinding;Filtering;Grouping;Export;Theming</PackageTags>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

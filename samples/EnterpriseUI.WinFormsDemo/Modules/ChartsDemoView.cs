@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,9 +10,23 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class ChartsDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseChartControl _chartControl;
-    private readonly System.Windows.Forms.Timer _liveTimer;
+
+    private static readonly double[] CachedValues3 = new[] { 142.5, 98.4, 165.2, 54.0, 88.6, 122.8 };
+
+    private static readonly string[] CachedValues2 = new[] { "North America", "EMEA", "APAC", "LATAM", "Global OEM", "Direct SaaS" };
+
+    private static readonly object[] CachedValues1 = new object[]
+        {
+            "Column Series",
+            "Line Series",
+            "Area Series",
+            "Pie Series",
+            "Donut Series",
+            "Candlestick Financial"
+        };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseChartControl _chartControl=new EnterpriseChartControl();
+    private readonly System.Windows.Forms.Timer _liveTimer=new System.Windows.Forms.Timer();
     private bool _isLive;
 
     public ChartsDemoView(DemoItem metadata)
@@ -20,7 +34,7 @@ public class ChartsDemoView : UserControl
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -37,15 +51,7 @@ public class ChartsDemoView : UserControl
             Location = new Point(8, 8),
             Width = 140
         };
-        cmbSeries.Items.AddRange(new object[]
-        {
-            "Column Series",
-            "Line Series",
-            "Area Series",
-            "Pie Series",
-            "Donut Series",
-            "Candlestick Financial"
-        });
+        cmbSeries.Items.AddRange(CachedValues1);
         cmbSeries.SelectedIndex = 0;
         cmbSeries.SelectedIndexChanged += (_, _) => SwitchSeriesType(cmbSeries.SelectedIndex);
 
@@ -104,13 +110,13 @@ public class ChartsDemoView : UserControl
             btnLiveTicks
         });
 
-        _chartControl = new EnterpriseChartControl { Dock = DockStyle.Fill };
+        _chartControl.Dock = DockStyle.Fill ;
         LoadDefaultSeries(SeriesType.Column);
 
         _baseView.DemoContainer.Controls.Add(_chartControl);
         _baseView.DemoContainer.Controls.Add(toolbar);
 
-        _liveTimer = new System.Windows.Forms.Timer { Interval = 150 };
+        _liveTimer.Interval = 150 ;
         _liveTimer.Tick += (_, _) =>
         {
             var s = _chartControl.Series[0];
@@ -176,8 +182,8 @@ public class ChartsDemoView : UserControl
         else
         {
             _chartControl.Title = $"{type} Multi-Metric Series Analysis";
-            var categories = new[] { "North America", "EMEA", "APAC", "LATAM", "Global OEM", "Direct SaaS" };
-            var values = new[] { 142.5, 98.4, 165.2, 54.0, 88.6, 122.8 };
+            var categories = CachedValues2;
+            var values = CachedValues3;
 
             for (int i = 0; i < categories.Length; i++)
             {

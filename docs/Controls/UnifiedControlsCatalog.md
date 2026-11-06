@@ -1,6 +1,6 @@
-﻿# EnterpriseUI Unified Controls Catalog & API Reference
+# EnterpriseUI Unified Controls Catalog & API Reference
 
-This catalog documents the unified superset controls available in EnterpriseUI. Every control represents the **merger of Telerik and DevExpress capabilities** into a single, cohesive API.
+This catalog documents the unified superset controls available in EnterpriseUI. Every control represents the **merger of reference and legacy capabilities** into a single, cohesive API.
 
 ---
 
@@ -8,8 +8,8 @@ This catalog documents the unified superset controls available in EnterpriseUI. 
 
 ```
 Navigation & Layout:
-  ├── EnterpriseRibbonBar            # Merged DevExpress RibbonControl & Telerik RadRibbonBar
-  ├── EnterpriseDockManager          # Merged DevExpress EnterpriseDockManager & Telerik RadDocking
+  ├── EnterpriseRibbonBar            # Merged legacy RibbonControl & reference RadRibbonBar
+  ├── EnterpriseDockManager          # Merged legacy EnterpriseDockManager & reference RadDocking
   ├── EnterpriseTreeView             # Hierarchical navigation with lazy loading
   ├── Window / Dialog      # Modal & modeless draggable, resizable windows
   └── SplitContainer       # Split view container with collapsible splitters
@@ -45,7 +45,6 @@ Utilities & Process:
 ### 2.1 `EnterpriseRibbonBar` (Navigation)
 
 - **Namespace**: `EnterpriseUI.Navigation`
-- **Telerik Equivalent**: `RadRibbonBar` | **DevExpress Equivalent**: `RibbonControl`
 - **Superset Capabilities**:
   - Contextual tabs that activate based on selection.
   - Backstage View for file operations (Save, Open, Export, Print).
@@ -75,7 +74,6 @@ ribbon.Tabs.Add(homeTab);
 ### 2.2 `EnterpriseDockManager` (Layout)
 
 - **Namespace**: `EnterpriseUI.Layout`
-- **Telerik Equivalent**: `RadDocking` | **DevExpress Equivalent**: `EnterpriseDockManager` / `DocumentManager`
 - **Superset Capabilities**:
   - Visual Studio style docking guides (dock to Left, Right, Top, Bottom, or Center Document).
   - Auto-hide pinned panels along the edges.
@@ -107,7 +105,6 @@ dockManager.Dock(documentEditor, DockPosition.Document);
 ### 2.3 `EnterpriseScheduler` (Scheduling)
 
 - **Namespace**: `EnterpriseUI.Scheduling`
-- **Telerik Equivalent**: `RadScheduler` | **DevExpress Equivalent**: `SchedulerControl`
 - **Superset Capabilities**:
   - 6 View Modes: Day, Week, WorkWeek, Month, Timeline, Agenda.
   - Full **RFC 5545 iCalendar recurrence engine** (`FREQ=WEEKLY;BYDAY=MO,WE,FR;COUNT=10`).
@@ -136,7 +133,6 @@ scheduler.Appointments.Add(new Appointment
 ### 2.4 `EnterpriseChart` (Data Visualization)
 
 - **Namespace**: `EnterpriseUI.Charts`
-- **Telerik Equivalent**: `RadChartView` | **DevExpress Equivalent**: `ChartControl`
 - **Superset Capabilities**:
   - 17 Series Types: Bar, Column, Line, Spline, Area, SplineArea, Pie, Donut, Scatter, Bubble, Candlestick, OHLC, Radar, Polar, Funnel, Waterfall, Treemap, Sankey.
   - Composite multi-axis support (Categorical, Numeric, DateTime, Logarithmic).
@@ -164,7 +160,6 @@ chart.Series.Add(series);
 ### 2.5 `EnterpriseRadialGauge` & `EnterpriseLinearGauge` (Gauges)
 
 - **Namespace**: `EnterpriseUI.Gauges`
-- **Telerik Equivalent**: `RadRadialGauge` / `RadLinearGauge` | **DevExpress Equivalent**: `GaugeControl`
 - **Superset Capabilities**:
   - Radial dials, speedometers, arc meters, and linear thermometers.
   - Multi-range color bands (e.g., Green normal, Yellow caution, Red critical).
@@ -189,7 +184,6 @@ gauge.Ranges.Add(new GaugeRange { From = 130, To = 160, Color = "#d13438" });
 ### 2.6 `EnterpriseDiagram` (Diagramming)
 
 - **Namespace**: `EnterpriseUI.Diagrams`
-- **Telerik Equivalent**: `RadDiagram` | **DevExpress Equivalent**: `DiagramControl`
 - **Superset Capabilities**:
   - Predefined shapes: Rectangle, RoundedRectangle, Circle, Diamond, Cylinder, Cloud.
   - Automatic orthogonal and curved connector routing.
@@ -217,7 +211,6 @@ diagram.Connectors.Add(new DiagramConnector
 ### 2.7 `EnterpriseAIAssistant` (AI & Smart Assistant)
 
 - **Namespace**: `EnterpriseUI.AI`
-- **Telerik Equivalent**: `AIPrompt` | **DevExpress Equivalent**: `EnterpriseAIAssistant`
 - **Superset Capabilities**:
   - Conversational copilot UI embedded seamlessly into layout windows or toolbars.
   - Built-in `TranslateNaturalLanguageToQueryAsync` that converts prompts like *"Show all high priority orders over $10,000 in EMEA"* into an executable `DataSourceRequest`.

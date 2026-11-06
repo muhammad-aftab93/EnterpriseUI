@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Gauges;
 
 /// <summary>
-/// Clean-room Stephen Few EnterpriseBulletGraph (Telerik RadBulletGraph equivalent).
+/// Clean-room Stephen Few EnterpriseBulletGraph.
 /// Displays a featured primary measure, a comparative target marker, and qualitative background ranges.
 /// </summary>
 public class EnterpriseBulletGraph : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl

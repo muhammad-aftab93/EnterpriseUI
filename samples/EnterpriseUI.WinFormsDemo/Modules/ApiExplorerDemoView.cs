@@ -9,10 +9,26 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class ApiExplorerDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly ComboBox _cmbAssemblies;
-    private readonly ListBox _classList;
-    private readonly ListView _memberList;
+
+    private static readonly object[] CachedValues1 = new object[]
+        {
+            "EnterpriseUI.Grids",
+            "EnterpriseUI.Charts",
+            "EnterpriseUI.Editors",
+            "EnterpriseUI.Scheduling",
+            "EnterpriseUI.Reporting",
+            "EnterpriseUI.Dashboard",
+            "EnterpriseUI.Diagrams",
+            "EnterpriseUI.Theming",
+            "EnterpriseUI.Data",
+            "EnterpriseUI.Accessibility",
+            "EnterpriseUI.AI",
+            "EnterpriseUI.WinForms"
+        };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly ComboBox _cmbAssemblies=new ComboBox();
+    private readonly ListBox _classList=new ListBox();
+    private readonly ListView _memberList=new ListView();
     private Assembly? _currentAssembly;
 
     public ApiExplorerDemoView(DemoItem metadata)
@@ -20,7 +36,7 @@ public class ApiExplorerDemoView : UserControl
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -39,27 +55,13 @@ public class ApiExplorerDemoView : UserControl
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
         };
 
-        _cmbAssemblies = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Location = new Point(130, 8),
-            Width = 260
-        };
-        _cmbAssemblies.Items.AddRange(new object[]
-        {
-            "EnterpriseUI.Grids",
-            "EnterpriseUI.Charts",
-            "EnterpriseUI.Editors",
-            "EnterpriseUI.Scheduling",
-            "EnterpriseUI.Reporting",
-            "EnterpriseUI.Dashboard",
-            "EnterpriseUI.Diagrams",
-            "EnterpriseUI.Theming",
-            "EnterpriseUI.Data",
-            "EnterpriseUI.Accessibility",
-            "EnterpriseUI.AI",
-            "EnterpriseUI.WinForms"
-        });
+        _cmbAssemblies.            DropDownStyle = ComboBoxStyle.DropDownList;
+
+        _cmbAssemblies.            Location = new Point(130, 8);
+
+        _cmbAssemblies.            Width = 260
+;
+        _cmbAssemblies.Items.AddRange(CachedValues1);
         _cmbAssemblies.SelectedIndex = 0;
         _cmbAssemblies.SelectedIndexChanged += (_, _) => LoadAssembly(_cmbAssemblies.SelectedItem?.ToString() ?? "");
 
@@ -72,12 +74,12 @@ public class ApiExplorerDemoView : UserControl
             SplitterDistance = 260
         };
 
-        _classList = new ListBox
-        {
-            Dock = DockStyle.Fill,
-            Font = new Font("Segoe UI", 9.5f),
-            IntegralHeight = false
-        };
+        _classList.            Dock = DockStyle.Fill;
+
+        _classList.            Font = new Font("Segoe UI", 9.5f);
+
+        _classList.            IntegralHeight = false
+;
         _classList.SelectedIndexChanged += (_, _) =>
         {
             if (_classList.SelectedItem is string className && _currentAssembly != null)
@@ -87,14 +89,16 @@ public class ApiExplorerDemoView : UserControl
             }
         };
 
-        _memberList = new ListView
-        {
-            Dock = DockStyle.Fill,
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true,
-            Font = new Font("Consolas", 9f)
-        };
+        _memberList.            Dock = DockStyle.Fill;
+
+        _memberList.            View = View.Details;
+
+        _memberList.            FullRowSelect = true;
+
+        _memberList.            GridLines = true;
+
+        _memberList.            Font = new Font("Consolas", 9f)
+;
         _memberList.Columns.Add("Member Type", 110);
         _memberList.Columns.Add("Name", 220);
         _memberList.Columns.Add("Return / Data Type", 200);

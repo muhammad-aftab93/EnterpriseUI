@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -44,7 +44,7 @@ public class DiagramConnector : ObservableObject
 }
 
 /// <summary>
-/// Superset Node-Link Diagramming component combining DevExpress DiagramControl and Telerik RadDiagram.
+/// Superset Node-Link Diagramming component.
 /// </summary>
 public class EnterpriseDiagram : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

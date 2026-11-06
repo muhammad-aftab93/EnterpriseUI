@@ -15,9 +15,9 @@ Reads a 500,000-row store through an asynchronous data source with simulated lat
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Remote data with stale-request protection | Async data operations | Implemented |  |
+| Remote data with stale-request protection | Versioned loads cancel stale responses; error state and retry | Implemented |  |
 
 ## Architecture notes
 

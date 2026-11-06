@@ -14,12 +14,12 @@ A bound grid with typed columns, alternating rows, a status bar and keyboard nav
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Typed columns bound to properties | GridViewDataColumn per property | Implemented |  |
-| Data sources: lists, collections, async sources | BindingList, DataTable, async binding | Implemented |  |
-| Alternate rows, row height, status bar | Alternating row style, row height | Implemented |  |
-| Conditional formatting | FormatRules, ConditionalFormattingObject | Implemented |  |
+| Typed columns bound to properties | GridColumn.Field with dotted paths, format strings, alignment, tooltips | Implemented |  |
+| Data sources: lists, collections, async sources | IEnumerable<T>, IList<T>, IDataSource<T>, RemoteDataSource<T>, OData request builder | Implemented |  |
+| Alternate rows, row height, status bar | EnableAlternateRows, ItemHeight, status bar with counts | Implemented |  |
+| Conditional formatting | Highlight, data bar and color scale rules plus RowStyleNeeded | Implemented |  |
 
 ## Architecture notes
 

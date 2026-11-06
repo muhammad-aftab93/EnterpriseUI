@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -22,23 +22,29 @@ public class EditorsDemoModel
 
 public class EditorsDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseTextBoxControl _txtFullName;
-    private readonly EnterpriseTextBoxControl _txtEmail;
-    private readonly EnterpriseButtonTextBoxControl _txtBrowsePath;
-    private readonly NumericUpDown _numBudget;
-    private readonly DateTimePicker _dtpEffectiveDate;
-    private readonly EnterpriseFontDropDownControl _cmbFont;
-    private readonly System.Windows.Forms.ComboBox _cmbDept;
-    private readonly EnterpriseToggleSwitchControl _tglNotifications;
-    private readonly Label _lblValidationSummary;
+
+    private static readonly string[] CachedValues3 = new[] { "North America", "EMEA", "APAC", "LATAM" };
+
+    private static readonly string[] CachedValues2 = new[] { "CSharp", "WinForms", "DataGrid", "EnterpriseVirtualGrid", "EnterpriseRibbonBar", "EnterpriseScheduler", "EnterpriseGanttView", "KanbanBoard" };
+
+    private static readonly object[] CachedValues1 = new object[] { "Executive", "Engineering", "Finance", "Legal", "Quality Assurance", "Product Management" };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseTextBoxControl _txtFullName=new EnterpriseTextBoxControl();
+    private readonly EnterpriseTextBoxControl _txtEmail=new EnterpriseTextBoxControl();
+    private readonly EnterpriseButtonTextBoxControl _txtBrowsePath=new EnterpriseButtonTextBoxControl();
+    private readonly NumericUpDown _numBudget=new NumericUpDown();
+    private readonly DateTimePicker _dtpEffectiveDate=new DateTimePicker();
+    private readonly EnterpriseFontDropDownControl _cmbFont=new EnterpriseFontDropDownControl();
+    private readonly System.Windows.Forms.ComboBox _cmbDept=new System.Windows.Forms.ComboBox();
+    private readonly EnterpriseToggleSwitchControl _tglNotifications=new EnterpriseToggleSwitchControl();
+    private readonly Label _lblValidationSummary=new Label();
 
     public EditorsDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -57,74 +63,75 @@ public class EditorsDemoView : UserControl
 
         int y = 12;
         formPanel.Controls.Add(new Label { Text = "RadTextBox (Prefix + Clear ✕ + Focus Ring):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _txtFullName = new EnterpriseTextBoxControl
-        {
-            Location = new Point(310, y),
-            Width = 300,
-            PrefixGlyph = "👤",
-            PlaceholderText = "Enter full executive name...",
-            Text = "Alexander Hamilton"
-        };
+        _txtFullName.            Location = new Point(310, y);
+        _txtFullName.            Width = 300;
+        _txtFullName.            PrefixGlyph = "👤";
+        _txtFullName.            PlaceholderText = "Enter full executive name...";
+        _txtFullName.            Text = "Alexander Hamilton"
+;
         _txtFullName.ValueChanged += (_, _) => _baseView.LogEvent("RadTextBox.Text", _txtFullName.Text);
         formPanel.Controls.Add(_txtFullName);
         y += 40;
 
         formPanel.Controls.Add(new Label { Text = "RadTextBox (Email Validation State):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _txtEmail = new EnterpriseTextBoxControl
-        {
-            Location = new Point(310, y),
-            Width = 300,
-            PrefixGlyph = "✉",
-            PlaceholderText = "name@company.com",
-            Text = "a.hamilton@treasury.gov"
-        };
+        _txtEmail.            Location = new Point(310, y);
+        _txtEmail.            Width = 300;
+        _txtEmail.            PrefixGlyph = "✉";
+        _txtEmail.            PlaceholderText = "name@company.com";
+        _txtEmail.            Text = "a.hamilton@treasury.gov"
+;
         _txtEmail.ValueChanged += (_, _) => _baseView.LogEvent("EmailTextBox.Text", _txtEmail.Text);
         formPanel.Controls.Add(_txtEmail);
         y += 40;
 
         formPanel.Controls.Add(new Label { Text = "RadButtonTextBox / RadBrowseEditor:", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _txtBrowsePath = new EnterpriseButtonTextBoxControl
-        {
-            Location = new Point(310, y),
-            Width = 300,
-            EnableFileBrowseOnRightClick = true
-        };
+        _txtBrowsePath.            Location = new Point(310, y);
+        _txtBrowsePath.            Width = 300;
+        _txtBrowsePath.            EnableFileBrowseOnRightClick = true
+;
         _txtBrowsePath.LeftButtonClick += (_, _) => _baseView.LogEvent("ButtonTextBox.LeftButtonClick", _txtBrowsePath.Text);
         _txtBrowsePath.RightButtonClick += (_, _) => _baseView.LogEvent("BrowseEditor.RightButtonClick", _txtBrowsePath.Text);
         formPanel.Controls.Add(_txtBrowsePath);
         y += 40;
 
         formPanel.Controls.Add(new Label { Text = "RadSpinEditor (Annual Budget $):", Location = new Point(16, y + 4), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _numBudget = new NumericUpDown
-        {
-            Location = new Point(310, y),
-            Width = 145,
-            Minimum = 0,
-            Maximum = 10000000,
-            Increment = 5000,
-            ThousandsSeparator = true,
-            Value = 750000
-        };
+        _numBudget.            Location = new Point(310, y);
+        _numBudget.            Width = 145;
+        _numBudget.            Minimum = 0;
+        _numBudget.            Maximum = 10000000;
+        _numBudget.            Increment = 5000;
+        _numBudget.            ThousandsSeparator = true;
+        _numBudget.            Value = 750000
+;
         _numBudget.ValueChanged += (_, _) => _baseView.LogEvent("SpinEditor.Value", _numBudget.Value.ToString("C0"));
 
-        _dtpEffectiveDate = new DateTimePicker { Location = new Point(465, y), Width = 145, Value = DateTime.Today };
+        _dtpEffectiveDate.Location = new Point(465, y);
+
+        _dtpEffectiveDate.Width = 145;
+
+        _dtpEffectiveDate.Value = DateTime.Today ;
         _dtpEffectiveDate.ValueChanged += (_, _) => _baseView.LogEvent("DateTimePicker.Value", _dtpEffectiveDate.Value.ToShortDateString());
         formPanel.Controls.AddRange(new Control[] { _numBudget, _dtpEffectiveDate });
         y += 38;
 
         formPanel.Controls.Add(new Label { Text = "RadDropDownList & RadFontDropDownList:", Location = new Point(16, y + 4), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _cmbDept = new System.Windows.Forms.ComboBox { Location = new Point(310, y), Width = 145, DropDownStyle = ComboBoxStyle.DropDownList };
-        _cmbDept.Items.AddRange(new object[] { "Executive", "Engineering", "Finance", "Legal", "Quality Assurance", "Product Management" });
+        _cmbDept.Location = new Point(310, y);
+        _cmbDept.Width = 145;
+        _cmbDept.DropDownStyle = ComboBoxStyle.DropDownList ;
+        _cmbDept.Items.AddRange(CachedValues1);
         _cmbDept.SelectedIndex = 1;
         _cmbDept.SelectedIndexChanged += (_, _) => _baseView.LogEvent("DropDownList.SelectedItem", _cmbDept.SelectedItem?.ToString() ?? "");
 
-        _cmbFont = new EnterpriseFontDropDownControl { Location = new Point(465, y), Width = 145 };
+        _cmbFont.Location = new Point(465, y);
+
+        _cmbFont.Width = 145 ;
         _cmbFont.SelectedIndexChanged += (_, _) => _baseView.LogEvent("FontDropDownList.SelectedFont", _cmbFont.SelectedItem?.ToString() ?? "");
         formPanel.Controls.AddRange(new Control[] { _cmbDept, _cmbFont });
         y += 38;
 
         formPanel.Controls.Add(new Label { Text = "RadToggleSwitch (Push Notifications):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
-        _tglNotifications = new EnterpriseToggleSwitchControl { Location = new Point(310, y), IsOn = true };
+        _tglNotifications.Location = new Point(310, y);
+        _tglNotifications.IsOn = true ;
         var lblSwitchState = new Label { Text = "Enabled (ON)", Location = new Point(398, y + 6), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         _tglNotifications.Toggled += isOn =>
         {
@@ -144,14 +151,16 @@ public class EditorsDemoView : UserControl
         btnValidate.Click += (_, _) => RunValidation();
         formPanel.Controls.Add(btnValidate);
 
-        _lblValidationSummary = new Label
-        {
-            Location = new Point(240, y + 8),
-            AutoSize = true,
-            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
-            ForeColor = Color.FromArgb(16, 124, 65),
-            Text = "Status: All form inputs valid and compliant."
-        };
+        _lblValidationSummary.            Location = new Point(240, y + 8);
+
+        _lblValidationSummary.            AutoSize = true;
+
+        _lblValidationSummary.            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold);
+
+        _lblValidationSummary.            ForeColor = Color.FromArgb(16, 124, 65);
+
+        _lblValidationSummary.            Text = "Status: All form inputs valid and compliant."
+;
         formPanel.Controls.Add(_lblValidationSummary);
         tabCoreForm.Controls.Add(formPanel);
 
@@ -246,7 +255,7 @@ public class EditorsDemoView : UserControl
         sy += 36;
 
         var autoComplete = new EnterpriseAutoCompleteBox();
-        autoComplete.SuggestionsSource.AddRange(new[] { "CSharp", "WinForms", "DataGrid", "EnterpriseVirtualGrid", "EnterpriseRibbonBar", "EnterpriseScheduler", "EnterpriseGanttView", "KanbanBoard" });
+        autoComplete.SuggestionsSource.AddRange(CachedValues2);
         autoComplete.AddToken("WinForms");
         autoComplete.AddToken("DataGrid");
 
@@ -264,7 +273,7 @@ public class EditorsDemoView : UserControl
         sy += 36;
 
         var checkedDrop = new EnterpriseCheckedDropDownList<string>();
-        checkedDrop.Items.AddRange(new[] { "North America", "EMEA", "APAC", "LATAM" });
+        checkedDrop.Items.AddRange(CachedValues3);
         checkedDrop.CheckAll();
 
         specPanel.Controls.Add(new Label { Text = "RadCheckedDropDownList:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });

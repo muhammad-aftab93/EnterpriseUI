@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Controls;
+using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Core.Mvvm;
 
 namespace EnterpriseUI.Reporting;
@@ -36,7 +36,7 @@ public class EnterpriseReportControl
 }
 
 /// <summary>
-/// Superset Report Definition engine combining DevExpress XtraReports and Telerik Reporting.
+/// Superset Report Definition engine.
 /// </summary>
 public class ReportDefinition : ObservableObject
 {

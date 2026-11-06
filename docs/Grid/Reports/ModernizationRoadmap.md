@@ -1,6 +1,6 @@
 # 12. Grid modernization roadmap
 
-Generated 2026-11-05 from the open items of the feature catalog, ordered by priority (P1 first) then complexity (S, M, L).
+Generated 2026-11-06 from the open items of the feature catalog, ordered by priority (P1 first) then complexity (S, M, L).
 
 ## Priority 2
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -20,7 +20,7 @@ public enum BarcodeType
 }
 
 /// <summary>
-/// Clean-room Headless Barcode and QR Matrix Generator (Telerik RadBarcode equivalent).
+/// Clean-room Headless Barcode and QR Matrix Generator.
 /// Produces deterministic 2D boolean matrices and 1D bar width arrays for vector/raster rendering.
 /// </summary>
 public class EnterpriseBarcodeGenerator : ObservableObject
@@ -63,7 +63,7 @@ public class EnterpriseBarcodeGenerator : ObservableObject
 
 /// <summary>
 /// Clean-room WordsProcessing, SpreadProcessing, and ZipLibrary Document Engines
-/// (Telerik RadWordsProcessing, RadSpreadProcessing, RadZipLibrary equivalents).
+///.
 /// </summary>
 public static class DocumentProcessingSuite
 {
@@ -71,27 +71,27 @@ public static class DocumentProcessingSuite
     {
         if (string.IsNullOrWhiteSpace(formula)) return 0;
         var expr = formula.Trim();
-        if (!expr.StartsWith("=", StringComparison.Ordinal))
+        if (!expr.StartsWith('='))
         {
             return double.TryParse(expr, NumberStyles.Any, CultureInfo.InvariantCulture, out var d) ? d : 0;
         }
 
         expr = expr[1..].Trim().ToUpperInvariant();
-        if (expr.StartsWith("SUM(", StringComparison.Ordinal) && expr.EndsWith(")", StringComparison.Ordinal))
+        if (expr.StartsWith("SUM(", StringComparison.Ordinal) && expr.EndsWith(')'))
         {
             return ExtractReferencedValues(expr[4..^1], cellValues).Sum();
         }
-        if (expr.StartsWith("AVERAGE(", StringComparison.Ordinal) && expr.EndsWith(")", StringComparison.Ordinal))
+        if (expr.StartsWith("AVERAGE(", StringComparison.Ordinal) && expr.EndsWith(')'))
         {
             var vals = ExtractReferencedValues(expr[8..^1], cellValues);
             return vals.Count == 0 ? 0 : vals.Average();
         }
-        if (expr.StartsWith("MAX(", StringComparison.Ordinal) && expr.EndsWith(")", StringComparison.Ordinal))
+        if (expr.StartsWith("MAX(", StringComparison.Ordinal) && expr.EndsWith(')'))
         {
             var vals = ExtractReferencedValues(expr[4..^1], cellValues);
             return vals.Count == 0 ? 0 : vals.Max();
         }
-        if (expr.StartsWith("MIN(", StringComparison.Ordinal) && expr.EndsWith(")", StringComparison.Ordinal))
+        if (expr.StartsWith("MIN(", StringComparison.Ordinal) && expr.EndsWith(')'))
         {
             var vals = ExtractReferencedValues(expr[4..^1], cellValues);
             return vals.Count == 0 ? 0 : vals.Min();

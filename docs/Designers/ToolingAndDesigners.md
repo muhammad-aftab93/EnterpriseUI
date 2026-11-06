@@ -1,4 +1,4 @@
-﻿# EnterpriseUI Tooling & Designers Guide
+# EnterpriseUI Tooling & Designers Guide
 
 EnterpriseUI includes a suite of developer productivity tools designed to accelerate design-to-production workflows:
 

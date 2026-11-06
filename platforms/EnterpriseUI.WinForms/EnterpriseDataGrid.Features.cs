@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -44,7 +44,7 @@ public partial class EnterpriseDataGrid<TItem>
     private int _hoveredPager = -1;
     private PrintTemplate _printTemplate = PrintTemplate.Standard();
 
-    private string DragFormat => $"EnterpriseUI.GridRows.{typeof(TItem).FullName}";
+    private static string DragFormat => $"EnterpriseUI.GridRows.{typeof(TItem).FullName}";
 
     private sealed class RowDragPayload
     {
@@ -737,7 +737,7 @@ public partial class EnterpriseDataGrid<TItem>
         return true;
     }
 
-    private PrintDocument CreatePrintDocument(PrintPlan plan)
+    private static PrintDocument CreatePrintDocument(PrintPlan plan)
     {
         var settings = plan.Template.Settings;
         var (width, height) = PrintPaperSizes.Get(settings.PaperSize);
@@ -995,7 +995,7 @@ public partial class EnterpriseDataGrid<TItem>
             if (_grid.HitBody(f, point, out var slot, out var column))
             {
                 var row = new RowAccessibleObject(_grid, this, slot.Index);
-                return column == null ? row : new CellAccessibleObject(_grid, row, slot.Index, _grid.ColumnIndexOf(f, column.Column));
+                return column == null ? row : new CellAccessibleObject(_grid, row, slot.Index, ColumnIndexOf(f, column.Column));
             }
 
             return base.HitTest(x, y);

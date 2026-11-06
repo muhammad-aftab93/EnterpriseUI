@@ -7,6 +7,8 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <IsTrimmable>false</IsTrimmable>
+    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

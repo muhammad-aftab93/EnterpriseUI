@@ -1,4 +1,4 @@
-﻿# EnterpriseUI Documentation Portal
+# EnterpriseUI Documentation Portal
 
 Welcome to the comprehensive technical documentation for the **EnterpriseUI Component Ecosystem**.
 
@@ -8,7 +8,7 @@ Welcome to the comprehensive technical documentation for the **EnterpriseUI Comp
 
 ### 1. Introduction & Overview
 - [Executive Overview & Persona Navigation](Introduction/README.md)
-- [Telerik & DevExpress Parity & Superset Matrix](Introduction/README.md#3-product-parity--superset-matrix)
+- [reference & legacy coverage & Superset Matrix](Introduction/README.md#3-product-coverage--superset-matrix)
 - [Package & Project Mapping](Introduction/README.md#4-package--project-mapping)
 
 ### 2. Getting Started
@@ -61,7 +61,6 @@ Welcome to the comprehensive technical documentation for the **EnterpriseUI Comp
 - [xUnit Testing, Accessibility Auditing & Benchmarks](Testing/TestingGuide.md)
 
 ### 11. Migration Guides
-- [Migrating from Telerik UI, DevExpress & Syncfusion](Migration/MigrationGuides.md)
 
 ### 12. Troubleshooting & FAQ
 - [Diagnostic Decision Trees & Troubleshooting Procedures](Troubleshooting/TroubleshootingAndFAQ.md)
@@ -73,4 +72,3 @@ Welcome to the comprehensive technical documentation for the **EnterpriseUI Comp
 - [Information Architecture, DocFX Automation & Governance Plan](Reference/GovernanceAndRoadmap.md)
 
 ### 15. Product Audit & Readiness
-- [Evidence-Based Telerik Parity Audit, Gap Backlogs & Roadmap](Architecture/EnterpriseUIProductParityAudit.md)

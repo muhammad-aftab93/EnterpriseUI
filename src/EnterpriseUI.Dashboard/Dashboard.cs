@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Controls;
+using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Charts;
 using EnterpriseUI.Core.Mvvm;
@@ -35,7 +35,7 @@ public class DashboardWidget : ObservableObject
 }
 
 /// <summary>
-/// Superset Interactive Business Intelligence Dashboard combining DevExpress Dashboard and Telerik Dashboard layout.
+/// Superset Interactive Business Intelligence Dashboard.
 /// </summary>
 public class Dashboard : ObservableObject, IUIComponent, IThemeableControl
 {

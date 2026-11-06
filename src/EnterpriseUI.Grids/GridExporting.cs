@@ -64,7 +64,7 @@ public static class GridExporter
         IProgress<ExportProgress>? progress = null,
         ExportService? service = null,
         CancellationToken cancellationToken = default) =>
-        ExportCoreAsync(grid, formatId, gridOptions, options, progress, service, cancellationToken, (doc, opts, prog, svc) => svc.ExportAsync(doc, formatId, output, opts, prog, cancellationToken));
+        ExportCoreAsync(grid, formatId, gridOptions, options, progress, service, (doc, opts, prog, svc) => svc.ExportAsync(doc, formatId, output, opts, prog, cancellationToken), cancellationToken);
 
     /// <summary>Exports to a file; the format comes from the extension. The file only appears when the export succeeded.</summary>
     public static Task<ExportResult> ExportToFileAsync<TItem>(
@@ -77,7 +77,7 @@ public static class GridExporter
         CancellationToken cancellationToken = default)
     {
         var formatId = FormatIdForPath(path);
-        return ExportCoreAsync(grid, formatId, gridOptions, options, progress, service, cancellationToken, (doc, opts, prog, svc) => svc.ExportToFileAsync(doc, formatId, path, opts, prog, cancellationToken));
+        return ExportCoreAsync(grid, formatId, gridOptions, options, progress, service, (doc, opts, prog, svc) => svc.ExportToFileAsync(doc, formatId, path, opts, prog, cancellationToken), cancellationToken);
     }
 
     private static async Task<ExportResult> ExportCoreAsync<TItem>(
@@ -87,8 +87,8 @@ public static class GridExporter
         ExportOptions? options,
         IProgress<ExportProgress>? progress,
         ExportService? service,
-        CancellationToken cancellationToken,
-        Func<ExportDocument, ExportOptions, IProgress<ExportProgress>?, ExportService, Task<ExportResult>> run)
+        Func<ExportDocument, ExportOptions, IProgress<ExportProgress>?, ExportService, Task<ExportResult>> run,
+        CancellationToken cancellationToken)
     {
         gridOptions ??= new GridExportOptions();
         options ??= new ExportOptions();
@@ -229,7 +229,7 @@ public static class GridExporter
     {
         if (depth > MaxHierarchyDepth) return;
 
-        var first = parents.Select(p => grid.GetChildren(relation, p).FirstOrDefault()).FirstOrDefault(c => c != null);
+        var first = parents.Select(parent => grid.GetChildren(relation, parent)).Where(children => children.Count > 0).Select(children => children[0]).FirstOrDefault(child => child != null);
         var childColumns = grid.GetDetailColumns(relation, first).ToList();
         var columns = new List<ExportColumn> { new("Parent") };
         columns.AddRange(childColumns.Select(c => new ExportColumn(c.Field, string.IsNullOrEmpty(c.Title) ? c.Field : c.Title) { Width = GridColumnLayout.WidthOf(c), Format = c.FormatString }));
@@ -269,7 +269,6 @@ public static class GridExporter
         private readonly Dictionary<GridColumn, decimal> _running = new();
         private readonly List<GridFormatRule> _cellRules;
         private readonly List<GridFormatRule> _rowRules;
-        private int _cursor;
 
         public RowBuilder(DataGrid<TItem> grid, List<GridColumn> columns, GridExportOptions options, List<GridHierarchyRelation> relations, GridHierarchyRelation? tree)
         {
@@ -286,7 +285,6 @@ public static class GridExporter
         public IEnumerable<ExportRow> Rows(IReadOnlyList<TItem> items, IReadOnlyList<GroupResult<TItem>>? groups)
         {
             _running.Clear();
-            _cursor = 0;
 
             if (groups != null)
             {

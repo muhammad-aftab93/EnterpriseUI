@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,19 +11,21 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class DocumentsDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly TabControl _docTabs;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly TabControl _docTabs=new TabControl();
 
     public DocumentsDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
-        _docTabs = new TabControl { Dock = DockStyle.Fill, Padding = new Point(12, 5) };
+        _docTabs.Dock = DockStyle.Fill;
+
+        _docTabs.Padding = new Point(12, 5) ;
 
         // Tab 1: PDF Viewer
         var tabPdf = new TabPage("📄 PDF Document Viewer");

@@ -15,14 +15,14 @@ Type in the filter row, open the funnel in a header for a value list, or apply o
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Filter row | Filter row cells | Implemented |  |
-| Excel-style value list | Excel-like filter popup | Implemented |  |
-| Operators and between | Filter operators | Implemented |  |
-| Filter presets | Saved filters | Implemented |  |
-| Composite filter dialog / expression builder | Composite filter dialog | Partial | Composite and expression filters can be built in code but there is no visual builder. |
-| Date and numeric range filter menus | Date/number filter menus | Partial | Use FilterBy with IsBetween or the value list. |
+| Filter row | Filter row with Contains, per column | Implemented |  |
+| Excel-style value list | Distinct values with search, select all/none | Implemented |  |
+| Operators and between | 18 operators including between, in, empty and null | Implemented |  |
+| Filter presets | Save, apply, export and import presets as JSON | Implemented |  |
+| Composite filter dialog / expression builder | Descriptors and FilterBuilder exist; no dialog UI | Partial | Composite and expression filters can be built in code but there is no visual builder. |
+| Date and numeric range filter menus | Between operator exists; no dedicated menus | Partial | Use FilterBy with IsBetween or the value list. |
 
 ## Architecture notes
 

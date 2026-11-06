@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.WinFormsDemo.Controls;
@@ -8,15 +8,15 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class TreeGridDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseTreeListControl _treeControl;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseTreeListControl _treeControl=new EnterpriseTreeListControl();
 
     public TreeGridDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -55,7 +55,7 @@ public class TreeGridDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { btnExpandAll, btnCollapseAll });
 
-        _treeControl = new EnterpriseTreeListControl { Dock = DockStyle.Fill };
+        _treeControl.Dock = DockStyle.Fill ;
 
         _baseView.DemoContainer.Controls.Add(_treeControl);
         _baseView.DemoContainer.Controls.Add(toolbar);

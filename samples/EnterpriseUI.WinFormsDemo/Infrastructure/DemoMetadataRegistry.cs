@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using EnterpriseUI.WinFormsDemo.Modules;
 
@@ -6,6 +6,121 @@ namespace EnterpriseUI.WinFormsDemo.Infrastructure;
 
 public static class DemoMetadataRegistry
 {
+    private static readonly string[] MediaTags = { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" };
+
+    private static readonly string[] CachedValues57 = new[] { "Grid", "DataGrid", "Workshop" };
+
+    private static readonly string[] CachedValues56 = new[] { "NavigationView", "OfficeNavigationBar", "Flyout", "Overlay", "Toast", "TabbedForm", "FileDialogs", "ControlSpy" };
+
+    private static readonly string[] CachedValues55 = new[] { "NavigationView", "OfficeNavigationBar", "Flyout", "Overlay", "SplashScreen", "ToastNotification", "NotifyIcon", "TaskbarButton", "TabbedForm", "ControlSpy" };
+
+    private static readonly string[] CachedValues54 = new[] { "Clock", "Callout", "RangeSelector", "Annotation", "TimeSeries" };
+
+    private static readonly string[] CachedValues53 = new[] { "Clock", "Callout", "RangeSelector", "TimeZone", "EnterpriseSparkline Zoom" };
+
+    private static readonly string[] CachedValues52 = new[] { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" };
+
+    private static readonly string[] CachedValues51 = CachedValues52;
+
+    private static readonly string[] CachedValues50 = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "Validation" };
+
+    private static readonly string[] CachedValues49 = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "ValidationProvider" };
+
+    private static readonly string[] CachedValues48 = new[] { "AI", "AIPrompt", "SmartPaste", "SpeechToText", "Automation" };
+
+    private static readonly string[] CachedValues47 = new[] { "AIPrompt", "AIPromptButton", "SmartPasteButton", "SpeechToTextButton", "Clipboard Extraction" };
+
+    private static readonly string[] CachedValues46 = new[] { "Navigation", "Layout", "EnterpriseBreadcrumb", "Wizard", "EnterpriseCarousel", "EnterprisePanorama", "Alerts" };
+
+    private static readonly string[] CachedValues45 = new[] { "EnterpriseBreadcrumb", "EnterpriseStepProgressBar", "EnterpriseBindingNavigator", "EnterpriseCarousel", "EnterprisePanorama", "EnterpriseWizardControl", "EnterpriseDataLayout", "EnterpriseDesktopAlert", "EnterpriseTaskDialog" };
+
+    private static readonly string[] CachedValues44 = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "EnterpriseBulletGraph", "EnterpriseCarousel", "Calculator", "EnterpriseMaskedTextBox", "ZipLibrary" };
+
+    private static readonly string[] CachedValues43 = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "SpellChecker", "EnterpriseBulletGraph", "EnterpriseCarousel", "Rating", "EnterpriseWaitingBar", "Calculator", "ZipLibrary" };
+
+    private static readonly string[] CachedValues42 = new[] { "Gantt", "Barcode", "QR", "Kanban", "TaskBoard", "ProjectManagement" };
+
+    private static readonly string[] CachedValues41 = new[] { "Gantt EnterpriseChart", "Critical Path", "QR Code", "Code128", "Kanban Board" };
+
+    private static readonly string[] CachedValues40 = new[] { "QA", "Testing", "Coverage", "Diagnostics", "Verification" };
+
+    private static readonly string[] CachedValues39 = new[] { "Test Runner", "Feature Coverage", "Diagnostics", "Regression Matrix" };
+
+    private static readonly string[] CachedValues38 = new[] { "API", "Reflection", "Inspector", "DeveloperTools" };
+
+    private static readonly string[] CachedValues37 = new[] { "Reflection", "API Browser", "Member Inspection", "Signatures", "Type Hierarchy" };
+
+    private static readonly string[] CachedValues36 = new[] { "Learning", "Docs", "Migration", "Patterns", "Onboarding" };
+
+    private static readonly string[] CachedValues35 = new[] { "Tutorials", "Best Practices", "Anti-Patterns", "Migration Guides", "Architecture" };
+
+    private static readonly string[] CachedValues34 = new[] { "Accessibility", "WCAG", "ARIA", "Section508", "ScreenReader" };
+
+    private static readonly string[] CachedValues33 = new[] { "WCAG 2.2 AA", "Section 508", "Screen Readers", "Live Regions", "Contrast Audit" };
+
+    private static readonly string[] CachedValues32 = new[] { "Performance", "Benchmarks", "Throughput", "Latency", "Memory" };
+
+    private static readonly string[] CachedValues31 = new[] { "Stress Testing", "1M Rows", "Throughput", "Memory Profiling", "Micro-Benchmarks" };
+
+    private static readonly string[] CachedValues30 = new[] { "Scenarios", "CRM", "ERP", "Healthcare", "Trading", "HR" };
+
+    private static readonly string[] CachedValues29 = new[] { "CRM Pipeline", "ERP Manufacturing", "Clinical EHR", "Trading Order Book", "Agile Sprints" };
+
+    private static readonly string[] CachedValues28 = new[] { "Theming", "Tokens", "DarkMode", "Material", "Fluent" };
+
+    private static readonly string[] CachedValues27 = new[] { "Live Switching", "Dark Mode", "Light Mode", "Fluent", "Material", "Tokens" };
+
+    private static readonly string[] CachedValues26 = new[] { "AI", "Copilot", "LLM", "NLP", "SmartGrid" };
+
+    private static readonly string[] CachedValues25 = new[] { "AI Copilot", "Natural Language Query", "Offline Mock Engine", "Summaries", "AST Translation" };
+
+    private static readonly string[] CachedValues24 = new[] { "Documents", "PDF", "RichText", "Office", "Spreadsheet" };
+
+    private static readonly string[] CachedValues23 = new[] { "PDF Viewer", "WYSIWYG", "RichText", "Spreadsheet", "Formulas" };
+
+    private static readonly string[] CachedValues22 = new[] { "Editors", "Validation", "Forms", "Input", "FluentValidation" };
+
+    private static readonly string[] CachedValues21 = new[] { "Validation", "Formatting", "Numeric Stepping", "Masking", "Accessibility" };
+
+    private static readonly string[] CachedValues20 = new[] { "Dashboard", "KPI", "Executive", "BI", "Analytics" };
+
+    private static readonly string[] CachedValues19 = new[] { "KPI Cards", "Integrated Visuals", "Executive Overview", "Dynamic Layout" };
+
+    private static readonly string[] CachedValues18 = new[] { "Reporting", "Bands", "Invoices", "Printing", "PDF" };
+
+    private static readonly string[] CachedValues17 = new[] { "Banded Reports", "Invoices", "Healthcare EHR", "Print Preview", "PDF Vector" };
+
+    private static readonly string[] CachedValues16 = new[] { "Map", "GIS", "GPS", "Fleet", "Logistics" };
+
+    private static readonly string[] CachedValues15 = new[] { "GIS", "GeoCoordinates", "Markers", "Fleet Tracking", "Zoom & Pan" };
+
+    private static readonly string[] CachedValues14 = new[] { "EnterpriseDiagram", "Flowchart", "Architecture", "Nodes" };
+
+    private static readonly string[] CachedValues13 = new[] { "Shapes", "Connectors", "Orthogonal Routing", "Drag & Drop", "Zoom" };
+
+    private static readonly string[] CachedValues12 = new[] { "EnterpriseScheduler", "Calendar", "Appointments", "Planning" };
+
+    private static readonly string[] CachedValues11 = new[] { "WorkWeek", "Timeline", "Appointments", "Resources", "Recurrence" };
+
+    private static readonly string[] CachedValues10 = new[] { "Gauge", "Radial", "Linear", "KPI", "Telemetry" };
+
+    private static readonly string[] CachedValues9 = new[] { "Radial", "Linear", "Threshold Ranges", "Telemetry", "Animation" };
+
+    private static readonly string[] CachedValues8 = new[] { "EnterpriseChart", "Financial", "OHLC", "RealTime", "Telemetry" };
+
+    private static readonly string[] CachedValues7 = new[] { "Candlestick", "Spline", "Area", "Real-Time", "Tooltips", "Vector GDI+" };
+
+    private static readonly string[] CachedValues6 = new[] { "EnterprisePivotGrid", "OLAP", "BI", "Analytics" };
+
+    private static readonly string[] CachedValues5 = new[] { "OLAP", "Cross-Tab", "Dynamic Slicing", "Grand Totals", "Summaries" };
+
+    private static readonly string[] CachedValues4 = new[] { "EnterpriseTreeList", "Hierarchy", "Organization", "BOM" };
+
+    private static readonly string[] CachedValues3 = new[] { "Hierarchy", "TreeGrid", "Expand/Collapse", "Multi-Column", "Aggregation" };
+
+    private static readonly string[] CachedValues2 = new[] { "Grid", "Virtualization", "Performance", "MillionRows" };
+
+    private static readonly string[] CachedValues1 = new[] { "Virtualization", "1M Rows", "Direct GDI+", "Low Memory", "DPI Aware" };
     private static readonly List<DemoItem> _allDemos = new();
 
     public static IReadOnlyList<DemoItem> AllDemos => _allDemos;
@@ -26,8 +141,8 @@ public static class DemoMetadataRegistry
             Category = DemoCategoryType.GridsAndData,
             SubCategory = "DataGrid",
             TargetControlName = "EnterpriseDataGrid<T>, DataGrid<T>",
-            Features = new[] { "Virtualization", "1M Rows", "Direct GDI+", "Low Memory", "DPI Aware" },
-            Tags = new[] { "Grid", "Virtualization", "Performance", "MillionRows" },
+            Features = CachedValues1,
+            Tags = CachedValues2,
             Industry = "High-Throughput Financial & Logistics",
             IsFeatured = true,
             IsPopular = true,
@@ -56,8 +171,8 @@ await grid.RefreshDataAsync();",
             Category = DemoCategoryType.GridsAndData,
             SubCategory = "EnterpriseTreeList",
             TargetControlName = "EnterpriseTreeList<T>, EnterpriseTreeListControl",
-            Features = new[] { "Hierarchy", "TreeGrid", "Expand/Collapse", "Multi-Column", "Aggregation" },
-            Tags = new[] { "EnterpriseTreeList", "Hierarchy", "Organization", "BOM" },
+            Features = CachedValues3,
+            Tags = CachedValues4,
             Industry = "Corporate Governance & Manufacturing",
             ViewFactory = () => new TreeGridDemoView(GetById("grid-treelist-hierarchy")),
             SourceCode =
@@ -79,8 +194,8 @@ treeList.Items.Add(new TreeListDemoItem { Id = 2, ParentId = 1, Name = ""Enginee
             Category = DemoCategoryType.GridsAndData,
             SubCategory = "EnterprisePivotGrid",
             TargetControlName = "EnterprisePivotGrid<T>, EnterprisePivotGridControl",
-            Features = new[] { "OLAP", "Cross-Tab", "Dynamic Slicing", "Grand Totals", "Summaries" },
-            Tags = new[] { "EnterprisePivotGrid", "OLAP", "BI", "Analytics" },
+            Features = CachedValues5,
+            Tags = CachedValues6,
             Industry = "Corporate Finance & Commercial Planning",
             ViewFactory = () => new PivotGridDemoView(GetById("grid-pivot-olap")),
             SourceCode =
@@ -103,8 +218,8 @@ pivot.Fields.Add(new PivotField { FieldName = ""Revenue"", Area = PivotArea.Data
             Category = DemoCategoryType.ChartsAndGauges,
             SubCategory = "Charts",
             TargetControlName = "EnterpriseChart, EnterpriseChartControl",
-            Features = new[] { "Candlestick", "Spline", "Area", "Real-Time", "Tooltips", "Vector GDI+" },
-            Tags = new[] { "EnterpriseChart", "Financial", "OHLC", "RealTime", "Telemetry" },
+            Features = CachedValues7,
+            Tags = CachedValues8,
             Industry = "Capital Markets & IoT Telemetry",
             IsFeatured = true,
             ViewFactory = () => new ChartsDemoView(GetById("charts-financial-realtime")),
@@ -128,8 +243,8 @@ chart.Series.Add(series);",
             Category = DemoCategoryType.ChartsAndGauges,
             SubCategory = "Gauges",
             TargetControlName = "EnterpriseRadialGauge, EnterpriseLinearGauge, EnterpriseGaugeControl",
-            Features = new[] { "Radial", "Linear", "Threshold Ranges", "Telemetry", "Animation" },
-            Tags = new[] { "Gauge", "Radial", "Linear", "KPI", "Telemetry" },
+            Features = CachedValues9,
+            Tags = CachedValues10,
             Industry = "Infrastructure Monitoring & Automotive",
             ViewFactory = () => new GaugesDemoView(GetById("gauges-radial-linear")),
             SourceCode =
@@ -153,8 +268,8 @@ gauge.Ranges.Add(new GaugeRange { From = 0, To = 50, Color = ""#107c10"" });",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "EnterpriseScheduler",
             TargetControlName = "EnterpriseScheduler, EnterpriseSchedulerControl",
-            Features = new[] { "WorkWeek", "Timeline", "Appointments", "Resources", "Recurrence" },
-            Tags = new[] { "EnterpriseScheduler", "Calendar", "Appointments", "Planning" },
+            Features = CachedValues11,
+            Tags = CachedValues12,
             Industry = "Healthcare & Enterprise Resource Planning",
             ViewFactory = () => new SchedulerDemoView(GetById("scheduler-appointments")),
             SourceCode =
@@ -182,8 +297,8 @@ scheduler.Appointments.Add(new Appointment
             Category = DemoCategoryType.DiagramsAndWorkflow,
             SubCategory = "Diagrams",
             TargetControlName = "EnterpriseDiagram, EnterpriseDiagramControl",
-            Features = new[] { "Shapes", "Connectors", "Orthogonal Routing", "Drag & Drop", "Zoom" },
-            Tags = new[] { "EnterpriseDiagram", "Flowchart", "Architecture", "Nodes" },
+            Features = CachedValues13,
+            Tags = CachedValues14,
             Industry = "DevOps Architecture & Process Modeling",
             ViewFactory = () => new DiagramsDemoView(GetById("diagrams-node-link")),
             SourceCode =
@@ -207,8 +322,8 @@ diagram.Connectors.Add(new DiagramConnector { SourceNodeId = ""n1"", TargetNodeI
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "Maps",
             TargetControlName = "EnterpriseGeoMap, EnterpriseMapControl",
-            Features = new[] { "GIS", "GeoCoordinates", "Markers", "Fleet Tracking", "Zoom & Pan" },
-            Tags = new[] { "Map", "GIS", "GPS", "Fleet", "Logistics" },
+            Features = CachedValues15,
+            Tags = CachedValues16,
             Industry = "Global Supply Chain & Transportation",
             ViewFactory = () => new MapsDemoView(GetById("maps-gis-fleet")),
             SourceCode =
@@ -236,8 +351,8 @@ map.Markers.Add(new GeoMarker
             Category = DemoCategoryType.ReportingAndDashboard,
             SubCategory = "Reporting",
             TargetControlName = "ReportDefinition, EnterpriseReportViewer",
-            Features = new[] { "Banded Reports", "Invoices", "Healthcare EHR", "Print Preview", "PDF Vector" },
-            Tags = new[] { "Reporting", "Bands", "Invoices", "Printing", "PDF" },
+            Features = CachedValues17,
+            Tags = CachedValues18,
             Industry = "Billing, Finance & Clinical EHR",
             ViewFactory = () => new ReportingDemoView(GetById("reporting-banded-invoices")),
             SourceCode =
@@ -245,7 +360,7 @@ map.Markers.Add(new GeoMarker
 var header = new ReportBand { Type = BandType.PageHeader, Height = 40 };
 header.Controls.Add(new EnterpriseReportControl { Text = ""Commercial Invoice"", Width = 300 });
 report.Bands.Add(header);",
-            Documentation = "ReportDefinition models banded layouts inspired by XtraReports and Telerik Reporting, cleanly decoupled from UI controls.",
+            Documentation = "ReportDefinition models banded layouts independently of UI controls.",
             BestPractices = "Use group bands for multi-level customer or department subtotals.",
             Troubleshooting = "Ensure total band height does not exceed page height to avoid unwanted blank overflow pages.",
             ApiReference = "ReportDefinition -> Bands, PageWidth, PageHeight, DataSource"
@@ -260,8 +375,8 @@ report.Bands.Add(header);",
             Category = DemoCategoryType.ReportingAndDashboard,
             SubCategory = "Dashboard",
             TargetControlName = "Dashboard, DashboardWidget",
-            Features = new[] { "KPI Cards", "Integrated Visuals", "Executive Overview", "Dynamic Layout" },
-            Tags = new[] { "Dashboard", "KPI", "Executive", "BI", "Analytics" },
+            Features = CachedValues19,
+            Tags = CachedValues20,
             Industry = "Executive Leadership & Board Reporting",
             IsFeatured = true,
             ViewFactory = () => new DashboardDemoView(GetById("dashboard-executive-bi")),
@@ -284,8 +399,8 @@ dashboard.Widgets.Add(new DashboardWidget { Title = ""Revenue Trend"", Type = Wi
             Category = DemoCategoryType.EditorsAndForms,
             SubCategory = "Editors",
             TargetControlName = "TextBox, EnterpriseNumericTextBox, EnterpriseDatePicker, Validator<T>",
-            Features = new[] { "Validation", "Formatting", "Numeric Stepping", "Masking", "Accessibility" },
-            Tags = new[] { "Editors", "Validation", "Forms", "Input", "FluentValidation" },
+            Features = CachedValues21,
+            Tags = CachedValues22,
             Industry = "Cross-Industry Data Entry",
             ViewFactory = () => new EditorsDemoView(GetById("editors-fluent-validation")),
             SourceCode =
@@ -308,8 +423,8 @@ var result = validator.Validate(model);",
             Category = DemoCategoryType.DocumentsAndMedia,
             SubCategory = "Documents",
             TargetControlName = "EnterprisePdfViewer, EnterpriseRichTextEditor, EnterpriseSpreadsheetControl",
-            Features = new[] { "PDF Viewer", "WYSIWYG", "RichText", "Spreadsheet", "Formulas" },
-            Tags = new[] { "Documents", "PDF", "RichText", "Office", "Spreadsheet" },
+            Features = CachedValues23,
+            Tags = CachedValues24,
             Industry = "Legal, Contract Management & Office Productivity",
             ViewFactory = () => new DocumentsDemoView(GetById("documents-multiformat")),
             SourceCode =
@@ -332,8 +447,8 @@ var result = validator.Validate(model);",
             Category = DemoCategoryType.AIAndIntelligence,
             SubCategory = "AI Copilot",
             TargetControlName = "EnterpriseAIAssistant, EnterpriseAICopilotControl",
-            Features = new[] { "AI Copilot", "Natural Language Query", "Offline Mock Engine", "Summaries", "AST Translation" },
-            Tags = new[] { "AI", "Copilot", "LLM", "NLP", "SmartGrid" },
+            Features = CachedValues25,
+            Tags = CachedValues26,
             Industry = "Next-Generation Intelligent Enterprise",
             IsFeatured = true,
             ViewFactory = () => new AIControlsDemoView(GetById("ai-copilot-assistant")),
@@ -356,8 +471,8 @@ await assistant.SendPromptAsync(""Show pending high-priority orders above $2,500
             Category = DemoCategoryType.ThemingAndStyling,
             SubCategory = "Theming",
             TargetControlName = "ThemeManager, DesignTokens, BuiltInThemes",
-            Features = new[] { "Live Switching", "Dark Mode", "Light Mode", "Fluent", "Material", "Tokens" },
-            Tags = new[] { "Theming", "Tokens", "DarkMode", "Material", "Fluent" },
+            Features = CachedValues27,
+            Tags = CachedValues28,
             Industry = "Design Systems & Corporate Branding",
             ViewFactory = () => new ThemePlaygroundView(GetById("theming-design-tokens")),
             SourceCode =
@@ -379,8 +494,8 @@ ThemeManager.Instance.ApplyTheme(theme);",
             Category = DemoCategoryType.BusinessScenarios,
             SubCategory = "Industry Suites",
             TargetControlName = "Integrated Ecosystem",
-            Features = new[] { "CRM Pipeline", "ERP Manufacturing", "Clinical EHR", "Trading Order Book", "Agile Sprints" },
-            Tags = new[] { "Scenarios", "CRM", "ERP", "Healthcare", "Trading", "HR" },
+            Features = CachedValues29,
+            Tags = CachedValues30,
             Industry = "Full Enterprise Ecosystem",
             IsFeatured = true,
             ViewFactory = () => new ScenariosDemoView(GetById("business-scenarios-suite")),
@@ -402,8 +517,8 @@ ThemeManager.Instance.ApplyTheme(theme);",
             Category = DemoCategoryType.PerformanceLab,
             SubCategory = "Benchmarking",
             TargetControlName = "QueryEngine, VirtualizationManager",
-            Features = new[] { "Stress Testing", "1M Rows", "Throughput", "Memory Profiling", "Micro-Benchmarks" },
-            Tags = new[] { "Performance", "Benchmarks", "Throughput", "Latency", "Memory" },
+            Features = CachedValues31,
+            Tags = CachedValues32,
             Industry = "High-Performance Systems & Benchmarking",
             IsFeatured = true,
             ViewFactory = () => new PerformanceDemoView(GetById("performance-laboratory")),
@@ -427,8 +542,8 @@ sw.Stop();",
             Category = DemoCategoryType.AccessibilityCenter,
             SubCategory = "Accessibility",
             TargetControlName = "AccessibilityManager, IAccessibleControl",
-            Features = new[] { "WCAG 2.2 AA", "Section 508", "Screen Readers", "Live Regions", "Contrast Audit" },
-            Tags = new[] { "Accessibility", "WCAG", "ARIA", "Section508", "ScreenReader" },
+            Features = CachedValues33,
+            Tags = CachedValues34,
             Industry = "Federal, Healthcare & Financial Compliance",
             ViewFactory = () => new AccessibilityDemoView(GetById("accessibility-center")),
             SourceCode =
@@ -451,8 +566,8 @@ AccessibilityManager.Instance.Announce(
             Category = DemoCategoryType.LearningCenter,
             SubCategory = "Developer Onboarding",
             TargetControlName = "Educational Suite",
-            Features = new[] { "Tutorials", "Best Practices", "Anti-Patterns", "Migration Guides", "Architecture" },
-            Tags = new[] { "Learning", "Docs", "Migration", "Patterns", "Onboarding" },
+            Features = CachedValues35,
+            Tags = CachedValues36,
             Industry = "Developer Experience & Training",
             ViewFactory = () => new LearningCenterDemoView(GetById("learning-center-hub")),
             SourceCode =
@@ -462,7 +577,7 @@ AccessibilityManager.Instance.Announce(
 // 3. Centralized design tokens",
             Documentation = "The Learning Center offers an authoritative reference for software architects and senior engineers building on EnterpriseUI.",
             BestPractices = "Study the anti-pattern remediation section to avoid common GDI+ performance pitfalls.",
-            Troubleshooting = "Refer to migration matrices when transitioning from DevExpress or Telerik WinForms suites.",
+            Troubleshooting = "Review setup guides and API examples when integrating components into an existing application.",
             ApiReference = "Full conceptual hierarchy and API cross-references"
         });
 
@@ -475,8 +590,8 @@ AccessibilityManager.Instance.Announce(
             Category = DemoCategoryType.Overview,
             SubCategory = "Developer Tools",
             TargetControlName = "All EnterpriseUI Assemblies",
-            Features = new[] { "Reflection", "API Browser", "Member Inspection", "Signatures", "Type Hierarchy" },
-            Tags = new[] { "API", "Reflection", "Inspector", "DeveloperTools" },
+            Features = CachedValues37,
+            Tags = CachedValues38,
             Industry = "Developer Tooling",
             ViewFactory = () => new ApiExplorerDemoView(GetById("api-interactive-explorer")),
             SourceCode =
@@ -498,8 +613,8 @@ var exported = asm.GetExportedTypes();",
             Category = DemoCategoryType.QAValidation,
             SubCategory = "Quality Assurance",
             TargetControlName = "QA Harness",
-            Features = new[] { "Test Runner", "Feature Coverage", "Diagnostics", "Regression Matrix" },
-            Tags = new[] { "QA", "Testing", "Coverage", "Diagnostics", "Verification" },
+            Features = CachedValues39,
+            Tags = CachedValues40,
             Industry = "Quality Assurance & Certification",
             ViewFactory = () => new QaValidationDemoView(GetById("qa-validation-suite")),
             SourceCode =
@@ -511,7 +626,7 @@ var testRunner = new QaValidationDemoView(meta);",
             ApiReference = "EnterpriseUI automated QA and verification matrices"
         });
 
-        // 21. Gantt, Barcode & Kanban TaskBoard Suite (Telerik Parity Suite)
+        // 21. Gantt, Barcode & Kanban TaskBoard Suite (Component Catalog Suite)
         _allDemos.Add(new DemoItem
         {
             Id = "specialized-gantt-barcode-kanban",
@@ -520,8 +635,8 @@ var testRunner = new QaValidationDemoView(meta);",
             Category = DemoCategoryType.DiagramsAndWorkflow,
             SubCategory = "Gantt, Barcode & Kanban",
             TargetControlName = "EnterpriseGanttControl, EnterpriseBarcodeControl, EnterpriseKanbanBoardControl",
-            Features = new[] { "Gantt EnterpriseChart", "Critical Path", "QR Code", "Code128", "Kanban Board" },
-            Tags = new[] { "Gantt", "Barcode", "QR", "Kanban", "TaskBoard", "ProjectManagement" },
+            Features = CachedValues41,
+            Tags = CachedValues42,
             Industry = "Project Management, Supply Chain & Agile Engineering",
             IsFeatured = true,
             IsPopular = true,
@@ -536,21 +651,21 @@ var kanban = new EnterpriseKanbanBoardControl();",
             ApiReference = "EnterpriseGanttControl -> Tasks, ShowCriticalPath; EnterpriseBarcodeControl -> Symbology, Value; EnterpriseKanbanBoardControl -> Cards"
         });
 
-        // 22. Complete Telerik Parity Suite (EnterpriseVirtualGrid, EnterpriseSyntaxEditor, EnterpriseBulletGraph, EnterpriseCarousel, Calculator & Zip)
+        // 22. Complete Component Catalog Suite (EnterpriseVirtualGrid, EnterpriseSyntaxEditor, EnterpriseBulletGraph, EnterpriseCarousel, Calculator & Zip)
         _allDemos.Add(new DemoItem
         {
-            Id = "complete-telerik-parity-catalog",
+            Id = "component-catalog",
             Title = "Complete Control Suite - EnterpriseVirtualGrid, EnterpriseSyntaxEditor, EnterpriseBulletGraph & EnterpriseCarousel",
             Description = "Showcases 1M×12 Event-Driven EnterpriseVirtualGrid, C# EnterpriseSyntaxEditor & Levenshtein SpellChecker, Stephen Few EnterpriseBulletGraph, 3D Elliptical EnterpriseCarousel, Star Rating, EnterpriseWaitingBar, EnterpriseCalculatorDropDown, MaskedEditBox, and Spread/Zip Document Processing.",
             Category = DemoCategoryType.Overview,
-            SubCategory = "Telerik Parity Suite",
+            SubCategory = "Component Catalog Suite",
             TargetControlName = "EnterpriseVirtualGridControl, EnterpriseSyntaxEditorControl, EnterpriseBulletGraphControl, EnterpriseCarouselControl",
-            Features = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "SpellChecker", "EnterpriseBulletGraph", "EnterpriseCarousel", "Rating", "EnterpriseWaitingBar", "Calculator", "ZipLibrary" },
-            Tags = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "EnterpriseBulletGraph", "EnterpriseCarousel", "Calculator", "EnterpriseMaskedTextBox", "ZipLibrary" },
+            Features = CachedValues43,
+            Tags = CachedValues44,
             Industry = "Enterprise Desktop & Developer Productivity",
             IsFeatured = true,
             IsPopular = true,
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("complete-telerik-parity-catalog")),
+            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("component-catalog")),
             SourceCode =
 @"var virtualGrid = new EnterpriseVirtualGridControl();
 var syntaxEditor = new EnterpriseSyntaxEditorControl();
@@ -571,8 +686,8 @@ var carousel = new EnterpriseCarouselControl();",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "Navigation, Layout & Alerts",
             TargetControlName = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDataLayout<T>, EnterpriseDesktopAlert, EnterpriseTaskDialog",
-            Features = new[] { "EnterpriseBreadcrumb", "EnterpriseStepProgressBar", "EnterpriseBindingNavigator", "EnterpriseCarousel", "EnterprisePanorama", "EnterpriseWizardControl", "EnterpriseDataLayout", "EnterpriseDesktopAlert", "EnterpriseTaskDialog" },
-            Tags = new[] { "Navigation", "Layout", "EnterpriseBreadcrumb", "Wizard", "EnterpriseCarousel", "EnterprisePanorama", "Alerts" },
+            Features = CachedValues45,
+            Tags = CachedValues46,
             Industry = "Enterprise Application Shell & Workflow UX",
             IsFeatured = true,
             IsPopular = true,
@@ -598,8 +713,8 @@ var carousel = new EnterpriseCarouselControl();",
             Category = DemoCategoryType.AIAndIntelligence,
             SubCategory = "AIPrompt & Smart Buttons",
             TargetControlName = "AIPromptControl, AIPromptButton, SmartPasteButton, SpeechToTextButton",
-            Features = new[] { "AIPrompt", "AIPromptButton", "SmartPasteButton", "SpeechToTextButton", "Clipboard Extraction" },
-            Tags = new[] { "AI", "AIPrompt", "SmartPaste", "SpeechToText", "Automation" },
+            Features = CachedValues47,
+            Tags = CachedValues48,
             Industry = "Enterprise AI Productivity & Intelligent Data Entry",
             IsFeatured = true,
             IsPopular = true,
@@ -622,8 +737,8 @@ var aiPrompt = new AIPromptControl();",
             Category = DemoCategoryType.GridsAndData,
             SubCategory = "DataEntry, DataFilter & EnterpriseCardView",
             TargetControlName = "DataEntry<T>, DataFilter, EnterpriseFilterView, EnterpriseCardView<T>, ListView<T>, ValidationProvider",
-            Features = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "ValidationProvider" },
-            Tags = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "Validation" },
+            Features = CachedValues49,
+            Tags = CachedValues50,
             Industry = "CRM, ERP & Business Intelligence Filtering",
             IsFeatured = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("dataentry-filter-cards-suite"), initialTabIndex: 2),
@@ -645,8 +760,8 @@ var filterView = new EnterpriseFilterView();",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "SlideView, PipsPager & Media",
             TargetControlName = "EnterpriseSlideRotatorPipsControl, EnterpriseImageEditor, PictureBox, EnterpriseWebCam",
-            Features = new[] { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" },
-            Tags = new[] { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" },
+            Features = CachedValues51,
+            Tags = MediaTags,
             Industry = "Digital Signage, Kiosks, Security Badging & Media",
             IsFeatured = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("slide-rotator-pips-media-suite"), initialTabIndex: 3),
@@ -670,8 +785,8 @@ byte[] frame = webcam.TakeSnapshot();",
             Category = DemoCategoryType.ChartsAndGauges,
             SubCategory = "Clock, Callout & RangeSelector",
             TargetControlName = "EnterpriseClockControl, EnterpriseCalloutControl, EnterpriseRangeSelectorControl",
-            Features = new[] { "Clock", "Callout", "RangeSelector", "TimeZone", "EnterpriseSparkline Zoom" },
-            Tags = new[] { "Clock", "Callout", "RangeSelector", "Annotation", "TimeSeries" },
+            Features = CachedValues53,
+            Tags = CachedValues54,
             Industry = "Global Trading Desks & Operations Centers",
             IsFeatured = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("clock-callout-rangeselector-suite"), initialTabIndex: 4),
@@ -694,18 +809,18 @@ var rangeSelector = new EnterpriseRangeSelectorControl { SelectionStartPercent =
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "Forms, Overlays & Shell Tools",
             TargetControlName = "NavigationView, OfficeNavigationBar, Flyout, Overlay, SplashScreen, ToastNotification, TabbedForm, ControlSpy",
-            Features = new[] { "NavigationView", "OfficeNavigationBar", "Flyout", "Overlay", "SplashScreen", "ToastNotification", "NotifyIcon", "TaskbarButton", "TabbedForm", "ControlSpy" },
-            Tags = new[] { "NavigationView", "OfficeNavigationBar", "Flyout", "Overlay", "Toast", "TabbedForm", "FileDialogs", "ControlSpy" },
+            Features = CachedValues55,
+            Tags = CachedValues56,
             Industry = "Modern Desktop Application Shells & IDE Tooling",
             IsFeatured = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("navigation-forms-overlays-suite"), initialTabIndex: 5),
             SourceCode =
-@"// Complete 118-Control Telerik WinForms Parity Registry
-var allControls = TelerikWinFormsControlRegistry.AllControls;",
-            Documentation = "Completes 100% control parity across all 118 controls in the official Telerik UI for WinForms documentation.",
+@"// Complete 118-Control reference WinForms coverage Registry
+var allControls = EnterpriseControlRegistry.AllControls;",
+            Documentation = "Browse component metadata and open the associated EnterpriseUI demonstrations.",
             BestPractices = "Use NavigationView in Compact mode on smaller viewports and Expanded mode on 1080p+ monitors.",
             Troubleshooting = "Use the All 118 Controls Catalog tab to search and jump to any control across the solution.",
-            ApiReference = "TelerikWinFormsControlRegistry.AllControls (118 Controls)"
+            ApiReference = "EnterpriseControlRegistry.AllControls (118 Controls)"
         });
         RegisterGridWorkshop();
     }
@@ -724,7 +839,7 @@ var allControls = TelerikWinFormsControlRegistry.AllControls;",
                 SubCategory = "DataGrid Workshop",
                 TargetControlName = "EnterpriseDataGrid<T>",
                 Features = captured.Features,
-                Tags = new[] { "Grid", "DataGrid", "Workshop" },
+                Tags = CachedValues57,
                 Industry = "Cross-Industry",
                 IsFeatured = captured.Id is "grid-enterprise" or "grid-basics",
                 IsNew = true,

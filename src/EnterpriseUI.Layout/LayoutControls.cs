@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -31,7 +31,7 @@ public class DockPanel : ObservableObject
 }
 
 /// <summary>
-/// Superset Docking and Document Layout Manager inspired by DevExpress EnterpriseDockManager and Telerik RadDocking.
+/// Superset Docking and Document Layout Manager.
 /// </summary>
 public class EnterpriseDockManager : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

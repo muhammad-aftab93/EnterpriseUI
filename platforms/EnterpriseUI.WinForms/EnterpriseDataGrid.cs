@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -364,7 +364,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
         return f;
     }
 
-    private int RowHeightOf(Frame f, GridRow<TItem>? row) => row?.Kind == GridRowKind.DetailSummary ? f.DetailH : f.RowH;
+    private static int RowHeightOf(Frame f, GridRow<TItem>? row) => row?.Kind == GridRowKind.DetailSummary ? f.DetailH : f.RowH;
 
     private IEnumerable<RowSlot> EnumerateRows(Frame f)
     {
@@ -671,7 +671,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
 
     private string CellText(GridRow<TItem> row, GridColumn column) => _engine.FormatCellValue(column, CellValue(row, column));
 
-    private GridColumnType ResolveType(GridColumn column, object? value)
+    private static GridColumnType ResolveType(GridColumn column, object? value)
     {
         if (column is GridCommandColumn) return GridColumnType.Command;
         if (column.ColumnType != GridColumnType.Auto) return column.ColumnType;
@@ -690,7 +690,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
         };
     }
 
-    private int ColumnIndexOf(Frame f, GridColumn column) => f.Ordered.IndexOf(column);
+    private static int ColumnIndexOf(Frame f, GridColumn column) => f.Ordered.IndexOf(column);
 
     private bool IsCellSelectionMode => _engine.SelectionMode is GridSelectionMode.CellRange or GridSelectionMode.SingleCell or GridSelectionMode.Column;
 

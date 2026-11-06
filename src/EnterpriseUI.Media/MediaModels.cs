@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -6,7 +6,7 @@ using EnterpriseUI.Core.Mvvm;
 namespace EnterpriseUI.Media;
 
 /// <summary>
-/// Superset Image Editor combining Telerik EnterpriseImageEditor and DevExpress ImageEdit.
+/// Superset Image Editor.
 /// </summary>
 public class EnterpriseImageEditor : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

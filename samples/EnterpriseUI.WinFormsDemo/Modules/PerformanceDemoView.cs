@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,16 +8,24 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class PerformanceDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly ListView _benchmarkList;
-    private readonly Label _lblStatus;
+
+    private static readonly string[] CachedValues4 = new[] { "Streaming CSV Exporter", "100,000 rows", "48.1 ms", "2,079,002 items/sec", "+480 KB", "PASS (< 200ms)" };
+
+    private static readonly string[] CachedValues3 = new[] { "GDI+ Direct Double-Buffer Frame Draw", "60 FPS (Viewport)", "1.8 ms", "555 frames/sec", "0 KB", "PASS (< 16ms)" };
+
+    private static readonly string[] CachedValues2 = new[] { "QueryEngine Multi-Predicate Filter", "500,000 rows", "6.8 ms", "73,529,411 items/sec", "0 KB", "PASS (< 20ms)" };
+
+    private static readonly string[] CachedValues1 = new[] { "DataGrid In-Memory Virtualization", "1,000,000 rows", "14.2 ms", "70,422,535 items/sec", "+1.2 MB", "PASS (< 50ms)" };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly ListView _benchmarkList=new ListView();
+    private readonly Label _lblStatus=new Label();
 
     public PerformanceDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -60,22 +68,25 @@ public class PerformanceDemoView : UserControl
 
         actionsPanel.Controls.AddRange(new Control[] { btnRunGridBench, btnRunChartBench });
 
-        _lblStatus = new Label
-        {
-            Text = "Ready to execute reproducible micro-benchmarks.",
-            Dock = DockStyle.Top,
-            Height = 24,
-            Font = new Font("Segoe UI", 9f, FontStyle.Italic)
-        };
+        _lblStatus.            Text = "Ready to execute reproducible micro-benchmarks.";
 
-        _benchmarkList = new ListView
-        {
-            Dock = DockStyle.Fill,
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true,
-            Font = new Font("Consolas", 9f)
-        };
+        _lblStatus.            Dock = DockStyle.Top;
+
+        _lblStatus.            Height = 24;
+
+        _lblStatus.            Font = new Font("Segoe UI", 9f, FontStyle.Italic)
+;
+
+        _benchmarkList.            Dock = DockStyle.Fill;
+
+        _benchmarkList.            View = View.Details;
+
+        _benchmarkList.            FullRowSelect = true;
+
+        _benchmarkList.            GridLines = true;
+
+        _benchmarkList.            Font = new Font("Consolas", 9f)
+;
         _benchmarkList.Columns.Add("Benchmark Scenario", 260);
         _benchmarkList.Columns.Add("Item Count", 120);
         _benchmarkList.Columns.Add("Elapsed Time", 120);
@@ -91,10 +102,10 @@ public class PerformanceDemoView : UserControl
         _baseView.DemoContainer.Controls.Add(mainPanel);
 
         // Pre-populate baseline benchmarks
-        _benchmarkList.Items.Add(new ListViewItem(new[] { "DataGrid In-Memory Virtualization", "1,000,000 rows", "14.2 ms", "70,422,535 items/sec", "+1.2 MB", "PASS (< 50ms)" }));
-        _benchmarkList.Items.Add(new ListViewItem(new[] { "QueryEngine Multi-Predicate Filter", "500,000 rows", "6.8 ms", "73,529,411 items/sec", "0 KB", "PASS (< 20ms)" }));
-        _benchmarkList.Items.Add(new ListViewItem(new[] { "GDI+ Direct Double-Buffer Frame Draw", "60 FPS (Viewport)", "1.8 ms", "555 frames/sec", "0 KB", "PASS (< 16ms)" }));
-        _benchmarkList.Items.Add(new ListViewItem(new[] { "Streaming CSV Exporter", "100,000 rows", "48.1 ms", "2,079,002 items/sec", "+480 KB", "PASS (< 200ms)" }));
+        _benchmarkList.Items.Add(new ListViewItem(CachedValues1));
+        _benchmarkList.Items.Add(new ListViewItem(CachedValues2));
+        _benchmarkList.Items.Add(new ListViewItem(CachedValues3));
+        _benchmarkList.Items.Add(new ListViewItem(CachedValues4));
     }
 
     private void RunGridBenchmark()

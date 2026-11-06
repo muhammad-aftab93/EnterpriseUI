@@ -14,10 +14,10 @@ Expand a customer to see its orders, and an order to see its lines. Relations ne
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Multi-level master/detail | Hierarchical grid, child templates | Implemented |  |
-| Child tables with full grid features | Child grids with own features | Partial | Child rows are read-only; they are not independent grids with their own sorting or editing. |
+| Multi-level master/detail | Nested relations without a depth limit | Implemented |  |
+| Child tables with full grid features | Child tables are rows of the parent grid | Partial | Child rows are read-only; they are not independent grids with their own sorting or editing. |
 
 ## Architecture notes
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,22 +15,30 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class NavigationAndLayoutDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
+
+    private static readonly string[] CachedValues1 = new[]
+        {
+            "Customer #1001 — Global FinTech Corp ($1.4M ARR)",
+            "Customer #1002 — Apex Healthcare Systems ($890K ARR)",
+            "Customer #1003 — Pacific Logistics Group ($2.1M ARR)",
+            "Customer #1004 — Sovereign Cloud Defense ($3.6M ARR)"
+        };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
     private readonly EnterpriseBreadcrumb _breadcrumbModel = new();
     private readonly EnterpriseStepProgressBar _stepModel = new();
     private readonly EnterpriseBindingNavigator<string> _bindingNav = new();
     private readonly EnterpriseWizardControl _wizardModel = new();
     private readonly EnterprisePanorama _panoramaModel = new();
-    private readonly EnterpriseCarouselControl _carouselControl;
-    private readonly EnterpriseRatingAndWaitingControl _waitingControl;
-    private readonly System.Windows.Forms.Timer _liveTimer;
+    private readonly EnterpriseCarouselControl _carouselControl=new EnterpriseCarouselControl();
+    private readonly EnterpriseRatingAndWaitingControl _waitingControl=new EnterpriseRatingAndWaitingControl();
+    private readonly System.Windows.Forms.Timer _liveTimer=new System.Windows.Forms.Timer();
 
     public NavigationAndLayoutDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -143,13 +151,7 @@ public class NavigationAndLayoutDemoView : UserControl
         };
 
         // 3. EnterpriseBindingNavigator
-        _bindingNav.Items.AddRange(new[]
-        {
-            "Customer #1001 — Global FinTech Corp ($1.4M ARR)",
-            "Customer #1002 — Apex Healthcare Systems ($890K ARR)",
-            "Customer #1003 — Pacific Logistics Group ($2.1M ARR)",
-            "Customer #1004 — Sovereign Cloud Defense ($3.6M ARR)"
-        });
+        _bindingNav.Items.AddRange(CachedValues1);
         _bindingNav.NewItemFactory = () => $"Customer #{1001 + _bindingNav.Items.Count} — New Enterprise Account ($500K ARR)";
 
         var lblBindHeader = new Label { Text = "RadBindingNavigator Control:", Location = new Point(14, 228), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
@@ -201,7 +203,7 @@ public class NavigationAndLayoutDemoView : UserControl
             SplitterDistance = 190
         };
 
-        _carouselControl = new EnterpriseCarouselControl { Dock = DockStyle.Fill };
+        _carouselControl.Dock = DockStyle.Fill ;
         _carouselControl.SelectedItemChanged += item => _baseView.LogEvent("EnterpriseCarousel.SelectedItem", item);
         cpSplit.Panel1.Controls.Add(_carouselControl);
 
@@ -330,7 +332,9 @@ public class NavigationAndLayoutDemoView : UserControl
         var tabAlerts = new TabPage("🔔 EnterpriseDesktopAlert, EnterpriseTaskDialog & EnterpriseWaitingBar");
         var alertPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
-        _waitingControl = new EnterpriseRatingAndWaitingControl { Location = new Point(14, 14), Size = new Size(740, 90) };
+        _waitingControl.Location = new Point(14, 14);
+
+        _waitingControl.Size = new Size(740, 90) ;
         _waitingControl.RatingChanged += r => _baseView.LogEvent("EnterpriseRatingControl.Value", $"{r} stars");
 
         var btnDesktopAlert = new Button
@@ -389,7 +393,7 @@ public class NavigationAndLayoutDemoView : UserControl
         tabs.TabPages.AddRange(new[] { tabNav, tabCarouselPanorama, tabLayoutWizard, tabAlerts });
         _baseView.DemoContainer.Controls.Add(tabs);
 
-        _liveTimer = new System.Windows.Forms.Timer { Interval = 140 };
+        _liveTimer.Interval = 140 ;
         int tickCounter = 0;
         _liveTimer.Tick += (_, _) =>
         {

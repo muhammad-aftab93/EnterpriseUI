@@ -15,6 +15,10 @@ namespace EnterpriseUI.WinFormsDemo.Infrastructure;
 /// </summary>
 public static class GridDocGenerator
 {
+
+    private static readonly string[] CachedValues2 = new[] { "Column footers", "11 aggregate functions", "Group summaries", "Group footers", "Running totals", "Calculated columns" };
+
+    private static readonly string[] CachedValues1 = new[] { "Search panel", "Filter or highlight mode", "Match count", "Next/previous (F3)", "Type-ahead", "Search in child tables", "Expand to reveal" };
     private sealed record Page(string File, string Title, string Overview, string[] Features, string Usage, string Architecture, string Performance, string Accessibility,
         string Troubleshooting, string BestPractices, string Api, string DemoId, string DemoTitle, string[] Related);
 
@@ -70,7 +74,7 @@ public static class GridDocGenerator
 
         pages.Add(new Page("Searching", "Searching - Search Panel, Highlight, Type-Ahead",
             "Search all columns from the built-in panel (Ctrl+F). Filter mode hides rows that do not match; highlight mode keeps rows, counts matches and lets you move between them. Typing in the grid jumps to the next matching row of the focused column.",
-            new[] { "Search panel", "Filter or highlight mode", "Match count", "Next/previous (F3)", "Type-ahead", "Search in child tables", "Expand to reveal" },
+            CachedValues1,
             "grid.ShowSearchPanel = true; grid.SearchPanelText = \"acme\"; grid.SearchMode = GridSearchMode.Highlight; await grid.SearchAsync(\"acme\"); grid.NextMatch(); await grid.FindRowByPrefixAsync(\"Name\", \"Ac\").",
             "DataGrid<T> implements search over visible, searchable columns using formatted cell text, so users find what they see. Filter mode adds a composite OR filter; highlight mode computes a match list (row, field, range) that drives painting and navigation. Hierarchy search walks child relations and can expand collapsed groups, tree nodes and details.",
             "Search is a single pass over the formatted text of searchable columns; MaxMatches (default 100,000) bounds the match list. Filter mode runs in the query engine like any other filter.",
@@ -82,7 +86,7 @@ public static class GridDocGenerator
 
         pages.Add(new Page("Summaries", "Summaries - Column Footers, Group Totals and Running Totals",
             "Show aggregates under columns (sum, average, count, min, max, median and more), in group headers and footers, and as running totals. Summaries are computed over the whole filtered result, not just the visible page.",
-            new[] { "Column footers", "11 aggregate functions", "Group summaries", "Group footers", "Running totals", "Calculated columns" },
+            CachedValues2,
             "column.FooterSummaries.Add(new GridColumnSummary(AggregateFunction.Sum, \"C0\")); grid.GroupSummaries.Add(new GroupSummaryDescriptor(\"Total\", AggregateFunction.Sum, \"Sum {0:C0}\")); column.RunningTotalOf = \"Amount\"; column.Expression = \"[UnitPrice] * [Quantity]\".",
             "Footer summaries become AggregateDescriptors in the request, so the data source computes them next to paging. A format without a placeholder (\"C0\") formats the value and gets the aggregate label; a composite format (\"Sum {0:C0}\") is used as written.",
             "Aggregates are computed in the query engine in one pass per query, together with sorting and filtering. Running totals are computed asynchronously and raise RunningTotalsChanged.",
@@ -130,9 +134,9 @@ public static class GridDocGenerator
         {
             sb.AppendLine("Feature status (from the feature catalog):");
             sb.AppendLine();
-            sb.AppendLine("| Feature | Telerik RadGridView | Status | Notes |");
+            sb.AppendLine("| Feature | Implementation | Status | Notes |");
             sb.AppendLine("|---|---|---|---|");
-            foreach (var f in features) sb.AppendLine($"| {f.Name} | {f.TelerikCapability} | {f.Status} | {f.Notes} |");
+            foreach (var f in features) sb.AppendLine($"| {f.Name} | {f.EnterpriseUIImplementation} | {f.Status} | {f.Notes} |");
             sb.AppendLine();
         }
         sb.AppendLine("## Architecture notes");
@@ -204,7 +208,7 @@ public static class GridDocGenerator
         sb.AppendLine();
         foreach (var report in new[]
         {
-            ("TelerikFeatureMatrix", "1. Telerik RadGridView feature matrix"), ("EnterpriseUIFeatureMatrix", "2. EnterpriseUI DataGrid feature matrix"),
+            ("EnterpriseUIFeatureMatrix", "EnterpriseUI DataGrid feature matrix"),
             ("MissingFeaturesReport", "3. Missing features"), ("PagingArchitecture", "4. Paging architecture"), ("HierarchyArchitecture", "5. Hierarchy architecture"),
             ("ExportingArchitecture", "6. Exporting architecture"), ("PrintingArchitecture", "7. Printing architecture"), ("PerformanceReport", "8. Performance"),
             ("DemoCoverageReport", "9. Demo coverage"), ("DocumentationCoverageReport", "10. Documentation coverage"), ("TestCoverageReport", "11. Test coverage"),
@@ -220,10 +224,6 @@ public static class GridDocGenerator
     {
         var all = GridFeatureCatalog.All;
         var date = DateTime.Now.ToString("yyyy-MM-dd");
-
-        File.WriteAllText(Path.Combine(directory, "TelerikFeatureMatrix.md"),
-            "# 1. Telerik RadGridView feature matrix\n\nCapabilities of Telerik UI for WinForms RadGridView, as understood from its public documentation, grouped by the areas requested. This lists what a comparable grid is expected to offer; the next report shows where EnterpriseUI stands.\n\n" +
-            "| Area | Capability | Telerik RadGridView |\n|---|---|---|\n" + string.Join("\n", all.Select(f => $"| {f.Area} | {f.Name} | {f.TelerikCapability} |")) + "\n");
 
         File.WriteAllText(Path.Combine(directory, "EnterpriseUIFeatureMatrix.md"),
             $"# 2. EnterpriseUI DataGrid feature matrix\n\nGenerated {date} from `GridFeatureCatalog`. Statuses are literal: Implemented means built, documented, demonstrated and tested; Partial lists what is missing.\n\n" +

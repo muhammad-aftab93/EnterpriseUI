@@ -63,7 +63,6 @@ public class EnterprisePivotGridControl : Control, IThemeableControl
 
         var rowHeaderWidth = 140;
         var colWidth = (Width - rowHeaderWidth - 120) / (float)_colDimensions.Length;
-        var totalColWidth = 110;
         var headerHeight = 32;
         var rowHeight = 28;
 

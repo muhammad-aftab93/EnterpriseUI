@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -16,7 +16,7 @@ using EnterpriseUI.Theming;
 namespace EnterpriseUI.WinForms;
 
 /// <summary>
-/// Clean-room GDI+ EnterpriseVirtualGrid Control (Telerik RadVirtualGrid equivalent).
+/// Clean-room GDI+ EnterpriseVirtualGrid Control.
 /// Renders arbitrary millions of rows/columns via on-demand EnterpriseVirtualGrid.CellValueNeeded callbacks.
 /// </summary>
 public class EnterpriseVirtualGridControl : Control, IThemeableControl
@@ -152,7 +152,7 @@ public class EnterpriseVirtualGridControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ Syntax Editor Control (Telerik RadSyntaxEditor equivalent).
+/// Clean-room GDI+ Syntax Editor Control.
 /// Renders line numbers gutter, code folding markers, and colorized C# lexical tokens.
 /// </summary>
 public class EnterpriseSyntaxEditorControl : Control, IThemeableControl
@@ -250,7 +250,7 @@ namespace EnterpriseUI.Sample
 }
 
 /// <summary>
-/// Clean-room GDI+ Stephen Few EnterpriseBulletGraph Control (Telerik RadBulletGraph equivalent).
+/// Clean-room GDI+ Stephen Few EnterpriseBulletGraph Control.
 /// </summary>
 public class EnterpriseBulletGraphControl : Control, IThemeableControl
 {
@@ -326,7 +326,7 @@ public class EnterpriseBulletGraphControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ 3D Elliptical EnterpriseCarousel Control (Telerik RadCarousel equivalent).
+/// Clean-room GDI+ 3D Elliptical EnterpriseCarousel Control.
 /// </summary>
 public class EnterpriseCarouselControl : Control, IThemeableControl
 {
@@ -413,7 +413,7 @@ public class EnterpriseCarouselControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ Interactive Star Rating & EnterpriseWaitingBar Controls (Telerik RadRating / RadWaitingBar equivalents).
+/// GDI+ interactive star rating and waiting indicators.
 /// </summary>
 public class EnterpriseRatingAndWaitingControl : Control, IThemeableControl
 {
@@ -482,7 +482,7 @@ public class EnterpriseRatingAndWaitingControl : Control, IThemeableControl
         using var starFont = new Font("Segoe UI Symbol", 15f, FontStyle.Bold);
         using var boldFont = new Font(Font, FontStyle.Bold);
 
-        g.DrawString("RadRating Parity:", boldFont, fgBrush, 10, 12);
+        g.DrawString("Star Rating:", boldFont, fgBrush, 10, 12);
         for (int i = 0; i < _rating.MaxStars; i++)
         {
             g.DrawString("★", starFont, i < _rating.Value ? goldBrush : mutedBrush, 130 + i * 32, 5);

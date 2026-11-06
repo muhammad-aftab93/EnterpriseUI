@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -13,12 +13,12 @@ namespace EnterpriseUI.WinFormsDemo.Controls;
 public class EnterpriseAICopilotControl : UserControl, IThemeableControl
 {
     private readonly EnterpriseAIAssistant _assistant = new();
-    private readonly RichTextBox _chatHistory;
-    private readonly TextBox _inputBox;
-    private readonly Button _btnSend;
-    private readonly Button _btnQueryGen;
-    private readonly Button _btnSummarize;
-    private readonly Label _statusLabel;
+    private readonly RichTextBox _chatHistory=new RichTextBox();
+    private readonly TextBox _inputBox=new TextBox();
+    private readonly Button _btnSend=new Button();
+    private readonly Button _btnQueryGen=new Button();
+    private readonly Button _btnSummarize=new Button();
+    private readonly Label _statusLabel=new Label();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
 
     public string? ThemeOverride { get; set; }
@@ -60,14 +60,16 @@ public class EnterpriseAICopilotControl : UserControl, IThemeableControl
         };
         topPanel.Controls.Add(lblHeader);
 
-        _chatHistory = new RichTextBox
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            BackColor = Color.White,
-            BorderStyle = BorderStyle.FixedSingle,
-            Font = new Font("Segoe UI", 9.5f)
-        };
+        _chatHistory.            Dock = DockStyle.Fill;
+
+        _chatHistory.            ReadOnly = true;
+
+        _chatHistory.            BackColor = Color.White;
+
+        _chatHistory.            BorderStyle = BorderStyle.FixedSingle;
+
+        _chatHistory.            Font = new Font("Segoe UI", 9.5f)
+;
 
         var bottomContainer = new Panel
         {
@@ -76,13 +78,14 @@ public class EnterpriseAICopilotControl : UserControl, IThemeableControl
             Padding = new Padding(8)
         };
 
-        _inputBox = new TextBox
-        {
-            Location = new Point(8, 8),
-            Width = 460,
-            Font = new Font("Segoe UI", 10f),
-            PlaceholderText = "Ask AI to query data, filter grid records, generate charts, or summarize..."
-        };
+        _inputBox.            Location = new Point(8, 8);
+
+        _inputBox.            Width = 460;
+
+        _inputBox.            Font = new Font("Segoe UI", 10f);
+
+        _inputBox.            PlaceholderText = "Ask AI to query data, filter grid records, generate charts, or summarize..."
+;
         _inputBox.KeyDown += (s, e) =>
         {
             if (e.KeyCode == Keys.Enter && !e.Shift)
@@ -92,40 +95,44 @@ public class EnterpriseAICopilotControl : UserControl, IThemeableControl
             }
         };
 
-        _btnSend = new Button
-        {
-            Text = "Send Prompt",
-            Location = new Point(480, 6),
-            Size = new Size(110, 30),
-            FlatStyle = FlatStyle.Flat
-        };
+        _btnSend.            Text = "Send Prompt";
+
+        _btnSend.            Location = new Point(480, 6);
+
+        _btnSend.            Size = new Size(110, 30);
+
+        _btnSend.            FlatStyle = FlatStyle.Flat
+;
         _btnSend.Click += (_, _) => _ = SendPromptAsync(_inputBox.Text);
 
-        _btnQueryGen = new Button
-        {
-            Text = "Filter High-Risk Orders",
-            Location = new Point(8, 44),
-            Size = new Size(160, 28),
-            FlatStyle = FlatStyle.Flat
-        };
+        _btnQueryGen.            Text = "Filter High-Risk Orders";
+
+        _btnQueryGen.            Location = new Point(8, 44);
+
+        _btnQueryGen.            Size = new Size(160, 28);
+
+        _btnQueryGen.            FlatStyle = FlatStyle.Flat
+;
         _btnQueryGen.Click += (_, _) => _ = SendPromptAsync("Show me pending orders above $2,500 with high shipment priority");
 
-        _btnSummarize = new Button
-        {
-            Text = "Generate BI Summary",
-            Location = new Point(176, 44),
-            Size = new Size(160, 28),
-            FlatStyle = FlatStyle.Flat
-        };
+        _btnSummarize.            Text = "Generate BI Summary";
+
+        _btnSummarize.            Location = new Point(176, 44);
+
+        _btnSummarize.            Size = new Size(160, 28);
+
+        _btnSummarize.            FlatStyle = FlatStyle.Flat
+;
         _btnSummarize.Click += (_, _) => _ = SendPromptAsync("Summarize quarterly revenue variance across top three regions");
 
-        _statusLabel = new Label
-        {
-            Text = "Provider: Offline Mock AI Engine (Zero network latency, 100% deterministic)",
-            Location = new Point(8, 80),
-            AutoSize = true,
-            ForeColor = Color.Gray
-        };
+        _statusLabel.            Text = "Provider: Offline Mock AI Engine (Zero network latency, 100% deterministic)";
+
+        _statusLabel.            Location = new Point(8, 80);
+
+        _statusLabel.            AutoSize = true;
+
+        _statusLabel.            ForeColor = Color.Gray
+;
 
         bottomContainer.Controls.AddRange(new Control[]
         {

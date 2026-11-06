@@ -21,6 +21,8 @@ namespace EnterpriseUI.WinFormsDemo.Infrastructure;
 /// </summary>
 public static class GridCodeGenerator
 {
+
+    private static readonly char[] CachedValues1 = new[] { '-', '_', ' ', '.' };
     private static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
 
     private static readonly string[] FlagNames =
@@ -182,7 +184,7 @@ public static class GridCodeGenerator
 
     private static string ToPascal(string id)
     {
-        var parts = id.Split(new[] { '-', '_', ' ', '.' }, StringSplitOptions.RemoveEmptyEntries);
+        var parts = id.Split(CachedValues1, StringSplitOptions.RemoveEmptyEntries);
         var name = string.Concat(parts.Select(p => char.ToUpperInvariant(p[0]) + p.Substring(1)));
         if (name.Length == 0 || char.IsDigit(name[0])) name = "G" + name;
         return name;

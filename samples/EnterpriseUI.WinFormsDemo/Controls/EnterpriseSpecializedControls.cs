@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -22,7 +22,7 @@ public sealed class GanttTaskItem
 }
 
 /// <summary>
-/// Clean-room GDI+ double-buffered Gantt View control (Telerik RadGanttView equivalent).
+/// Clean-room GDI+ double-buffered Gantt View control.
 /// Renders task hierarchy split, timeline header, progress bars, dependency arrows, and critical path.
 /// </summary>
 public class EnterpriseGanttControl : Control, IThemeableControl
@@ -152,7 +152,7 @@ public enum BarcodeSymbology
 }
 
 /// <summary>
-/// Clean-room GDI+ Barcode and QR Matrix Renderer (Telerik RadBarcode equivalent).
+/// Clean-room GDI+ Barcode and QR Matrix Renderer.
 /// </summary>
 public class EnterpriseBarcodeControl : Control, IThemeableControl
 {
@@ -260,7 +260,7 @@ public class EnterpriseBarcodeControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ Interactive Kanban TaskBoard and EnterpriseCardView Control (Telerik RadTaskBoard / RadCardView equivalent).
+/// Clean-room GDI+ Interactive Kanban TaskBoard and EnterpriseCardView Control.
 /// </summary>
 public class EnterpriseKanbanBoardControl : Control, IThemeableControl
 {
@@ -365,7 +365,7 @@ public class EnterpriseKanbanBoardControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room GDI+ Hierarchical EnterpriseTreeMap Control (Telerik RadTreeMap equivalent).
+/// Clean-room GDI+ Hierarchical EnterpriseTreeMap Control.
 /// Renders nested proportional rectangles with heat-map color encoding and interactive node selection.
 /// </summary>
 public class EnterpriseTreeMapControl : Control, IThemeableControl
@@ -498,7 +498,7 @@ public class EnterpriseTreeMapControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room Interactive Vector Signature Pad Control (Telerik RadSignaturePad equivalent).
+/// Clean-room Interactive Vector Signature Pad Control.
 /// Supports smooth GDI+ ink stroke capture, Clear, and stroke verification telemetry.
 /// </summary>
 public class EnterpriseSignaturePadControl : Control, IThemeableControl
@@ -599,7 +599,7 @@ public class EnterpriseSignaturePadControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Clean-room On-Screen Virtual Keyboard Control (Telerik RadVirtualKeyboard equivalent).
+/// Clean-room On-Screen Virtual Keyboard Control.
 /// Touch-friendly QWERTY layout dispatching virtual key presses.
 /// </summary>
 public class EnterpriseVirtualKeyboardControl : Control, IThemeableControl

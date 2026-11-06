@@ -67,6 +67,6 @@ public class GridFeatureCatalogTests
         var implemented = GridFeatureCatalog.Count(GridFeatureStatus.Implemented);
         var inScope = GridFeatureCatalog.All.Count(f => f.Status != GridFeatureStatus.OutOfScope);
         Assert.InRange(GridFeatureCatalog.Coverage, (double)implemented / inScope, 1.0);
-        Assert.True(GridFeatureCatalog.Coverage < 1.0, "the matrix must not claim complete parity while features are missing");
+        Assert.True(GridFeatureCatalog.Coverage < 1.0, "the matrix must not claim complete coverage while features are missing");
     }
 }

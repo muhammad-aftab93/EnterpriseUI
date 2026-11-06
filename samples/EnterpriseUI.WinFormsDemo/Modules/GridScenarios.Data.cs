@@ -20,6 +20,34 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public static partial class GridScenarios
 {
+
+    private static readonly string[] DataCachedValues14 = new[] { "Bands", "Pinning", "Paging", "Group totals", "Conditional formatting", "Batch edit + validation", "Search panel", "Layouts", "Export", "Print" };
+
+    private static readonly string[] DataCachedValues13 = new[] { "Self-reference tree", "Expand to reveal search matches", "Cycle-safe", "Column summaries", "Sorting within levels" };
+
+    private static readonly string[] DataCachedValues12 = new[] { "Master/detail", "Lazy child loading", "Property summary fallback", "Expand/collapse all", "Search in details" };
+
+    private static readonly string[] DataCachedValues11 = new[] { "0 ms", "120 ms", "800 ms" };
+
+    private static readonly string[] DataCachedValues10 = new[] { "Server", "Virtual", "Infinite" };
+
+    private static readonly string[] DataCachedValues9 = new[] { "IDataSource<T>", "Server paging", "Latency handling", "Cancellation of stale requests", "Error state and retry", "Infinite scroll" };
+
+    private static readonly string[] DataCachedValues8 = new[] { "50/s", "200/s", "1,000/s" };
+
+    private static readonly string[] DataCachedValues7 = new[] { "INotifyPropertyChanged tracking", "Live re-sort", "Conditional colors", "Update rate control" };
+
+    private static readonly string[] DataCachedValues6 = new[] { "Theme switch", "Dark schemes", "High contrast", "Token-derived selection/focus/error colors", "WCAG-corrected palette" };
+
+    private static readonly string[] DataCachedValues5 = new[] { "UI Automation tree", "Keyboard map", "Contrast audit", "Live-region announcements", "High contrast", "Focus ring" };
+
+    private static readonly string[] DataCachedValues4 = new[] { "1M rows", "Windowed rows", "Timed sort/filter/group", "Materialized groups" };
+
+    private static readonly string[] DataCachedValues3 = new[] { "Standard", "LandscapeReport", "Compact" };
+
+    private static readonly string[] DataCachedValues2 = new[] { "Print preview", "Page setup", "Fit to width/page", "Repeat headers", "Header/footer tokens", "Templates", "Page order" };
+
+    private static readonly string[] DataCachedValues1 = new[] { "xlsx", "csv", "pdf", "html", "json", "xml", "Group outline", "Summaries", "Conditional formatting", "Progress/cancel" };
     private static async Task WaitForLoadAsync<TItem>(EnterpriseDataGrid<TItem> grid)
     {
         await Task.Delay(1);
@@ -41,7 +69,7 @@ public static partial class GridScenarios
             Id = "grid-exporting",
             Title = "Exporting - Excel, CSV, PDF, HTML, JSON and XML",
             Description = "Export every row matching the current query in a streaming pass with progress and cancel. Groups, summaries and conditional formatting carry into the file.",
-            Features = new[] { "xlsx", "csv", "pdf", "html", "json", "xml", "Group outline", "Summaries", "Conditional formatting", "Progress/cancel" },
+            Features = DataCachedValues1,
             Documentation = "GridExporter builds an export document from the grid (columns, bands, groups, hierarchy, summaries) and ExportService streams it through a provider. Files are written atomically: nothing appears when the export fails or is cancelled.",
             Usage = "await grid.ExportToFileAsync(\"report.xlsx\", new GridExportOptions { IncludeGroups = true }); or grid.ExportWithDialogAsync(\"pdf\").",
             Architecture = "Providers implement IExportProvider and receive rows one at a time, so memory stays flat for large exports; the service pumps progress and cancellation.",
@@ -95,7 +123,7 @@ public static partial class GridScenarios
             Id = "grid-printing",
             Title = "Printing - Page Setup, Scaling, Templates and Preview",
             Description = "Preview and print with repeated header rows, fit-to-width or percent scaling, header and footer tokens, and multi-page column splitting.",
-            Features = new[] { "Print preview", "Page setup", "Fit to width/page", "Repeat headers", "Header/footer tokens", "Templates", "Page order" },
+            Features = DataCachedValues2,
             Documentation = "PrintPaginator turns the export document into pages of plain geometry (points); the WinForms control renders those pages to PrintDocument. The same plan can drive PDF output.",
             Usage = "grid.PrintTemplate = PrintTemplate.LandscapeReport(); await grid.ShowPrintPreviewDialogAsync(); var plan = await grid.CreatePrintPlanAsync(); plan.PageCount.",
             Architecture = "Pagination is pure and testable: given a document and a template it returns PrintPage objects with column slices, scale and placed rows.",
@@ -115,7 +143,7 @@ public static partial class GridScenarios
                     host.Metric($"{plan.PageCount} page(s) | {plan.TotalRows:N0} rows | scale {plan.Pages[0].Scale:P0} | {plan.Template.Settings.PaperSize} {(plan.Template.Settings.IsLandscape ? "landscape" : "portrait")}");
                 }
 
-                host.Combo("Template:", new[] { "Standard", "LandscapeReport", "Compact" }, "Standard", v =>
+                host.Combo("Template:", DataCachedValues3, "Standard", v =>
                 {
                     var template = PrintTemplateRegistry.Default.Find(v)?.Clone() ?? PrintTemplate.Standard();
                     template.Title = "Sales Report";
@@ -142,7 +170,7 @@ public static partial class GridScenarios
             Id = "grid-performance",
             Title = "Performance - One Million Rows, Timed Operations",
             Description = "Bind, sort, filter and group one million in-memory rows and see the elapsed time of each operation measured on this machine.",
-            Features = new[] { "1M rows", "Windowed rows", "Timed sort/filter/group", "Materialized groups" },
+            Features = DataCachedValues4,
             Documentation = "Only the rows near the viewport are fetched; sort, filter and group run in the query engine over the source. The timings below are measured live, not quoted.",
             Performance = "Results depend on hardware and data shape. Run the BenchmarkDotNet-style harness in benchmarks/EnterpriseUI.Benchmarks for repeatable numbers (memory, render, scroll, filter and grouping).",
             Troubleshooting = "If grouping a million rows feels slow, group by a low-cardinality column and collapse groups by default.",
@@ -174,7 +202,7 @@ public static partial class GridScenarios
             Id = "grid-accessibility",
             Title = "Accessibility - Keyboard, Screen Reader and Contrast Audit",
             Description = "Navigate with the keyboard only, run the WCAG contrast audit for the active theme, and read what a screen reader hears for the grid, a row and a cell.",
-            Features = new[] { "UI Automation tree", "Keyboard map", "Contrast audit", "Live-region announcements", "High contrast", "Focus ring" },
+            Features = DataCachedValues5,
             Documentation = "The grid exposes a Table > Row > Cell UI Automation tree with names built from the live state (sorted, filtered, selected, error). Colors are derived from theme tokens and corrected to meet WCAG 2.2 AA for text and non-text indicators.",
             Usage = "grid.AriaLabel = \"Sales records\"; grid.DescribeGrid(); GridAccessibility.Audit(theme).",
             Accessibility = "Windows high contrast uses system colors; selection, focus, errors and search matches stay distinguishable without color through shape, outline and text.",
@@ -214,7 +242,7 @@ public static partial class GridScenarios
             Id = "grid-theming",
             Title = "Theming - Fluent, Office, Material, Dark and High Contrast",
             Description = "Switch themes live. Every grid element (rows, selection, focus, search matches, errors, pager, summaries) takes its color from the theme tokens.",
-            Features = new[] { "Theme switch", "Dark schemes", "High contrast", "Token-derived selection/focus/error colors", "WCAG-corrected palette" },
+            Features = DataCachedValues6,
             Documentation = "GridPalette.FromTheme resolves #hex and rgba() tokens, composites translucent colors over the surface and raises any color that would fall below its contrast requirement.",
             Usage = "ThemeManager.Instance.ApplyTheme(\"Fluent-Dark\"); var palette = GridPalette.FromTheme(ThemeManager.Instance.CurrentTheme);",
             Accessibility = "High contrast themes use the text color for borders and a solid primary for selection so state never depends on subtle tints.",
@@ -252,7 +280,7 @@ public static partial class GridScenarios
             Id = "grid-realtime",
             Title = "Real-Time Data - Live Ticks with Property Change Tracking",
             Description = "Quotes implement INotifyPropertyChanged and tick many times a second. The grid repaints changed rows, keeps selection and re-sorts when a sorted column changes.",
-            Features = new[] { "INotifyPropertyChanged tracking", "Live re-sort", "Conditional colors", "Update rate control" },
+            Features = DataCachedValues7,
             Documentation = "The control watches items of the visible window. Changes that cannot affect the query only repaint; changes to sorted, grouped or filtered values trigger a debounced re-query (AutoRefreshDelay).",
             Usage = "Make the row type raise PropertyChanged and bind it; set ObserveItemChanges = false to pause, and call Engine.NotifyDataChanged() after bulk external changes.",
             Performance = "Observers are limited to the rendered window (at most 2,000 items), so streaming into a million-row source does not subscribe a million handlers.",
@@ -295,7 +323,7 @@ public static partial class GridScenarios
                 grid.Disposed += (_, _) => timer.Dispose();
 
                 host.Toggle("Stream ticks", false, v => { if (v) { started.Restart(); updates = 0; timer.Start(); } else timer.Stop(); });
-                host.Combo("Rate:", new[] { "50/s", "200/s", "1,000/s" }, "200/s", v => perTick = v.StartsWith("50") ? 5 : v.StartsWith("1") ? 100 : 20);
+                host.Combo("Rate:", DataCachedValues8, "200/s", value => perTick = value.StartsWith("50", StringComparison.Ordinal) ? 5 : value.StartsWith('1') ? 100 : 20);
                 host.Button("Sort by change %", () => grid.SortBy("ChangePercent", ListSortDirection.Descending));
                 host.Button("Clear sort", grid.ClearSort);
                 host.Toggle("Track changes", true, v => grid.ObserveItemChanges = v);
@@ -308,7 +336,7 @@ public static partial class GridScenarios
             Id = "grid-large-data",
             Title = "Large Data - Remote Source, Server Paging and Failure Recovery",
             Description = "Reads a 500,000-row store through an asynchronous data source with simulated latency. Sorting, filtering and paging run in the data source; failures show an error state you can retry.",
-            Features = new[] { "IDataSource<T>", "Server paging", "Latency handling", "Cancellation of stale requests", "Error state and retry", "Infinite scroll" },
+            Features = DataCachedValues9,
             Documentation = "A custom IDataSource<T> receives a DataSourceRequest (page, sorts, filters, groups) and returns a DataSourceResult. The grid cancels superseded requests and shows Loading... while waiting.",
             Usage = "grid.CustomDataSource = new RemoteDataSource<T>(async (request, ct) => await api.QueryAsync(request, ct)); grid.PagingMode = GridPagingMode.Server;",
             Architecture = "Remote requests are described by DataSourceRequest and can be translated to OData with ODataQueryBuilder.",
@@ -344,8 +372,8 @@ public static partial class GridScenarios
                     store.AddRange(data);
                     await grid.RefreshDataAsync();
                 });
-                host.Combo("Mode:", new[] { "Server", "Virtual", "Infinite" }, "Server", v => grid.PagingMode = Enum.Parse<GridPagingMode>(v));
-                host.Combo("Latency:", new[] { "0 ms", "120 ms", "800 ms" }, "120 ms", v => latency = int.Parse(v.Split(' ')[0]));
+                host.Combo("Mode:", DataCachedValues10, "Server", v => grid.PagingMode = Enum.Parse<GridPagingMode>(v));
+                host.Combo("Latency:", DataCachedValues11, "120 ms", v => latency = int.Parse(v.Split(' ')[0]));
                 host.Toggle("Simulate failure", false, v => failing = v);
                 host.AsyncButton("Retry", () => grid.RefreshDataAsync());
                 host.Button("Sort by Total desc", () => grid.SortBy("Total", ListSortDirection.Descending));
@@ -360,7 +388,7 @@ public static partial class GridScenarios
             Id = "grid-master-detail",
             Title = "Master Detail - Orders per Customer, Lazy Loading and Property Summary",
             Description = "Expand a customer to see its orders in a nested table. Turn on lazy loading to fetch children on first expansion, or remove the relation to fall back to a property summary.",
-            Features = new[] { "Master/detail", "Lazy child loading", "Property summary fallback", "Expand/collapse all", "Search in details" },
+            Features = DataCachedValues12,
             Documentation = "With EnableMasterDetail and a relation, each parent row can expand to a child table. Without a relation the grid shows the parent's properties in a summary row.",
             Usage = "var relation = grid.AddRelation(\"Orders\", \"Id\", \"CustomerId\", orders, typeof(OrderRow)); relation.LoadChildrenAsync = async (parent, ct) => await api.OrdersAsync(parent, ct);",
             Accessibility = "Expanded state is exposed on the row; Alt+Right expands and Alt+Left collapses; the child table's header row is announced with its title.",
@@ -402,7 +430,7 @@ public static partial class GridScenarios
             Id = "grid-treegrid",
             Title = "TreeGrid - Self-Referencing Organization with Budget Roll-Ups",
             Description = "Rows form a tree through ParentId. Expand and collapse nodes with the chevron or Alt+Right/Left; search expands the path to each match; summaries stay exact.",
-            Features = new[] { "Self-reference tree", "Expand to reveal search matches", "Cycle-safe", "Column summaries", "Sorting within levels" },
+            Features = DataCachedValues13,
             Documentation = "AddSelfReference(keyField, parentField) turns the grid's own rows into a tree. Sorting orders siblings, filtering keeps the ancestors of matches, and cyclic parent chains are detected instead of looping.",
             Usage = "grid.AddSelfReference(\"Id\", \"ParentId\"); grid.TreeExpandedByDefault = true; grid.ExpandAllTreeNodes().",
             Accessibility = "Tree rows announce level and expanded state; the chevron is also reachable with Alt+Right and Alt+Left.",
@@ -434,7 +462,7 @@ public static partial class GridScenarios
             Id = "grid-enterprise",
             Title = "Enterprise Scenario - Sales Order Workbench",
             Description = "Everything together: stacked bands, pinned key column, paging, grouping with totals, conditional formatting, batch editing with validation, search, saved layouts, export and print.",
-            Features = new[] { "Bands", "Pinning", "Paging", "Group totals", "Conditional formatting", "Batch edit + validation", "Search panel", "Layouts", "Export", "Print" },
+            Features = DataCachedValues14,
             Documentation = "A realistic order-entry workbench built only from public grid features. The Generated Code tabs reproduce this exact configuration, including every toolbar change.",
             Usage = "Start from the Exportable Example tab: it contains the model, the fluent configuration and sample rows as a runnable form.",
             BestPractices = "Validate on the column, edit in batch mode for review-and-save workflows, persist layouts per user, and export from the grid so the file matches what the user sees.",

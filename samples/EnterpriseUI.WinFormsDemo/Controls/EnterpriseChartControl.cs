@@ -22,7 +22,7 @@ public class EnterpriseChartControl : Control, IThemeableControl
     public string? Title
     {
         get => _chart.Title;
-        set { _chart.Title = value; Invalidate(); }
+        set { _chart.Title = value ?? string.Empty; Invalidate(); }
     }
 
     public List<ChartSeries> Series => _chart.Series;

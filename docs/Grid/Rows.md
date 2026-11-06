@@ -15,12 +15,12 @@ Add and delete rows with undo, drag selected rows to reorder, or drag them into 
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Add, delete rows with undo | AddNewRow, row deletion | Implemented |  |
-| Row drag and drop (reorder, cross-grid) | Row drag and drop service | Implemented |  |
-| Row styling | ViewCellFormatting | Implemented |  |
-| New-row template | Add-new row at top/bottom | Partial | No inline new-row UI. |
+| Add, delete rows with undo | AddRow, RemoveRows, Delete key, undo/redo | Implemented |  |
+| Row drag and drop (reorder, cross-grid) | AllowRowDrag/AllowRowDrop with MoveRows and TransferRows | Implemented |  |
+| Row styling | RowStyleNeeded event and format rules | Implemented |  |
+| New-row template | AddRow API and toolbar; no inline template row | Partial | No inline new-row UI. |
 
 ## Architecture notes
 

@@ -12,7 +12,7 @@ public partial class DataGrid<TItem>
     private int _pageSize = 50;
     private int _pageIndex;
     private int _infiniteLoaded = 50;
-    private IReadOnlyList<TItem>? _clientCache;
+    private TItem[]? _clientCache;
 
     /// <summary>Raised after the page index, page size or paging mode changed.</summary>
     public event EventHandler? PageChanged;

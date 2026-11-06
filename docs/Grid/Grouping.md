@@ -14,12 +14,12 @@ Group by one or more columns from the toolbar, the group panel or a header menu.
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Multi-level grouping and group panel | Group panel, GroupDescriptors | Implemented |  |
-| Group summaries and footers | GroupSummaryItems | Implemented |  |
-| Expand/collapse, default state | ExpandAll / CollapseAll | Implemented |  |
-| Custom group key | Custom grouping | Implemented |  |
+| Multi-level grouping and group panel | Group panel with chips, drag header to group, header menu | Implemented |  |
+| Group summaries and footers | Header aggregates and optional group footer rows | Implemented |  |
+| Expand/collapse, default state | Expand all, collapse all, keyboard Alt+Right/Left | Implemented |  |
+| Custom group key | GroupBy(field, keySelector) | Implemented |  |
 
 ## Architecture notes
 

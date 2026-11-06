@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EnterpriseUI.Diagrams;
@@ -9,15 +9,15 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class DiagramsDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly EnterpriseDiagramControl _diagramControl;
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly EnterpriseDiagramControl _diagramControl=new EnterpriseDiagramControl();
 
     public DiagramsDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -75,7 +75,7 @@ public class DiagramsDemoView : UserControl
 
         toolbar.Controls.AddRange(new Control[] { btnAddNode, btnReset, lblTip });
 
-        _diagramControl = new EnterpriseDiagramControl { Dock = DockStyle.Fill };
+        _diagramControl.Dock = DockStyle.Fill ;
         SetupDefaultArchitecture();
 
         _baseView.DemoContainer.Controls.Add(_diagramControl);

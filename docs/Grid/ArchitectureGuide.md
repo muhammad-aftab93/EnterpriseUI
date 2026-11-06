@@ -1,6 +1,6 @@
-﻿# EnterpriseUI Grid Architecture & Feature Guide
+# EnterpriseUI Grid Architecture & Feature Guide
 
-The **EnterpriseUI DataGrid** is the centerpiece of the component library, uniting the capabilities of **Telerik RadGridView** and **DevExpress GridControl** into an uncompromising high-performance component.
+The **EnterpriseUI DataGrid** is the centerpiece of the component library, uniting the capabilities of **reference RadGridView** and **legacy GridControl** into an uncompromising high-performance component.
 
 ---
 
@@ -16,19 +16,6 @@ The `EnterpriseUI.Grids` package contains three unified controls:
 
 ## 2. DataGrid Feature Matrix
 
-| Feature | Telerik Grid | DevExpress Grid | **EnterpriseUI DataGrid** |
-|---|---|---|---|
-| **Row Virtualization** | Yes | Yes | **Yes (Constant-memory windowing)** |
-| **Column Virtualization** | Partial | Yes | **Yes (Horizontal windowing)** |
-| **Master-Detail Hierarchy** | Yes | Yes | **Yes (Nested grids & custom templates)** |
-| **Multi-Level Grouping** | Yes | Yes | **Yes (Recursive groups & subtotals)** |
-| **Excel Filter Menu** | Yes | Yes | **Yes (Composite operators & checklist)** |
-| **In-Cell Editing** | Yes | Yes | **Yes (With undo/redo buffer)** |
-| **Batch Editing** | Yes | Yes | **Yes (Deferred transaction commit)** |
-| **Column Pinning (Freeze)** | Left only | Left & Right | **Left & Right (`ColumnPinPosition`)** |
-| **Column Reordering & Resizing** | Yes | Yes | **Yes (Pixel-perfect drag indicators)** |
-| **Exporting Presets** | Excel, CSV | Excel, PDF, CSV | **Excel XML, CSV, HTML, JSON** |
-| **WCAG 2.2 AA Compliance** | Partial | Partial | **Full (ARIA `role="grid"` & roving tabindex)** |
 
 ---
 

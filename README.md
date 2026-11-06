@@ -1,16 +1,12 @@
-﻿# EnterpriseUI: The Open Source Enterprise UI Platform for .NET
+# EnterpriseUI: The Open Source Enterprise UI Platform for .NET
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0%20LTS-512BD4)](https://dotnet.microsoft.com/)
-[![Controls](https://img.shields.io/badge/Controls-118%2B%20Enterprise%20Suite-blueviolet)](docs/Architecture/TelerikWinFormsBenchmarkAndAudit.md)
-[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)](https://github.com/)
-[![Unit Tests](https://img.shields.io/badge/Tests-42%20Passed-success)](https://github.com/)
 [![Zero Activation](https://img.shields.io/badge/Activation-Zero%20Keys%20Required-success)](LICENSE)
-[![WCAG 2.2 AA](https://img.shields.io/badge/Accessibility-WCAG%202.2%20AA-blue)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 
-**EnterpriseUI** is a comprehensive, independent, 100% open-source enterprise UI framework and **118+ control ecosystem** for **.NET 8+** (with full compatibility for .NET 9 and future LTS releases).
+**EnterpriseUI** is an open-source component platform for **.NET 8+**, with shared framework libraries, platform adapters, a theme engine, and a Windows Forms Demo Center.
 
-Benchmarked against **Telerik UI for WinForms** and **DevExpress**, EnterpriseUI is **100% clean-room implemented** with zero proprietary code, zero commercial dependencies, zero license keys, zero activation requirements, and zero telemetry.
+Controls, models, and services have different platform coverage. Consult the component guides and runnable demos for supported APIs and workflows.
 
 ---
 
@@ -113,9 +109,8 @@ Complete 118-control catalog explorer featuring multi-timezone vector `Clock`, d
 
 ---
 
-## 🧩 Complete 118-Control Enterprise Catalog
+## Component Catalog
 
-EnterpriseUI implements all **118 controls** across 10 major categories benchmarked against the official [Telerik UI for WinForms documentation catalog](https://www.telerik.com/products/winforms/documentation/introduction):
 
 | Category | Included Controls |
 | :--- | :--- |
@@ -165,10 +160,10 @@ EnterpriseUI.sln / EnterpriseUI.slnx
 ├── src/            # 31 headless domain core and component libraries
 ├── platforms/      # WinForms, WPF, Blazor, ASP.NET Core, .NET MAUI
 ├── tooling/        # ThemeDesigner, VisualDesigner, TemplateStudio, CodeGenerators
-├── tests/          # UnitTests (42/42 passing), IntegrationTests, PerformanceTests, AccessibilityTests
+├── tests/          # Unit, integration, performance, accessibility and UI automation tests
 ├── benchmarks/     # High-throughput benchmarks with BenchmarkDotNet / Stopwatch
 ├── samples/        # EnterpriseUI.WinFormsDemo (28 interactive suites + Live Playground & 8-Format CodeGen)
-└── docs/           # Architectural documentation, Telerik parity audit, guides, and screenshots
+└── docs/           # Architecture, setup, component, theme and testing guides
 ```
 
 ---
@@ -176,13 +171,10 @@ EnterpriseUI.sln / EnterpriseUI.slnx
 ## 📜 Documentation
 
 - [Master Documentation Portal](docs/README.md)
-- [Telerik UI for WinForms Benchmark & Control Parity Audit](docs/Architecture/TelerikWinFormsBenchmarkAndAudit.md)
 - [System Architecture & C4 Models](docs/Architecture/SystemArchitecture.md)
-- [Open Source Transformation Plan & Governance](docs/Reference/OSSTransformationMasterPlan.md)
 - [DataGrid Architecture & Performance Guide](docs/Grid/ArchitectureGuide.md)
 - [Theming System & Design Tokens](docs/Themes/ThemingEngineAndTokens.md)
 - [Controls Catalog & API Reference](docs/Controls/UnifiedControlsCatalog.md)
-- [Migration Guides (from Telerik, DevExpress, Syncfusion)](docs/Migration/MigrationGuides.md)
 - [Contribution Guidelines](CONTRIBUTING.md)
 
 ---

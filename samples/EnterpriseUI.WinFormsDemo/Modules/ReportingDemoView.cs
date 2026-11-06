@@ -7,18 +7,26 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 
 public class ReportingDemoView : UserControl
 {
-    private readonly BaseDemoView _baseView;
-    private readonly ComboBox _cmbReportType;
-    private readonly Panel _reportCanvas;
-    private readonly Label _lblTitle;
-    private readonly Label _lblContent;
+
+    private static readonly object[] CachedValues1 = new object[]
+        {
+            "Invoice & Billing Statement",
+            "Purchase Order Confirmation",
+            "Healthcare Patient Diagnostic Summary",
+            "Executive Quarterly Sales Report"
+        };
+    private readonly BaseDemoView _baseView=new BaseDemoView();
+    private readonly ComboBox _cmbReportType=new ComboBox();
+    private readonly Panel _reportCanvas=new Panel();
+    private readonly Label _lblTitle=new Label();
+    private readonly Label _lblContent=new Label();
 
     public ReportingDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
         Font = new Font("Segoe UI", 9f);
 
-        _baseView = new BaseDemoView { Dock = DockStyle.Fill };
+        _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
         Controls.Add(_baseView);
 
@@ -29,19 +37,13 @@ public class ReportingDemoView : UserControl
             Padding = new Padding(6)
         };
 
-        _cmbReportType = new ComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Location = new Point(8, 8),
-            Width = 200
-        };
-        _cmbReportType.Items.AddRange(new object[]
-        {
-            "Invoice & Billing Statement",
-            "Purchase Order Confirmation",
-            "Healthcare Patient Diagnostic Summary",
-            "Executive Quarterly Sales Report"
-        });
+        _cmbReportType.            DropDownStyle = ComboBoxStyle.DropDownList;
+
+        _cmbReportType.            Location = new Point(8, 8);
+
+        _cmbReportType.            Width = 200
+;
+        _cmbReportType.Items.AddRange(CachedValues1);
         _cmbReportType.SelectedIndex = 0;
         _cmbReportType.SelectedIndexChanged += (_, _) => RenderReport(_cmbReportType.SelectedIndex);
 
@@ -66,27 +68,25 @@ public class ReportingDemoView : UserControl
         toolbar.Controls.AddRange(new Control[] { _cmbReportType, btnPrint, btnExportPdf });
 
         var scrollContainer = new Panel { Dock = DockStyle.Fill, AutoScroll = true, BackColor = Color.FromArgb(240, 240, 242) };
-        _reportCanvas = new Panel
-        {
-            Size = new Size(580, 720),
-            BackColor = Color.White,
-            Location = new Point(40, 20),
-            BorderStyle = BorderStyle.FixedSingle
-        };
+        _reportCanvas.            Size = new Size(580, 720);
+        _reportCanvas.            BackColor = Color.White;
+        _reportCanvas.            Location = new Point(40, 20);
+        _reportCanvas.            BorderStyle = BorderStyle.FixedSingle
+;
 
-        _lblTitle = new Label
-        {
-            Location = new Point(30, 24),
-            AutoSize = true,
-            Font = new Font("Segoe UI", 14f, FontStyle.Bold)
-        };
+        _lblTitle.            Location = new Point(30, 24);
 
-        _lblContent = new Label
-        {
-            Location = new Point(30, 70),
-            Size = new Size(520, 620),
-            Font = new Font("Consolas", 9.5f)
-        };
+        _lblTitle.            AutoSize = true;
+
+        _lblTitle.            Font = new Font("Segoe UI", 14f, FontStyle.Bold)
+;
+
+        _lblContent.            Location = new Point(30, 70);
+
+        _lblContent.            Size = new Size(520, 620);
+
+        _lblContent.            Font = new Font("Consolas", 9.5f)
+;
 
         _reportCanvas.Controls.Add(_lblTitle);
         _reportCanvas.Controls.Add(_lblContent);

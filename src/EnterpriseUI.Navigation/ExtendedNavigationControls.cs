@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -32,7 +32,7 @@ public class PageViewItem : ObservableObject
 }
 
 /// <summary>
-/// Clean-room Multi-View Page Container (Telerik RadPageView equivalent).
+/// Clean-room Multi-View Page Container.
 /// Supports Strip (Tab), Stack, OutlookBar, ExplorerBar (Accordion), Backstage, and Hamburger NavigationView modes.
 /// </summary>
 public class EnterprisePageView : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -75,7 +75,7 @@ public class EnterprisePageView : ObservableObject, IUIComponent, IThemeableCont
 }
 
 /// <summary>
-/// Clean-room EnterprisePanorama Live Tile Hub (Telerik RadPanorama equivalent).
+/// Clean-room EnterprisePanorama Live Tile Hub.
 /// Organizes live interactive tiles into named groups with dynamic frame cycling.
 /// </summary>
 public class EnterprisePanorama : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -133,7 +133,7 @@ public class EnterprisePanorama : ObservableObject, IUIComponent, IThemeableCont
 }
 
 /// <summary>
-/// Clean-room 3D/Bezier Path EnterpriseCarousel Control (Telerik RadCarousel equivalent).
+/// Clean-room 3D/Bezier Path EnterpriseCarousel Control.
 /// Computes elliptical depth coordinates (X, Y, Scale, Opacity, ZIndex) for smooth item rotation.
 /// </summary>
 public class EnterpriseCarousel : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -199,7 +199,7 @@ public class EnterpriseCarousel : ObservableObject, IUIComponent, IThemeableCont
 }
 
 /// <summary>
-/// Clean-room Data Binding Navigator (Telerik RadBindingNavigator equivalent).
+/// Clean-room Data Binding Navigator.
 /// Provides First, Previous, Next, Last, AddNew, and Delete record navigation over a bound collection.
 /// </summary>
 public class EnterpriseBindingNavigator<TItem> : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
@@ -266,7 +266,7 @@ public class EnterpriseBindingNavigator<TItem> : ObservableObject, IUIComponent,
 }
 
 /// <summary>
-/// Clean-room EnterpriseCommandBar, MenuBar, and StatusStrip (Telerik RadCommandBar, RadMenu, RadStatusStrip equivalents).
+/// Clean-room EnterpriseCommandBar, MenuBar, and StatusStrip.
 /// </summary>
 public class EnterpriseCommandBar : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

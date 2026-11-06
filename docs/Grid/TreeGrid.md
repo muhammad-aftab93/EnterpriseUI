@@ -14,9 +14,9 @@ Rows form a tree through ParentId. Expand and collapse nodes with the chevron or
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| Self-reference tree (TreeGrid) | Self-referencing hierarchy | Implemented |  |
+| Self-reference tree (TreeGrid) | AddSelfReference with cycle detection and filter ancestors | Implemented |  |
 
 ## Architecture notes
 

@@ -1,4 +1,4 @@
-﻿using EnterpriseUI.Abstractions.Accessibility;
+using EnterpriseUI.Abstractions.Accessibility;
 using EnterpriseUI.Abstractions.Controls;
 using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Core.Mvvm;
@@ -21,7 +21,7 @@ public class PdfDocument
 }
 
 /// <summary>
-/// Superset PDF Viewer and Processor combining DevExpress EnterprisePdfViewer and Telerik RadPdfViewer.
+/// Superset PDF Viewer and Processor.
 /// </summary>
 public class EnterprisePdfViewer : ObservableObject, IUIComponent, IThemeableControl, IAccessibleControl
 {

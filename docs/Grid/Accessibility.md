@@ -15,12 +15,12 @@ Navigate with the keyboard only, run the WCAG contrast audit for the active them
 
 Feature status (from the feature catalog):
 
-| Feature | Telerik RadGridView | Status | Notes |
+| Feature | Implementation | Status | Notes |
 |---|---|---|---|
-| UI Automation tree | Accessibility support | Implemented |  |
-| Announcements | Live regions | Implemented |  |
-| Contrast-corrected palette and high contrast | High contrast | Implemented |  |
-| Keyboard-only operation | Keyboard | Implemented |  |
+| UI Automation tree | Table > Row > Cell objects with names, values, states and default actions | Implemented |  |
+| Announcements | Sort, filter, page, selection moves and errors via automation notifications | Implemented |  |
+| Contrast-corrected palette and high contrast | Theme-derived colors audited for WCAG; system colors in Windows high contrast | Implemented |  |
+| Keyboard-only operation | Every action has a key path; documented key map | Implemented |  |
 
 ## Architecture notes
 
