@@ -1,73 +1,48 @@
-# EnterpriseUI WinForms
+# EnterpriseUI WinForms Controls
 
-[Source Code and Documentation](https://github.com/muhammad-aftab93/EnterpriseUI)
+[Source code, documentation, and examples](https://github.com/muhammad-aftab93/EnterpriseUI)
 
-## EnterpriseDataGrid for .NET 8
+EnterpriseUI.WinForms is the Windows Forms adapter package for the EnterpriseUI component platform. It contains controls across data presentation, editing, application navigation, layout, visualization, scheduling, documents, notifications, and media.
 
-Build data-intensive Windows desktop applications with `EnterpriseDataGrid<TItem>`, a typed Windows Forms grid backed by a separate data engine and DPI-aware GDI+ rendering.
+## Component Areas
 
-Query, edit, explore, export, and print your data in one control. Windowed rendering draws rows near the viewport rather than creating a UI control for every record.
+- **Data:** typed and virtualized grids, hierarchical and pivot views, card and list views, filtering, paging, grouping, and selection.
+- **Editors and forms:** text and numeric input, pickers, masked and autocomplete editors, buttons, switches, dialogs, and validation.
+- **Navigation and layout:** ribbon and navigation controls, menus, page views, docking and layout containers, breadcrumbs, and wizards.
+- **Visualization:** charts, gauges, maps, diagrams, barcodes, and related data views.
+- **Scheduling and workflow:** calendars, schedulers, task boards, and Gantt views.
+- **Documents and media:** PDF and rich-text views, spreadsheet and document workflows, image editing, webcam, and virtual keyboard controls.
+- **Application services:** notifications, printing and preview, multi-format export, accessibility integration, and runtime theming.
 
-## Grid Capabilities
+The exact controls exposed in Visual Studio's Toolbox are the concrete, nongeneric Windows Forms controls in the package. Generic controls, models, and headless services are intended to be used from code or through their platform-specific adapters.
 
-- **Data and queries:** typed columns, data binding, paging, multi-column sorting, filtering, grouping, and search highlighting.
-- **Editing:** in-cell and popup editors, validation, and undo/redo.
-- **Structured data:** master-detail expansion, tree hierarchy, column bands, and summaries.
-- **Everyday workflows:** row, cell, and column selection; column resizing, reordering, pinning, and a column chooser.
-- **Output:** CSV, JSON, XML, HTML, XLSX, and PDF export, plus printing and print preview.
-- **Presentation:** theme-derived colors, conditional formatting, and layout persistence.
-- **Accessibility:** keyboard navigation, focus indicators, Windows high-contrast integration, and UI Automation support.
+## Requirements and Installation
 
-## Install
+Requires Windows and a Windows Forms application targeting `net8.0-windows` or a compatible later Windows target, with `UseWindowsForms` enabled.
 
-Requires a Windows Forms application targeting `net8.0-windows` or a compatible newer Windows target, with `UseWindowsForms` enabled.
-
-For the local package feed:
+Install from a NuGet source containing the EnterpriseUI packages:
 
 ```powershell
-dotnet add YourApp.csproj package EnterpriseUI.WinForms --version 1.0.0 --source C:\LocalNugetPackages
+dotnet add package EnterpriseUI.WinForms --version 1.0.0
 ```
 
-NuGet restores the required EnterpriseUI component packages alongside the WinForms package.
+The package references companion EnterpriseUI libraries; NuGet restores those dependencies from the configured package sources.
 
-## Visual Studio Toolbox
+## Quick Start: EnterpriseDataGrid
 
-The non-generic `EnterpriseDataGrid` can be added from the Windows Forms Toolbox. It supports runtime data binding through `IEnumerable<object>` and explicitly configured columns. Use `EnterpriseDataGrid<TItem>` or `GridBuilder<TItem>` in code when you need strongly typed grid APIs.
-
-Toolbox entries use the `Enterprise` prefix, such as `EnterpriseButtonControl` and `EnterpriseTextBoxControl`. Only concrete Windows Forms controls appear in the Toolbox; component-engine models and open generic types do not.
-
-When replacing a local package without changing version `1.0.0`, NuGet may continue using an older cached DLL. If you see names starting with `WinForms`:
-
-1. Close Visual Studio to release the designer's assemblies.
-2. Remove only the cached WinForms package (not the local feed):
-
-    ```powershell
-    Remove-Item "$env:USERPROFILE\.nuget\packages\enterpriseui.winforms\1.0.0" -Recurse -Force
-    ```
-
-3. Restore and rebuild the consuming application from the local feed, then reopen its designer.
-4. If the Toolbox still shows old entries, reset the Toolbox or remove and re-add this library's entries through **Choose Items**.
-
-Existing forms using the old `WinForms...Control` type names must be updated to their `Enterprise...Control` equivalents.
-
-## Quick Start
-
-Add this control to a Windows Forms form:
+The data grid is one of the controls in this package. This example creates a strongly typed grid in code:
 
 ```csharp
 using System.Windows.Forms;
+using EnterpriseUI.Grids;
 using EnterpriseUI.WinForms;
 
 public sealed record SalesRow(int Id, string Customer, decimal Total);
 
-public sealed class MainForm : Form
+public sealed class SalesForm : Form
 {
-    public MainForm()
+    public SalesForm()
     {
-        Text = "Sales";
-        Width = 1000;
-        Height = 600;
-
         var grid = GridBuilder<SalesRow>.Create()
             .Label("Sales records")
             .Column(nameof(SalesRow.Id), "Order", 90d)
@@ -81,26 +56,25 @@ public sealed class MainForm : Form
             })
             .Build();
 
+        Text = "Sales";
+        Width = 1000;
+        Height = 600;
         grid.Dock = DockStyle.Fill;
         Controls.Add(grid);
     }
 }
 ```
 
-## Package Scope
+## Examples and Documentation
 
-`EnterpriseDataGrid` is included in the shared `EnterpriseUI.WinForms` assembly, not a standalone grid-only package. The package also contains the WinForms editors, navigation, layout, visualization, and other controls; its companion packages provide the underlying component engines.
-
-## Documentation and Samples
-
-The source distribution contains grid guides in `docs/Grid` and an interactive Windows Forms demonstration application in `samples/EnterpriseUI.WinFormsDemo`.
-
-From a source checkout, launch the demo:
+The repository includes setup guides, component documentation, architecture notes, and an interactive WinForms Demo Center. Run the demonstration app from a source checkout:
 
 ```powershell
 dotnet run --project samples/EnterpriseUI.WinFormsDemo/EnterpriseUI.WinFormsDemo.csproj
 ```
 
+Browse the [repository](https://github.com/muhammad-aftab93/EnterpriseUI) for component guides and examples. Individual components may have platform, feature, or API limitations; consult their documentation and demonstrations for supported behavior.
+
 ## License
 
-Licensed under **Apache-2.0**, for personal and commercial use. No license keys or activation are required.
+Licensed under Apache-2.0. No activation keys are required.
