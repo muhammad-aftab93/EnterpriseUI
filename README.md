@@ -8,6 +8,10 @@
 
 Controls, models, and services have different platform coverage. Consult the component guides and runnable demos for supported APIs and workflows.
 
+## Sample Application
+
+[Northstar School](https://github.com/muhammad-aftab93/Northstart_School) is a school management sample application built using EnterpriseUI WinForms components.
+
 ---
 
 ## 📸 Visual Showcase Gallery (`EnterpriseUI.WinFormsDemo`)
