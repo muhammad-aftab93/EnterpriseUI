@@ -403,7 +403,15 @@ public partial class EnterpriseDataGrid<TItem>
             text.AppendLine(string.Join('\t', usedColumns.Select(c => set.Contains(c) && c < columns.Count ? CellText(row, columns[c]).Replace('\t', ' ').Replace('\r', ' ').Replace('\n', ' ') : string.Empty)));
         }
 
-        if (text.Length > 0) Clipboard.SetText(text.ToString());
+        if (text.Length == 0) return;
+        try
+        {
+            // Another application can hold the clipboard for a moment; retry a few times and then give up quietly.
+            Clipboard.SetDataObject(new DataObject(DataFormats.UnicodeText, text.ToString()), true, 8, 60);
+        }
+        catch (System.Runtime.InteropServices.ExternalException)
+        {
+        }
     }
 
     protected override void OnMouseWheel(MouseEventArgs e)

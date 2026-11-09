@@ -502,9 +502,17 @@ public partial class MainForm : Form, IThemeableControl
             rootGridWorkshop.Nodes.Add(new TreeNode(scenario.Title) { Tag = DemoMetadataRegistry.GetById(scenario.Id) });
         }
 
+        // 8. Data management controls: one page per control
+        var rootDataControls = new TreeNode($"Data Management Controls ({DataControlScenarios.All.Count} Pages)") { Tag = "Category_DataControls" };
+        foreach (var scenario in DataControlScenarios.All)
+        {
+            rootDataControls.Nodes.Add(new TreeNode(scenario.Title) { Tag = DemoMetadataRegistry.GetById(scenario.Id) });
+        }
+
         _navTree.Nodes.AddRange(new[]
         {
             rootGridWorkshop,
+            rootDataControls,
             rootControls,
             rootAll118,
             rootFeatures,
@@ -515,6 +523,7 @@ public partial class MainForm : Form, IThemeableControl
         });
 
         rootGridWorkshop.Expand();
+        rootDataControls.Expand();
         rootControls.Expand();
         rootAll118.Expand();
         rootFeatures.Expand();

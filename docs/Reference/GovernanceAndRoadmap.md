@@ -37,7 +37,7 @@ flowchart TD
 ## 2. Search & Indexing Strategy
 
 1. **Client-Side Full-Text Search**: Integration with Lunr.js / Algolia DocSearch for instant indexing across all Markdown topics.
-2. **Keyword Synonyms**: Search aliases map legacy terminology to EnterpriseUI terms (e.g., searching for *"GridView"* or *"RadGridView"* resolves directly to *DataGrid*).
+2. **Keyword Synonyms**: Search aliases map legacy terminology to EnterpriseUI terms (e.g., searching for *"GridView"* or *"DataGridView"* resolves directly to *DataGrid*).
 3. **Structured Metadata Frontmatter**: Every document includes YAML frontmatter with tags, version, and audience targeting.
 
 ---

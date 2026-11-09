@@ -8,8 +8,8 @@ This catalog documents the unified superset controls available in EnterpriseUI. 
 
 ```
 Navigation & Layout:
-  ├── EnterpriseRibbonBar            # Merged legacy RibbonControl & reference RadRibbonBar
-  ├── EnterpriseDockManager          # Merged legacy EnterpriseDockManager & reference RadDocking
+  ├── EnterpriseRibbonBar            # Merged legacy RibbonControl
+  ├── EnterpriseDockManager          # Merged legacy EnterpriseDockManager
   ├── EnterpriseTreeView             # Hierarchical navigation with lazy loading
   ├── Window / Dialog      # Modal & modeless draggable, resizable windows
   └── SplitContainer       # Split view container with collapsible splitters
@@ -17,7 +17,10 @@ Navigation & Layout:
 Data & Grids:
   ├── DataGrid<T>          # 2D virtualized high-density grid
   ├── EnterpriseTreeList<T>          # Self-referencing tree-grid
-  └── EnterprisePivotGrid<T>         # Multi-dimensional cross-tab OLAP grid
+  ├── EnterprisePivotGrid<T>         # Multi-dimensional cross-tab OLAP grid
+  └── Data Management Controls       # List, CheckedListBox, ListView, TreeView, PropertyGrid, DataEntry, DataLayout,
+                                     # CardView, FilterView, DataFilter, PivotGrid, TreeMap, HeatMap, VirtualGrid
+                                     # -> see DataManagementControls.md
 
 Data Visualization:
   ├── EnterpriseChart                # Cartesian, polar, financial, treemap, and sankey charts

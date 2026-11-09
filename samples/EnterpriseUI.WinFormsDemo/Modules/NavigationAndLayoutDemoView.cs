@@ -64,7 +64,7 @@ public class NavigationAndLayoutDemoView : UserControl
             new BreadcrumbItem { Text = "Cluster-US-East-01" }
         });
 
-        var lblBcHeader = new Label { Text = "RadBreadcrumb Hierarchy Bar:", Location = new Point(14, 12), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
+        var lblBcHeader = new Label { Text = "EnterpriseBreadcrumb Hierarchy Bar:", Location = new Point(14, 12), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
         var lblBcRender = new Label
         {
             Text = string.Join($" {_breadcrumbModel.Separator} ", _breadcrumbModel.Items.Select(i => i.Text)),
@@ -104,7 +104,7 @@ public class NavigationAndLayoutDemoView : UserControl
         });
         _stepModel.SelectedIndex = 2;
 
-        var lblStepHeader = new Label { Text = "RadStepProgressBar Pipeline:", Location = new Point(14, 86), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
+        var lblStepHeader = new Label { Text = "EnterpriseStepProgressBar Pipeline:", Location = new Point(14, 86), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
         var stepCanvas = new Panel { Location = new Point(14, 112), Size = new Size(760, 64), BorderStyle = BorderStyle.FixedSingle, BackColor = Color.White };
         stepCanvas.Paint += (_, e) =>
         {
@@ -154,7 +154,7 @@ public class NavigationAndLayoutDemoView : UserControl
         _bindingNav.Items.AddRange(CachedValues1);
         _bindingNav.NewItemFactory = () => $"Customer #{1001 + _bindingNav.Items.Count} — New Enterprise Account ($500K ARR)";
 
-        var lblBindHeader = new Label { Text = "RadBindingNavigator Control:", Location = new Point(14, 228), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
+        var lblBindHeader = new Label { Text = "EnterpriseBindingNavigator Control:", Location = new Point(14, 228), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
         var lblBindCurrent = new Label
         {
             Text = $"[{_bindingNav.PositionText}]  {_bindingNav.CurrentItem}",
@@ -227,7 +227,7 @@ public class NavigationAndLayoutDemoView : UserControl
             using var whiteBrush = new SolidBrush(Color.White);
             using var fgBrush = new SolidBrush(Color.FromArgb(40, 44, 52));
 
-            g.DrawString("RadPanorama Live Tiles (Auto-Cycling Frames Every 2s — Click to Cycle Now):", headerFont, fgBrush, 14, 8);
+            g.DrawString("EnterprisePanorama Live Tiles (Auto-Cycling Frames Every 2s — Click to Cycle Now):", headerFont, fgBrush, 14, 8);
             Color[] tileColors = { Color.FromArgb(0, 120, 212), Color.FromArgb(16, 124, 65), Color.FromArgb(135, 100, 184), Color.FromArgb(216, 59, 1) };
 
             for (int i = 0; i < _panoramaModel.Tiles.Count; i++)
@@ -268,7 +268,7 @@ public class NavigationAndLayoutDemoView : UserControl
 
         var wizardBox = new GroupBox
         {
-            Text = "RadWizard Interactive Multi-Step Assistant",
+            Text = "EnterpriseWizard Interactive Multi-Step Assistant",
             Location = new Point(14, 10),
             Size = new Size(760, 145),
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
@@ -301,26 +301,24 @@ public class NavigationAndLayoutDemoView : UserControl
         var dataLayout = new EnterpriseDataLayout<Appointment>();
         var lblDlHeader = new Label
         {
-            Text = $"RadDataLayout<Appointment> Auto-Generated Form Schema ({dataLayout.Fields.Count} reflected fields):",
+            Text = $"EnterpriseDataLayout<Appointment> Auto-Generated Form Schema ({dataLayout.Fields.Count} reflected fields):",
             Location = new Point(14, 168),
             AutoSize = true,
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
         };
-        var lvDataLayout = new ListView
+        var lvDataLayout = new EnterpriseListViewControl
         {
             Location = new Point(14, 194),
             Size = new Size(760, 140),
-            View = View.Details,
-            FullRowSelect = true,
-            GridLines = true
+            AccessibleName = "Reflected form schema"
         };
-        lvDataLayout.Columns.Add("Property Name", 160);
-        lvDataLayout.Columns.Add("Display Label", 180);
-        lvDataLayout.Columns.Add("CLR Type", 160);
-        lvDataLayout.Columns.Add("Auto-Selected Editor Control", 220);
+        lvDataLayout.AddColumn("Property Name", 160);
+        lvDataLayout.AddColumn("Display Label", 180);
+        lvDataLayout.AddColumn("CLR Type", 160);
+        lvDataLayout.AddColumn("Auto-Selected Editor Control", 220);
         foreach (var f in dataLayout.Fields)
         {
-            lvDataLayout.Items.Add(new ListViewItem(new[] { f.PropertyName, f.Label, f.PropertyType.Name, f.EditorKind }));
+            lvDataLayout.Items.Add(f.PropertyName, f.Label, f.PropertyType.Name, f.EditorKind);
         }
 
         lwPanel.Controls.AddRange(new Control[] { wizardBox, lblDlHeader, lvDataLayout });
@@ -339,14 +337,14 @@ public class NavigationAndLayoutDemoView : UserControl
 
         var btnDesktopAlert = new Button
         {
-            Text = "🔔 Trigger RadDesktopAlert Toast",
+            Text = "🔔 Trigger EnterpriseDesktopAlert Toast",
             Location = new Point(14, 120),
             Size = new Size(230, 34),
             FlatStyle = FlatStyle.Flat
         };
         var btnTaskDialog = new Button
         {
-            Text = "📋 Launch RadTaskDialog Command Links",
+            Text = "📋 Launch EnterpriseTaskDialog Command Links",
             Location = new Point(256, 120),
             Size = new Size(260, 34),
             FlatStyle = FlatStyle.Flat

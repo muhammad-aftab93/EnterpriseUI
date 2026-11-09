@@ -148,7 +148,7 @@ public class DocumentsDemoView : UserControl
         var imgEditor = new EnterpriseImageEditor { ImageSource = "EnterpriseArchitectureDiagram.png" };
         var webCam = new EnterpriseWebCam();
 
-        var lblImgHeader = new Label { Text = "RadImageEditor & RadWebCam Controller:", Location = new Point(16, 14), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
+        var lblImgHeader = new Label { Text = "EnterpriseImageEditor & EnterpriseWebCam Controller:", Location = new Point(16, 14), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
         var btnRotate = new Button { Text = "↻ Rotate 90°", Location = new Point(16, 42), Size = new Size(110, 28), FlatStyle = FlatStyle.Flat };
         var btnZoomIn = new Button { Text = "🔍+ Zoom In", Location = new Point(134, 42), Size = new Size(110, 28), FlatStyle = FlatStyle.Flat };
         var btnCamSnap = new Button { Text = "📷 EnterpriseWebCam Snapshot", Location = new Point(252, 42), Size = new Size(155, 28), FlatStyle = FlatStyle.Flat };

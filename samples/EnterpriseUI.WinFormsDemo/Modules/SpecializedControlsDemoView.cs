@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using EnterpriseUI.Grids;
+using EnterpriseUI.WinForms;
 using EnterpriseUI.WinFormsDemo.Controls;
 using EnterpriseUI.WinFormsDemo.Infrastructure;
 
@@ -35,7 +37,7 @@ public class SpecializedControlsDemoView : UserControl
         _tabs.            Padding = new Point(10, 5)
 ;
 
-        // Tab 1: Gantt EnterpriseChart (RadGanttView equivalent)
+        // Tab 1: Gantt EnterpriseChart
         var tabGantt = new TabPage("📅 Gantt Project View");
         var ganttToolbar = new FlowLayoutPanel
         {
@@ -84,7 +86,7 @@ public class SpecializedControlsDemoView : UserControl
         tabGantt.Controls.Add(_gantt);
         tabGantt.Controls.Add(ganttToolbar);
 
-        // Tab 2: Barcode & QR Generator (RadBarcode equivalent)
+        // Tab 2: Barcode & QR Generator
         var tabBarcode = new TabPage("🔳 Barcode & QR Engine");
         var barcodeToolbar = new FlowLayoutPanel
         {
@@ -134,7 +136,7 @@ public class SpecializedControlsDemoView : UserControl
         tabBarcode.Controls.Add(_barcode);
         tabBarcode.Controls.Add(barcodeToolbar);
 
-        // Tab 3: Kanban TaskBoard (RadTaskBoard / RadCardView equivalent)
+        // Tab 3: Kanban TaskBoard
         var tabKanban = new TabPage("📋 Kanban TaskBoard");
         var kanbanToolbar = new FlowLayoutPanel
         {
@@ -177,16 +179,32 @@ public class SpecializedControlsDemoView : UserControl
         tabKanban.Controls.Add(_kanban);
         tabKanban.Controls.Add(kanbanToolbar);
 
-        // Tab 4: Hierarchical EnterpriseTreeMap (RadTreeMap equivalent)
+        // Tab 4: Hierarchical EnterpriseTreeMap
         var tabTreeMap = new TabPage("🗺️ EnterpriseTreeMap Analytics");
         _treeMap.Dock = DockStyle.Fill ;
-        _treeMap.NodeSelected += leaf =>
+        _treeMap.ValueFormat = "N0";
+        var platform = new TreeMapItem("Platform");
+        platform.Add("Cloud Infrastructure", 38, 18.4);
+        platform.Add("AI Copilot Compute", 26, 34.2);
+        var analytics = new TreeMapItem("Analytics");
+        analytics.Add("Real-Time BI Grid", 22, 12.1);
+        analytics.Add("OLAP Pivot Engine", 16, 9.5);
+        var security = new TreeMapItem("Security");
+        security.Add("Zero-Trust IAM", 14, 21.0);
+        var operations = new TreeMapItem("Operations");
+        operations.Add("GIS Fleet Telemetry", 12, 6.8);
+        _treeMap.SetItems(new[] { platform, analytics, security, operations });
+        _treeMap.ColorMode = TreeMapColorMode.Sequential;
+        _treeMap.SelectionChanged += (_, _) =>
         {
-            _baseView.LogEvent("EnterpriseTreeMap.SelectedNode", $"{leaf.Label} (${leaf.Weight}M)");
+            if (_treeMap.SelectedItem is { } leaf)
+            {
+                _baseView.LogEvent("EnterpriseTreeMap.SelectedNode", $"{leaf.Name} ({leaf.TotalValue:N0}M)");
+            }
         };
         tabTreeMap.Controls.Add(_treeMap);
 
-        // Tab 5: Digital Signature Pad (RadSignaturePad equivalent)
+        // Tab 5: Digital Signature Pad
         var tabSig = new TabPage("✍️ Signature Pad");
         var sigToolbar = new FlowLayoutPanel
         {
@@ -206,7 +224,7 @@ public class SpecializedControlsDemoView : UserControl
         tabSig.Controls.Add(_signaturePad);
         tabSig.Controls.Add(sigToolbar);
 
-        // Tab 6: Touch Virtual Keyboard (RadVirtualKeyboard equivalent)
+        // Tab 6: Touch Virtual Keyboard
         var tabKeyboard = new TabPage("⌨️ Virtual Keyboard");
         _virtualKeyboard.Dock = DockStyle.Fill ;
         _virtualKeyboard.KeyPressed += key =>

@@ -98,7 +98,7 @@ public class GaugesDemoView : UserControl
 
         _bulletGraph.            Height = 76;
 
-        _bulletGraph.            Title = "RadBulletGraph KPI — Server Cluster Throughput vs SLA Target"
+        _bulletGraph.            Title = "EnterpriseBulletGraph KPI — Server Cluster Throughput vs SLA Target"
 ;
 
         var split = new System.Windows.Forms.SplitContainer

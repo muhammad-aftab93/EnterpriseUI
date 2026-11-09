@@ -160,7 +160,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var grpAiPrompt = new GroupBox
         {
-            Text = "RadAIPrompt & RadAIPromptButton — Generative Prompt, Output & Commands View",
+            Text = "EnterpriseAIPrompt & EnterpriseAIPromptButton — Generative Prompt, Output & Commands View",
             Location = new Point(14, 10),
             Size = new Size(520, 250),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
@@ -211,7 +211,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var grpSmartPaste = new GroupBox
         {
-            Text = "RadSmartPasteButton & RadSpeechToTextButton — Intelligent Form Extraction",
+            Text = "EnterpriseSmartPasteButton & EnterpriseSpeechToTextButton — Intelligent Form Extraction",
             Location = new Point(550, 10),
             Size = new Size(510, 250),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
@@ -277,113 +277,63 @@ public class CompleteControlCatalogDemoView : UserControl
         // TAB 3: DataEntry, DataFilter, EnterpriseFilterView, EnterpriseCardView & ValidationProvider
         // =====================================================================
         var tabDataControls = new TabPage("🗂️ DataEntry, DataFilter, EnterpriseCardView & Validation");
-        var dataSplit = new System.Windows.Forms.SplitContainer
+        var contacts = new List<ExecutiveContact>
         {
-            Dock = DockStyle.Fill,
-            Orientation = Orientation.Vertical,
-            SplitterDistance = 520
+            new("Elena Rostova", "VP of Platform Architecture", "EMEA", "Zurich", 1_450_000m),
+            new("Marcus Vance", "Director of FinTech Systems", "North America", "New York", 2_800_000m),
+            new("Kenji Takahashi", "Principal AI Strategist", "APAC", "Tokyo", 1_950_000m),
+            new("Sofia Lindqvist", "Lead Security Auditor", "EMEA", "Stockholm", 980_000m),
+            new("Priya Raman", "Head of Data Platforms", "APAC", "Singapore", 2_150_000m),
+            new("Tomas Berg", "Infrastructure Lead", "EMEA", "Oslo", 1_120_000m)
         };
 
-        var leftDataPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12), AutoScroll = true };
-        var lblDataFilterTitle = new Label
-        {
-            Text = "RadDataFilter & RadFilterView — Hierarchical Expression Tree",
-            Location = new Point(12, 10),
-            AutoSize = true,
-            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
-        };
-        var tvFilter = new System.Windows.Forms.TreeView
-        {
-            Location = new Point(12, 36),
-            Size = new Size(480, 145),
-            Font = new Font("Segoe UI", 9f),
-            CheckBoxes = true
-        };
-        var rootAnd = new TreeNode("AND (All conditions must match)") { Checked = true };
-        rootAnd.Nodes.Add(new TreeNode("[Region] IsEqualTo 'North America' OR 'EMEA'") { Checked = true });
-        rootAnd.Nodes.Add(new TreeNode("[AnnualRevenue] IsGreaterThanOrEqualTo $50,000") { Checked = true });
-        var subOr = new TreeNode("OR (Nested Group)") { Checked = true };
-        subOr.Nodes.Add(new TreeNode("[AccountTier] IsEqualTo 'Enterprise Platinum'") { Checked = true });
-        subOr.Nodes.Add(new TreeNode("[SLAStatus] IsEqualTo 'Verified'") { Checked = true });
-        rootAnd.Nodes.Add(subOr);
-        tvFilter.Nodes.Add(rootAnd);
-        tvFilter.ExpandAll();
+        var dataSplit = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };
+        dataSplit.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+        dataSplit.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
 
-        var lblDataEntryTitle = new Label
+        var leftDataPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 4, Padding = new Padding(12) };
+        leftDataPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        leftDataPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        leftDataPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+        leftDataPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
+        leftDataPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+        var dataFilter = new EnterpriseDataFilterControl { Dock = DockStyle.Fill, ItemType = typeof(ExecutiveContact) };
+        var firstCondition = dataFilter.AddCondition();
+        firstCondition.Field = "Region";
+        firstCondition.Value = "EMEA";
+        dataFilter.Load(dataFilter.ToDescriptor());
+
+        var accountEntry = new EnterpriseDataEntryControl { Dock = DockStyle.Fill, Entity = new AccountEntry(), ApplyText = "Validate and save", ColumnWidth = 260 };
+        accountEntry.Applied += (_, _) => _baseView.LogEvent("DataEntry.Applied", "Account saved");
+        accountEntry.ValidationFailed += (_, errors) => _baseView.LogEvent("DataEntry.ValidationFailed", string.Join("; ", errors.Values));
+
+        var rightCardPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12) };
+        var cardView = new EnterpriseCardViewControl { Dock = DockStyle.Fill, TitleField = "Name", SubtitleField = "Role", BadgeField = "Region" };
+        cardView.Fields.Add(new CardField("City", "City"));
+        cardView.Fields.Add(new CardField("Budget", "Budget", "C0"));
+        cardView.DataSource = contacts;
+        dataFilter.FilterChanged += (_, _) =>
         {
-            Text = "RadDataEntry & RadValidationProvider — Auto-Bound Entity Form",
-            Location = new Point(12, 192),
-            AutoSize = true,
-            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
+            cardView.DataSource = dataFilter.Apply(contacts.Cast<object>()).ToList();
+            _baseView.LogEvent("DataFilter.Changed", dataFilter.FilterText);
         };
-        var txtEntityName = new System.Windows.Forms.TextBox { Text = "Northwind Cloud Logistics", Location = new Point(150, 220), Width = 220 };
-        var lblEntityName = new Label { Text = "Company Name *:", Location = new Point(12, 223), AutoSize = true };
-        var numEntityQuota = new NumericUpDown { Minimum = 0, Maximum = 10000000, Value = 250000, Location = new Point(150, 252), Width = 220, ThousandsSeparator = true };
-        var lblEntityQuota = new Label { Text = "Credit Limit ($):", Location = new Point(12, 254), AutoSize = true };
-        var btnValidateEntity = new Button { Text = "✔ Validate via RadValidationProvider", Location = new Point(150, 286), Size = new Size(220, 28), FlatStyle = FlatStyle.Flat };
-        var lblValidationOut = new Label { Text = "Validation Status: Ready", Location = new Point(12, 320), AutoSize = true, ForeColor = Color.FromArgb(16, 124, 65), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
-
-        btnValidateEntity.Click += (_, _) =>
-        {
-            bool valid = !string.IsNullOrWhiteSpace(txtEntityName.Text) && numEntityQuota.Value >= 1000;
-            lblValidationOut.Text = valid
-                ? $"✔ Validation Passed: '{txtEntityName.Text}' (${numEntityQuota.Value:N0})"
-                : "✖ Validation Failed: Company Name required and Credit Limit >= $1,000";
-            lblValidationOut.ForeColor = valid ? Color.FromArgb(16, 124, 65) : Color.FromArgb(220, 53, 69);
-            _baseView.LogEvent("ValidationProvider.Validate", lblValidationOut.Text);
-        };
-
-        leftDataPanel.Controls.AddRange(new Control[]
-        {
-            lblDataFilterTitle, tvFilter,
-            lblDataEntryTitle, lblEntityName, txtEntityName, lblEntityQuota, numEntityQuota, btnValidateEntity, lblValidationOut
-        });
-
-        var rightCardPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(12), AutoScroll = true };
+        cardView.DataSource = dataFilter.Apply(contacts.Cast<object>()).ToList();
         var lblCardViewTitle = new Label
         {
-            Text = "RadCardView & RadListView — Multi-Mode Executive Contact Cards",
+            Text = "EnterpriseCardView - executive contacts follow the filter on the left",
             Dock = DockStyle.Top,
             Height = 28,
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
         };
-        var flowCards = new FlowLayoutPanel
-        {
-            Dock = DockStyle.Fill,
-            AutoScroll = true,
-            Padding = new Padding(4)
-        };
-
-        var cardRecords = new[]
-        {
-            ("Elena Rostova", "VP of Platform Architecture", "EMEA • Zurich", "$1.45M Budget", Color.FromArgb(0, 120, 212)),
-            ("Marcus Vance", "Director of FinTech Systems", "NA • New York", "$2.80M Budget", Color.FromArgb(16, 124, 65)),
-            ("Kenji Takahashi", "Principal AI Strategist", "APAC • Tokyo", "$1.95M Budget", Color.FromArgb(136, 23, 152)),
-            ("Sofia Lindqvist", "Lead Security Auditor", "EMEA • Stockholm", "$980K Budget", Color.FromArgb(216, 59, 1))
-        };
-
-        foreach (var c in cardRecords)
-        {
-            var card = new Panel
-            {
-                Size = new Size(235, 115),
-                Margin = new Padding(6),
-                BackColor = Color.FromArgb(248, 250, 252),
-                BorderStyle = BorderStyle.FixedSingle
-            };
-            var stripe = new Panel { Dock = DockStyle.Left, Width = 6, BackColor = c.Item5 };
-            var l1 = new Label { Text = c.Item1, Location = new Point(14, 10), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) };
-            var l2 = new Label { Text = c.Item2, Location = new Point(14, 34), AutoSize = true, Font = new Font("Segoe UI", 8.5f) };
-            var l3 = new Label { Text = c.Item3, Location = new Point(14, 58), AutoSize = true, ForeColor = Color.DimGray };
-            var l4 = new Label { Text = c.Item4, Location = new Point(14, 82), AutoSize = true, ForeColor = c.Item5, Font = new Font("Segoe UI", 8.75f, FontStyle.Bold) };
-            card.Controls.AddRange(new Control[] { stripe, l1, l2, l3, l4 });
-            flowCards.Controls.Add(card);
-        }
-
-        rightCardPanel.Controls.Add(flowCards);
+        rightCardPanel.Controls.Add(cardView);
         rightCardPanel.Controls.Add(lblCardViewTitle);
-        dataSplit.Panel1.Controls.Add(leftDataPanel);
-        dataSplit.Panel2.Controls.Add(rightCardPanel);
+
+        leftDataPanel.Controls.Add(new Label { Text = "EnterpriseDataFilter - AND / OR / NOT expression builder", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) }, 0, 0);
+        leftDataPanel.Controls.Add(dataFilter, 0, 1);
+        leftDataPanel.Controls.Add(new Label { Text = "EnterpriseDataEntry - validated entity form", Dock = DockStyle.Fill, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold) }, 0, 2);
+        leftDataPanel.Controls.Add(accountEntry, 0, 3);
+        dataSplit.Controls.Add(leftDataPanel, 0, 0);
+        dataSplit.Controls.Add(rightCardPanel, 1, 0);
         tabDataControls.Controls.Add(dataSplit);
 
         // =====================================================================
@@ -410,7 +360,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var grpImageEditor = new GroupBox
         {
-            Text = "RadImageEditor & RadPictureBox — Live Filter & Transform Pipeline",
+            Text = "EnterpriseImageEditor & EnterprisePictureBox — Live Filter & Transform Pipeline",
             Size = new Size(510, 140),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
@@ -446,7 +396,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var grpWebCam = new GroupBox
         {
-            Text = "RadWebCam — Enterprise Badge & Telemetry Stream",
+            Text = "EnterpriseWebCam — Enterprise Badge & Telemetry Stream",
             Size = new Size(460, 140),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
@@ -519,7 +469,7 @@ public class CompleteControlCatalogDemoView : UserControl
 ;
         _rangeSelector.RangeChanged += (s, e) =>
         {
-            _callout.CalloutTitle = $"RadCallout — Live Range Window: {s:F1}% to {e:F1}%";
+            _callout.CalloutTitle = $"EnterpriseCallout — Live Range Window: {s:F1}% to {e:F1}%";
             _callout.Invalidate();
             _baseView.LogEvent("RangeSelector.RangeChanged", $"{s:F1}% .. {e:F1}%");
         };
@@ -535,7 +485,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var grpNavModes = new GroupBox
         {
-            Text = "RadNavigationView & RadOfficeNavigationBar",
+            Text = "EnterpriseNavigationView & EnterpriseOfficeNavigationBar",
             Size = new Size(470, 165),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
@@ -556,7 +506,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var grpSplashOverlay = new GroupBox
         {
-            Text = "RadSplashScreen, RadOverlay, RadFlyout & RadToastNotification",
+            Text = "EnterpriseSplashScreen, EnterpriseOverlay, EnterpriseFlyout & EnterpriseToastNotification",
             Size = new Size(490, 165),
             Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
@@ -569,22 +519,22 @@ public class CompleteControlCatalogDemoView : UserControl
 
         btnTriggerOverlay.Click += (_, _) =>
         {
-            lblOverlayState.Text = "RadOverlay Active: Host viewport dimmed at 45% opacity with rotating EnterpriseWaitingBar";
-            _baseView.LogEvent("RadOverlay.Show", "Dimmer + Busy Indicator active");
+            lblOverlayState.Text = "EnterpriseOverlay Active: Host viewport dimmed at 45% opacity with rotating EnterpriseWaitingBar";
+            _baseView.LogEvent("EnterpriseOverlay.Show", "Dimmer + Busy Indicator active");
         };
         btnTriggerFlyout.Click += (_, _) =>
         {
-            lblOverlayState.Text = "RadFlyout Active: Interactive modal slide-in drawer opened over workspace";
-            _baseView.LogEvent("RadFlyout.Show", "Flyout drawer opened");
+            lblOverlayState.Text = "EnterpriseFlyout Active: Interactive modal slide-in drawer opened over workspace";
+            _baseView.LogEvent("EnterpriseFlyout.Show", "Flyout drawer opened");
         };
         btnTriggerToast.Click += (_, _) =>
         {
-            lblOverlayState.Text = "RadToastNotification & RadNotifyIcon: Dispatched toast + Tray Icon Badge = 3";
+            lblOverlayState.Text = "EnterpriseToastNotification & EnterpriseNotifyIcon: Dispatched toast + Tray Icon Badge = 3";
             _baseView.LogEvent("ToastNotificationManager.Show", "Toast + NotifyIcon Badge=3");
         };
         btnTaskbarProgress.Click += (_, _) =>
         {
-            lblOverlayState.Text = "RadTaskbarButton: Windows Taskbar Progress State = Normal (85% Complete)";
+            lblOverlayState.Text = "EnterpriseTaskbarButton: Windows Taskbar Progress State = Normal (85% Complete)";
             _baseView.LogEvent("TaskbarButton.Progress", "85% Normal");
         };
         btnControlSpy.Click += (_, _) =>
@@ -684,3 +634,28 @@ public class CompleteControlCatalogDemoView : UserControl
         base.Dispose(disposing);
     }
 }
+
+public sealed record ExecutiveContact(string Name, string Role, string Region, string City, decimal Budget);
+
+public sealed class AccountEntry
+{
+    [System.ComponentModel.DataAnnotations.Display(Name = "Company name", GroupName = "Account", Order = 1)]
+    [System.ComponentModel.DataAnnotations.Required, System.ComponentModel.DataAnnotations.StringLength(60)]
+    public string CompanyName { get; set; } = "Northwind Cloud Logistics";
+
+    [System.ComponentModel.DataAnnotations.Display(Name = "Billing e-mail", GroupName = "Account", Order = 2)]
+    [System.ComponentModel.DataAnnotations.Required, System.ComponentModel.DataAnnotations.EmailAddress]
+    public string Email { get; set; } = "billing@northwind.example";
+
+    [System.ComponentModel.DataAnnotations.Display(Name = "Credit limit", GroupName = "Terms", Order = 3, Description = "At least 1,000.")]
+    [System.ComponentModel.DataAnnotations.Range(1000, 10_000_000)]
+    public decimal CreditLimit { get; set; } = 250_000m;
+
+    [System.ComponentModel.DataAnnotations.Display(Name = "Payment terms", GroupName = "Terms", Order = 4)]
+    public PaymentTerms Terms { get; set; } = PaymentTerms.Net30;
+
+    [System.ComponentModel.DataAnnotations.Display(Name = "Preferred partner", GroupName = "Terms", Order = 5)]
+    public bool Preferred { get; set; } = true;
+}
+
+public enum PaymentTerms { Net15, Net30, Net60 }

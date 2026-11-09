@@ -195,6 +195,7 @@ public class DirectGridApiTests
     }
 }
 
+[Collection("Theme")]
 public class RenderingTests
 {
     [Fact]

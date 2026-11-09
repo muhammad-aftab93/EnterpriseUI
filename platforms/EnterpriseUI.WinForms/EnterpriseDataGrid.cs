@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -70,8 +70,8 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
     private readonly ToolStripMenuItem _hideItem = new("Hide Column");
     private readonly ToolStripMenuItem _groupItem = new("Group By This Column");
     private readonly ToolTip _toolTip = new();
-    private readonly VScrollBar _vScroll = new() { Visible = false, TabStop = false };
-    private readonly HScrollBar _hScroll = new() { Visible = false, TabStop = false };
+    private readonly EnterpriseScrollBar _vScroll = new(Orientation.Vertical) { Visible = false, TabStop = false };
+    private readonly EnterpriseScrollBar _hScroll = new(Orientation.Horizontal) { Visible = false, TabStop = false };
     private readonly EventHandler<ITheme> _themeHandler;
 
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
@@ -124,6 +124,9 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
 
         _vScroll.ValueChanged += (_, _) => OnVerticalScroll();
         _hScroll.ValueChanged += (_, _) => OnHorizontalScroll();
+        _vScroll.Width = S(12);
+        _hScroll.Height = S(12);
+        ApplyScrollBarColors();
         Controls.Add(_vScroll);
         Controls.Add(_hScroll);
 
@@ -565,6 +568,8 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
     protected override void OnDpiChangedAfterParent(EventArgs e)
     {
         base.OnDpiChangedAfterParent(e);
+        _vScroll.Width = S(12);
+        _hScroll.Height = S(12);
         ResetFonts();
         UpdateScrollBars();
     }
@@ -580,7 +585,15 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
     {
         base.OnSystemColorsChanged(e);
         _colors = null;
+        ApplyScrollBarColors();
         Invalidate();
+    }
+
+    private void ApplyScrollBarColors()
+    {
+        var colors = ControlColors.FromTheme(_theme);
+        _vScroll.ApplyColors(colors);
+        _hScroll.ApplyColors(colors);
     }
 
     private void ResetFonts()
@@ -600,6 +613,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
         _colors = null;
         Post(() =>
         {
+            ApplyScrollBarColors();
             ApplyThemeToChildren();
             Invalidate();
         });

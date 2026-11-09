@@ -37,7 +37,7 @@ internal static class DemoVerification
                     view.PerformLayout();
                     using var image = new Bitmap(view.Width, view.Height);
                     view.DrawToBitmap(image, view.ClientRectangle);
-                    if (demo.Id is "theming-design-tokens" or "component-catalog" or "grid-basics")
+                    if (demo.Id is "theming-design-tokens" or "component-catalog" or "grid-basics" || demo.Id.StartsWith("data-", StringComparison.Ordinal) || demo.Id == "dataentry-filter-cards-suite")
                         image.Save(Path.Combine(directory, demo.Id + ".png"), System.Drawing.Imaging.ImageFormat.Png);
                     host.Controls.Remove(view);
                     log.AppendLine("PASS: " + demo.Id);

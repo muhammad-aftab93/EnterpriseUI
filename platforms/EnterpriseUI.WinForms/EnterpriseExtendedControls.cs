@@ -9,7 +9,7 @@ using EnterpriseUI.Theming;
 namespace EnterpriseUI.WinForms;
 
 /// <summary>
-/// Vector Analog &amp; Digital Clock control (RadClock equivalent) with timezone offset and smooth second hand.
+/// Vector Analog &amp; Digital Clock control with timezone offset and smooth second hand.
 /// </summary>
 public class EnterpriseClockControl : Control, IThemeableControl
 {
@@ -126,14 +126,14 @@ public class EnterpriseClockControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Vector Callout notification &amp; annotation control (RadCallout equivalent) with directional arrow.
+/// Vector Callout notification &amp; annotation control with directional arrow.
 /// </summary>
 public class EnterpriseCalloutControl : Control, IThemeableControl
 {
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
 
     public string? ThemeOverride { get; set; }
-    public string CalloutTitle { get; set; } = "RadCallout — Interactive Target Annotation";
+    public string CalloutTitle { get; set; } = "EnterpriseCallout — Interactive Target Annotation";
     public string CalloutBody { get; set; } = "Points to any target UI element with customizable arrow direction, callout shape, and action buttons.";
     public ArrowDirection PointerDirection { get; set; } = ArrowDirection.Left;
 
@@ -190,7 +190,7 @@ public class EnterpriseCalloutControl : Control, IThemeableControl
 }
 
 /// <summary>
-/// Interactive dual-thumb RangeSelector control (RadRangeSelector equivalent) with sparkline preview.
+/// Interactive dual-thumb RangeSelector control with sparkline preview.
 /// </summary>
 public class EnterpriseRangeSelectorControl : Control, IThemeableControl
 {
@@ -315,12 +315,12 @@ public class EnterpriseRangeSelectorControl : Control, IThemeableControl
 
         using var font = new Font("Segoe UI", 8.5f, FontStyle.Bold);
         using var textBrush = new SolidBrush(text);
-        g.DrawString($"RadRangeSelector Viewport Window: {SelectionStartPercent:F0}% — {SelectionEndPercent:F0}% (Drag handles to zoom)", font, textBrush, new PointF(16, 4));
+        g.DrawString($"EnterpriseRangeSelector Viewport Window: {SelectionStartPercent:F0}% — {SelectionEndPercent:F0}% (Drag handles to zoom)", font, textBrush, new PointF(16, 4));
     }
 }
 
 /// <summary>
-/// Interactive SlideView, Rotator &amp; PipsPager control (RadSlideView, RadRotator &amp; RadPipsPager equivalents).
+/// Interactive SlideView, Rotator &amp; PipsPager control.
 /// </summary>
 public class EnterpriseSlideRotatorPipsControl : Control, IThemeableControl
 {
@@ -438,7 +438,7 @@ public class EnterpriseSlideRotatorPipsControl : Control, IThemeableControl
         g.DrawString("◀", subFont, textBrush, prevRect, sf);
         g.DrawString("▶", subFont, textBrush, nextRect, sf);
 
-        // RadPipsPager indicator at bottom
+        // EnterprisePipsPager indicator at bottom
         int pipStartX = Width / 2 - (_slides.Length * 22) / 2;
         int pipY = Height - 24;
         for (int i = 0; i < _slides.Length; i++)

@@ -56,24 +56,24 @@ public class EditorsDemoView : UserControl
         };
 
         // ====================================================================
-        // Tab 1: Themed Form Controls (RadTextBox, RadButtonTextBox, RadBrowseEditor, RadToggleSwitch, RadFontDropDownList)
+        // Tab 1: Themed Form Controls (EnterpriseTextBox, EnterpriseButtonTextBox, EnterpriseBrowseEditor, EnterpriseToggleSwitch, EnterpriseFontDropDownList)
         // ====================================================================
         var tabCoreForm = new TabPage("📝 Form Controls (TextBox, BrowseEditor, ToggleSwitch)");
         var formPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(16), AutoScroll = true };
 
         int y = 12;
-        formPanel.Controls.Add(new Label { Text = "RadTextBox (Prefix + Clear ✕ + Focus Ring):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        formPanel.Controls.Add(new Label { Text = "EnterpriseTextBox (Prefix + Clear ✕ + Focus Ring):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         _txtFullName.            Location = new Point(310, y);
         _txtFullName.            Width = 300;
         _txtFullName.            PrefixGlyph = "👤";
         _txtFullName.            PlaceholderText = "Enter full executive name...";
         _txtFullName.            Text = "Alexander Hamilton"
 ;
-        _txtFullName.ValueChanged += (_, _) => _baseView.LogEvent("RadTextBox.Text", _txtFullName.Text);
+        _txtFullName.ValueChanged += (_, _) => _baseView.LogEvent("EnterpriseTextBox.Text", _txtFullName.Text);
         formPanel.Controls.Add(_txtFullName);
         y += 40;
 
-        formPanel.Controls.Add(new Label { Text = "RadTextBox (Email Validation State):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        formPanel.Controls.Add(new Label { Text = "EnterpriseTextBox (Email Validation State):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         _txtEmail.            Location = new Point(310, y);
         _txtEmail.            Width = 300;
         _txtEmail.            PrefixGlyph = "✉";
@@ -84,7 +84,7 @@ public class EditorsDemoView : UserControl
         formPanel.Controls.Add(_txtEmail);
         y += 40;
 
-        formPanel.Controls.Add(new Label { Text = "RadButtonTextBox / RadBrowseEditor:", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        formPanel.Controls.Add(new Label { Text = "EnterpriseButtonTextBox / EnterpriseBrowseEditor:", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         _txtBrowsePath.            Location = new Point(310, y);
         _txtBrowsePath.            Width = 300;
         _txtBrowsePath.            EnableFileBrowseOnRightClick = true
@@ -94,7 +94,7 @@ public class EditorsDemoView : UserControl
         formPanel.Controls.Add(_txtBrowsePath);
         y += 40;
 
-        formPanel.Controls.Add(new Label { Text = "RadSpinEditor (Annual Budget $):", Location = new Point(16, y + 4), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        formPanel.Controls.Add(new Label { Text = "EnterpriseSpinEditor (Annual Budget $):", Location = new Point(16, y + 4), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         _numBudget.            Location = new Point(310, y);
         _numBudget.            Width = 145;
         _numBudget.            Minimum = 0;
@@ -114,7 +114,7 @@ public class EditorsDemoView : UserControl
         formPanel.Controls.AddRange(new Control[] { _numBudget, _dtpEffectiveDate });
         y += 38;
 
-        formPanel.Controls.Add(new Label { Text = "RadDropDownList & RadFontDropDownList:", Location = new Point(16, y + 4), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        formPanel.Controls.Add(new Label { Text = "EnterpriseDropDownList & EnterpriseFontDropDownList:", Location = new Point(16, y + 4), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         _cmbDept.Location = new Point(310, y);
         _cmbDept.Width = 145;
         _cmbDept.DropDownStyle = ComboBoxStyle.DropDownList ;
@@ -129,14 +129,14 @@ public class EditorsDemoView : UserControl
         formPanel.Controls.AddRange(new Control[] { _cmbDept, _cmbFont });
         y += 38;
 
-        formPanel.Controls.Add(new Label { Text = "RadToggleSwitch (Push Notifications):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        formPanel.Controls.Add(new Label { Text = "EnterpriseToggleSwitch (Push Notifications):", Location = new Point(16, y + 5), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         _tglNotifications.Location = new Point(310, y);
         _tglNotifications.IsOn = true ;
         var lblSwitchState = new Label { Text = "Enabled (ON)", Location = new Point(398, y + 6), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         _tglNotifications.Toggled += isOn =>
         {
             lblSwitchState.Text = isOn ? "Enabled (ON)" : "Muted (OFF)";
-            _baseView.LogEvent("RadToggleSwitch.IsOn", isOn.ToString());
+            _baseView.LogEvent("EnterpriseToggleSwitch.IsOn", isOn.ToString());
         };
         formPanel.Controls.AddRange(new Control[] { _tglNotifications, lblSwitchState });
         y += 40;
@@ -172,7 +172,7 @@ public class EditorsDemoView : UserControl
 
         var lblBtnHeader = new Label
         {
-            Text = "RadButton Variants (Primary, Success, Danger, Outline & Notification Badge)",
+            Text = "EnterpriseButton Variants (Primary, Success, Danger, Outline & Notification Badge)",
             Location = new Point(16, 10),
             AutoSize = true,
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
@@ -183,14 +183,14 @@ public class EditorsDemoView : UserControl
         var btnDanger = new EnterpriseButtonControl { Text = "✖ Revoke Token", Location = new Point(348, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Danger };
         var btnOutline = new EnterpriseButtonControl { Text = "⚙ Outline Action", Location = new Point(514, 38), Size = new Size(155, 36), Variant = EnterpriseButtonVariant.Outline };
 
-        btnPrimary.Click += (_, _) => _baseView.LogEvent("RadButton.Click", "Primary Button Clicked");
-        btnSuccess.Click += (_, _) => _baseView.LogEvent("RadButton.Click", "Approve Ledger Clicked");
-        btnDanger.Click += (_, _) => _baseView.LogEvent("RadButton.Click", "Revoke Token Clicked");
-        btnOutline.Click += (_, _) => _baseView.LogEvent("RadButton.Click", "Outline Action Clicked");
+        btnPrimary.Click += (_, _) => _baseView.LogEvent("EnterpriseButton.Click", "Primary Button Clicked");
+        btnSuccess.Click += (_, _) => _baseView.LogEvent("EnterpriseButton.Click", "Approve Ledger Clicked");
+        btnDanger.Click += (_, _) => _baseView.LogEvent("EnterpriseButton.Click", "Revoke Token Clicked");
+        btnOutline.Click += (_, _) => _baseView.LogEvent("EnterpriseButton.Click", "Outline Action Clicked");
 
         var lblSplitHeader = new Label
         {
-            Text = "RadSplitButton, RadDropDownButton & RadRepeatButton (Press-and-Hold)",
+            Text = "EnterpriseSplitButton, EnterpriseDropDownButton & EnterpriseRepeatButton (Press-and-Hold)",
             Location = new Point(16, 88),
             AutoSize = true,
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
@@ -201,13 +201,13 @@ public class EditorsDemoView : UserControl
         var repeatBtn = new EnterpriseRepeatButtonControl { Location = new Point(378, 116), Size = new Size(185, 34) };
         var progressBar = new EnterpriseProgressBarControl { Location = new Point(575, 120), Size = new Size(220, 26), Value = 45 };
 
-        splitBtn.PrimaryActionClicked += (_, _) => _baseView.LogEvent("RadSplitButton.PrimaryClick", "Default Export Invoked");
-        splitBtn.MenuItemSelected += item => _baseView.LogEvent("RadSplitButton.MenuItemSelected", item);
-        dropDownBtn.MenuItemSelected += item => _baseView.LogEvent("RadDropDownButton.Selected", item);
+        splitBtn.PrimaryActionClicked += (_, _) => _baseView.LogEvent("EnterpriseSplitButton.PrimaryClick", "Default Export Invoked");
+        splitBtn.MenuItemSelected += item => _baseView.LogEvent("EnterpriseSplitButton.MenuItemSelected", item);
+        dropDownBtn.MenuItemSelected += item => _baseView.LogEvent("EnterpriseDropDownButton.Selected", item);
         repeatBtn.RepeatedClick += cnt =>
         {
             progressBar.Value = (cnt * 5) % 105;
-            _baseView.LogEvent("RadRepeatButton.RepeatedClick", $"Tick #{cnt} -> Progress={progressBar.Value}%");
+            _baseView.LogEvent("EnterpriseRepeatButton.RepeatedClick", $"Tick #{cnt} -> Progress={progressBar.Value}%");
         };
 
         var collapsiblePanel = new EnterpriseCollapsiblePanelControl
@@ -215,17 +215,17 @@ public class EditorsDemoView : UserControl
             Location = new Point(16, 166),
             Size = new Size(780, 125)
         };
-        var chkTriState = new CheckBox { Text = "RadCheckBox (ThreeState = true)", Location = new Point(12, 12), ThreeState = true, CheckState = CheckState.Indeterminate, AutoSize = true };
-        var rbOpt1 = new RadioButton { Text = "RadRadioButton: Real-Time Sync", Location = new Point(260, 12), Checked = true, AutoSize = true };
-        var rbOpt2 = new RadioButton { Text = "RadRadioButton: Batch Snapshot", Location = new Point(490, 12), AutoSize = true };
+        var chkTriState = new CheckBox { Text = "EnterpriseCheckBox (ThreeState = true)", Location = new Point(12, 12), ThreeState = true, CheckState = CheckState.Indeterminate, AutoSize = true };
+        var rbOpt1 = new RadioButton { Text = "EnterpriseRadioButton: Real-Time Sync", Location = new Point(260, 12), Checked = true, AutoSize = true };
+        var rbOpt2 = new RadioButton { Text = "EnterpriseRadioButton: Batch Snapshot", Location = new Point(490, 12), AutoSize = true };
         var trkSlider = new TrackBar { Location = new Point(12, 42), Size = new Size(320, 42), Minimum = 0, Maximum = 100, Value = 45, TickFrequency = 10 };
         trkSlider.Scroll += (_, _) =>
         {
             progressBar.Value = trkSlider.Value;
-            _baseView.LogEvent("RadTrackBar.Value", trkSlider.Value.ToString());
+            _baseView.LogEvent("EnterpriseTrackBar.Value", trkSlider.Value.ToString());
         };
         collapsiblePanel.ContentPanel.Controls.AddRange(new Control[] { chkTriState, rbOpt1, rbOpt2, trkSlider });
-        collapsiblePanel.ExpandedChanged += exp => _baseView.LogEvent("RadCollapsiblePanel.IsExpanded", exp.ToString());
+        collapsiblePanel.ExpandedChanged += exp => _baseView.LogEvent("EnterpriseCollapsiblePanel.IsExpanded", exp.ToString());
 
         btnPanel.Controls.AddRange(new Control[]
         {
@@ -242,7 +242,7 @@ public class EditorsDemoView : UserControl
         var specPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(16), AutoScroll = true };
 
         int sy = 12;
-        specPanel.Controls.Add(new Label { Text = "RadMaskedEditBox (Phone):", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        specPanel.Controls.Add(new Label { Text = "EnterpriseMaskedEditBox (Phone):", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         var txtRawPhone = new System.Windows.Forms.TextBox { Text = "4158902345", Location = new Point(210, sy - 2), Width = 140 };
         var lblMaskedOut = new Label { Text = "Formatted: (415) 890-2345", Location = new Point(365, sy), AutoSize = true, ForeColor = Color.FromArgb(0, 102, 180), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         txtRawPhone.TextChanged += (_, _) =>
@@ -259,7 +259,7 @@ public class EditorsDemoView : UserControl
         autoComplete.AddToken("WinForms");
         autoComplete.AddToken("DataGrid");
 
-        specPanel.Controls.Add(new Label { Text = "RadAutoCompleteBox Tokens:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        specPanel.Controls.Add(new Label { Text = "EnterpriseAutoCompleteBox Tokens:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         var txtTokenInput = new System.Windows.Forms.TextBox { Text = "EnterpriseGanttView", Location = new Point(210, sy - 2), Width = 140 };
         var btnAddToken = new Button { Text = "+ Add Token", Location = new Point(360, sy - 3), Size = new Size(95, 26), FlatStyle = FlatStyle.Flat };
         var lblTokens = new Label { Text = $"Tokens: [{string.Join("] [", autoComplete.SelectedTokens)}]", Location = new Point(465, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
@@ -276,7 +276,7 @@ public class EditorsDemoView : UserControl
         checkedDrop.Items.AddRange(CachedValues3);
         checkedDrop.CheckAll();
 
-        specPanel.Controls.Add(new Label { Text = "RadCheckedDropDownList:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        specPanel.Controls.Add(new Label { Text = "EnterpriseCheckedDropDownList:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         var btnCheckAll = new Button { Text = "Check All (4)", Location = new Point(210, sy - 3), Size = new Size(105, 26), FlatStyle = FlatStyle.Flat };
         var btnUncheckAll = new Button { Text = "Uncheck All", Location = new Point(322, sy - 3), Size = new Size(105, 26), FlatStyle = FlatStyle.Flat };
         var lblCheckedState = new Label { Text = "Checked: North America, EMEA, APAC, LATAM", Location = new Point(440, sy), AutoSize = true };
@@ -296,7 +296,7 @@ public class EditorsDemoView : UserControl
         sy += 36;
 
         var colorPickerModel = new ColorPicker();
-        specPanel.Controls.Add(new Label { Text = "RadColorBox / ColorPicker:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        specPanel.Controls.Add(new Label { Text = "EnterpriseColorBox / ColorPicker:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         var pnlColorSwatch = new Panel { Location = new Point(210, sy - 2), Size = new Size(36, 24), BackColor = Color.FromArgb(0, 120, 212), BorderStyle = BorderStyle.FixedSingle };
         var btnPickColor = new Button { Text = "Choose Color...", Location = new Point(254, sy - 3), Size = new Size(120, 26), FlatStyle = FlatStyle.Flat };
         var lblColorHex = new Label { Text = colorPickerModel.SelectedColorHex, Location = new Point(384, sy), AutoSize = true, Font = new Font("Consolas", 9.5f, FontStyle.Bold) };
@@ -336,7 +336,7 @@ public class EditorsDemoView : UserControl
         sy += 36;
 
         var calc = new EnterpriseCalculatorDropDown();
-        specPanel.Controls.Add(new Label { Text = "RadCalculatorDropDown:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
+        specPanel.Controls.Add(new Label { Text = "EnterpriseCalculatorDropDown:", Location = new Point(16, sy), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) });
         var txtCalcExpr = new System.Windows.Forms.TextBox { Text = "(450 * 12) + 1850.75", Location = new Point(210, sy - 2), Width = 160 };
         var btnEvalCalc = new Button { Text = "= Compute", Location = new Point(378, sy - 3), Size = new Size(90, 26), FlatStyle = FlatStyle.Flat };
         var lblCalcOut = new Label { Text = "Result: 7,250.75", Location = new Point(478, sy), AutoSize = true, Font = new Font("Segoe UI", 9.5f, FontStyle.Bold), ForeColor = Color.FromArgb(16, 124, 65) };

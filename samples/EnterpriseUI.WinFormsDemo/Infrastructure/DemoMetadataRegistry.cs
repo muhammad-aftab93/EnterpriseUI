@@ -709,7 +709,7 @@ var carousel = new EnterpriseCarouselControl();",
         {
             Id = "ai-prompt-smart-controls-suite",
             Title = "AIPrompt, SmartPasteButton & SpeechToTextButton Suite",
-            Description = "Generative RadAIPrompt & RadAIPromptButton with Prompt/Output/Commands views, AI-powered RadSmartPasteButton clipboard form parser, and RadSpeechToTextButton voice dictation.",
+            Description = "Generative EnterpriseAIPrompt & EnterpriseAIPromptButton with Prompt/Output/Commands views, AI-powered EnterpriseSmartPasteButton clipboard form parser, and EnterpriseSpeechToTextButton voice dictation.",
             Category = DemoCategoryType.AIAndIntelligence,
             SubCategory = "AIPrompt & Smart Buttons",
             TargetControlName = "AIPromptControl, AIPromptButton, SmartPasteButton, SpeechToTextButton",
@@ -722,7 +722,7 @@ var carousel = new EnterpriseCarouselControl();",
             SourceCode =
 @"var extracted = SmartPasteEngine.ExtractFieldsFromText(Clipboard.GetText());
 var aiPrompt = new AIPromptControl();",
-            Documentation = "Provides clean-room implementations of RadAIPrompt, RadAIPromptButton, RadSmartPasteButton, and RadSpeechToTextButton.",
+            Documentation = "Provides clean-room implementations of EnterpriseAIPrompt, EnterpriseAIPromptButton, EnterpriseSmartPasteButton, and EnterpriseSpeechToTextButton.",
             BestPractices = "Use SmartPasteEngine to parse multi-line emails or invoices directly into bound DataEntry fields.",
             Troubleshooting = "Verify clipboard text is non-empty before invoking SmartPasteButton.",
             ApiReference = "SmartPasteEngine.ExtractFieldsFromText(string), AIPromptControl, SpeechToTextButton"
@@ -745,7 +745,7 @@ var aiPrompt = new AIPromptControl();",
             SourceCode =
 @"var cardView = new EnterpriseCardView<ExecutiveContact>();
 var filterView = new EnterpriseFilterView();",
-            Documentation = "Implements RadDataEntry, RadDataFilter, RadFilterView, RadCardView, RadListView, and RadValidationProvider.",
+            Documentation = "Implements EnterpriseDataEntry, EnterpriseDataFilter, EnterpriseFilterView, EnterpriseCardView, EnterpriseListView, and EnterpriseValidationProvider.",
             BestPractices = "Combine DataFilter hierarchical trees with EnterpriseFilterView faceted checklists for complex BI drill-downs.",
             Troubleshooting = "Ensure entity properties have public getters/setters when binding to DataEntry.",
             ApiReference = "DataEntryControl<T>, DataFilterControl, EnterpriseFilterView, EnterpriseCardView<T>, ValidationProvider"
@@ -770,7 +770,7 @@ var filterView = new EnterpriseFilterView();",
 var webcam = new EnterpriseUI.Media.EnterpriseWebCam();
 webcam.Start();
 byte[] frame = webcam.TakeSnapshot();",
-            Documentation = "Implements RadSlideView, RadRotator, RadPipsPager, RadImageEditor, RadPictureBox, and RadWebCam.",
+            Documentation = "Implements EnterpriseSlideView, EnterpriseRotator, EnterprisePipsPager, EnterpriseImageEditor, EnterprisePictureBox, and EnterpriseWebCam.",
             BestPractices = "Use PipsPager paired with SlideView for touch-friendly executive presentation decks.",
             Troubleshooting = "Call EnterpriseWebCam.Start() prior to invoking TakeSnapshot().",
             ApiReference = "EnterpriseSlideRotatorPipsControl, ImageEditorControl, PictureBoxControl, EnterpriseWebCam"
@@ -794,7 +794,7 @@ byte[] frame = webcam.TakeSnapshot();",
 @"var clock = new EnterpriseClockControl { TimeZoneOffsetHours = -5, TimeZoneLabel = ""UTC-5 (New York)"" };
 var callout = new EnterpriseCalloutControl { PointerDirection = ArrowDirection.Left };
 var rangeSelector = new EnterpriseRangeSelectorControl { SelectionStartPercent = 20, SelectionEndPercent = 80 };",
-            Documentation = "Implements RadClock, RadCallout, and RadRangeSelector using anti-aliased GDI+ vector geometry.",
+            Documentation = "Implements EnterpriseClock, EnterpriseCallout, and EnterpriseRangeSelector using anti-aliased GDI+ vector geometry.",
             BestPractices = "Link EnterpriseRangeSelectorControl.RangeChanged to your primary ChartView time axis for synchronized zooming.",
             Troubleshooting = "Ensure EnterpriseClockControl is disposed when its parent container closes to release the 1-second tick timer.",
             ApiReference = "EnterpriseClockControl, EnterpriseCalloutControl, EnterpriseRangeSelectorControl"
@@ -823,6 +823,41 @@ var allControls = EnterpriseControlRegistry.AllControls;",
             ApiReference = "EnterpriseControlRegistry.AllControls (118 Controls)"
         });
         RegisterGridWorkshop();
+        RegisterDataControlWorkshop();
+    }
+
+    private static void RegisterDataControlWorkshop()
+    {
+        foreach (var scenario in DataControlScenarios.All)
+        {
+            var captured = scenario;
+            var target = captured.Api.Contains(" -> ", StringComparison.Ordinal) ? captured.Api[..captured.Api.IndexOf(" -> ", StringComparison.Ordinal)] : captured.Title;
+            _allDemos.Add(new DemoItem
+            {
+                Id = captured.Id,
+                Title = captured.Title,
+                Description = captured.Description,
+                Category = DemoCategoryType.GridsAndData,
+                SubCategory = "Data Management Controls",
+                TargetControlName = target,
+                Features = captured.Features,
+                Tags = CachedValues57,
+                Industry = "Cross-Industry",
+                IsFeatured = captured.Id is "data-propertygrid" or "data-treemap" or "data-pivotgrid",
+                IsNew = true,
+                ViewFactory = () => new GridScenarioView(GetById(captured.Id), captured),
+                SourceCode = captured.Usage,
+                Documentation = captured.Documentation,
+                BasicUsage = captured.Usage,
+                ArchitectureNotes = captured.Architecture,
+                PerformanceNotes = captured.Performance,
+                AccessibilityNotes = captured.Accessibility,
+                BestPractices = captured.BestPractices,
+                Troubleshooting = captured.Troubleshooting,
+                ApiReference = captured.Api,
+                RelatedControls = "EnterpriseDataGrid<T>, EnterpriseListControl, EnterpriseTreeViewControl, EnterprisePropertyGridControl, EnterprisePivotGridControl"
+            });
+        }
     }
 
     private static void RegisterGridWorkshop()

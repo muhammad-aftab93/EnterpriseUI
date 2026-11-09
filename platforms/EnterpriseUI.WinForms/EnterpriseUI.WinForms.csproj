@@ -5,7 +5,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Title>EnterpriseUI WinForms Controls</Title>
     <Description>Open-source Windows Forms component suite for .NET 8, including data grids, editors, navigation and layout controls, charts and gauges, scheduling, notifications, document and media controls, theming, accessibility, exporting, and printing. Source code, documentation, and runnable demonstrations: https://github.com/muhammad-aftab93/EnterpriseUI</Description>
     <PackageTags>WinForms;WindowsForms;UI;Controls;DataGrid;Editors;Navigation;Layout;Charts;Gauges;Scheduling;Documents;Theming;Accessibility;Export;Printing</PackageTags>

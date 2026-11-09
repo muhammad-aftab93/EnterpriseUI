@@ -23,7 +23,7 @@ Requires Windows and a Windows Forms application targeting `net8.0-windows` or a
 Install from a NuGet source containing the EnterpriseUI packages:
 
 ```powershell
-dotnet add package EnterpriseUI.WinForms --version 1.0.0
+dotnet add package EnterpriseUI.WinForms --version 1.1.0
 ```
 
 The package references companion EnterpriseUI libraries; NuGet restores those dependencies from the configured package sources.

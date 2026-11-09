@@ -1,6 +1,6 @@
 # EnterpriseUI Grid Architecture & Feature Guide
 
-The **EnterpriseUI DataGrid** is the centerpiece of the component library, uniting the capabilities of **reference RadGridView** and **legacy GridControl** into an uncompromising high-performance component.
+The **EnterpriseUI DataGrid** is the centerpiece of the component library, uniting the capabilities of **legacy GridView** and **legacy GridControl** into an uncompromising high-performance component.
 
 ---
 
