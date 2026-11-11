@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
+using EnterpriseUI.Editors;
 using EnterpriseUI.WinFormsDemo.Modules;
 
 namespace EnterpriseUI.WinFormsDemo.Infrastructure;
 
 public static class DemoMetadataRegistry
 {
-    private static readonly string[] MediaTags = { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" };
+    private static readonly string[] CatalogFeatures = { "Component search", "Category filter", "Demo launcher" };
+    private static readonly string[] CatalogTags = { "Catalog", "Components", "Search" };
+    private static readonly string[] IndicatorFeatures = { "Star rating", "Marquee animation" };
+    private static readonly string[] IndicatorTags = { "Rating", "WaitingBar" };
+    private static readonly string[] SlideFeatures = { "Slide navigation", "Rotator", "Pagination" };
+    private static readonly string[] SlideTags = { "SlideView", "Rotator", "PipsPager" };
 
     private static readonly string[] CachedValues57 = new[] { "Grid", "DataGrid", "Workshop" };
 
@@ -18,25 +24,13 @@ public static class DemoMetadataRegistry
 
     private static readonly string[] CachedValues53 = new[] { "Clock", "Callout", "RangeSelector", "TimeZone", "EnterpriseSparkline Zoom" };
 
-    private static readonly string[] CachedValues52 = new[] { "SlideView", "Rotator", "PipsPager", "EnterpriseImageEditor", "PictureBox", "EnterpriseWebCam" };
-
-    private static readonly string[] CachedValues51 = CachedValues52;
-
-    private static readonly string[] CachedValues50 = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "Validation" };
-
-    private static readonly string[] CachedValues49 = new[] { "DataEntry", "DataFilter", "EnterpriseFilterView", "EnterpriseCardView", "ListView", "ValidationProvider" };
-
     private static readonly string[] CachedValues48 = new[] { "AI", "AIPrompt", "SmartPaste", "SpeechToText", "Automation" };
 
     private static readonly string[] CachedValues47 = new[] { "AIPrompt", "AIPromptButton", "SmartPasteButton", "SpeechToTextButton", "Clipboard Extraction" };
 
     private static readonly string[] CachedValues46 = new[] { "Navigation", "Layout", "EnterpriseBreadcrumb", "Wizard", "EnterpriseCarousel", "EnterprisePanorama", "Alerts" };
 
-    private static readonly string[] CachedValues45 = new[] { "EnterpriseBreadcrumb", "EnterpriseStepProgressBar", "EnterpriseBindingNavigator", "EnterpriseCarousel", "EnterprisePanorama", "EnterpriseWizardControl", "EnterpriseDataLayout", "EnterpriseDesktopAlert", "EnterpriseTaskDialog" };
-
-    private static readonly string[] CachedValues44 = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "EnterpriseBulletGraph", "EnterpriseCarousel", "Calculator", "EnterpriseMaskedTextBox", "ZipLibrary" };
-
-    private static readonly string[] CachedValues43 = new[] { "EnterpriseVirtualGrid", "EnterpriseSyntaxEditor", "SpellChecker", "EnterpriseBulletGraph", "EnterpriseCarousel", "Rating", "EnterpriseWaitingBar", "Calculator", "ZipLibrary" };
+    private static readonly string[] CachedValues45 = new[] { "EnterpriseBreadcrumb", "EnterpriseStepProgressBar", "EnterpriseBindingNavigator", "EnterpriseCarousel", "EnterprisePanorama", "EnterpriseWizardControl", "EnterpriseDesktopAlert", "EnterpriseTaskDialog" };
 
     private static readonly string[] CachedValues42 = new[] { "Gantt", "Barcode", "QR", "Kanban", "TaskBoard", "ProjectManagement" };
 
@@ -74,9 +68,9 @@ public static class DemoMetadataRegistry
 
     private static readonly string[] CachedValues25 = new[] { "AI Copilot", "Natural Language Query", "Offline Mock Engine", "Summaries", "AST Translation" };
 
-    private static readonly string[] CachedValues24 = new[] { "Documents", "PDF", "RichText", "Office", "Spreadsheet" };
+    private static readonly string[] CachedValues24 = new[] { "Documents", "PDF", "RichText", "Office", "Spreadsheet", "ImageEditor", "WebCam", "ZipLibrary" };
 
-    private static readonly string[] CachedValues23 = new[] { "PDF Viewer", "WYSIWYG", "RichText", "Spreadsheet", "Formulas" };
+    private static readonly string[] CachedValues23 = new[] { "PDF Viewer", "WYSIWYG", "RichText", "Spreadsheet", "Formulas", "ImageEditor", "WebCam", "ZipLibrary" };
 
     private static readonly string[] CachedValues22 = new[] { "Editors", "Validation", "Forms", "Input", "FluentValidation" };
 
@@ -109,10 +103,6 @@ public static class DemoMetadataRegistry
     private static readonly string[] CachedValues8 = new[] { "EnterpriseChart", "Financial", "OHLC", "RealTime", "Telemetry" };
 
     private static readonly string[] CachedValues7 = new[] { "Candlestick", "Spline", "Area", "Real-Time", "Tooltips", "Vector GDI+" };
-
-    private static readonly string[] CachedValues6 = new[] { "EnterprisePivotGrid", "OLAP", "BI", "Analytics" };
-
-    private static readonly string[] CachedValues5 = new[] { "OLAP", "Cross-Tab", "Dynamic Slicing", "Grand Totals", "Summaries" };
 
     private static readonly string[] CachedValues4 = new[] { "EnterpriseTreeList", "Hierarchy", "Organization", "BOM" };
 
@@ -183,30 +173,6 @@ treeList.Items.Add(new TreeListDemoItem { Id = 2, ParentId = 1, Name = ""Enginee
             BestPractices = "Use self-referencing ID/ParentID schemas for dynamic lazy loading.",
             Troubleshooting = "Check for cyclic parent references in raw datasets.",
             ApiReference = "EnterpriseTreeList<T> -> KeyFieldName, ParentFieldName, Columns, DataSource"
-        });
-
-        // 3. EnterprisePivotGrid - OLAP
-        _allDemos.Add(new DemoItem
-        {
-            Id = "grid-pivot-olap",
-            Title = "EnterprisePivotGrid - Multi-Dimensional OLAP Cross-Tab Analysis",
-            Description = "Multi-dimensional analytical cross-tabulation table with dynamic row dimensions, column dimensions, and aggregate summaries.",
-            Category = DemoCategoryType.GridsAndData,
-            SubCategory = "EnterprisePivotGrid",
-            TargetControlName = "EnterprisePivotGrid<T>, EnterprisePivotGridControl",
-            Features = CachedValues5,
-            Tags = CachedValues6,
-            Industry = "Corporate Finance & Commercial Planning",
-            ViewFactory = () => new PivotGridDemoView(GetById("grid-pivot-olap")),
-            SourceCode =
-@"var pivot = new EnterprisePivotGrid<SalesRecord>();
-pivot.Fields.Add(new PivotField { FieldName = ""Region"", Area = PivotArea.Row });
-pivot.Fields.Add(new PivotField { FieldName = ""Quarter"", Area = PivotArea.Column });
-pivot.Fields.Add(new PivotField { FieldName = ""Revenue"", Area = PivotArea.Data, SummaryType = AggregateFunction.Sum });",
-            Documentation = "EnterprisePivotGrid calculates multi-dimensional cross products in memory with sub-millisecond aggregate rollups.",
-            BestPractices = "Index dimension fields beforehand to accelerate pivot matrix aggregation.",
-            Troubleshooting = "Verify that numeric fields do not contain nulls before applying Sum or Average aggregators.",
-            ApiReference = "EnterprisePivotGrid<T> -> Fields, DataSource, ShowGrandTotals, ShowSubtotals"
         });
 
         // 4. Charts - Financial & Real-Time
@@ -418,8 +384,8 @@ var result = validator.Validate(model);",
         _allDemos.Add(new DemoItem
         {
             Id = "documents-multiformat",
-            Title = "Documents - PDF Viewer, RichText & Office Spreadsheet",
-            Description = "Universal multi-format document workstation supporting vector PDF viewing, WYSIWYG formatted text runs, and tabular spreadsheet calculations.",
+            Title = "Documents & Media - PDF, RichText, Spreadsheet, ImageEditor & WebCam",
+            Description = "Document and media workstation with PDF viewing, rich text, spreadsheet calculations, image transforms, webcam snapshots and ZIP processing.",
             Category = DemoCategoryType.DocumentsAndMedia,
             SubCategory = "Documents",
             TargetControlName = "EnterprisePdfViewer, EnterpriseRichTextEditor, EnterpriseSpreadsheetControl",
@@ -651,30 +617,28 @@ var kanban = new EnterpriseKanbanBoardControl();",
             ApiReference = "EnterpriseGanttControl -> Tasks, ShowCriticalPath; EnterpriseBarcodeControl -> Symbology, Value; EnterpriseKanbanBoardControl -> Cards"
         });
 
-        // 22. Complete Component Catalog Suite (EnterpriseVirtualGrid, EnterpriseSyntaxEditor, EnterpriseBulletGraph, EnterpriseCarousel, Calculator & Zip)
         _allDemos.Add(new DemoItem
         {
             Id = "component-catalog",
-            Title = "Complete Control Suite - EnterpriseVirtualGrid, EnterpriseSyntaxEditor, EnterpriseBulletGraph & EnterpriseCarousel",
-            Description = "Showcases 1M×12 Event-Driven EnterpriseVirtualGrid, C# EnterpriseSyntaxEditor & Levenshtein SpellChecker, Stephen Few EnterpriseBulletGraph, 3D Elliptical EnterpriseCarousel, Star Rating, EnterpriseWaitingBar, EnterpriseCalculatorDropDown, MaskedEditBox, and Spread/Zip Document Processing.",
+            Title = "Component Catalog",
+            Description = "Search component metadata and open each control's dedicated demonstration.",
             Category = DemoCategoryType.Overview,
             SubCategory = "Component Catalog Suite",
-            TargetControlName = "EnterpriseVirtualGridControl, EnterpriseSyntaxEditorControl, EnterpriseBulletGraphControl, EnterpriseCarouselControl",
-            Features = CachedValues43,
-            Tags = CachedValues44,
+            TargetControlName = "EnterpriseControlRegistry",
+            Features = CatalogFeatures,
+            Tags = CatalogTags,
             Industry = "Enterprise Desktop & Developer Productivity",
             IsFeatured = true,
             IsPopular = true,
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("component-catalog")),
             SourceCode =
-@"var virtualGrid = new EnterpriseVirtualGridControl();
-var syntaxEditor = new EnterpriseSyntaxEditorControl();
-var bulletGraph = new EnterpriseBulletGraphControl();
-var carousel = new EnterpriseCarouselControl();",
-            Documentation = "Provides 100% clean-room C# and GDI+ implementations of EnterpriseVirtualGrid, EnterpriseSyntaxEditor, SpellChecker, EnterpriseBulletGraph, EnterpriseCarousel, Rating, EnterpriseWaitingBar, EnterpriseCalculatorDropDown, EnterpriseMaskedTextBox, and ZipArchive processing.",
-            BestPractices = "Use EnterpriseVirtualGrid with CellValueNeeded when rendering non-materialized streaming matrices exceeding millions of cells.",
-            Troubleshooting = "Verify CellValueNeeded handler executes in O(1) time without blocking IO.",
-            ApiReference = "EnterpriseVirtualGrid, EnterpriseSyntaxEditor, SpellChecker, EnterpriseBulletGraph, EnterpriseCarousel, EnterpriseCalculatorDropDown, EnterpriseMaskedTextBox, DocumentProcessingSuite"
+@"var controls = EnterpriseControlRegistry.AllControls;
+var demo = DemoMetadataRegistry.GetCatalogDemo(controls[0]);
+DemoNavigationManager.Instance.NavigateTo(demo);",
+            Documentation = "The catalog links to canonical demo pages without embedding duplicate demonstrations.",
+            BestPractices = "Use the catalog to locate a control's dedicated page.",
+            Troubleshooting = "Clear the search and category filter to show all components.",
+            ApiReference = "EnterpriseControlRegistry.AllControls, DemoMetadataRegistry.GetCatalogDemo"
         });
 
         // 23. Navigation, Layout, Wizard, EnterpriseCarousel, EnterprisePanorama & DesktopAlerts Suite
@@ -682,10 +646,10 @@ var carousel = new EnterpriseCarouselControl();",
         {
             Id = "navigation-layout-alerts-suite",
             Title = "Navigation & Layout - EnterpriseBreadcrumb, StepProgress, EnterpriseCarousel, EnterprisePanorama & Wizard",
-            Description = "Interactive EnterpriseBreadcrumb hierarchy bar, EnterpriseStepProgressBar pipeline, EnterpriseBindingNavigator, 3D Elliptical EnterpriseCarousel, EnterprisePanorama live tiles, multi-step EnterpriseWizardControl, auto-generated EnterpriseDataLayout, EnterpriseDesktopAlert, and EnterpriseTaskDialog.",
+            Description = "Interactive EnterpriseBreadcrumb hierarchy bar, EnterpriseStepProgressBar pipeline, EnterpriseBindingNavigator, 3D Elliptical EnterpriseCarousel, EnterprisePanorama live tiles, multi-step EnterpriseWizardControl, EnterpriseDesktopAlert, and EnterpriseTaskDialog.",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "Navigation, Layout & Alerts",
-            TargetControlName = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDataLayout<T>, EnterpriseDesktopAlert, EnterpriseTaskDialog",
+            TargetControlName = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDesktopAlert, EnterpriseTaskDialog",
             Features = CachedValues45,
             Tags = CachedValues46,
             Industry = "Enterprise Application Shell & Workflow UX",
@@ -701,7 +665,7 @@ var carousel = new EnterpriseCarouselControl();",
             Documentation = "Demonstrates the complete Navigation, Layout, Wizard, Live Tile EnterprisePanorama, 3D EnterpriseCarousel, and Notification Dialog suite.",
             BestPractices = "Use EnterpriseStepProgressBar and EnterpriseWizardControl together for multi-stage enterprise onboarding and deployment pipelines.",
             Troubleshooting = "Ensure WizardPage.ValidateStep returns true before calling MoveNext().",
-            ApiReference = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDataLayout<T>, EnterpriseDesktopAlert, EnterpriseTaskDialog"
+            ApiReference = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDesktopAlert, EnterpriseTaskDialog"
         });
 
         // 24. AIPrompt, SmartPasteButton & SpeechToTextButton Suite
@@ -718,7 +682,7 @@ var carousel = new EnterpriseCarouselControl();",
             Industry = "Enterprise AI Productivity & Intelligent Data Entry",
             IsFeatured = true,
             IsPopular = true,
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("ai-prompt-smart-controls-suite"), initialTabIndex: 1),
+            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("ai-prompt-smart-controls-suite")),
             SourceCode =
 @"var extracted = SmartPasteEngine.ExtractFieldsFromText(Clipboard.GetText());
 var aiPrompt = new AIPromptControl();",
@@ -728,52 +692,45 @@ var aiPrompt = new AIPromptControl();",
             ApiReference = "SmartPasteEngine.ExtractFieldsFromText(string), AIPromptControl, SpeechToTextButton"
         });
 
-        // 25. DataEntry, DataFilter, EnterpriseFilterView, EnterpriseCardView & ValidationProvider Suite
         _allDemos.Add(new DemoItem
         {
-            Id = "dataentry-filter-cards-suite",
-            Title = "DataEntry, DataFilter, EnterpriseFilterView, EnterpriseCardView & ValidationProvider",
-            Description = "Auto-generated bound DataEntry form, hierarchical AND/OR/NOT DataFilter expression tree, faceted EnterpriseFilterView, templated EnterpriseCardView & ListView, and declarative ValidationProvider.",
-            Category = DemoCategoryType.GridsAndData,
-            SubCategory = "DataEntry, DataFilter & EnterpriseCardView",
-            TargetControlName = "DataEntry<T>, DataFilter, EnterpriseFilterView, EnterpriseCardView<T>, ListView<T>, ValidationProvider",
-            Features = CachedValues49,
-            Tags = CachedValues50,
-            Industry = "CRM, ERP & Business Intelligence Filtering",
-            IsFeatured = true,
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("dataentry-filter-cards-suite"), initialTabIndex: 2),
-            SourceCode =
-@"var cardView = new EnterpriseCardView<ExecutiveContact>();
-var filterView = new EnterpriseFilterView();",
-            Documentation = "Implements EnterpriseDataEntry, EnterpriseDataFilter, EnterpriseFilterView, EnterpriseCardView, EnterpriseListView, and EnterpriseValidationProvider.",
-            BestPractices = "Combine DataFilter hierarchical trees with EnterpriseFilterView faceted checklists for complex BI drill-downs.",
-            Troubleshooting = "Ensure entity properties have public getters/setters when binding to DataEntry.",
-            ApiReference = "DataEntryControl<T>, DataFilterControl, EnterpriseFilterView, EnterpriseCardView<T>, ValidationProvider"
+            Id = "indicators-rating-waiting-suite",
+            Title = "Indicators - Rating & WaitingBar",
+            Description = "Interactive star ratings and an animated waiting indicator.",
+            Category = DemoCategoryType.ChartsAndGauges,
+            SubCategory = "Status Indicators",
+            TargetControlName = "EnterpriseRatingAndWaitingControl",
+            Features = IndicatorFeatures,
+            Tags = IndicatorTags,
+            Industry = "Cross-Industry",
+            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("indicators-rating-waiting-suite")),
+            SourceCode = "var rating = new EnterpriseRatingAndWaitingControl();",
+            Documentation = "Rating changes are recorded in the event explorer. A demo-owned timer advances the waiting marquee.",
+            BestPractices = "Dispose the demo to stop its animation timer.",
+            Troubleshooting = "Open this page to run the waiting animation.",
+            ApiReference = "EnterpriseRatingAndWaitingControl.RatingChanged, StepMarquee"
         });
 
         // 26. SlideView, Rotator, PipsPager, EnterpriseImageEditor, PictureBox & EnterpriseWebCam Suite
         _allDemos.Add(new DemoItem
         {
             Id = "slide-rotator-pips-media-suite",
-            Title = "SlideView, Rotator, PipsPager, EnterpriseImageEditor, PictureBox & EnterpriseWebCam",
-            Description = "Interactive SlideView deck, animated Rotator banner, PipsPager dot/number pagination indicator, raster/vector EnterpriseImageEditor & PictureBox with filters/crop/rotate, and EnterpriseWebCam capture.",
+            Title = "SlideView, Rotator & PipsPager",
+            Description = "Interactive SlideView deck, animated Rotator banner and PipsPager pagination indicator.",
             Category = DemoCategoryType.NavigationAndLayout,
             SubCategory = "SlideView, PipsPager & Media",
-            TargetControlName = "EnterpriseSlideRotatorPipsControl, EnterpriseImageEditor, PictureBox, EnterpriseWebCam",
-            Features = CachedValues51,
-            Tags = MediaTags,
+            TargetControlName = "EnterpriseSlideRotatorPipsControl",
+            Features = SlideFeatures,
+            Tags = SlideTags,
             Industry = "Digital Signage, Kiosks, Security Badging & Media",
             IsFeatured = true,
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("slide-rotator-pips-media-suite"), initialTabIndex: 3),
+            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("slide-rotator-pips-media-suite")),
             SourceCode =
-@"var slideView = new EnterpriseSlideRotatorPipsControl();
-var webcam = new EnterpriseUI.Media.EnterpriseWebCam();
-webcam.Start();
-byte[] frame = webcam.TakeSnapshot();",
-            Documentation = "Implements EnterpriseSlideView, EnterpriseRotator, EnterprisePipsPager, EnterpriseImageEditor, EnterprisePictureBox, and EnterpriseWebCam.",
+@"var slideView = new EnterpriseSlideRotatorPipsControl();",
+            Documentation = "Demonstrates EnterpriseSlideView, EnterpriseRotator and EnterprisePipsPager. Image editing and webcam demonstrations live in Documents & Media.",
             BestPractices = "Use PipsPager paired with SlideView for touch-friendly executive presentation decks.",
-            Troubleshooting = "Call EnterpriseWebCam.Start() prior to invoking TakeSnapshot().",
-            ApiReference = "EnterpriseSlideRotatorPipsControl, ImageEditorControl, PictureBoxControl, EnterpriseWebCam"
+            Troubleshooting = "Use slide navigation to change the selected page.",
+            ApiReference = "EnterpriseSlideRotatorPipsControl"
         });
 
         // 27. Clock, Callout & RangeSelector Suite
@@ -789,7 +746,7 @@ byte[] frame = webcam.TakeSnapshot();",
             Tags = CachedValues54,
             Industry = "Global Trading Desks & Operations Centers",
             IsFeatured = true,
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("clock-callout-rangeselector-suite"), initialTabIndex: 4),
+            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("clock-callout-rangeselector-suite")),
             SourceCode =
 @"var clock = new EnterpriseClockControl { TimeZoneOffsetHours = -5, TimeZoneLabel = ""UTC-5 (New York)"" };
 var callout = new EnterpriseCalloutControl { PointerDirection = ArrowDirection.Left };
@@ -813,13 +770,13 @@ var rangeSelector = new EnterpriseRangeSelectorControl { SelectionStartPercent =
             Tags = CachedValues56,
             Industry = "Modern Desktop Application Shells & IDE Tooling",
             IsFeatured = true,
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("navigation-forms-overlays-suite"), initialTabIndex: 5),
+            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("navigation-forms-overlays-suite")),
             SourceCode =
 @"// Complete 118-Control reference WinForms coverage Registry
 var allControls = EnterpriseControlRegistry.AllControls;",
             Documentation = "Browse component metadata and open the associated EnterpriseUI demonstrations.",
             BestPractices = "Use NavigationView in Compact mode on smaller viewports and Expanded mode on 1080p+ monitors.",
-            Troubleshooting = "Use the All 118 Controls Catalog tab to search and jump to any control across the solution.",
+            Troubleshooting = "Open Component Catalog to search and jump to any control demonstration.",
             ApiReference = "EnterpriseControlRegistry.AllControls (118 Controls)"
         });
         RegisterGridWorkshop();
@@ -895,8 +852,33 @@ var allControls = EnterpriseControlRegistry.AllControls;",
 
     private const string Related = "EnterpriseDataGrid<T>, DataGrid<T>, GridBuilder<T>, EnterpriseTreeList, EnterprisePivotGrid";
 
+    public static DemoItem GetCatalogDemo(ControlCatalogEntry entry)
+    {
+        var id = entry.Name switch
+        {
+            "EnterpriseCalculatorDropDown" or "CalculatorControl" or "EnterpriseSyntaxEditor" or "SpellChecker" or "EnterpriseVirtualKeyboardControl" => "editors-fluent-validation",
+            "EnterpriseCarousel" => "navigation-layout-alerts-suite",
+            "EnterpriseBulletGraph" => "gauges-radial-linear",
+            "EnterpriseWaitingBar" or "EnterpriseRatingControl" => "indicators-rating-waiting-suite",
+            "ImageEditorControl" or "PictureBoxControl" or "EnterpriseWebCam" => "documents-multiformat",
+            _ => entry.DemoSuiteId
+        };
+        id = ResolveDemoId(id);
+        return _allDemos.Find(demo => demo.Id == id)
+            ?? throw new InvalidOperationException($"Missing catalog demo target: {entry.Name} / {id}");
+    }
+
+    private static string ResolveDemoId(string id) => id switch
+        {
+            "grid-pivot-olap" => "data-pivotgrid",
+            "dataentry-filter-cards-suite" => "data-dataentry",
+            "data-gridview" => "grid-basics",
+            _ => id
+        };
+
     public static DemoItem GetById(string id)
     {
+        id = ResolveDemoId(id);
         return _allDemos.Find(d => d.Id == id) ?? _allDemos[0];
     }
 }

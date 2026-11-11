@@ -16,9 +16,6 @@ public class SpecializedControlsDemoView : UserControl
     private readonly EnterpriseGanttControl _gantt=new EnterpriseGanttControl();
     private readonly EnterpriseBarcodeControl _barcode=new EnterpriseBarcodeControl();
     private readonly EnterpriseKanbanBoardControl _kanban=new EnterpriseKanbanBoardControl();
-    private readonly EnterpriseTreeMapControl _treeMap=new EnterpriseTreeMapControl();
-    private readonly EnterpriseSignaturePadControl _signaturePad=new EnterpriseSignaturePadControl();
-    private readonly EnterpriseVirtualKeyboardControl _virtualKeyboard=new EnterpriseVirtualKeyboardControl();
     private readonly TabControl _tabs=new TabControl();
 
     public SpecializedControlsDemoView(DemoItem metadata)
@@ -179,66 +176,9 @@ public class SpecializedControlsDemoView : UserControl
         tabKanban.Controls.Add(_kanban);
         tabKanban.Controls.Add(kanbanToolbar);
 
-        // Tab 4: Hierarchical EnterpriseTreeMap
-        var tabTreeMap = new TabPage("🗺️ EnterpriseTreeMap Analytics");
-        _treeMap.Dock = DockStyle.Fill ;
-        _treeMap.ValueFormat = "N0";
-        var platform = new TreeMapItem("Platform");
-        platform.Add("Cloud Infrastructure", 38, 18.4);
-        platform.Add("AI Copilot Compute", 26, 34.2);
-        var analytics = new TreeMapItem("Analytics");
-        analytics.Add("Real-Time BI Grid", 22, 12.1);
-        analytics.Add("OLAP Pivot Engine", 16, 9.5);
-        var security = new TreeMapItem("Security");
-        security.Add("Zero-Trust IAM", 14, 21.0);
-        var operations = new TreeMapItem("Operations");
-        operations.Add("GIS Fleet Telemetry", 12, 6.8);
-        _treeMap.SetItems(new[] { platform, analytics, security, operations });
-        _treeMap.ColorMode = TreeMapColorMode.Sequential;
-        _treeMap.SelectionChanged += (_, _) =>
-        {
-            if (_treeMap.SelectedItem is { } leaf)
-            {
-                _baseView.LogEvent("EnterpriseTreeMap.SelectedNode", $"{leaf.Name} ({leaf.TotalValue:N0}M)");
-            }
-        };
-        tabTreeMap.Controls.Add(_treeMap);
-
-        // Tab 5: Digital Signature Pad
-        var tabSig = new TabPage("✍️ Signature Pad");
-        var sigToolbar = new FlowLayoutPanel
-        {
-            Dock = DockStyle.Top,
-            Height = 40,
-            Padding = new Padding(8, 5, 8, 5),
-            BackColor = Color.FromArgb(245, 247, 250)
-        };
-        var btnClearSig = new Button { Text = "Clear Ink Signature", AutoSize = true, FlatStyle = FlatStyle.Flat };
-        _signaturePad.Dock = DockStyle.Fill ;
-        _signaturePad.SignatureChanged += strokes =>
-        {
-            _baseView.LogEvent("SignaturePad.StrokeCount", strokes.ToString());
-        };
-        btnClearSig.Click += (_, _) => _signaturePad.ClearSignature();
-        sigToolbar.Controls.Add(btnClearSig);
-        tabSig.Controls.Add(_signaturePad);
-        tabSig.Controls.Add(sigToolbar);
-
-        // Tab 6: Touch Virtual Keyboard
-        var tabKeyboard = new TabPage("⌨️ Virtual Keyboard");
-        _virtualKeyboard.Dock = DockStyle.Fill ;
-        _virtualKeyboard.KeyPressed += key =>
-        {
-            _baseView.LogEvent("VirtualKeyboard.TypedBuffer", _virtualKeyboard.TypedBuffer);
-        };
-        tabKeyboard.Controls.Add(_virtualKeyboard);
-
         _tabs.TabPages.Add(tabGantt);
         _tabs.TabPages.Add(tabBarcode);
         _tabs.TabPages.Add(tabKanban);
-        _tabs.TabPages.Add(tabTreeMap);
-        _tabs.TabPages.Add(tabSig);
-        _tabs.TabPages.Add(tabKeyboard);
 
         _baseView.DemoContainer.Controls.Add(_tabs);
     }

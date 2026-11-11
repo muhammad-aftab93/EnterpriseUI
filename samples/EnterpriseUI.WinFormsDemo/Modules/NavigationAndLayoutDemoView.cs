@@ -30,7 +30,6 @@ public class NavigationAndLayoutDemoView : UserControl
     private readonly EnterpriseWizardControl _wizardModel = new();
     private readonly EnterprisePanorama _panoramaModel = new();
     private readonly EnterpriseCarouselControl _carouselControl=new EnterpriseCarouselControl();
-    private readonly EnterpriseRatingAndWaitingControl _waitingControl=new EnterpriseRatingAndWaitingControl();
     private readonly System.Windows.Forms.Timer _liveTimer=new System.Windows.Forms.Timer();
 
     public NavigationAndLayoutDemoView(DemoItem metadata)
@@ -255,7 +254,7 @@ public class NavigationAndLayoutDemoView : UserControl
         // ====================================================================
         // Tab 3: EnterpriseWizardControl, EnterpriseDataLayout & EnterpriseCollapsiblePanel
         // ====================================================================
-        var tabLayoutWizard = new TabPage("🧙 EnterpriseWizardControl, EnterpriseDataLayout & EnterpriseCollapsiblePanel");
+        var tabLayoutWizard = new TabPage("EnterpriseWizardControl");
         var lwPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
         _wizardModel.Pages.AddRange(new[]
@@ -297,62 +296,33 @@ public class NavigationAndLayoutDemoView : UserControl
         SyncWizardUI();
         wizardBox.Controls.AddRange(new Control[] { lblWizTitle, lblWizDesc, btnWizPrev, btnWizNext, btnWizFinish });
 
-        // Auto-generated EnterpriseDataLayout inspection
-        var dataLayout = new EnterpriseDataLayout<Appointment>();
-        var lblDlHeader = new Label
-        {
-            Text = $"EnterpriseDataLayout<Appointment> Auto-Generated Form Schema ({dataLayout.Fields.Count} reflected fields):",
-            Location = new Point(14, 168),
-            AutoSize = true,
-            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
-        };
-        var lvDataLayout = new EnterpriseListViewControl
-        {
-            Location = new Point(14, 194),
-            Size = new Size(760, 140),
-            AccessibleName = "Reflected form schema"
-        };
-        lvDataLayout.AddColumn("Property Name", 160);
-        lvDataLayout.AddColumn("Display Label", 180);
-        lvDataLayout.AddColumn("CLR Type", 160);
-        lvDataLayout.AddColumn("Auto-Selected Editor Control", 220);
-        foreach (var f in dataLayout.Fields)
-        {
-            lvDataLayout.Items.Add(f.PropertyName, f.Label, f.PropertyType.Name, f.EditorKind);
-        }
-
-        lwPanel.Controls.AddRange(new Control[] { wizardBox, lblDlHeader, lvDataLayout });
+        lwPanel.Controls.Add(wizardBox);
         tabLayoutWizard.Controls.Add(lwPanel);
 
         // ====================================================================
         // Tab 4: Notifications, EnterpriseDesktopAlert, EnterpriseTaskDialog & EnterpriseWaitingBar
         // ====================================================================
-        var tabAlerts = new TabPage("🔔 EnterpriseDesktopAlert, EnterpriseTaskDialog & EnterpriseWaitingBar");
+        var tabAlerts = new TabPage("EnterpriseDesktopAlert & EnterpriseTaskDialog");
         var alertPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
-
-        _waitingControl.Location = new Point(14, 14);
-
-        _waitingControl.Size = new Size(740, 90) ;
-        _waitingControl.RatingChanged += r => _baseView.LogEvent("EnterpriseRatingControl.Value", $"{r} stars");
 
         var btnDesktopAlert = new Button
         {
             Text = "🔔 Trigger EnterpriseDesktopAlert Toast",
-            Location = new Point(14, 120),
+            Location = new Point(14, 14),
             Size = new Size(230, 34),
             FlatStyle = FlatStyle.Flat
         };
         var btnTaskDialog = new Button
         {
             Text = "📋 Launch EnterpriseTaskDialog Command Links",
-            Location = new Point(256, 120),
+            Location = new Point(256, 14),
             Size = new Size(260, 34),
             FlatStyle = FlatStyle.Flat
         };
         var lblAlertStatus = new Label
         {
             Text = "Notification History: Ready",
-            Location = new Point(14, 168),
+            Location = new Point(14, 62),
             AutoSize = true,
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold)
         };
@@ -385,7 +355,7 @@ public class NavigationAndLayoutDemoView : UserControl
             MessageBox.Show($"{td.MainInstruction}\n\n1. {td.CommandLinks[0].Title} — {td.CommandLinks[0].Description}\n2. {td.CommandLinks[1].Title} — {td.CommandLinks[1].Description}", td.WindowTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
         };
 
-        alertPanel.Controls.AddRange(new Control[] { _waitingControl, btnDesktopAlert, btnTaskDialog, lblAlertStatus });
+        alertPanel.Controls.AddRange(new Control[] { btnDesktopAlert, btnTaskDialog, lblAlertStatus });
         tabAlerts.Controls.Add(alertPanel);
 
         tabs.TabPages.AddRange(new[] { tabNav, tabCarouselPanorama, tabLayoutWizard, tabAlerts });
@@ -395,7 +365,6 @@ public class NavigationAndLayoutDemoView : UserControl
         int tickCounter = 0;
         _liveTimer.Tick += (_, _) =>
         {
-            _waitingControl.StepMarquee();
             if (++tickCounter % 15 == 0)
             {
                 _panoramaModel.CycleAllTileFrames();

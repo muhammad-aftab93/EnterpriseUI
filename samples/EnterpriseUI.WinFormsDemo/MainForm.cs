@@ -423,8 +423,10 @@ public partial class MainForm : Form, IThemeableControl
         }
 
         // 1. Browse by Control
-        var rootControls = new TreeNode($"Browse by Control ({DemoMetadataRegistry.AllDemos.Count} Suites)") { Tag = "Category_Controls" };
-        var groups = DemoMetadataRegistry.AllDemos.GroupBy(d => d.SubCategory);
+        var suites = DemoMetadataRegistry.AllDemos.Where(demo =>
+            demo.SubCategory != "DataGrid Workshop" && demo.SubCategory != "Data Management Controls" && !_favoriteIds.Contains(demo.Id)).ToList();
+        var rootControls = new TreeNode($"Control Demos & Tools ({suites.Count} Pages)") { Tag = "Category_Controls" };
+        var groups = suites.GroupBy(d => d.SubCategory);
         foreach (var grp in groups)
         {
             var subNode = new TreeNode(grp.Key);
@@ -436,69 +438,11 @@ public partial class MainForm : Form, IThemeableControl
             rootControls.Nodes.Add(subNode);
         }
 
-        var rootAll118 = new TreeNode($"Component Catalog ({EnterpriseUI.Editors.EnterpriseControlRegistry.AllControls.Count} entries)")
-        {
-            Tag = DemoMetadataRegistry.GetById("component-catalog")
-        };
-        foreach (var catGrp in EnterpriseUI.Editors.EnterpriseControlRegistry.AllControls.GroupBy(c => c.Category))
-        {
-            var catNode = new TreeNode($"{catGrp.Key} ({catGrp.Count()})");
-            foreach (var ctrl in catGrp)
-            {
-                var targetDemo = DemoMetadataRegistry.GetById(ctrl.DemoSuiteId);
-                catNode.Nodes.Add(new TreeNode($"{ctrl.Name} → {ctrl.EnterpriseUIName}") { Tag = targetDemo });
-            }
-            rootAll118.Nodes.Add(catNode);
-        }
-
-        // 2. Browse by Feature
-        var rootFeatures = new TreeNode("Browse by Feature") { Tag = "Category_Features" };
-        rootFeatures.Nodes.Add(new TreeNode("Million-Row Virtualization") { Tag = DemoMetadataRegistry.GetById("grid-virtualization-1m") });
-        rootFeatures.Nodes.Add(new TreeNode("Event-Driven EnterpriseVirtualGrid (1M×12), EnterpriseSyntaxEditor & EnterpriseCarousel") { Tag = DemoMetadataRegistry.GetById("component-catalog") });
-        rootFeatures.Nodes.Add(new TreeNode("EnterpriseGanttView, QR/Code128 Barcode, Kanban, EnterpriseTreeMap & SignaturePad") { Tag = DemoMetadataRegistry.GetById("specialized-gantt-barcode-kanban") });
-        rootFeatures.Nodes.Add(new TreeNode("EnterpriseBreadcrumb, StepProgress, EnterprisePanorama, Wizard & DesktopAlerts") { Tag = DemoMetadataRegistry.GetById("navigation-layout-alerts-suite") });
-        rootFeatures.Nodes.Add(new TreeNode("Multi-Sort, Grouping & Bands") { Tag = DemoMetadataRegistry.GetById("grid-virtualization-1m") });
-        rootFeatures.Nodes.Add(new TreeNode("Self-Referencing Tree Hierarchies") { Tag = DemoMetadataRegistry.GetById("grid-treelist-hierarchy") });
-        rootFeatures.Nodes.Add(new TreeNode("OLAP Cross-Tab Pivot Aggregations") { Tag = DemoMetadataRegistry.GetById("grid-pivot-olap") });
-        rootFeatures.Nodes.Add(new TreeNode("Real-Time Financial Candlesticks") { Tag = DemoMetadataRegistry.GetById("charts-financial-realtime") });
-        rootFeatures.Nodes.Add(new TreeNode("Offline AI Natural Language Copilot") { Tag = DemoMetadataRegistry.GetById("ai-copilot-assistant") });
-        rootFeatures.Nodes.Add(new TreeNode("MaskedEdit, Calculator, EnterpriseSyntaxEditor & Fluent Validation") { Tag = DemoMetadataRegistry.GetById("editors-fluent-validation") });
-        rootFeatures.Nodes.Add(new TreeNode("Live Design Token Hot-Swapping (12 Themes)") { Tag = DemoMetadataRegistry.GetById("theming-design-tokens") });
-
-        // 3. Browse by Industry Scenario
-        var rootScenarios = new TreeNode("Browse by Industry Scenario") { Tag = "Category_Scenarios" };
-        rootScenarios.Nodes.Add(new TreeNode("All Industry Suites (CRM, ERP, Healthcare, FinTech)") { Tag = DemoMetadataRegistry.GetById("business-scenarios-suite") });
-        foreach (var indGrp in DemoMetadataRegistry.AllDemos.GroupBy(d => d.Industry))
-        {
-            var indNode = new TreeNode(indGrp.Key);
-            foreach (var d in indGrp)
-            {
-                indNode.Nodes.Add(new TreeNode(d.Title) { Tag = d });
-            }
-            rootScenarios.Nodes.Add(indNode);
-        }
-
-        // 4. Browse by API & Architecture
-        var rootApi = new TreeNode("Browse by API & Architecture") { Tag = "Category_Api" };
-        rootApi.Nodes.Add(new TreeNode("Interactive Reflection API Explorer") { Tag = DemoMetadataRegistry.GetById("api-interactive-explorer") });
-        rootApi.Nodes.Add(new TreeNode("Learning Center & Blueprints") { Tag = DemoMetadataRegistry.GetById("learning-center-hub") });
-
-        // 5. Browse by Performance Category
-        var rootPerf = new TreeNode("Browse by Performance Category") { Tag = "Category_Perf" };
-        rootPerf.Nodes.Add(new TreeNode("Performance & Stress Laboratory") { Tag = DemoMetadataRegistry.GetById("performance-laboratory") });
-        rootPerf.Nodes.Add(new TreeNode("1M Row O(1) Viewport Grid") { Tag = DemoMetadataRegistry.GetById("grid-virtualization-1m") });
-        rootPerf.Nodes.Add(new TreeNode("High-Frequency Financial Charting") { Tag = DemoMetadataRegistry.GetById("charts-financial-realtime") });
-
-        // 6. Browse by Accessibility Category
-        var rootA11y = new TreeNode("Browse by Accessibility (WCAG 2.2)") { Tag = "Category_A11y" };
-        rootA11y.Nodes.Add(new TreeNode("Accessibility & RTL Validation Center") { Tag = DemoMetadataRegistry.GetById("accessibility-center") });
-        rootA11y.Nodes.Add(new TreeNode("High Contrast & Theme Compliance") { Tag = DemoMetadataRegistry.GetById("theming-design-tokens") });
-        rootA11y.Nodes.Add(new TreeNode("Automated QA Verification Suite") { Tag = DemoMetadataRegistry.GetById("qa-validation-suite") });
-
         // 7. DataGrid workshop: one page per feature area
         var rootGridWorkshop = new TreeNode($"DataGrid Workshop ({GridScenarios.All.Count} Pages)") { Tag = "Category_GridWorkshop" };
         foreach (var scenario in GridScenarios.All)
         {
+            if (_favoriteIds.Contains(scenario.Id)) continue;
             rootGridWorkshop.Nodes.Add(new TreeNode(scenario.Title) { Tag = DemoMetadataRegistry.GetById(scenario.Id) });
         }
 
@@ -506,6 +450,7 @@ public partial class MainForm : Form, IThemeableControl
         var rootDataControls = new TreeNode($"Data Management Controls ({DataControlScenarios.All.Count} Pages)") { Tag = "Category_DataControls" };
         foreach (var scenario in DataControlScenarios.All)
         {
+            if (_favoriteIds.Contains(scenario.Id)) continue;
             rootDataControls.Nodes.Add(new TreeNode(scenario.Title) { Tag = DemoMetadataRegistry.GetById(scenario.Id) });
         }
 
@@ -513,25 +458,15 @@ public partial class MainForm : Form, IThemeableControl
         {
             rootGridWorkshop,
             rootDataControls,
-            rootControls,
-            rootAll118,
-            rootFeatures,
-            rootScenarios,
-            rootApi,
-            rootPerf,
-            rootA11y
+            rootControls
         });
 
         rootGridWorkshop.Expand();
         rootDataControls.Expand();
         rootControls.Expand();
-        rootAll118.Expand();
-        rootFeatures.Expand();
-        rootPerf.Expand();
-        rootA11y.Expand();
     }
 
-    private void ApplySearchFilter(string query)
+    internal void ApplySearchFilter(string query)
     {
         if (string.IsNullOrWhiteSpace(query))
         {
@@ -548,35 +483,21 @@ public partial class MainForm : Form, IThemeableControl
                 c.KeyFeatures.Contains(query, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
+        var matchingDemos = results.Concat(catalogMatches.Select(DemoMetadataRegistry.GetCatalogDemo))
+            .DistinctBy(demo => demo.Id).ToList();
         _navTree.Nodes.Clear();
 
-        var searchRoot = new TreeNode($"Demo Suites ({results.Count} matches)");
-        foreach (var d in results)
+        var searchRoot = new TreeNode($"Demo Pages ({matchingDemos.Count} matches)");
+        foreach (var d in matchingDemos)
         {
             searchRoot.Nodes.Add(new TreeNode($"{d.Title} [{d.SubCategory}]") { Tag = d });
         }
         _navTree.Nodes.Add(searchRoot);
         searchRoot.Expand();
 
-        if (catalogMatches.Count > 0)
+        if (matchingDemos.Count > 0)
         {
-            var ctrlRoot = new TreeNode($"Individual Controls ({catalogMatches.Count} matches)");
-            foreach (var c in catalogMatches)
-            {
-                var targetDemo = DemoMetadataRegistry.GetById(c.DemoSuiteId);
-                ctrlRoot.Nodes.Add(new TreeNode($"{c.Name} → {c.EnterpriseUIName}") { Tag = targetDemo });
-            }
-            _navTree.Nodes.Add(ctrlRoot);
-            ctrlRoot.Expand();
-        }
-
-        if (results.Count > 0)
-        {
-            LoadDemo(results[0]);
-        }
-        else if (catalogMatches.Count > 0)
-        {
-            LoadDemo(DemoMetadataRegistry.GetById(catalogMatches[0].DemoSuiteId));
+            LoadDemo(matchingDemos[0]);
         }
     }
 

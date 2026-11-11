@@ -179,8 +179,7 @@ public class DocumentsDemoView : UserControl
             _baseView.LogEvent("ZipLibrary.Roundtrip", $"{bytes.Length} bytes");
         };
 
-        var barcodeCtrl = new EnterpriseBarcodeControl { Location = new Point(16, 118), Size = new Size(340, 210) };
-        mzPanel.Controls.AddRange(new Control[] { lblImgHeader, btnRotate, btnZoomIn, btnCamSnap, btnZip, lblMediaState, barcodeCtrl });
+        mzPanel.Controls.AddRange(new Control[] { lblImgHeader, btnRotate, btnZoomIn, btnCamSnap, btnZip, lblMediaState });
         tabMediaZip.Controls.Add(mzPanel);
 
         _docTabs.TabPages.AddRange(new[] { tabPdf, tabRtf, tabSheet, tabMediaZip });

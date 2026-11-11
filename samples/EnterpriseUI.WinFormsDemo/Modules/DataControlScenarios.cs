@@ -94,7 +94,7 @@ public static class DataControlScenarios
 
     private static List<GridScenario> Build() => new()
     {
-        GridView(), ListControl(), CheckedList(), ListView(), TreeView(), PropertyGrid(), DataEntry(), DataLayout(),
+        ListControl(), CheckedList(), ListView(), TreeView(), PropertyGrid(), DataEntry(), DataLayout(),
         CardView(), FilterView(), DataFilter(), PivotGrid(), TreeMap(), HeatMap(), VirtualGrid()
     };
 
@@ -105,28 +105,6 @@ public static class DataControlScenarios
     }
 
     private static List<EmployeeRow> Employees(int count = 60) => GridScenarioData.Employees(count);
-
-    // ---- GridView ----------------------------------------------------------------------
-
-    private static GridScenario GridView() => new()
-    {
-        Id = "data-gridview",
-        Title = "GridView - Typed Columns, Sorting, Grouping and Editing",
-        Description = "The data grid with typed columns, a filter row, a group panel and in-cell editing. It is the reference for the look of every other data control.",
-        Features = new[] { "Typed columns", "Sorting and grouping", "Filter row", "In-cell editing", "Windowed rendering" },
-        Documentation = "EnterpriseDataGrid<T> draws with GDI+ from DataGrid<T>; see the DataGrid workshop for every grid feature.",
-        Usage = "var grid = new EnterpriseDataGrid<Order>(); grid.Columns.Add(new GridColumn { Field = \"Customer\" }); grid.DataSource = orders;",
-        Api = "EnterpriseDataGrid<T> -> Columns, DataSource, ShowFilterRow, ShowGroupPanel, EditMode",
-        Build = host =>
-        {
-            var grid = host.Attach(GridScenarios.RecordGrid(GridScenarioData.Records(300)));
-            host.Toggle("Filter row", false, v => grid.ShowFilterRow = v);
-            host.Toggle("Group panel", true, v => grid.ShowGroupPanel = v);
-            host.Button("Best fit columns", grid.BestFitAllColumns);
-            grid.SelectionChanged += (_, _) => host.Metric($"{grid.TotalRecordCount:N0} records | selected: {grid.Selection.SelectedRows.Count}");
-            return grid;
-        }
-    };
 
     // ---- ListControl --------------------------------------------------------------------
 
