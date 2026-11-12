@@ -29,7 +29,6 @@ public class NavigationAndLayoutDemoView : UserControl
     private readonly EnterpriseBindingNavigator<string> _bindingNav = new();
     private readonly EnterpriseWizardControl _wizardModel = new();
     private readonly EnterprisePanorama _panoramaModel = new();
-    private readonly EnterpriseCarouselControl _carouselControl=new EnterpriseCarouselControl();
     private readonly System.Windows.Forms.Timer _liveTimer=new System.Windows.Forms.Timer();
 
     public NavigationAndLayoutDemoView(DemoItem metadata)
@@ -192,19 +191,16 @@ public class NavigationAndLayoutDemoView : UserControl
         tabNav.Controls.Add(navPanel);
 
         // ====================================================================
-        // Tab 2: 3D EnterpriseCarousel & EnterprisePanorama Live Tile Hub
+        // Tab 2: EnterprisePanorama Live Tile Hub (the carousel has its own demo page)
         // ====================================================================
-        var tabCarouselPanorama = new TabPage("🎠 3D EnterpriseCarousel & EnterprisePanorama Live Tiles");
+        var tabCarouselPanorama = new TabPage("EnterprisePanorama Live Tiles");
         var cpSplit = new System.Windows.Forms.SplitContainer
         {
             Dock = DockStyle.Fill,
             Orientation = Orientation.Horizontal,
-            SplitterDistance = 190
+            SplitterDistance = 190,
+            Panel1Collapsed = true
         };
-
-        _carouselControl.Dock = DockStyle.Fill ;
-        _carouselControl.SelectedItemChanged += item => _baseView.LogEvent("EnterpriseCarousel.SelectedItem", item);
-        cpSplit.Panel1.Controls.Add(_carouselControl);
 
         // EnterprisePanorama Live Tiles
         _panoramaModel.Tiles.AddRange(new[]

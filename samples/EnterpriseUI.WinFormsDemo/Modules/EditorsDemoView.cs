@@ -199,6 +199,11 @@ public class EditorsDemoView : UserControl
         var splitBtn = new EnterpriseSplitButtonControl { Text = "Export Document", Location = new Point(16, 116), Size = new Size(175, 34), IsSplitMode = true };
         var dropDownBtn = new EnterpriseSplitButtonControl { Text = "Quick Actions ▾", Location = new Point(202, 116), Size = new Size(165, 34), IsSplitMode = false };
         var repeatBtn = new EnterpriseRepeatButtonControl { Location = new Point(378, 116), Size = new Size(185, 34) };
+        foreach (var format in new[] { "Export as PDF Document (.pdf)", "Export as Excel Workbook (.xlsx)", "Export as Word Document (.docx)", "Export as Compressed Archive (.zip)" })
+        {
+            splitBtn.AddOption(format);
+            dropDownBtn.AddOption(format.Replace("Export as", "Quick:"));
+        }
         var progressBar = new EnterpriseProgressBarControl { Location = new Point(575, 120), Size = new Size(220, 26), Value = 45 };
 
         splitBtn.PrimaryActionClicked += (_, _) => _baseView.LogEvent("EnterpriseSplitButton.PrimaryClick", "Default Export Invoked");
@@ -409,11 +414,8 @@ public class EditorsDemoView : UserControl
         sigPanel.Controls.Add(sigCtrl);
         sigPanel.Controls.Add(btnBar);
 
-        var vkCtrl = new EnterpriseVirtualKeyboardControl { Dock = DockStyle.Fill };
-        vkCtrl.KeyPressed += k => _baseView.LogEvent("VirtualKeyboard.KeyPressed", $"{k} -> '{vkCtrl.TypedBuffer}'");
-
         tbSplit.Panel1.Controls.Add(sigPanel);
-        tbSplit.Panel2.Controls.Add(vkCtrl);
+        tbSplit.Panel2Collapsed = true;
         tabTouchAndButtons.Controls.Add(tbSplit);
 
         tabs.TabPages.AddRange(new[] { tabCoreForm, tabButtonsSuite, tabSpecialized, tabSyntax, tabTouchAndButtons });

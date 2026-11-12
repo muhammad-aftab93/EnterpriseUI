@@ -424,7 +424,7 @@ public partial class MainForm : Form, IThemeableControl
 
         // 1. Browse by Control
         var suites = DemoMetadataRegistry.AllDemos.Where(demo =>
-            demo.SubCategory != "DataGrid Workshop" && demo.SubCategory != "Data Management Controls" && !_favoriteIds.Contains(demo.Id)).ToList();
+            demo.SubCategory != "DataGrid Workshop" && demo.SubCategory != "Data Management Controls" && demo.SubCategory != "Interactive Controls" && !_favoriteIds.Contains(demo.Id)).ToList();
         var rootControls = new TreeNode($"Control Demos & Tools ({suites.Count} Pages)") { Tag = "Category_Controls" };
         var groups = suites.GroupBy(d => d.SubCategory);
         foreach (var grp in groups)
@@ -454,15 +454,25 @@ public partial class MainForm : Form, IThemeableControl
             rootDataControls.Nodes.Add(new TreeNode(scenario.Title) { Tag = DemoMetadataRegistry.GetById(scenario.Id) });
         }
 
+        // 9. Interactive and AI controls: one page per control family
+        var rootInteractive = new TreeNode($"Interactive & AI Controls ({InteractiveControlScenarios.All.Count} Pages)") { Tag = "Category_InteractiveControls" };
+        foreach (var scenario in InteractiveControlScenarios.All)
+        {
+            if (_favoriteIds.Contains(scenario.Id)) continue;
+            rootInteractive.Nodes.Add(new TreeNode(scenario.Title) { Tag = DemoMetadataRegistry.GetById(scenario.Id) });
+        }
+
         _navTree.Nodes.AddRange(new[]
         {
             rootGridWorkshop,
             rootDataControls,
+            rootInteractive,
             rootControls
         });
 
         rootGridWorkshop.Expand();
         rootDataControls.Expand();
+        rootInteractive.Expand();
         rootControls.Expand();
     }
 

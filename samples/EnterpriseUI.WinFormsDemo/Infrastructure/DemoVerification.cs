@@ -17,11 +17,15 @@ internal static class DemoVerification
         [typeof(EnterpriseUI.WinForms.EnterpriseFilterViewControl)] = "data-filterview",
         [typeof(EnterpriseUI.WinForms.EnterpriseSyntaxEditorControl)] = "editors-fluent-validation",
         [typeof(EnterpriseUI.WinFormsDemo.Controls.EnterpriseSignaturePadControl)] = "editors-fluent-validation",
-        [typeof(EnterpriseUI.WinFormsDemo.Controls.EnterpriseVirtualKeyboardControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseVirtualKeyboardControl)] = "interactive-virtualkeyboard",
         [typeof(EnterpriseUI.WinFormsDemo.Controls.EnterpriseBarcodeControl)] = "specialized-gantt-barcode-kanban",
-        [typeof(EnterpriseUI.WinForms.EnterpriseCarouselControl)] = "navigation-layout-alerts-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseCarouselControl)] = "interactive-carousel",
         [typeof(EnterpriseUI.WinForms.EnterpriseBulletGraphControl)] = "gauges-radial-linear",
-        [typeof(EnterpriseUI.WinForms.EnterpriseRatingAndWaitingControl)] = "indicators-rating-waiting-suite"
+        [typeof(EnterpriseUI.WinForms.EnterpriseRotatorControl)] = "interactive-rotator",
+        [typeof(EnterpriseUI.WinForms.EnterpriseChatControl)] = "interactive-chat",
+        [typeof(EnterpriseUI.WinForms.EnterpriseAIPromptControl)] = "interactive-aiprompt",
+        [typeof(EnterpriseUI.WinForms.EnterpriseSmartPasteButton)] = "interactive-smartpaste",
+        [typeof(EnterpriseUI.WinForms.EnterpriseSpeechToTextButton)] = "interactive-speechtotext"
     };
 
     private static IEnumerable<Control> Descendants(Control parent)
