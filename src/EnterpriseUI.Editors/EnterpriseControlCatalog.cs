@@ -25,12 +25,12 @@ public static class EnterpriseControlRegistry
 {
     public static IReadOnlyList<ControlCatalogEntry> AllControls { get; } = new List<ControlCatalogEntry>
     {
-        // 1. AI & Conversational Controls (4)
-        new("AIPromptControl / EnterpriseAIPromptControl", "AI & Smart Controls", "docs/Controls/UnifiedControlsCatalog.md", "Prompt View, Output View, Commands View, Rating, Copy/Insert/Retry", "ai-prompt-smart-controls-suite"),
-        new("AIPromptButton", "AI & Smart Controls", "docs/Controls/UnifiedControlsCatalog.md", "Popup AI Prompt attachable to any editor or grid", "ai-prompt-smart-controls-suite"),
-        new("SmartPasteButton", "AI & Smart Controls", "docs/Controls/UnifiedControlsCatalog.md", "AI Clipboard field extraction into bound form controls", "ai-prompt-smart-controls-suite"),
-        new("SpeechToTextButton", "AI & Smart Controls", "docs/Controls/UnifiedControlsCatalog.md", "Voice dictation, waveform pulse, custom recognizer states", "ai-prompt-smart-controls-suite"),
-        new("AIChatView / ConversationalChatControl", "AI & Smart Controls", "docs/Controls/UnifiedControlsCatalog.md", "Suggested Actions, Adaptive Cards, Typing Indicator, Avatars", "ai-copilot-assistant"),
+        // 1. AI & Conversational Controls (5)
+        new("EnterpriseAIPromptControl", "AI & Smart Controls", "docs/Controls/InteractiveControls.md", "Prompt, Output, Commands and History views, streaming output, custom commands, retry, rating, token usage", "interactive-aiprompt"),
+        new("EnterpriseInlineAIAssistant", "AI & Smart Controls", "docs/Controls/InteractiveControls.md", "Selection button or Ctrl+Space inside a text box: summarize, rewrite, expand, tone, free instruction, preview before apply", "interactive-inlineai"),
+        new("EnterpriseSmartPasteButton", "AI & Smart Controls", "docs/Controls/InteractiveControls.md", "Clipboard text classified (address, labeled lines, JSON, table row, code) and mapped into bound fields with undo", "interactive-smartpaste"),
+        new("EnterpriseSpeechToTextButton", "AI & Smart Controls", "docs/Controls/InteractiveControls.md", "Microphone toggle, streaming recognizer interface, live waveform, partial and final transcripts", "interactive-speechtotext"),
+        new("EnterpriseChatControl", "AI & Smart Controls", "docs/Controls/InteractiveControls.md", "Grouped bubbles, avatars, timestamps, delivery state, attachments, quick replies, typing indicator", "interactive-chat"),
 
         // 2. Data Grids, Cards, Filter & List Controls (9)
         new("DataGrid<T> / EnterpriseDataGrid<T>", "Grids & Data", "docs/Controls/UnifiedControlsCatalog.md", "1M-Row Virtualization, Grouping, Multi-Sort, Filter Row, Master-Detail, Bands", "grid-virtualization-1m"),
@@ -45,13 +45,13 @@ public static class EnterpriseControlRegistry
         new("EnterpriseDataEntryControl", "Grids & Data", "docs/Controls/DataManagementControls.md", "Entity form generated from DataAnnotations, multi-column layout, validation, save/reset", "data-dataentry"),
 
         // 3. Buttons & Toggles (8)
-        new("EnterpriseButtonControl / EnterpriseActionButton", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Themed vector icon, ripple, badge, command binding, mnemonics", "editors-fluent-validation"),
+        new("EnterpriseButtonControl", "Buttons & Switches", "docs/Controls/InteractiveControls.md", "Five variants, glyph or image, badge counter, access keys, DialogResult, animated hover, press and focus", "interactive-buttons"),
         new("CheckBoxControl", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Tri-state Checked/Unchecked/Indeterminate, custom glyphs", "editors-fluent-validation"),
         new("RadioButtonControl", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Exclusive option group, vector radio glyph, WCAG focus ring", "editors-fluent-validation"),
-        new("ToggleButtonControl", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Two-state / Three-state latch button with active token styling", "editors-fluent-validation"),
+        new("EnterpriseToggleButtonControl", "Buttons & Switches", "docs/Controls/InteractiveControls.md", "Two-state and three-state latch button, exclusive groups, checked styling", "interactive-buttons"),
         new("EnterpriseToggleSwitchControl", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Animated pill On/Off switch with custom state labels", "editors-fluent-validation"),
-        new("EnterpriseSplitButtonControl (DropDownMode)", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Primary button with popup menu arrow and item hierarchy", "editors-fluent-validation"),
-        new("EnterpriseSplitButtonControl", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Dual-zone primary action + dropdown arrow menu", "editors-fluent-validation"),
+        new("EnterpriseDropDownButtonControl", "Buttons & Switches", "docs/Controls/InteractiveControls.md", "Whole-button menu with themed items, separators, glyphs and keyboard opening", "interactive-buttons"),
+        new("EnterpriseSplitButtonControl", "Buttons & Switches", "docs/Controls/InteractiveControls.md", "Dual-zone primary action + dropdown arrow menu", "interactive-buttons"),
         new("EnterpriseRepeatButtonControl", "Buttons & Switches", "docs/Controls/UnifiedControlsCatalog.md", "Continuous fire on press-and-hold with configurable interval", "editors-fluent-validation"),
 
         // 4. Editors, Pickers & DropDown Lists (22)
@@ -110,8 +110,8 @@ public static class EnterpriseControlRegistry
         new("EnterpriseBindingNavigator<TItem>", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "First, Previous, Record Position, Next, Last, AddNew, Delete, Save", "navigation-layout-alerts-suite"),
         new("EnterpriseCommandBar", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Dockable/Floating multi-row toolstrips with overflow chevron", "navigation-layout-alerts-suite"),
         new("EnterprisePanorama", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Windows Live Tiles (Single/Double/Quad) with live flip animation & groups", "navigation-layout-alerts-suite"),
-        new("EnterpriseCarousel / EnterpriseCarouselControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "3D Elliptical path item reflection, depth scaling, smooth animation", "component-catalog"),
-        new("RotatorControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Automated frame/banner rotator with directional slide transitions", "slide-rotator-pips-media-suite"),
+        new("EnterpriseCarouselControl", "Navigation, Layout & Docking", "docs/Controls/InteractiveControls.md", "Flat, cover-flow and ring layouts, infinite loop, autoplay, swipe, custom item painting", "interactive-carousel"),
+        new("EnterpriseRotatorControl", "Navigation, Layout & Docking", "docs/Controls/InteractiveControls.md", "Timed or manual panel ticker with fade, slide and flip transitions, HTML and Markdown content", "interactive-rotator"),
         new("SlideViewControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Interactive slide gallery with Prev/Next navigation & infinite loop", "slide-rotator-pips-media-suite"),
         new("PipsPagerControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Dot/Number pagination indicator with horizontal/vertical orientation", "slide-rotator-pips-media-suite"),
         new("EnterpriseWizardControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Welcome, Interior, Completion pages, Per-step validation, Aero/Wizard97", "navigation-layout-alerts-suite"),
@@ -122,7 +122,7 @@ public static class EnterpriseControlRegistry
         new("GroupBoxControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Themed header group box with header alignment & custom border styles", "navigation-layout-alerts-suite"),
         new("PanelControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Bordered theme-aware container panel with shadow & corner radius", "navigation-layout-alerts-suite"),
         new("ScrollablePanelControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Themed custom scrollbar container with touch kinetic scrolling", "navigation-layout-alerts-suite"),
-        new("LabelControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "HTML-like text markup, Auto-ellipsis, Image-text alignment", "navigation-layout-alerts-suite"),
+        new("EnterpriseLabelControl", "Navigation, Layout & Docking", "docs/Controls/InteractiveControls.md", "Auto-ellipsis, access keys, rotation, Markdown and HTML formatting with links, image alignment", "interactive-label"),
         new("SeparatorControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Horizontal/Vertical visual divider with optional shadow line", "navigation-layout-alerts-suite"),
         new("MenuControl / ContextMenuControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Multi-column drop-down menus, checkable items, keyboard shortcuts, icons", "navigation-forms-overlays-suite"),
 
@@ -135,16 +135,16 @@ public static class EnterpriseControlRegistry
         new("DocumentProcessingSuite", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Headless WordsProcessing, SpreadProcessing, PdfProcessing & ZipLibrary", "documents-multiformat"),
 
         // 9. Track, Status, Alerts, Overlays & Notifications (14)
-        new("EnterpriseProgressBarControl", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Determinate/Indeterminate progress, Dash/Solid fill, Text percentage overlay", "editors-fluent-validation"),
-        new("EnterpriseStepProgressBar", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Multi-stage workflow tracker with step icons, titles & completion status", "navigation-layout-alerts-suite"),
-        new("EnterpriseWaitingBar / EnterpriseRatingAndWaitingControl", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Marquee blocks, Rotating ring, Segmented dots, Fading bar busy indicators", "component-catalog"),
-        new("EnterpriseRatingControl / EnterpriseRatingAndWaitingControl", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Full, Half, and Continuous precision star rating with hover preview", "component-catalog"),
-        new("RangeSlider / TrackBarControl", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Single and Dual-thumb range trackbar with tick marks & value tooltip", "editors-fluent-validation"),
+        new("EnterpriseProgressBarControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Determinate and indeterminate, gradient, striped and segmented fill, text overlay, states, animation speed", "interactive-progressbar"),
+        new("EnterpriseStepProgressBarControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Completed, active and upcoming steps, validation markers, click navigation, horizontal and vertical", "interactive-stepprogress"),
+        new("EnterpriseWaitingBarControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Spinning dots, ring, wave bars, bouncing blocks and marquee busy indicators with captions", "interactive-waitingbar"),
+        new("EnterpriseStarRatingControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Full, half and free precision, hover preview and tooltip, read-only, custom symbols", "interactive-rating"),
+        new("EnterpriseTrackBarControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Single and range sliders, discrete steps, ticks, value tooltip, keyboard control", "interactive-trackbar"),
         new("ScrollBarControl", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Themed horizontal/vertical scrollbar with thumb grip & smooth step", "navigation-layout-alerts-suite"),
         new("EnterpriseDesktopAlert", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Screen-corner popup alert with auto-close timer, pin button & action links", "navigation-layout-alerts-suite"),
         new("ToastNotificationManager", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "OS Toast notifications with XML templates, action buttons & reply box", "navigation-forms-overlays-suite"),
-        new("NotifyIconControl", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "System tray icon with badge counter, popup flyout & themed context menu", "navigation-forms-overlays-suite"),
-        new("CalloutControl", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Vector callout balloon with directional pointer arrow & target control anchor", "clock-callout-rangeselector-suite"),
+        new("EnterpriseNotifyIcon", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Tray icon with unread badge, stacked themed toasts, action buttons, notification history", "interactive-notifyicon"),
+        new("EnterpriseCalloutControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Speech-bubble popup anchored to a control, arrow on any side, shadow, actions, close triggers", "interactive-callout"),
         new("SplashScreenManager", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Startup splash screen with animated progress bar, logo & status text", "navigation-forms-overlays-suite"),
         new("OverlayManager", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Semi-transparent busy dimmer overlay over any host control or form", "navigation-forms-overlays-suite"),
         new("FlyoutManager", "Status, Alerts & Overlays", "docs/Controls/UnifiedControlsCatalog.md", "Interactive modal/non-modal slide-in flyout dialog overlay", "navigation-forms-overlays-suite"),
@@ -166,7 +166,7 @@ public static class EnterpriseControlRegistry
         new("ImageEditorControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Crop, Resize, Rotate, Flip, Brightness/Contrast, Filters & Annotations", "slide-rotator-pips-media-suite"),
         new("PictureBoxControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Raster & SVG viewer with Zoom, Pan, Fit-to-View & mini toolbar", "slide-rotator-pips-media-suite"),
         new("EnterpriseWebCam / EnterpriseWebCamControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Camera feed, Snapshot capture, Video recording state & device selector", "slide-rotator-pips-media-suite"),
-        new("EnterpriseVirtualKeyboardControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Touch/Kiosk on-screen QWERTY & Numpad keyboard with Shift/Caps & sound", "specialized-gantt-barcode-kanban"),
+        new("EnterpriseVirtualKeyboardControl", "Forms, Dialogs & Media", "docs/Controls/InteractiveControls.md", "QWERTY, numeric, symbol and custom layouts, shift and caps lock, key repeat, types into a control or the focused window", "interactive-virtualkeyboard"),
         new("ValidationProviderControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Declarative validation rules attachable to any control with error icons", "dataentry-filter-cards-suite"),
         new("ShortcutsManager", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Global and local keyboard chord/shortcut dispatcher (Ctrl+K, Ctrl+S)", "navigation-forms-overlays-suite"),
         new("PresentationToolsSuite", "Forms, Dialogs & Media", "/tools/controlspy/controlspy", "Runtime Visual Tree Spy, Vector Shape Editor, Theme Builder & HTML Markup Editor", "navigation-forms-overlays-suite")

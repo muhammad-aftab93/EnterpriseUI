@@ -9,8 +9,6 @@ public static class DemoMetadataRegistry
 {
     private static readonly string[] CatalogFeatures = { "Component search", "Category filter", "Demo launcher" };
     private static readonly string[] CatalogTags = { "Catalog", "Components", "Search" };
-    private static readonly string[] IndicatorFeatures = { "Star rating", "Marquee animation" };
-    private static readonly string[] IndicatorTags = { "Rating", "WaitingBar" };
     private static readonly string[] SlideFeatures = { "Slide navigation", "Rotator", "Pagination" };
     private static readonly string[] SlideTags = { "SlideView", "Rotator", "PipsPager" };
 
@@ -20,13 +18,9 @@ public static class DemoMetadataRegistry
 
     private static readonly string[] CachedValues55 = new[] { "NavigationView", "OfficeNavigationBar", "Flyout", "Overlay", "SplashScreen", "ToastNotification", "NotifyIcon", "TaskbarButton", "TabbedForm", "ControlSpy" };
 
-    private static readonly string[] CachedValues54 = new[] { "Clock", "Callout", "RangeSelector", "Annotation", "TimeSeries" };
+    private static readonly string[] CachedValues54 = new[] { "Clock", "RangeSelector", "Annotation", "TimeSeries" };
 
-    private static readonly string[] CachedValues53 = new[] { "Clock", "Callout", "RangeSelector", "TimeZone", "EnterpriseSparkline Zoom" };
-
-    private static readonly string[] CachedValues48 = new[] { "AI", "AIPrompt", "SmartPaste", "SpeechToText", "Automation" };
-
-    private static readonly string[] CachedValues47 = new[] { "AIPrompt", "AIPromptButton", "SmartPasteButton", "SpeechToTextButton", "Clipboard Extraction" };
+    private static readonly string[] CachedValues53 = new[] { "Clock", "RangeSelector", "TimeZone", "EnterpriseSparkline Zoom" };
 
     private static readonly string[] CachedValues46 = new[] { "Navigation", "Layout", "EnterpriseBreadcrumb", "Wizard", "EnterpriseCarousel", "EnterprisePanorama", "Alerts" };
 
@@ -668,49 +662,6 @@ var carousel = new EnterpriseCarouselControl();",
             ApiReference = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDesktopAlert, EnterpriseTaskDialog"
         });
 
-        // 24. AIPrompt, SmartPasteButton & SpeechToTextButton Suite
-        _allDemos.Add(new DemoItem
-        {
-            Id = "ai-prompt-smart-controls-suite",
-            Title = "AIPrompt, SmartPasteButton & SpeechToTextButton Suite",
-            Description = "Generative EnterpriseAIPrompt & EnterpriseAIPromptButton with Prompt/Output/Commands views, AI-powered EnterpriseSmartPasteButton clipboard form parser, and EnterpriseSpeechToTextButton voice dictation.",
-            Category = DemoCategoryType.AIAndIntelligence,
-            SubCategory = "AIPrompt & Smart Buttons",
-            TargetControlName = "AIPromptControl, AIPromptButton, SmartPasteButton, SpeechToTextButton",
-            Features = CachedValues47,
-            Tags = CachedValues48,
-            Industry = "Enterprise AI Productivity & Intelligent Data Entry",
-            IsFeatured = true,
-            IsPopular = true,
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("ai-prompt-smart-controls-suite")),
-            SourceCode =
-@"var extracted = SmartPasteEngine.ExtractFieldsFromText(Clipboard.GetText());
-var aiPrompt = new AIPromptControl();",
-            Documentation = "Provides clean-room implementations of EnterpriseAIPrompt, EnterpriseAIPromptButton, EnterpriseSmartPasteButton, and EnterpriseSpeechToTextButton.",
-            BestPractices = "Use SmartPasteEngine to parse multi-line emails or invoices directly into bound DataEntry fields.",
-            Troubleshooting = "Verify clipboard text is non-empty before invoking SmartPasteButton.",
-            ApiReference = "SmartPasteEngine.ExtractFieldsFromText(string), AIPromptControl, SpeechToTextButton"
-        });
-
-        _allDemos.Add(new DemoItem
-        {
-            Id = "indicators-rating-waiting-suite",
-            Title = "Indicators - Rating & WaitingBar",
-            Description = "Interactive star ratings and an animated waiting indicator.",
-            Category = DemoCategoryType.ChartsAndGauges,
-            SubCategory = "Status Indicators",
-            TargetControlName = "EnterpriseRatingAndWaitingControl",
-            Features = IndicatorFeatures,
-            Tags = IndicatorTags,
-            Industry = "Cross-Industry",
-            ViewFactory = () => new CompleteControlCatalogDemoView(GetById("indicators-rating-waiting-suite")),
-            SourceCode = "var rating = new EnterpriseRatingAndWaitingControl();",
-            Documentation = "Rating changes are recorded in the event explorer. A demo-owned timer advances the waiting marquee.",
-            BestPractices = "Dispose the demo to stop its animation timer.",
-            Troubleshooting = "Open this page to run the waiting animation.",
-            ApiReference = "EnterpriseRatingAndWaitingControl.RatingChanged, StepMarquee"
-        });
-
         // 26. SlideView, Rotator, PipsPager, EnterpriseImageEditor, PictureBox & EnterpriseWebCam Suite
         _allDemos.Add(new DemoItem
         {
@@ -737,11 +688,11 @@ var aiPrompt = new AIPromptControl();",
         _allDemos.Add(new DemoItem
         {
             Id = "clock-callout-rangeselector-suite",
-            Title = "Clock, Callout & RangeSelector Suite",
-            Description = "Vector GDI+ Analog & Digital Clock with timezone offsets, directional Callout annotation popup balloon, and dual-thumb RangeSelector with sparkline preview.",
+            Title = "Clock & RangeSelector Suite",
+            Description = "Vector GDI+ Analog & Digital Clock with timezone offsets and a dual-thumb RangeSelector with sparkline preview.",
             Category = DemoCategoryType.ChartsAndGauges,
-            SubCategory = "Clock, Callout & RangeSelector",
-            TargetControlName = "EnterpriseClockControl, EnterpriseCalloutControl, EnterpriseRangeSelectorControl",
+            SubCategory = "Clock & RangeSelector",
+            TargetControlName = "EnterpriseClockControl, EnterpriseRangeSelectorControl",
             Features = CachedValues53,
             Tags = CachedValues54,
             Industry = "Global Trading Desks & Operations Centers",
@@ -749,12 +700,11 @@ var aiPrompt = new AIPromptControl();",
             ViewFactory = () => new CompleteControlCatalogDemoView(GetById("clock-callout-rangeselector-suite")),
             SourceCode =
 @"var clock = new EnterpriseClockControl { TimeZoneOffsetHours = -5, TimeZoneLabel = ""UTC-5 (New York)"" };
-var callout = new EnterpriseCalloutControl { PointerDirection = ArrowDirection.Left };
 var rangeSelector = new EnterpriseRangeSelectorControl { SelectionStartPercent = 20, SelectionEndPercent = 80 };",
-            Documentation = "Implements EnterpriseClock, EnterpriseCallout, and EnterpriseRangeSelector using anti-aliased GDI+ vector geometry.",
+            Documentation = "Implements EnterpriseClock and EnterpriseRangeSelector using anti-aliased GDI+ vector geometry.",
             BestPractices = "Link EnterpriseRangeSelectorControl.RangeChanged to your primary ChartView time axis for synchronized zooming.",
             Troubleshooting = "Ensure EnterpriseClockControl is disposed when its parent container closes to release the 1-second tick timer.",
-            ApiReference = "EnterpriseClockControl, EnterpriseCalloutControl, EnterpriseRangeSelectorControl"
+            ApiReference = "EnterpriseClockControl, EnterpriseRangeSelectorControl"
         });
 
         // 28. NavigationView, OfficeNavigationBar, Forms, Overlays, Toast & Tools Suite
@@ -781,6 +731,41 @@ var allControls = EnterpriseControlRegistry.AllControls;",
         });
         RegisterGridWorkshop();
         RegisterDataControlWorkshop();
+        RegisterInteractiveWorkshop();
+    }
+
+    private static void RegisterInteractiveWorkshop()
+    {
+        foreach (var scenario in InteractiveControlScenarios.All)
+        {
+            var captured = scenario;
+            var target = captured.Api.Contains(" -> ", StringComparison.Ordinal) ? captured.Api[..captured.Api.IndexOf(" -> ", StringComparison.Ordinal)] : captured.Title;
+            _allDemos.Add(new DemoItem
+            {
+                Id = captured.Id,
+                Title = captured.Title,
+                Description = captured.Description,
+                Category = captured.Id is "interactive-aiprompt" or "interactive-inlineai" or "interactive-chat" or "interactive-smartpaste" or "interactive-speechtotext" ? DemoCategoryType.AIAndIntelligence : captured.Id is "interactive-carousel" or "interactive-rotator" or "interactive-stepprogress" or "interactive-callout" or "interactive-notifyicon" ? DemoCategoryType.NavigationAndLayout : DemoCategoryType.EditorsAndForms,
+                SubCategory = "Interactive Controls",
+                TargetControlName = target,
+                Features = captured.Features,
+                Tags = new[] { "Interactive", "Animation", "Accessibility", "Theming" },
+                Industry = "Cross-Industry",
+                IsFeatured = captured.Id is "interactive-aiprompt" or "interactive-chat" or "interactive-carousel",
+                IsNew = true,
+                ViewFactory = () => new GridScenarioView(GetById(captured.Id), captured),
+                SourceCode = captured.Usage,
+                Documentation = captured.Documentation,
+                BasicUsage = captured.Usage,
+                ArchitectureNotes = captured.Architecture,
+                PerformanceNotes = captured.Performance,
+                AccessibilityNotes = captured.Accessibility,
+                BestPractices = captured.BestPractices,
+                Troubleshooting = captured.Troubleshooting,
+                ApiReference = captured.Api,
+                RelatedControls = "EnterpriseButtonControl, EnterpriseTrackBarControl, EnterpriseProgressBarControl, EnterpriseChatControl, EnterpriseAIPromptControl"
+            });
+        }
     }
 
     private static void RegisterDataControlWorkshop()
@@ -856,10 +841,8 @@ var allControls = EnterpriseControlRegistry.AllControls;",
     {
         var id = entry.Name switch
         {
-            "EnterpriseCalculatorDropDown" or "CalculatorControl" or "EnterpriseSyntaxEditor" or "SpellChecker" or "EnterpriseVirtualKeyboardControl" => "editors-fluent-validation",
-            "EnterpriseCarousel" => "navigation-layout-alerts-suite",
+            "EnterpriseCalculatorDropDown" or "CalculatorControl" or "EnterpriseSyntaxEditor" or "SpellChecker" => "editors-fluent-validation",
             "EnterpriseBulletGraph" => "gauges-radial-linear",
-            "EnterpriseWaitingBar" or "EnterpriseRatingControl" => "indicators-rating-waiting-suite",
             "ImageEditorControl" or "PictureBoxControl" or "EnterpriseWebCam" => "documents-multiformat",
             _ => entry.DemoSuiteId
         };

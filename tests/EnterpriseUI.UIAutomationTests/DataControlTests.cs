@@ -1225,7 +1225,7 @@ public class FormControlTests
             Ui.Key(buttons[1], Keys.Space);
             Ui.Key(buttons[2], Keys.Enter);
             buttons[3].PerformClick();
-            Assert.Equal(3, clicks);
+            Assert.Equal(4, clicks);
             foreach (var b in buttons)
             {
                 using var bitmap = Ui.Render(b);

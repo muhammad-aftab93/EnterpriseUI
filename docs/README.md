@@ -32,6 +32,7 @@ Welcome to the comprehensive technical documentation for the **EnterpriseUI Comp
 ### 5. Unified Controls Catalog
 - [Comprehensive Controls Catalog & API Reference](Controls/UnifiedControlsCatalog.md)
 - [Data Management Controls (List, Tree, PropertyGrid, DataEntry, CardView, Pivot, TreeMap, HeatMap and more)](Controls/DataManagementControls.md)
+- [Interactive Controls (AIPrompt, Buttons, Carousel, Chat, InlineAIAssistant, Label, ProgressBar, Rating, Rotator, SmartPaste, SpeechToText, StepProgressBar, TrackBar, WaitingBar, VirtualKeyboard, Callout, NotifyIcon)](Controls/InteractiveControls.md)
 - [EnterpriseRibbonBar Navigation](Controls/UnifiedControlsCatalog.md#21-ribbonbar-navigation)
 - [EnterpriseDockManager & Layout System](Controls/UnifiedControlsCatalog.md#22-dockmanager-layout)
 - [EnterpriseScheduler & RFC 5545 Recurrence Engine](Controls/UnifiedControlsCatalog.md#23-scheduler-scheduling)
