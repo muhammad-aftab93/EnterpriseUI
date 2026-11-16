@@ -583,6 +583,8 @@ public partial class MainForm : Form, IThemeableControl
             case "QA & Lab":
                 LoadDemo(DemoMetadataRegistry.GetById("qa-validation-suite"));
                 break;
+            case "Developer Tools":
+                break;
             default:
                 LoadDemo(DemoMetadataRegistry.GetById("dashboard-executive-bi"));
                 break;

@@ -324,8 +324,8 @@ public class EnterpriseButtonTextBoxControl : EnterpriseControlBase
 
         if (EnableFileBrowseOnRightClick)
         {
-            using var dialog = new OpenFileDialog { Title = "Select file", Filter = "All files (*.*)|*.*" };
-            if (dialog.ShowDialog(this) == DialogResult.OK) Text = dialog.FileName;
+            using var dialog = new EnterpriseFileDialog { Title = "Select file", Filter = "All files (*.*)|*.*", FileName = Text };
+            if (dialog.ShowOpenDialog(this) == DialogResult.OK) Text = dialog.FileName;
         }
 
         RightButtonClick?.Invoke(this, EventArgs.Empty);

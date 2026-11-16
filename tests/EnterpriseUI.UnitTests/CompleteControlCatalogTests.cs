@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using EnterpriseUI.Charts;
 using EnterpriseUI.Documents;
@@ -149,6 +150,39 @@ public class CompleteControlCatalogTests
         cam.TakeSnapshot();
         Assert.True(cam.IsStreaming);
         Assert.Equal(1, cam.CapturedSnapshotsCount);
+    }
+
+    [Fact]
+    public void ZipLibraryCreatesListsAndSafelyExtractsEntries()
+    {
+        using var archive = new MemoryStream();
+        EnterpriseZipLibrary.CreateArchive(new[]
+        {
+            new ZipArchiveSource("folder/data.bin", () => new MemoryStream(new byte[] { 1, 2, 3 }))
+        }, archive);
+
+        archive.Position = 0;
+        var entries = EnterpriseZipLibrary.ListEntries(archive);
+        Assert.Single(entries);
+        Assert.Equal("folder/data.bin", entries[0].Name);
+        Assert.Equal(3, entries[0].Length);
+
+        archive.Position = 0;
+        var destination = Path.Combine(Path.GetTempPath(), $"EnterpriseZipLibrary-{Guid.NewGuid():N}");
+        try
+        {
+            EnterpriseZipLibrary.ExtractArchive(archive, destination);
+            Assert.Equal(new byte[] { 1, 2, 3 }, File.ReadAllBytes(Path.Combine(destination, "folder", "data.bin")));
+        }
+        finally
+        {
+            if (Directory.Exists(destination)) Directory.Delete(destination, recursive: true);
+        }
+
+        Assert.Throws<ArgumentException>(() => EnterpriseZipLibrary.CreateArchive(new[]
+        {
+            new ZipArchiveSource("../outside.txt", () => new MemoryStream())
+        }, new MemoryStream()));
     }
 }
 
