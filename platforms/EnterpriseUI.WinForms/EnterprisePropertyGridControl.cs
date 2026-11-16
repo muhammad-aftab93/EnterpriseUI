@@ -640,8 +640,8 @@ public class EnterprisePropertyGridControl : EnterpriseScrollableControl
         if (row.Entry is null || row.Entry.Kind == PropertyEditorKind.Nested) ToggleRow(row);
         else if (row.Entry.Kind == PropertyEditorKind.Color && !row.Entry.IsReadOnly && row.Entry.Value is Color color)
         {
-            using var dialog = new ColorDialog { Color = color, FullOpen = true };
-            if (dialog.ShowDialog(this) == DialogResult.OK) Commit(row.Entry, dialog.Color);
+            using var dialog = new EnterpriseColorDialog { SelectedColor = color };
+            if (dialog.ShowDialog(this) == DialogResult.OK) Commit(row.Entry, dialog.SelectedColor);
         }
     }
 

@@ -195,6 +195,167 @@ public class DirectGridApiTests
     }
 }
 
+public class EnterpriseDeveloperToolsTests
+{
+    [Fact]
+    public void InspectorWindowsShapeEditorFormConverterAndThemeBuilderWork()
+    {
+        RunSta(() =>
+        {
+            using var root = new Panel { Name = "Root" };
+            var child = new Button { Name = "Action" };
+            root.Controls.Add(child);
+
+            using var spy = new EnterpriseControlSpy();
+            spy.Inspect(root);
+            Assert.Same(root, spy.SelectedControl);
+
+            using var hierarchy = new EnterpriseElementHierarchyEditor();
+            hierarchy.Inspect(root);
+            Assert.Same(root, hierarchy.SelectedControl);
+
+            using var shape = new EnterpriseShapeEditor();
+            shape.SetPoints(new[] { new PointF(0.1f, 0.1f), new PointF(0.9f, 0.1f), new PointF(0.5f, 0.9f) });
+            shape.SetSegmentCurved(0, true);
+            Assert.True(shape.IsSegmentCurved(0));
+            using var path = shape.CreatePath(new RectangleF(0, 0, 100, 100));
+            Assert.False(path.PointCount == 0);
+
+            using var source = new Form { Text = "Source" };
+            var sourceButton = new Button { Name = "Preserved" };
+            source.Controls.Add(sourceButton);
+            var converter = new EnterpriseFormConverter();
+            var converted = converter.ConvertTo<ConverterTargetForm>(source);
+            using (converted)
+            {
+                Assert.Equal("Source", converted.Text);
+                Assert.Same(sourceButton, converted.Controls[0]);
+            }
+
+            using var styleBuilder = new EnterpriseVisualStyleBuilder();
+            styleBuilder.SetToken("Primary", "#1F6D73");
+            var json = styleBuilder.ExportJson();
+            styleBuilder.LoadTheme(json);
+            Assert.Equal("#1F6D73", styleBuilder.BuildTheme().GetToken("Primary"));
+        });
+    }
+
+    public sealed class ConverterTargetForm : Form;
+}
+
+public class EnterpriseColorDialogTests
+{
+    [Fact]
+    public void ColorDialogSynchronizesColorChannelsHexAndCustomPalette()
+    {
+        RunSta(() =>
+        {
+            using var defaults = new EnterpriseColorDialog();
+            Assert.Equal(Color.DodgerBlue, defaults.SelectedColor);
+            Assert.Equal("#1E90FF", defaults.HexValue);
+
+            using var dialog = new EnterpriseColorDialog { SelectedColor = Color.FromArgb(120, 34, 120, 210) };
+            Assert.Equal(Color.FromArgb(120, 34, 120, 210), dialog.SelectedColor);
+            dialog.HexValue = "#7F2A5C";
+            Assert.Equal(Color.FromArgb(255, 127, 42, 92), dialog.SelectedColor);
+            dialog.AddCustomColor();
+            Assert.Contains(dialog.SelectedColor, dialog.CustomColors);
+        });
+    }
+}
+
+public class EnterprisePictureBoxControlTests
+{
+    [Fact]
+    public void ImageViewerSupportsZoomPanFitClearAndRendering()
+    {
+        RunSta(() =>
+        {
+            using var source = new Bitmap(12, 12);
+            using (var graphics = Graphics.FromImage(source)) graphics.Clear(Color.DeepSkyBlue);
+            using var viewer = new EnterprisePictureBoxControl { Size = new Size(240, 180), Image = source };
+
+            Assert.Equal(EnterpriseImageZoomMode.Fit, viewer.ZoomMode);
+            viewer.ShowActualSize();
+            Assert.Equal(EnterpriseImageZoomMode.ActualSize, viewer.ZoomMode);
+            viewer.ZoomAt(2, new Point(90, 90));
+            Assert.Equal(EnterpriseImageZoomMode.Custom, viewer.ZoomMode);
+            Assert.InRange(viewer.ZoomFactor, 1.99f, 2.01f);
+            viewer.PanOffset = new PointF(10, -5);
+            Assert.Equal(new PointF(10, -5), viewer.PanOffset);
+            viewer.FitToView();
+            Assert.Equal(EnterpriseImageZoomMode.Fit, viewer.ZoomMode);
+
+            using var rendered = new Bitmap(viewer.Width, viewer.Height);
+            viewer.DrawToBitmap(rendered, new Rectangle(Point.Empty, viewer.Size));
+            var imageWasPainted = false;
+            for (var y = 0; y < rendered.Height && !imageWasPainted; y++)
+            for (var x = 0; x < rendered.Width; x++)
+            {
+                if (rendered.GetPixel(x, y).ToArgb() != Color.DeepSkyBlue.ToArgb()) continue;
+                imageWasPainted = true;
+                break;
+            }
+            Assert.True(imageWasPainted);
+
+            viewer.ClearImage();
+            Assert.Null(viewer.Image);
+        });
+    }
+}
+
+public class EnterpriseMessageBoxTests
+{
+    [Fact]
+    public void MessageBoxConfiguresButtonsDetailsIconAndCopyText()
+    {
+        RunSta(() =>
+        {
+            using var dialog = new EnterpriseMessageBox
+            {
+                MessageText = "The operation could not complete.",
+                Details = "The data source is unavailable.",
+                MessageIcon = MessageBoxIcon.Warning
+            };
+
+            Assert.Equal("The operation could not complete.\r\n\r\nThe data source is unavailable.", dialog.CopyText);
+            Assert.Equal(MessageBoxIcon.Warning, dialog.MessageIcon);
+            dialog.ToggleDetails();
+            Assert.True(dialog.DetailsExpanded);
+            dialog.ConfigureButtons(MessageBoxButtons.YesNoCancel);
+            Assert.Equal(MessageBoxButtons.YesNoCancel, dialog.Buttons);
+            dialog.ToggleDetails();
+            Assert.False(dialog.DetailsExpanded);
+        });
+    }
+}
+
+public class EnterpriseFileDialogTests
+{
+    [Fact]
+    public void FileDialogExposesOpenSaveAndFolderConfiguration()
+    {
+        using var dialog = new EnterpriseFileDialog
+        {
+            Title = "Choose an image",
+            Filter = "Images|*.png;*.jpg",
+            DefaultExtension = "png",
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            FileName = "photo.png",
+            MultiSelect = true,
+            FolderDescription = "Choose an output folder"
+        };
+
+        Assert.Equal("Choose an image", dialog.Title);
+        Assert.Equal("Images|*.png;*.jpg", dialog.Filter);
+        Assert.Equal("png", dialog.DefaultExtension);
+        Assert.Equal("photo.png", dialog.FileName);
+        Assert.True(dialog.MultiSelect);
+        Assert.Equal("Choose an output folder", dialog.FolderDescription);
+        Assert.Empty(dialog.SelectedFiles);
+    }
+}
+
 [Collection("Theme")]
 public class RenderingTests
 {

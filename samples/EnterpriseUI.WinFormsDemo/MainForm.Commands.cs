@@ -5,6 +5,7 @@ public partial class MainForm
     private void RegisterRibbonActions()
     {
         void Link(string tab, string text, string demoId) => _ribbon.RegisterAction(tab, text, () => LoadDemo(Infrastructure.DemoMetadataRegistry.GetById(demoId)));
+        void Command(string tab, string text, Action action) => _ribbon.RegisterAction(tab, text, action);
         Link("Home", "Overview\nShowcase", "dashboard-executive-bi");
         Link("Home", "Learning\nCenter", "learning-center-hub");
         Link("Home", "Feature\nMatrix", "component-catalog");
@@ -40,5 +41,13 @@ public partial class MainForm
         Link("QA & Lab", "WCAG 2.2\nAudit", "accessibility-center");
         Link("QA & Lab", "API Object\nInspector", "api-interactive-explorer");
         Link("QA & Lab", "Regression\nMatrix", "qa-validation-suite");
+        Command("Developer Tools", "Control Spy", ShowControlSpy);
+        Command("Developer Tools", "Element\nHierarchy", ShowElementHierarchyEditor);
+        Command("Developer Tools", "Form\nConverter", ShowFormConverter);
+        Command("Developer Tools", "Shape\nEditor", ShowShapeEditor);
+        Command("Developer Tools", "Style\nBuilder", ShowVisualStyleBuilder);
+        Command("Developer Tools", "Color\nPicker", ShowColorPicker);
+        Command("Developer Tools", "Image\nViewer", ShowImageViewer);
+        Command("Developer Tools", "Message &\nZIP Demo", ShowMessageAndZipDemo);
     }
 }

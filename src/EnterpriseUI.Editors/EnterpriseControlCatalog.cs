@@ -158,18 +158,23 @@ public static class EnterpriseControlRegistry
         new("ShapedForm", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Custom vector polygon/rounded window geometry without standard OS chrome", "navigation-forms-overlays-suite"),
         new("TitleBarControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Draggable caption bar with minimize, maximize/restore, close & custom buttons", "navigation-forms-overlays-suite"),
         new("StatusStripControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Bottom application status bar with spring panels, progress & grip", "navigation-forms-overlays-suite"),
-        new("ThemedMessageBox", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Themed replacement for MessageBox.Show with Details expander & copy support", "navigation-forms-overlays-suite"),
+        new("EnterpriseMessageBox", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Theme-aware standard button sets and icons with expandable details and copy support", "navigation-forms-overlays-suite"),
         new("EnterpriseTaskDialog", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Command links, verification checkbox, expandable footer, progress bar", "navigation-layout-alerts-suite"),
-        new("ColorDialogControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "HSV color wheel, RGB/CMYK/HEX sliders, screen eyedropper & palette swatches", "editors-fluent-validation"),
-        new("FileDialogsSuite", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Themed Explorer file/folder dialogs with breadcrumb, search, details/icons & preview", "navigation-forms-overlays-suite"),
+        new("EnterpriseColorDialog", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "HSV, RGBA and HEX editing, screen eyedropper, preview and palette swatches", "editors-fluent-validation"),
+        new("EnterpriseFileDialog", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Reusable open, save, multi-select and folder dialogs backed by native Explorer navigation", "navigation-forms-overlays-suite"),
         new("ClockControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Vector Analog & Digital clock with timezone offset & smooth second hand", "clock-callout-rangeselector-suite"),
         new("ImageEditorControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Crop, Resize, Rotate, Flip, Brightness/Contrast, Filters & Annotations", "slide-rotator-pips-media-suite"),
-        new("PictureBoxControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Raster & SVG viewer with Zoom, Pan, Fit-to-View & mini toolbar", "slide-rotator-pips-media-suite"),
+        new("EnterprisePictureBoxControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Raster viewer with actual-size, custom and fit zoom, panning, wheel zoom and mini toolbar", "slide-rotator-pips-media-suite"),
         new("EnterpriseWebCam / EnterpriseWebCamControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Camera feed, Snapshot capture, Video recording state & device selector", "slide-rotator-pips-media-suite"),
         new("EnterpriseVirtualKeyboardControl", "Forms, Dialogs & Media", "docs/Controls/InteractiveControls.md", "QWERTY, numeric, symbol and custom layouts, shift and caps lock, key repeat, types into a control or the focused window", "interactive-virtualkeyboard"),
         new("ValidationProviderControl", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Declarative validation rules attachable to any control with error icons", "dataentry-filter-cards-suite"),
         new("ShortcutsManager", "Forms, Dialogs & Media", "docs/Controls/UnifiedControlsCatalog.md", "Global and local keyboard chord/shortcut dispatcher (Ctrl+K, Ctrl+S)", "navigation-forms-overlays-suite"),
-        new("PresentationToolsSuite", "Forms, Dialogs & Media", "/tools/controlspy/controlspy", "Runtime Visual Tree Spy, Vector Shape Editor, Theme Builder & HTML Markup Editor", "navigation-forms-overlays-suite")
+        new("EnterpriseControlSpy", "Developer Tools", "docs/Tools/DeveloperTools.md", "Inspect a live control tree and edit selected control properties", "developer-control-spy"),
+        new("EnterpriseFormConverter", "Developer Tools", "docs/Tools/DeveloperTools.md", "Convert form types while preserving window settings and child controls", "developer-form-converter"),
+        new("EnterpriseElementHierarchyEditor", "Developer Tools", "docs/Tools/DeveloperTools.md", "Navigate nested controls and edit their properties", "developer-element-hierarchy"),
+        new("EnterpriseShapeEditor", "Developer Tools", "docs/Tools/DeveloperTools.md", "Create vector paths by adding, moving, removing, and curving vertices", "developer-shape-editor"),
+        new("EnterpriseVisualStyleBuilder", "Developer Tools", "docs/Tools/DeveloperTools.md", "Edit inherited theme tokens and import or export theme documents", "developer-style-builder"),
+        new("EnterpriseZipLibrary", "Document Processing", "docs/Tools/DeveloperTools.md", "Create, list, and extract stream-based ZIP archives with path traversal protection", "documents-zip-library")
     };
 }
 
