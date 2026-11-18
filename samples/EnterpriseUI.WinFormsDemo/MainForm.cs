@@ -29,12 +29,12 @@ public partial class MainForm : Form, IThemeableControl
     private readonly ComboBox _cmbThemes=new ComboBox();
     private readonly Panel _demoHost=new Panel();
     private readonly EnterprisePropertyInspectorControl _inspector=new EnterprisePropertyInspectorControl();
-    private readonly StatusStrip _statusStrip=new StatusStrip();
-    private readonly ToolStripStatusLabel _statusTheme;
-    private readonly ToolStripStatusLabel _statusDemo;
-    private readonly ToolStripStatusLabel _statusMemory;
-    private readonly ToolStripStatusLabel _statusLatency;
-    private readonly ToolStripStatusLabel _statusA11y;
+    private readonly EnterpriseStatusStrip _statusStrip=new EnterpriseStatusStrip();
+    private readonly EnterpriseStatusPanel _statusTheme;
+    private readonly EnterpriseStatusPanel _statusDemo;
+    private readonly EnterpriseStatusPanel _statusMemory;
+    private readonly EnterpriseStatusPanel _statusLatency;
+    private readonly EnterpriseStatusPanel _statusA11y;
     private readonly System.Windows.Forms.Timer _memoryMonitorTimer=new System.Windows.Forms.Timer();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
     private DemoItem? _currentDemo;
@@ -57,20 +57,13 @@ public partial class MainForm : Form, IThemeableControl
         DoubleBuffered = true;
         _ribbon.BackstageClicked += ShowBackstageDialog;
         _ribbon.TabChanged += OnRibbonTabChanged;
-        _statusTheme = new ToolStripStatusLabel { Text = $"Theme: {_theme.Name}  |" };
-        _statusDemo = new ToolStripStatusLabel { Text = "Demo: Ready  |" };
-        _statusMemory = new ToolStripStatusLabel { Text = "RAM: 0.0 MB  |" };
-        _statusLatency = new ToolStripStatusLabel { Text = "Latency: 0 ms  |" };
-        _statusA11y = new ToolStripStatusLabel { Text = "Accessibility: verification required" };
+        _statusTheme = new EnterpriseStatusPanel("theme", $"Theme: {_theme.Name}") { Width = 210 };
+        _statusDemo = new EnterpriseStatusPanel("demo", "Demo: Ready") { Spring = true };
+        _statusMemory = new EnterpriseStatusPanel("memory", "RAM: 0.0 MB") { Width = 150 };
+        _statusLatency = new EnterpriseStatusPanel("latency", "Latency: 0 ms") { Width = 150 };
+        _statusA11y = new EnterpriseStatusPanel("a11y", "Accessibility: verification required") { Width = 290 };
 
-        _statusStrip.Items.AddRange(new ToolStripItem[]
-        {
-            _statusTheme,
-            _statusDemo,
-            _statusMemory,
-            _statusLatency,
-            _statusA11y
-        });
+        foreach (var panel in new[] { _statusTheme, _statusDemo, _statusMemory, _statusLatency, _statusA11y }) _statusStrip.Panels.Add(panel);
 
         // 3. Main Split Container (Left Nav | Center & Right Inspector)
         _mainSplit.            Dock = DockStyle.Fill;
@@ -265,7 +258,7 @@ public partial class MainForm : Form, IThemeableControl
         _memoryMonitorTimer.Interval = 1000 ;
         _memoryMonitorTimer.Tick += (_, _) =>
         {
-            _statusMemory.Text = $"RAM: {DemoAnalyticsTracker.Instance.GetFormattedMemory()}  |";
+            _statusMemory.Text = $"RAM: {DemoAnalyticsTracker.Instance.GetFormattedMemory()}";
         };
         _memoryMonitorTimer.Start();
         RegisterRibbonActions();
@@ -370,7 +363,7 @@ public partial class MainForm : Form, IThemeableControl
     public void OnThemeChanged(ITheme newTheme)
     {
         _theme = newTheme;
-        _statusTheme.Text = $"Theme: {newTheme.Name}  |";
+        _statusTheme.Text = $"Theme: {newTheme.Name}";
         if (_cmbThemes.SelectedItem?.ToString() != newTheme.Name)
         {
             _cmbThemes.SelectedIndexChanged -= OnThemeComboChanged;
@@ -548,8 +541,8 @@ public partial class MainForm : Form, IThemeableControl
         _cmbRecent.SelectedIndex = 0;
         _cmbRecent.SelectedIndexChanged += OnRecentSelected;
 
-        _statusDemo.Text = $"Demo: {demo.Title}  |";
-        _statusLatency.Text = $"Latency: {DemoAnalyticsTracker.Instance.LastRenderTimeMs} ms  |";
+        _statusDemo.Text = $"Demo: {demo.Title}";
+        _statusLatency.Text = $"Latency: {DemoAnalyticsTracker.Instance.LastRenderTimeMs} ms";
 
         _inspector.InspectObject(view, demo);
         _inspector.LogEvent($"Loaded demo view: {demo.Id}");
@@ -593,12 +586,12 @@ public partial class MainForm : Form, IThemeableControl
 
     private void ShowBackstageDialog()
     {
-        using var dlg = new Form
+        using var dlg = new EnterpriseForm
         {
             Text = "EnterpriseUI - System Backstage & Architecture Diagnostics",
-            Size = new Size(680, 520),
+            ClientSize = new Size(680, 520 + 36),
             StartPosition = FormStartPosition.CenterParent,
-            FormBorderStyle = FormBorderStyle.FixedDialog,
+            AllowResize = false,
             MaximizeBox = false,
             MinimizeBox = false,
             Font = new Font("Segoe UI", 9.5f)
@@ -656,7 +649,17 @@ public partial class MainForm : Form, IThemeableControl
             DialogResult = DialogResult.OK
         };
 
+        var btnAbout = new EnterpriseButtonControl { Text = "About EnterpriseUI", Variant = EnterpriseButtonVariant.Outline, Dock = DockStyle.Bottom, Height = 40 };
+        btnAbout.Click += (_, _) =>
+        {
+            using var about = new EnterpriseAboutBox { ProductName = "EnterpriseUI Demo Center", Description = "Runnable demonstrations of the EnterpriseUI Windows Forms suite.", LinkUrl = "https://github.com/muhammad-aftab93/EnterpriseUI" };
+            about.LoadFromAssembly(typeof(MainForm).Assembly);
+            about.ProductName = "EnterpriseUI Demo Center";
+            about.ShowDialog(dlg);
+        };
+
         dlg.Controls.Add(tabs);
+        dlg.Controls.Add(btnAbout);
         dlg.Controls.Add(btnClose);
         dlg.ShowDialog(this);
     }

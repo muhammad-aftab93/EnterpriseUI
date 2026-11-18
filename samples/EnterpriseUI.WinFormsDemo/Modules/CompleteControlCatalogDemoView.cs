@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -13,7 +13,7 @@ using EnterpriseUI.WinFormsDemo.Infrastructure;
 
 namespace EnterpriseUI.WinFormsDemo.Modules;
 
-public class CompleteControlCatalogDemoView : UserControl
+public partial class CompleteControlCatalogDemoView : UserControl
 {
 
     private static readonly object[] CachedValues1 = new object[]
@@ -77,7 +77,7 @@ public class CompleteControlCatalogDemoView : UserControl
 
         var btnLaunchSelected = new Button
         {
-            Text = "🚀 Open Selected Control Demo",
+            Text = "ðŸš€ Open Selected Control Demo",
             Size = new Size(210, 28),
             FlatStyle = FlatStyle.Flat,
             BackColor = Color.FromArgb(0, 120, 212),
@@ -179,7 +179,7 @@ public class CompleteControlCatalogDemoView : UserControl
             AutoSize = false
         };
         var _rangeSelector = new EnterpriseRangeSelectorControl();
-        var tabClockCallout = new TabPage("🕒 Clock & RangeSelector");
+        var tabClockCallout = new TabPage("ðŸ•’ Clock & RangeSelector");
         var clockPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
 
         _clock.Location = new Point(16, 14);
@@ -222,79 +222,4 @@ public class CompleteControlCatalogDemoView : UserControl
         return tabClockCallout;
     }
 
-    private TabPage CreateFormsPage()
-    {
-        var tabFormsOverlays = new TabPage("🪟 NavigationView, Forms, Overlays & Tools");
-        var formsPanel = new FlowLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(14), AutoScroll = true };
-
-        var grpNavModes = new GroupBox
-        {
-            Text = "EnterpriseNavigationView & EnterpriseOfficeNavigationBar",
-            Size = new Size(470, 165),
-            Font = new Font("Segoe UI", 9f, FontStyle.Bold)
-        };
-        var lblNavState = new Label { Text = "NavigationView DisplayMode: Expanded (Hamburger Rail Active)\nOfficeNavigationBar Items: Mail (12) | Calendar | Contacts | Tasks", Location = new Point(14, 28), AutoSize = true };
-        var btnNavCompact = new Button { Text = "☰ Toggle Compact / Expanded", Location = new Point(14, 82), Size = new Size(210, 30), FlatStyle = FlatStyle.Flat };
-        var btnOfficePeek = new Button { Text = "👁 Show OfficeNav Peek Window", Location = new Point(234, 82), Size = new Size(215, 30), FlatStyle = FlatStyle.Flat };
-        btnNavCompact.Click += (_, _) =>
-        {
-            lblNavState.Text = "NavigationView DisplayMode: Compact (48px Icon Rail Active)\nOfficeNavigationBar: Synchronized with Selected EnterprisePageView";
-            _baseView.LogEvent("NavigationView.DisplayMode", "Compact");
-        };
-        btnOfficePeek.Click += (_, _) =>
-        {
-            lblNavState.Text = "OfficeNavigationBar PeekPopup: Showing 'Calendar: 4 Upcoming Executive Briefings'";
-            _baseView.LogEvent("OfficeNavigationBar.PeekPopup", "Calendar Preview Shown");
-        };
-        grpNavModes.Controls.AddRange(new Control[] { lblNavState, btnNavCompact, btnOfficePeek });
-
-        var grpSplashOverlay = new GroupBox
-        {
-            Text = "EnterpriseSplashScreen, EnterpriseOverlay, EnterpriseFlyout & EnterpriseToastNotification",
-            Size = new Size(490, 165),
-            Font = new Font("Segoe UI", 9f, FontStyle.Bold)
-        };
-        var lblOverlayState = new Label { Text = "Ready to trigger non-blocking Overlays, Flyouts, Splash & Toast Notifications", Location = new Point(14, 28), AutoSize = true };
-        var btnTriggerOverlay = new Button { Text = "⏳ Show Busy Overlay", Location = new Point(14, 72), Size = new Size(145, 30), FlatStyle = FlatStyle.Flat };
-        var btnTriggerFlyout = new Button { Text = "📥 Open Slide Flyout", Location = new Point(168, 72), Size = new Size(145, 30), FlatStyle = FlatStyle.Flat };
-        var btnTriggerToast = new Button { Text = "🔔 Send OS Toast & Tray Badge", Location = new Point(322, 72), Size = new Size(155, 30), FlatStyle = FlatStyle.Flat };
-        var btnTaskbarProgress = new Button { Text = "📊 Set TaskbarButton Progress (85%)", Location = new Point(14, 112), Size = new Size(240, 30), FlatStyle = FlatStyle.Flat };
-        var btnControlSpy = new Button { Text = "🔍 Launch ControlSpy & ShapeEditor", Location = new Point(264, 112), Size = new Size(213, 30), FlatStyle = FlatStyle.Flat };
-
-        btnTriggerOverlay.Click += (_, _) =>
-        {
-            lblOverlayState.Text = "EnterpriseOverlay Active: Host viewport dimmed at 45% opacity with rotating EnterpriseWaitingBar";
-            _baseView.LogEvent("EnterpriseOverlay.Show", "Dimmer + Busy Indicator active");
-        };
-        btnTriggerFlyout.Click += (_, _) =>
-        {
-            lblOverlayState.Text = "EnterpriseFlyout Active: Interactive modal slide-in drawer opened over workspace";
-            _baseView.LogEvent("EnterpriseFlyout.Show", "Flyout drawer opened");
-        };
-        btnTriggerToast.Click += (_, _) =>
-        {
-            lblOverlayState.Text = "EnterpriseToastNotification & EnterpriseNotifyIcon: Dispatched toast + Tray Icon Badge = 3";
-            _baseView.LogEvent("ToastNotificationManager.Show", "Toast + NotifyIcon Badge=3");
-        };
-        btnTaskbarProgress.Click += (_, _) =>
-        {
-            lblOverlayState.Text = "EnterpriseTaskbarButton: Windows Taskbar Progress State = Normal (85% Complete)";
-            _baseView.LogEvent("TaskbarButton.Progress", "85% Normal");
-        };
-        btnControlSpy.Click += (_, _) =>
-        {
-            lblOverlayState.Text = "ControlSpy & ShapeEditor: Inspected 118 controls • Bezier Shape Path Validated";
-            _baseView.LogEvent("PresentationTools.ControlSpy", "Visual tree hierarchy inspected");
-        };
-
-        grpSplashOverlay.Controls.AddRange(new Control[]
-        {
-            lblOverlayState, btnTriggerOverlay, btnTriggerFlyout, btnTriggerToast, btnTaskbarProgress, btnControlSpy
-        });
-
-        formsPanel.Controls.AddRange(new Control[] { grpNavModes, grpSplashOverlay });
-        tabFormsOverlays.Controls.Add(formsPanel);
-        return tabFormsOverlays;
-    }
 }
-

@@ -49,17 +49,27 @@ public partial class MainForm
 
     private void ShowShapeEditor()
     {
-        using var window = new Form
+        using var window = new EnterpriseForm
         {
             Text = "Shape Editor",
-            ClientSize = new Size(560, 420),
+            ClientSize = new Size(560, 420 + 36 + 44),
             StartPosition = FormStartPosition.CenterParent
         };
         var editor = new EnterpriseShapeEditor { Dock = DockStyle.Fill };
         editor.SetPoints(new[] { new PointF(0.5f, 0.1f), new PointF(0.9f, 0.5f), new PointF(0.5f, 0.9f), new PointF(0.1f, 0.5f) });
         editor.SetSegmentCurved(0, true);
         editor.SetSegmentCurved(2, true);
+        var preview = new EnterpriseButtonControl { Text = "Preview as window shape", Dock = DockStyle.Bottom, Height = 44 };
+        preview.Click += (_, _) =>
+        {
+            using var shaped = new EnterpriseShapedForm { ClientSize = new Size(440, 340), StartPosition = FormStartPosition.CenterParent, KeyPreview = true };
+            shaped.SetShape(editor);
+            shaped.Controls.Add(new Label { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Text = "A window with the outline you drew.\nDrag it by its body; Esc closes." });
+            shaped.KeyDown += (_, e) => { if (e.KeyCode == Keys.Escape) shaped.Close(); };
+            shaped.ShowDialog(window);
+        };
         window.Controls.Add(editor);
+        window.Controls.Add(preview);
         window.ShowDialog(this);
     }
 
@@ -75,7 +85,7 @@ public partial class MainForm
         var current = ColorTranslator.FromHtml(ThemeManager.Instance.CurrentTheme.GetToken(DesignTokens.Primary, "#275D73"));
         using var picker = new EnterpriseColorDialog { SelectedColor = current };
         if (picker.ShowDialog(this) == DialogResult.OK)
-            _statusDemo.Text = $"Picked color: {picker.HexValue}  |";
+            _statusDemo.Text = $"Picked color: {picker.HexValue}";
     }
 
     private void ShowImageViewer()
@@ -88,10 +98,10 @@ public partial class MainForm
         };
         if (files.ShowOpenDialog(this) != DialogResult.OK) return;
 
-        using var window = new Form
+        using var window = new EnterpriseForm
         {
             Text = Path.GetFileName(files.FileName),
-            ClientSize = new Size(900, 650),
+            ClientSize = new Size(900, 650 + 36),
             StartPosition = FormStartPosition.CenterParent
         };
         var viewer = new EnterprisePictureBoxControl { Dock = DockStyle.Fill };
