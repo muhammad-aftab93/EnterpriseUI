@@ -147,6 +147,13 @@ public class EnterpriseDataEntryControl : EnterpriseScrollableControl
             }
         }
 
+        cell.Editor.AccessibleName = field.Label;
+        cell.Editor.AccessibleDescription = field.Description;
+        if (cell.Editor is EnterpriseInputControl inputControl)
+        {
+            inputControl.InnerTextBox.AccessibleName = field.Label;
+            inputControl.InnerTextBox.AccessibleDescription = field.Description;
+        }
         Controls.Add(cell.Editor);
         cell.Editor.Enter += (_, _) => EnsureVisible(new Rectangle(0, cell.Bounds.Y, 1, cell.Bounds.Height + ButtonBarPx));
         return cell;

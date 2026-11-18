@@ -153,7 +153,7 @@ public class EnterpriseCalloutControl : Component
 
     private void Open(Rectangle anchor)
     {
-        _window = new CalloutWindow(this, anchor);
+        _window = new CalloutWindow(this, anchor, _target?.DeviceDpi ?? 96);
         _window.Open();
         Opened?.Invoke(this, EventArgs.Empty);
     }
@@ -240,13 +240,13 @@ internal sealed class CalloutWindow : LayeredPopupForm
     private bool _closing;
     private bool _finished;
 
-    public CalloutWindow(EnterpriseCalloutControl owner, Rectangle anchor)
+    public CalloutWindow(EnterpriseCalloutControl owner, Rectangle anchor, int targetDpi)
     {
         _owner = owner;
         _anchor = anchor;
         _colors = ControlColors.FromTheme(ThemeManager.Instance.CurrentTheme);
-        _scale = DeviceDpi / 96f;
-        var font = new Font("Segoe UI", 9f);
+        _scale = targetDpi / 96f;
+        var font = new Font("Segoe UI", 9f * _scale);
         _font = font;
         Font = font;
         _content = new PopupContent(font, _colors, _scale)

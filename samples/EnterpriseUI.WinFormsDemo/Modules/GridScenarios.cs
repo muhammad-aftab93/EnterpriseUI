@@ -68,16 +68,16 @@ public static partial class GridScenarios
     public static EnterpriseDataGrid<GridDemoRecord> RecordGrid(IEnumerable<GridDemoRecord> data, string label = "Sales records")
     {
         var grid = new EnterpriseDataGrid<GridDemoRecord> { Dock = DockStyle.Fill, AriaLabel = label, ItemHeight = 28 };
-        grid.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 90, ReadOnly = true });
-        grid.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 180 });
-        grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 170 });
-        grid.Columns.Add(new GridColumn { Field = "Region", Title = "Region", Width = 110 });
-        grid.Columns.Add(new GridColumn { Field = "UnitPrice", Title = "Unit Price", FormatString = "C2", Width = 100, Alignment = ColumnTextAlignment.Right });
-        grid.Columns.Add(new GridColumn { Field = "Quantity", Title = "Qty", Width = 70, Alignment = ColumnTextAlignment.Right });
-        grid.Columns.Add(new GridColumn { Field = "Total", Title = "Gross Amount", FormatString = "C2", Width = 110, Alignment = ColumnTextAlignment.Right, ReadOnly = true });
-        grid.Columns.Add(new GridColumn { Field = "Priority", Title = "Priority", Width = 90, ComboItems = CachedValues1 });
-        grid.Columns.Add(new GridColumn { Field = "Status", Title = "Status", Width = 100 });
-        grid.Columns.Add(new GridColumn { Field = "Timestamp", Title = "Date", FormatString = "d", Width = 100 });
+        grid.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 130, ReadOnly = true });
+        grid.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 205 });
+        grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 185 });
+        grid.Columns.Add(new GridColumn { Field = "Region", Title = "Region", Width = 120 });
+        grid.Columns.Add(new GridColumn { Field = "UnitPrice", Title = "Unit Price", FormatString = "C2", Width = 130, Alignment = ColumnTextAlignment.Right });
+        grid.Columns.Add(new GridColumn { Field = "Quantity", Title = "Qty", Width = 80, Alignment = ColumnTextAlignment.Right });
+        grid.Columns.Add(new GridColumn { Field = "Total", Title = "Gross Amount", FormatString = "C2", Width = 160, Alignment = ColumnTextAlignment.Right, ReadOnly = true });
+        grid.Columns.Add(new GridColumn { Field = "Priority", Title = "Priority", Width = 100, ComboItems = CachedValues1 });
+        grid.Columns.Add(new GridColumn { Field = "Status", Title = "Status", Width = 110 });
+        grid.Columns.Add(new GridColumn { Field = "Timestamp", Title = "Date", FormatString = "d", Width = 130 });
         grid.DataSource = data;
         return grid;
     }

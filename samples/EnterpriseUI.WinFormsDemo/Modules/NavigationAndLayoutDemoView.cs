@@ -34,7 +34,7 @@ public class NavigationAndLayoutDemoView : UserControl
     public NavigationAndLayoutDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
@@ -116,7 +116,7 @@ public class NavigationAndLayoutDemoView : UserControl
             using var textBrush = new SolidBrush(Color.FromArgb(40, 44, 52));
             using var whiteBrush = new SolidBrush(Color.White);
             using var linePen = new Pen(Color.FromArgb(200, 205, 212), 3f);
-            using var boldFont = new Font("Segoe UI", 8.5f, FontStyle.Bold);
+            using var boldFont = new Font("Segoe UI", 9f, FontStyle.Bold);
 
             for (int i = 0; i < count; i++)
             {
@@ -218,7 +218,7 @@ public class NavigationAndLayoutDemoView : UserControl
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             using var headerFont = new Font("Segoe UI", 10f, FontStyle.Bold);
             using var titleFont = new Font("Segoe UI", 9.5f, FontStyle.Bold);
-            using var bodyFont = new Font("Segoe UI", 8.75f);
+            using var bodyFont = new Font("Segoe UI", 9f);
             using var whiteBrush = new SolidBrush(Color.White);
             using var fgBrush = new SolidBrush(Color.FromArgb(40, 44, 52));
 
@@ -270,9 +270,9 @@ public class NavigationAndLayoutDemoView : UserControl
         };
         var lblWizTitle = new Label { Text = _wizardModel.SelectedPage?.Title, Location = new Point(16, 28), AutoSize = true, Font = new Font("Segoe UI", 10.5f, FontStyle.Bold), ForeColor = Color.FromArgb(0, 102, 180) };
         var lblWizDesc = new Label { Text = _wizardModel.SelectedPage?.HeaderDescription, Location = new Point(16, 56), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Regular) };
-        var btnWizPrev = new Button { Text = "◀ Back", Location = new Point(16, 96), Size = new Size(95, 30), FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 9f) };
-        var btnWizNext = new Button { Text = "Next ▶", Location = new Point(118, 96), Size = new Size(95, 30), FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 9f) };
-        var btnWizFinish = new Button { Text = "✓ Finish", Location = new Point(220, 96), Size = new Size(95, 30), FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 9f) };
+        var btnWizPrev = new Button { Text = "◀ Back", Location = new Point(16, 96), Size = new Size(95, 30), FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 10f) };
+        var btnWizNext = new Button { Text = "Next ▶", Location = new Point(118, 96), Size = new Size(95, 30), FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 10f) };
+        var btnWizFinish = new Button { Text = "✓ Finish", Location = new Point(220, 96), Size = new Size(95, 30), FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 10f) };
 
         void SyncWizardUI()
         {

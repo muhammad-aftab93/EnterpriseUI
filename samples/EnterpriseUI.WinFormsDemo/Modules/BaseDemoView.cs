@@ -84,7 +84,7 @@ public class BaseDemoView : UserControl, IThemeableControl
     public BaseDemoView()
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _splitter.            Dock = DockStyle.Fill;
 
@@ -110,14 +110,14 @@ public class BaseDemoView : UserControl, IThemeableControl
             Text = "Demonstration Scenario:",
             AutoSize = true,
             Padding = new Padding(2, 5, 4, 0),
-            Font = new Font("Segoe UI", 8.75f, FontStyle.Bold)
+            Font = new Font("Segoe UI", 9f, FontStyle.Bold)
         };
 
         _cmbExampleMode.            DropDownStyle = ComboBoxStyle.DropDownList;
 
         _cmbExampleMode.            Width = 195;
 
-        _cmbExampleMode.            Font = new Font("Segoe UI", 8.75f)
+        _cmbExampleMode.            Font = new Font("Segoe UI", 9f)
 ;
         _cmbExampleMode.Items.AddRange(CachedValues1);
         _cmbExampleMode.SelectedIndex = 0;

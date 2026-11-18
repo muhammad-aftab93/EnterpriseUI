@@ -402,7 +402,8 @@ internal sealed class MarkupLayout : IDisposable
         {
             var bounds = new Rectangle(origin.X + piece.Bounds.X, origin.Y + piece.Bounds.Y, piece.Bounds.Width, piece.Bounds.Height);
             if (piece.Back is { } back) Chrome.FillRounded(g, Rectangle.Inflate(bounds, 2, 0), back, 3);
-            TextRenderer.DrawText(g, piece.Text, piece.Font, bounds, overrideColor ?? piece.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.NoClipping);
+            TextRenderer.DrawText(g, piece.Text, piece.Font, bounds, overrideColor ?? piece.Color,
+                TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.NoClipping);
         }
     }
 

@@ -29,7 +29,7 @@ public partial class CompleteControlCatalogDemoView : UserControl
     public CompleteControlCatalogDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
@@ -37,7 +37,7 @@ public partial class CompleteControlCatalogDemoView : UserControl
 
         _tabs.            Dock = DockStyle.Fill;
 
-        _tabs.            Font = new Font("Segoe UI", 9f);
+        _tabs.            Font = new Font("Segoe UI", 10f);
 
         _tabs.            Padding = new Point(8, 4)
 ;
@@ -99,7 +99,7 @@ public partial class CompleteControlCatalogDemoView : UserControl
             View = View.Details,
             FullRowSelect = true,
             GridLines = true,
-            Font = new Font("Segoe UI", 9f)
+            Font = new Font("Segoe UI", 10f)
         };
         lvCatalog.Columns.Add("Component", 200);
         lvCatalog.Columns.Add("EnterpriseUI Implementation", 250);

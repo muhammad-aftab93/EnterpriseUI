@@ -1,11 +1,14 @@
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
+using EnterpriseUI.Abstractions.Theming;
+using EnterpriseUI.Theming;
 
 namespace EnterpriseUI.WinForms;
 
 [ToolboxItem(false)]
 public sealed class EnterpriseColorDialog : Form
 {
+    private readonly EventHandler<ITheme> _themeHandler;
     private readonly TrackBar _hue = new() { Minimum = 0, Maximum = 359, TickFrequency = 30 };
     private readonly TrackBar _saturation = new() { Minimum = 0, Maximum = 100, TickFrequency = 10 };
     private readonly TrackBar _brightness = new() { Minimum = 0, Maximum = 100, TickFrequency = 10 };
@@ -20,13 +23,15 @@ public sealed class EnterpriseColorDialog : Form
     public EnterpriseColorDialog()
     {
         Text = "Select Color";
-        FormBorderStyle = FormBorderStyle.FixedDialog;
+        AutoScaleMode = AutoScaleMode.Dpi;
+        FormBorderStyle = FormBorderStyle.Sizable;
         StartPosition = FormStartPosition.CenterParent;
-        MaximizeBox = false;
+        MaximizeBox = true;
         MinimizeBox = false;
         ShowInTaskbar = false;
         ClientSize = new Size(520, 430);
-        Font = new Font("Segoe UI", 9f);
+        MinimumSize = new Size(480, 380);
+        Font = new Font("Segoe UI", 10f);
 
         var root = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(12), ColumnCount = 2, RowCount = 5 };
         root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62));
@@ -111,6 +116,9 @@ public sealed class EnterpriseColorDialog : Form
 
         AddPaletteColors();
         UpdateEditorsFromColor(_selectedColor);
+        ApplyTheme(ThemeManager.Instance.CurrentTheme);
+        _themeHandler = (_, theme) => OnThemeChanged(theme);
+        ThemeManager.Instance.ThemeChanged += _themeHandler;
     }
 
     public Color SelectedColor
@@ -214,7 +222,7 @@ public sealed class EnterpriseColorDialog : Form
     private void AddSwatch(Color color)
     {
         if (_palette.Controls.Cast<Control>().OfType<Button>().Any(button => button.BackColor.ToArgb() == color.ToArgb())) return;
-        var swatch = new Button { BackColor = color, Size = new Size(25, 25), Margin = new Padding(2), FlatStyle = FlatStyle.Flat, AccessibleName = $"Select {color.Name}" };
+        var swatch = new Button { BackColor = color, Tag = color, Size = new Size(25, 25), Margin = new Padding(2), FlatStyle = FlatStyle.Flat, AccessibleName = $"Select {color.Name}" };
         swatch.FlatAppearance.BorderColor = Color.FromArgb(120, 120, 120);
         swatch.Click += (_, _) => SelectedColor = color;
         _palette.Controls.Add(swatch);
@@ -257,6 +265,57 @@ public sealed class EnterpriseColorDialog : Form
         _hex.Text = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         _preview.BackColor = color;
         _updating = false;
+    }
+
+    private void OnThemeChanged(ITheme theme)
+    {
+        if (IsDisposed) return;
+        if (IsHandleCreated && InvokeRequired)
+        {
+            try { BeginInvoke(new Action(() => ApplyTheme(theme))); } catch (InvalidOperationException) { }
+            return;
+        }
+
+        ApplyTheme(theme);
+    }
+
+    private void ApplyTheme(ITheme theme)
+    {
+        var highContrast = SystemInformation.HighContrast;
+        var surface = highContrast ? SystemColors.Window : EnterpriseThemeEngine.GetColor(theme, DesignTokens.Surface, SystemColors.Window);
+        var alternate = highContrast ? SystemColors.Window : EnterpriseThemeEngine.GetColor(theme, DesignTokens.SurfaceAlt, SystemColors.Control);
+        var text = highContrast ? SystemColors.WindowText : EnterpriseThemeEngine.GetColor(theme, DesignTokens.TextColor, SystemColors.WindowText);
+        var border = highContrast ? SystemColors.WindowText : EnterpriseThemeEngine.GetColor(theme, DesignTokens.BorderColor, SystemColors.ControlDark);
+
+        void Apply(Control control)
+        {
+            if (ReferenceEquals(control, _preview))
+            {
+                control.ForeColor = text;
+                return;
+            }
+
+            if (control is Button { Tag: Color swatchColor } swatch)
+            {
+                swatch.BackColor = swatchColor;
+                swatch.ForeColor = FormChrome.TextOn(swatchColor);
+                swatch.FlatAppearance.BorderColor = border;
+                return;
+            }
+
+            control.BackColor = control is TextBox or NumericUpDown ? alternate : surface;
+            control.ForeColor = text;
+            if (control is Button button)
+            {
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderColor = border;
+            }
+            foreach (Control child in control.Controls) Apply(child);
+        }
+
+        Apply(this);
+        _preview.BackColor = SelectedColor;
+        Invalidate(true);
     }
 
     private void ApplyHex()
@@ -313,5 +372,11 @@ public sealed class EnterpriseColorDialog : Form
         if (hue < 0) hue += 360;
         saturation = maximum == 0 ? 0 : delta / maximum;
         value = maximum;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing) ThemeManager.Instance.ThemeChanged -= _themeHandler;
+        base.Dispose(disposing);
     }
 }

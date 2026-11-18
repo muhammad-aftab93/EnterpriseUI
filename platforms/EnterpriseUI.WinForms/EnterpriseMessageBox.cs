@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Theming;
 
 namespace EnterpriseUI.WinForms;
@@ -7,6 +8,7 @@ namespace EnterpriseUI.WinForms;
 [ToolboxItem(false)]
 public sealed class EnterpriseMessageBox : Form
 {
+    private readonly EventHandler<ITheme> _themeHandler;
     private readonly Label _message = new() { AutoSize = true, MaximumSize = new Size(520, 0), Margin = new Padding(0) };
     private readonly Label _icon = new() { TextAlign = ContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 18, FontStyle.Bold), Size = new Size(44, 44), Margin = new Padding(0, 0, 14, 0) };
     private readonly TextBox _details = new() { Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Both, WordWrap = false, Dock = DockStyle.Fill };
@@ -59,6 +61,8 @@ public sealed class EnterpriseMessageBox : Form
         root.Controls.Add(actions, 0, 2);
         Controls.Add(root);
         ApplyTheme();
+        _themeHandler = (_, theme) => OnThemeChanged(theme);
+        ThemeManager.Instance.ThemeChanged += _themeHandler;
         ConfigureIcon();
         ConfigureButtons(MessageBoxButtons.OK);
         UpdateDetailsAvailability();
@@ -135,15 +139,33 @@ public sealed class EnterpriseMessageBox : Form
         if (CancelButton is null && buttons is MessageBoxButtons.OK or MessageBoxButtons.OKCancel) CancelButton = AcceptButton as IButtonControl;
     }
 
-    private void ApplyTheme()
+    private void OnThemeChanged(ITheme theme)
     {
-        var theme = ThemeManager.Instance.CurrentTheme;
+        if (IsDisposed) return;
+        if (IsHandleCreated && InvokeRequired)
+        {
+            try { BeginInvoke(new Action(() => ApplyTheme(theme))); } catch (InvalidOperationException) { }
+            return;
+        }
+
+        ApplyTheme(theme);
+    }
+
+    private void ApplyTheme(ITheme? theme = null)
+    {
+        theme ??= ThemeManager.Instance.CurrentTheme;
         BackColor = EnterpriseThemeEngine.GetColor(theme, DesignTokens.Surface, SystemColors.Window);
         ForeColor = EnterpriseThemeEngine.GetColor(theme, DesignTokens.TextColor, SystemColors.WindowText);
         _message.ForeColor = ForeColor;
         _details.BackColor = EnterpriseThemeEngine.GetColor(theme, DesignTokens.SurfaceAlt, SystemColors.Control);
         _details.ForeColor = ForeColor;
         _icon.BackColor = BackColor;
+        var actions = Controls.OfType<TableLayoutPanel>().SingleOrDefault()?.GetControlFromPosition(0, 2) as FlowLayoutPanel;
+        if (actions is not null)
+        {
+            foreach (var button in actions.Controls.OfType<Button>())
+                ApplyButtonStyle(button, button.DialogResult == DefaultResult(Buttons));
+        }
     }
 
     private void ConfigureIcon()
@@ -208,4 +230,10 @@ public sealed class EnterpriseMessageBox : Form
         MessageBoxButtons.AbortRetryIgnore => DialogResult.Retry,
         _ => DialogResult.OK
     };
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing) ThemeManager.Instance.ThemeChanged -= _themeHandler;
+        base.Dispose(disposing);
+    }
 }

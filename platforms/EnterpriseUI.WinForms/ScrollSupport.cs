@@ -26,7 +26,9 @@ public sealed class EnterpriseScrollBar : Control
     {
         Orientation = orientation;
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
-        TabStop = false;
+        TabStop = true;
+        AccessibleRole = AccessibleRole.ScrollBar;
+        AccessibleName = orientation == Orientation.Vertical ? "Vertical scroll bar" : "Horizontal scroll bar";
     }
 
     public Orientation Orientation { get; }
@@ -48,11 +50,61 @@ public sealed class EnterpriseScrollBar : Control
             if (value == _value) return;
             _value = value;
             Invalidate();
+            if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.ValueChange, -1);
             ValueChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
     public event EventHandler? ValueChanged;
+
+    protected override bool IsInputKey(Keys keyData)
+    {
+        var key = keyData & Keys.KeyCode;
+        return key is Keys.Home or Keys.End or Keys.PageUp or Keys.PageDown ||
+            (Vertical ? key is Keys.Up or Keys.Down : key is Keys.Left or Keys.Right) || base.IsInputKey(keyData);
+    }
+
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+        var delta = e.KeyCode switch
+        {
+            Keys.Home => _minimum - _value,
+            Keys.End => MaxValue - _value,
+            Keys.PageUp => -_largeChange,
+            Keys.PageDown => _largeChange,
+            Keys.Up when Vertical => -_smallChange,
+            Keys.Down when Vertical => _smallChange,
+            Keys.Left when !Vertical => -_smallChange,
+            Keys.Right when !Vertical => _smallChange,
+            _ => 0
+        };
+        if (delta == 0) return;
+        Value = (int)Math.Clamp((long)_value + delta, _minimum, MaxValue);
+        e.Handled = true;
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new ScrollBarAccessibleObject(this);
+
+    private sealed class ScrollBarAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseScrollBar _owner;
+
+        public ScrollBarAccessibleObject(EnterpriseScrollBar owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.ScrollBar;
+        public override string? Name { get => _owner.AccessibleName; set => _owner.AccessibleName = value; }
+        public override string? Description => $"{_owner.Orientation} scroll bar, {_owner.Minimum} to {_owner.MaxValue}";
+        public override string? Value
+        {
+            get => _owner.Value.ToString(System.Globalization.CultureInfo.CurrentCulture);
+            set
+            {
+                if (int.TryParse(value, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.CurrentCulture, out var parsed))
+                    _owner.Value = parsed;
+            }
+        }
+    }
 
     public void ApplyColors(ControlColors colors)
     {
@@ -111,6 +163,7 @@ public sealed class EnterpriseScrollBar : Control
     {
         base.OnMouseDown(e);
         if (e.Button != MouseButtons.Left || MaxValue <= _minimum) return;
+        Focus();
 
         var thumb = ThumbRect();
         if (thumb.Contains(e.Location))
@@ -154,8 +207,8 @@ public sealed class EnterpriseScrollBar : Control
 /// <summary>Base of controls whose content can be larger than the view: themed scroll bars, wheel handling and scroll-into-view.</summary>
 public abstract class EnterpriseScrollableControl : EnterpriseControlBase
 {
-    private readonly EnterpriseScrollBar _vertical = new(Orientation.Vertical) { Visible = false };
-    private readonly EnterpriseScrollBar _horizontal = new(Orientation.Horizontal) { Visible = false };
+    private readonly EnterpriseScrollBar _vertical = new(Orientation.Vertical) { Visible = false, TabStop = false };
+    private readonly EnterpriseScrollBar _horizontal = new(Orientation.Horizontal) { Visible = false, TabStop = false };
     private bool _updating;
 
     protected EnterpriseScrollableControl()

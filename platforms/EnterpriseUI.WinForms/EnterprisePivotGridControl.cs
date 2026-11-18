@@ -25,6 +25,7 @@ public class EnterprisePivotGridControl : EnterpriseScrollableControl
     {
         Size = new Size(720, 380);
         AccessibleRole = AccessibleRole.Table;
+        AccessibleName = "Pivot grid";
     }
 
     public event EventHandler<(int Row, int Column)>? CellClick;
@@ -157,11 +158,160 @@ public class EnterprisePivotGridControl : EnterpriseScrollableControl
         return y >= ViewPort.Y + HeaderPx && index >= 0 && index < _result.Rows.Count ? index : -1;
     }
 
+    private (int First, int Last) VisibleRows
+    {
+        get
+        {
+            if (_result is null || RowsArea.Height <= 0) return (0, -1);
+            return (Math.Max(0, ScrollY / RowPx), Math.Min(_result.Rows.Count - 1, (ScrollY + RowsArea.Height) / RowPx));
+        }
+    }
+
     private int ColumnAt(int x)
     {
         if (_result is null || x < ViewPort.X + LabelsPx) return -1;
         var column = (x - ViewPort.X - LabelsPx + ScrollX) / ColPx;
         return column >= 0 && column < _result.ColumnCount ? column : -1;
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new PivotAccessibleObject(this);
+
+    private sealed class PivotAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterprisePivotGridControl _owner;
+
+        public PivotAccessibleObject(EnterprisePivotGridControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.Table;
+        public override string? Description => "Pivot table. Use arrow keys to navigate values; Enter or Space toggles a row group.";
+        public override int GetChildCount() => _owner._result is null ? 0 : 1 + Math.Max(0, _owner.VisibleRows.Last - _owner.VisibleRows.First + 1);
+        public override AccessibleObject? GetChild(int index)
+        {
+            if (index < 0 || index >= GetChildCount()) return null;
+            var visible = _owner.VisibleRows;
+            return new PivotRowAccessibleObject(_owner, this, index == 0 ? -1 : visible.First + index - 1);
+        }
+        public override AccessibleObject? GetFocused()
+        {
+            var visible = _owner.VisibleRows;
+            if (!_owner.Focused || _owner._selectedRow < visible.First || _owner._selectedRow > visible.Last) return null;
+            var row = GetChild(_owner._selectedRow - visible.First + 1)!;
+            return row.GetChild(_owner.LabelColumns + Math.Max(0, _owner._selectedColumn));
+        }
+    }
+
+    private sealed class PivotRowAccessibleObject : AccessibleObject
+    {
+        private readonly EnterprisePivotGridControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _row;
+
+        public PivotRowAccessibleObject(EnterprisePivotGridControl owner, AccessibleObject parent, int row)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.Row;
+        public override string? Name => _row < 0 ? "Column headers" : string.Join(", ", _owner._result!.Rows[_row].Labels.Where(label => !string.IsNullOrWhiteSpace(label)));
+        public override Rectangle Bounds => _owner.IsHandleCreated
+            ? _owner.RectangleToScreen(_row < 0 ? new Rectangle(_owner.ViewPort.X, _owner.ViewPort.Y, _owner.ViewPort.Width, _owner.HeaderPx) : _owner.RowRect(_row))
+            : Rectangle.Empty;
+        public override AccessibleStates State => AccessibleStates.Focusable | (_row >= 0 && _owner._selectedRow == _row ? AccessibleStates.Selected : 0);
+        public override int GetChildCount() => _owner.LabelColumns + (_owner._result?.ColumnCount ?? 0);
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new PivotCellAccessibleObject(_owner, this, _row, index);
+    }
+
+    private sealed class PivotCellAccessibleObject : AccessibleObject
+    {
+        private readonly EnterprisePivotGridControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _row;
+        private readonly int _column;
+
+        public PivotCellAccessibleObject(EnterprisePivotGridControl owner, AccessibleObject parent, int row, int column)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+            _column = column;
+        }
+
+        private bool IsLabel => _column < _owner.LabelColumns;
+        private int ValueColumn => _column - _owner.LabelColumns;
+        private string HeaderText
+        {
+            get
+            {
+                var result = _owner._result;
+                if (result is null) return string.Empty;
+                if (IsLabel) return _column < result.RowCaptions.Count ? result.RowCaptions[_column] : string.Empty;
+                var valueColumn = Math.Clamp(ValueColumn, 0, Math.Max(0, result.ColumnCount - 1));
+                return valueColumn < result.LeafHeaders.Count ? result.LeafHeaders[valueColumn].Text : string.Empty;
+            }
+        }
+
+        private string CellText
+        {
+            get
+            {
+                if (_row < 0 || _owner._result is null || _row >= _owner._result.Rows.Count) return HeaderText;
+                var row = _owner._result.Rows[_row];
+                if (IsLabel) return _column < row.Labels.Length ? row.Labels[_column] : string.Empty;
+                return _owner._result.FormatValue(ValueColumn, row.Values[ValueColumn]);
+            }
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => _row < 0 ? AccessibleRole.ColumnHeader : AccessibleRole.Cell;
+        public override string? Name => _row < 0 ? HeaderText : IsLabel ? $"{HeaderText}: {CellText}" : HeaderText;
+        public override string? Value => CellText;
+        public override Rectangle Bounds
+        {
+            get
+            {
+                if (!_owner.IsHandleCreated) return Rectangle.Empty;
+                var view = _owner.ViewPort;
+                var y = _row < 0 ? view.Y : _owner.RowRect(_row).Y;
+                var height = _row < 0 ? _owner.HeaderPx : _owner.RowPx;
+                var x = IsLabel ? view.X + _column * _owner.S(_owner._labelWidth) : _owner.ColumnX(ValueColumn);
+                var width = IsLabel ? _owner.S(_owner._labelWidth) : _owner.ColPx;
+                return _owner.RectangleToScreen(new Rectangle(x, y, width, height));
+            }
+        }
+        public override AccessibleStates State => _row < 0 ? AccessibleStates.Focusable | AccessibleStates.ReadOnly :
+            AccessibleStates.Focusable | AccessibleStates.Selectable | AccessibleStates.ReadOnly |
+            (_row == _owner._selectedRow && (IsLabel || ValueColumn == _owner._selectedColumn) ? AccessibleStates.Selected : 0);
+        public override string? DefaultAction
+        {
+            get
+            {
+                if (_row < 0) return null;
+                var row = _owner._result!.Rows[_row];
+                return IsLabel && row.GroupKeys.ElementAtOrDefault(_column) is not null
+                    ? row.IsCollapsed ? "Expand" : "Collapse"
+                    : "Select";
+            }
+        }
+
+        public override void DoDefaultAction()
+        {
+            if (_row < 0 || _owner._result is null) return;
+            var key = IsLabel ? _owner._result.Rows[_row].GroupKeys.ElementAtOrDefault(_column) : null;
+            if (key is not null) _owner.ToggleGroup(key);
+            else _owner.Select(_row, IsLabel ? Math.Max(0, _owner._selectedColumn) : ValueColumn);
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (_row < 0) return;
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection))
+                _owner.Select(_row, IsLabel ? Math.Max(0, _owner._selectedColumn) : ValueColumn);
+        }
     }
 
     // ---- painting -----------------------------------------------------------------------

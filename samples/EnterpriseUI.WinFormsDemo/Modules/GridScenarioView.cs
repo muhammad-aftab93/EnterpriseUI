@@ -144,7 +144,7 @@ public sealed class GridScenarioView : UserControl
     public GridScenarioView(DemoItem demo, GridScenario scenario)
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         Base = new BaseDemoView { Dock = DockStyle.Fill };
         Base.BindDemoMetadata(demo);

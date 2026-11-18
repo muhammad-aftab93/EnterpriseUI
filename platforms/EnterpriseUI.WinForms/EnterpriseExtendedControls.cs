@@ -106,7 +106,7 @@ public class EnterpriseClockControl : Control, IThemeableControl
         if (ShowDigitalReadout)
         {
             using var digitalFont = new Font("Consolas", 10f, FontStyle.Bold);
-            using var labelFont = new Font("Segoe UI", 8.25f);
+            using var labelFont = new Font("Segoe UI", 9f);
             using var textBrush = new SolidBrush(text);
             var sf = new StringFormat { Alignment = StringAlignment.Center };
             g.DrawString(now.ToString("HH:mm:ss"), digitalFont, textBrush, new RectangleF(0, Height - 42, Width, 20), sf);
@@ -249,7 +249,7 @@ public class EnterpriseRangeSelectorControl : Control, IThemeableControl
         g.FillRectangle(thumbBrush, startX - 4, plot.Top - 2, 8, plot.Height + 4);
         g.FillRectangle(thumbBrush, endX - 4, plot.Top - 2, 8, plot.Height + 4);
 
-        using var font = new Font("Segoe UI", 8.5f, FontStyle.Bold);
+        using var font = new Font("Segoe UI", 9f, FontStyle.Bold);
         using var textBrush = new SolidBrush(text);
         g.DrawString($"EnterpriseRangeSelector Viewport Window: {SelectionStartPercent:F0}% — {SelectionEndPercent:F0}% (Drag handles to zoom)", font, textBrush, new PointF(16, 4));
     }

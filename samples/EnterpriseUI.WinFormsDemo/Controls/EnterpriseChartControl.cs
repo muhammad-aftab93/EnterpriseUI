@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using EnterpriseUI.Abstractions.Theming;
@@ -22,7 +23,13 @@ public class EnterpriseChartControl : Control, IThemeableControl
     public string? Title
     {
         get => _chart.Title;
-        set { _chart.Title = value ?? string.Empty; Invalidate(); }
+        set
+        {
+            _chart.Title = value ?? string.Empty;
+            AccessibleName = string.IsNullOrWhiteSpace(_chart.Title) ? "Chart" : _chart.Title;
+            if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.NameChange, -1);
+            Invalidate();
+        }
     }
 
     public List<ChartSeries> Series => _chart.Series;
@@ -62,8 +69,10 @@ public class EnterpriseChartControl : Control, IThemeableControl
             true);
 
         DoubleBuffered = true;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         Size = new Size(600, 380);
+        AccessibleRole = AccessibleRole.Graphic;
+        AccessibleName = "Chart";
 
         ThemeManager.Instance.ThemeChanged += (_, newTheme) => OnThemeChanged(newTheme);
     }
@@ -72,6 +81,81 @@ public class EnterpriseChartControl : Control, IThemeableControl
     {
         _theme = newTheme;
         Invalidate();
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new ChartAccessibleObject(this);
+
+    private sealed class ChartAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseChartControl _owner;
+
+        public ChartAccessibleObject(EnterpriseChartControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.Graphic;
+        public override string? Name => string.IsNullOrWhiteSpace(_owner._chart.Title) ? "Chart" : _owner._chart.Title;
+        public override string? Description => string.Join(". ", _owner._chart.Series.Where(series => series.Visible).Select(Summary));
+        public override int GetChildCount() => _owner._chart.Series.Count(series => series.Visible);
+        public override AccessibleObject? GetChild(int index)
+        {
+            var series = _owner._chart.Series.Where(item => item.Visible).ElementAtOrDefault(index);
+            return series is null ? null : new ChartSeriesAccessibleObject(_owner, this, series);
+        }
+
+        private static string Summary(ChartSeries series)
+        {
+            if (series.DataPoints.Count == 0) return $"{series.Name}: no data";
+            var values = series.DataPoints.Select(point => point.Value).ToArray();
+            var first = series.DataPoints[0].Category?.ToString() ?? "first point";
+            var last = series.DataPoints[^1].Category?.ToString() ?? "last point";
+            return $"{series.Name}: {values.Length} points from {first} to {last}, minimum {values.Min().ToString("N2", CultureInfo.CurrentCulture)}, maximum {values.Max().ToString("N2", CultureInfo.CurrentCulture)}";
+        }
+    }
+
+    private sealed class ChartSeriesAccessibleObject : AccessibleObject
+    {
+        private readonly AccessibleObject _parent;
+        private readonly ChartSeries _series;
+
+        public ChartSeriesAccessibleObject(EnterpriseChartControl owner, AccessibleObject parent, ChartSeries series)
+        {
+            Owner = owner;
+            _parent = parent;
+            _series = series;
+        }
+
+        private EnterpriseChartControl Owner { get; }
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.List;
+        public override string? Name => _series.Name;
+        public override string? Value => _series.DataPoints.Count == 0 ? "No data" : $"{_series.DataPoints.Count} points";
+        public override int GetChildCount() => _series.DataPoints.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new ChartPointAccessibleObject(Owner, this, _series, index);
+    }
+
+    private sealed class ChartPointAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseChartControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly ChartSeries _series;
+        private readonly int _index;
+
+        public ChartPointAccessibleObject(EnterpriseChartControl owner, AccessibleObject parent, ChartSeries series, int index)
+        {
+            _owner = owner;
+            _parent = parent;
+            _series = series;
+            _index = index;
+        }
+
+        private ChartDataPoint Point => _series.DataPoints[_index];
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.ListItem;
+        public override string? Name => Point.Label ?? Point.Category?.ToString() ?? $"Point {_index + 1}";
+        public override string? Value => Point.Value.ToString("N2", CultureInfo.CurrentCulture);
+        public override string? Description => Point.High is { } high && Point.Low is { } low
+            ? $"{_series.Name}; high {high.ToString("N2", CultureInfo.CurrentCulture)}, low {low.ToString("N2", CultureInfo.CurrentCulture)}"
+            : _series.Name;
     }
 
     protected override void OnMouseMove(MouseEventArgs e)
@@ -140,17 +224,19 @@ public class EnterpriseChartControl : Control, IThemeableControl
 
         var plotRect = GetPlotRectangle();
         using (var plotBgBrush = new SolidBrush(surfaceAlt))
-        using (var gridPen = new Pen(Color.FromArgb(50, border), 1f) { DashStyle = DashStyle.Dash })
+        using (var gridPen = new Pen(Color.FromArgb(85, border), 1f) { DashStyle = DashStyle.Dash })
         using (var axisPen = new Pen(border, 1.5f))
         {
             g.FillRectangle(plotBgBrush, plotRect);
 
-            // Horizontal Grid Lines
-            int gridSteps = 5;
-            for (int i = 0; i <= gridSteps; i++)
+            if (_chart.YAxis.ShowGridLines)
             {
-                var y = plotRect.Bottom - (plotRect.Height / gridSteps * i);
-                g.DrawLine(gridPen, plotRect.Left, y, plotRect.Right, y);
+                const int gridSteps = 5;
+                for (var i = 0; i <= gridSteps; i++)
+                {
+                    var y = plotRect.Bottom - plotRect.Height / gridSteps * i;
+                    g.DrawLine(gridPen, plotRect.Left, y, plotRect.Right, y);
+                }
             }
 
             g.DrawRectangle(axisPen, plotRect.X, plotRect.Y, plotRect.Width, plotRect.Height);
@@ -166,6 +252,34 @@ public class EnterpriseChartControl : Control, IThemeableControl
         double minVal = seriesList.SelectMany(s => s.DataPoints).Min(p => Math.Min(p.Value, p.Low ?? p.Value));
         if (minVal > 0) minVal = 0;
         if (maxVal <= minVal) maxVal = minVal + 100;
+        if (_chart.YAxis.Min is { } yMin) minVal = yMin;
+        if (_chart.YAxis.Max is { } yMax) maxVal = yMax;
+        if (maxVal <= minVal) maxVal = minVal + 1;
+
+        using (var axisFont = new Font(Font.FontFamily, Math.Max(8f, Font.SizeInPoints * 0.85f)))
+        using (var axisBrush = new SolidBrush(fg))
+        using (var axisFormat = new StringFormat { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Center })
+        {
+            const int tickCount = 5;
+            for (var i = 0; i <= tickCount; i++)
+            {
+                var fraction = i / (double)tickCount;
+                var value = minVal + (maxVal - minVal) * fraction;
+                var y = plotRect.Bottom - (float)(plotRect.Height * fraction);
+                g.DrawString(value.ToString("N0", System.Globalization.CultureInfo.CurrentCulture), axisFont, axisBrush,
+                    new RectangleF(0, y - axisFont.Height / 2f, plotRect.Left - 8, axisFont.Height), axisFormat);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_chart.YAxis.Title))
+            {
+                var state = g.Save();
+                g.TranslateTransform(16, plotRect.Top + plotRect.Height / 2f);
+                g.RotateTransform(-90);
+                using var titleFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+                g.DrawString(_chart.YAxis.Title, axisFont, axisBrush, new RectangleF(-plotRect.Height / 2f, -10, plotRect.Height, 20), titleFormat);
+                g.Restore(state);
+            }
+        }
 
         Color[] defaultPalette = new[]
         {
@@ -204,12 +318,6 @@ public class EnterpriseChartControl : Control, IThemeableControl
                             using var brush = new SolidBrush(isHovered ? ControlPaint.Light(seriesColor) : seriesColor);
                             g.FillRectangle(brush, barRect);
 
-                            // Category Label
-                            using var labelBrush = new SolidBrush(fg);
-                            using var font = new Font(Font, FontStyle.Regular);
-                            var cat = pt.Category?.ToString() ?? $"#{i + 1}";
-                            var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Near };
-                            g.DrawString(cat, font, labelBrush, new RectangleF(x - 5, plotRect.Bottom + 6, barWidth + 10, 24), sf);
                         }
                     }
                     break;
@@ -317,6 +425,25 @@ public class EnterpriseChartControl : Control, IThemeableControl
                     }
                     break;
             }
+        }
+
+        var categoryPoints = firstSeries.DataPoints;
+        var labelStep = Math.Max(1, (int)Math.Ceiling(categoryPoints.Count / 6d));
+        using (var labelFont = new Font(Font, FontStyle.Regular))
+        using (var labelBrush = new SolidBrush(fg))
+        using (var labelFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Near, Trimming = StringTrimming.EllipsisCharacter })
+        {
+            var slot = plotRect.Width / categoryPoints.Count;
+            for (var i = 0; i < categoryPoints.Count; i++)
+            {
+                if (i % labelStep != 0 && i != categoryPoints.Count - 1) continue;
+                var category = categoryPoints[i].Category?.ToString() ?? $"#{i + 1}";
+                var x = plotRect.Left + i * slot;
+                g.DrawString(category, labelFont, labelBrush, new RectangleF(x, plotRect.Bottom + 6, slot, 20), labelFormat);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_chart.XAxis.Title))
+                g.DrawString(_chart.XAxis.Title, labelFont, labelBrush, new RectangleF(plotRect.Left, plotRect.Bottom + 28, plotRect.Width, 20), labelFormat);
         }
 
         // Tooltip for hovered item

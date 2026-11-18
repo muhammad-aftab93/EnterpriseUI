@@ -113,7 +113,7 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
 
         DoubleBuffered = true;
         TabStop = true;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         Size = new Size(680, 440);
         AccessibleRole = AccessibleRole.Table;
         AccessibleName = _engine.AriaLabel;

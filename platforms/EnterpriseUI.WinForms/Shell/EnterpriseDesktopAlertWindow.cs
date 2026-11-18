@@ -59,7 +59,7 @@ public class EnterpriseDesktopAlertWindow : LayeredPopupForm
     {
         _model = model ?? throw new ArgumentNullException(nameof(model));
         _colors = ControlColors.FromTheme(ThemeManager.Instance.CurrentTheme);
-        _font = new Font("Segoe UI", 9f);
+        _font = new Font("Segoe UI", 10f);
         _bold = new Font(_font, FontStyle.Bold);
         Font = _font;
         _fade.Updated += (_, _) => PresentCurrent();
@@ -133,6 +133,7 @@ public class EnterpriseDesktopAlertWindow : LayeredPopupForm
     {
         if (_finished) return;
         _colors = ControlColors.FromTheme(ThemeManager.Instance.CurrentTheme);
+        UpdateFonts();
         _remaining = _model.AutoCloseDelaySeconds * 1000.0;
         if (!OpenAlerts.Contains(this)) OpenAlerts.Add(this);
         Redraw();
@@ -405,6 +406,30 @@ public class EnterpriseDesktopAlertWindow : LayeredPopupForm
         }
 
         Redraw();
+    }
+
+    protected override void OnDpiChanged(DpiChangedEventArgs e)
+    {
+        base.OnDpiChanged(e);
+        UpdateFonts();
+        if (Visible)
+        {
+            Redraw();
+            LayoutAll();
+        }
+    }
+
+    private void UpdateFonts()
+    {
+        var font = new Font("Segoe UI", 9f * DeviceDpi / 96f);
+        var bold = new Font(font, FontStyle.Bold);
+        var previousFont = _font;
+        var previousBold = _bold;
+        _font = font;
+        _bold = bold;
+        Font = font;
+        previousBold.Dispose();
+        previousFont.Dispose();
     }
 
     private void Finish()

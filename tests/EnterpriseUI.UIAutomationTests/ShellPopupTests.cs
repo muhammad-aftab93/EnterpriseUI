@@ -86,6 +86,25 @@ public class ShellPopupTests
     }
 
     [Fact]
+    public void TaskDialogLongContentScrollsWithinTheWorkArea()
+    {
+        RunSta(() =>
+        {
+            var model = new EnterpriseTaskDialog
+            {
+                MainInstruction = "Review the deployment plan",
+                Content = string.Join(Environment.NewLine, Enumerable.Repeat("Detailed deployment guidance that must remain readable and scrollable.", 100))
+            };
+            using var dialog = new EnterpriseTaskDialogForm(model) { CommonButtons = EnterpriseTaskDialogButtons.OK };
+            var workArea = Screen.FromPoint(Cursor.Position).WorkingArea;
+            var content = dialog.Controls.OfType<FlowLayoutPanel>().Single(panel => panel.FlowDirection == FlowDirection.TopDown);
+
+            Assert.True(dialog.ClientSize.Height <= workArea.Height - 32);
+            Assert.True(content.AutoScroll);
+        });
+    }
+
+    [Fact]
     public void DesktopAlertPinsRunsActionsAndCloses()
     {
         RunSta(() =>
@@ -127,8 +146,11 @@ public class ShellPopupTests
             var pinned = new EnterpriseDesktopAlertWindow(new EnterpriseDesktopAlert { CaptionText = "Pinned", ContentText = "Stays", AutoCloseDelaySeconds = 1, IsPinned = true });
             ToastCloseReason? reason = null;
             timed.AlertClosed += (_, e) => reason = e.Reason;
+            var workArea = Screen.PrimaryScreen!.WorkingArea;
+            Cursor.Position = new Point(workArea.Left + 8, workArea.Top + 8);
             timed.ShowAlert();
             pinned.ShowAlert();
+            Cursor.Position = new Point(workArea.Left + 8, workArea.Top + 8);
             Assert.True(timed.GetPartBounds(EnterpriseAlertPart.Options).IsEmpty);
 
             PumpUntil(() => reason != null, 4000);
@@ -203,7 +225,7 @@ public class ShellPopupTests
     {
         RunSta(() =>
         {
-            var splash = new EnterpriseSplashScreen { Title = "Orders", Subtitle = "Enterprise edition", FooterText = "v2.0", FadeOut = false, MinimumDuration = 300 };
+            var splash = new EnterpriseSplashScreen { Title = "Orders", Subtitle = "Enterprise edition", FooterText = "v2.0", FadeOut = false, MinimumDuration = 1000 };
             splash.ShowSplash();
             Pump(60);
             Task.Run(() => splash.ReportProgress(40, "Loading modules")).Wait();

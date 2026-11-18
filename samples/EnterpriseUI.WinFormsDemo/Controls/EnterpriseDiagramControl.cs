@@ -54,7 +54,7 @@ public class EnterpriseDiagramControl : Control, IThemeableControl
 
         DoubleBuffered = true;
         Size = new Size(600, 420);
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         ThemeManager.Instance.ThemeChanged += (_, newTheme) => OnThemeChanged(newTheme);
     }

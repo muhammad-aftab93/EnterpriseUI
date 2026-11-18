@@ -323,7 +323,7 @@ internal sealed class ToastWindow : LayeredPopupForm
         Notification = notification;
         _colors = colors;
         _scale = DeviceDpi / 96f;
-        _font = new Font("Segoe UI", 9f);
+        _font = new Font("Segoe UI", 10f);
         Font = _font;
         _content = new PopupContent(_font, colors, _scale)
         {

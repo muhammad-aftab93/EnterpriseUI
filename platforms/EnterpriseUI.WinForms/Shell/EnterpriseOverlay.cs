@@ -58,7 +58,7 @@ internal sealed class OverlayWindow : LayeredPopupForm
         if (_owner.Indicator == EnterpriseOverlayIndicator.None && _owner.Caption.Length == 0) return;
 
         var scale = DeviceDpi / 96f;
-        using var font = new Font("Segoe UI", 10f);
+        using var font = new Font("Segoe UI", 10f * scale);
         var captionSize = _owner.Caption.Length == 0 ? Size.Empty : TextRenderer.MeasureText(_owner.Caption, font, new Size((int)(ScreenBounds.Width * 0.6), 0), TextFormatFlags.WordBreak | TextFormatFlags.NoPadding);
         var indicator = _owner.Indicator == EnterpriseOverlayIndicator.None ? 0 : (int)(40 * scale);
         var pad = (int)(22 * scale);

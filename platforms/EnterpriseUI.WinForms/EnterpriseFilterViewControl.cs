@@ -49,6 +49,7 @@ public class EnterpriseFilterViewControl : EnterpriseScrollableControl
     {
         Size = new Size(280, 460);
         AccessibleRole = AccessibleRole.Grouping;
+        AccessibleName = "Filters";
         _model.Changed += (_, _) =>
         {
             SyncRangeInputs();
@@ -101,7 +102,11 @@ public class EnterpriseFilterViewControl : EnterpriseScrollableControl
     public FacetField AddRangeFacet(string field, string? title = null)
     {
         var facet = _model.AddRange(field, title);
-        var inputs = new RangeInputs { From = new EnterpriseInputControl { PlaceholderText = "From" }, To = new EnterpriseInputControl { PlaceholderText = "To" } };
+        var inputs = new RangeInputs
+        {
+            From = new EnterpriseInputControl { PlaceholderText = "From", AccessibleName = $"{facet.Title} minimum" },
+            To = new EnterpriseInputControl { PlaceholderText = "To", AccessibleName = $"{facet.Title} maximum" }
+        };
         foreach (var input in new[] { inputs.From, inputs.To })
         {
             input.InnerTextBox.Leave += (_, _) => CommitRange(facet, inputs);
@@ -427,6 +432,98 @@ public class EnterpriseFilterViewControl : EnterpriseScrollableControl
         g.DrawRectangle(pen, b.X + 1, b.Y + 1, b.Width - 3, b.Height - 3);
     }
 
+    protected override AccessibleObject CreateAccessibilityInstance() => new FilterViewAccessibleObject(this);
+
+    private sealed class FilterViewAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseFilterViewControl _owner;
+
+        public FilterViewAccessibleObject(EnterpriseFilterViewControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.Grouping;
+        public override string? Name => _owner.Title;
+        public override string? Description => $"{_owner.ActiveCount} active filters";
+        public override int GetChildCount() => _owner._rows.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new FilterRowAccessibleObject(_owner, this, index);
+        public override AccessibleObject? GetFocused() => _owner.Focused && _owner._current >= 0 ? GetChild(_owner._current) : null;
+    }
+
+    private sealed class FilterRowAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseFilterViewControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _index;
+
+        public FilterRowAccessibleObject(EnterpriseFilterViewControl owner, AccessibleObject parent, int index)
+        {
+            _owner = owner;
+            _parent = parent;
+            _index = index;
+        }
+
+        private Row Row => _owner._rows[_index];
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => Row.Kind switch
+        {
+            RowKind.Header => AccessibleRole.Grouping,
+            RowKind.Value => AccessibleRole.CheckButton,
+            RowKind.More => AccessibleRole.PushButton,
+            _ => AccessibleRole.Grouping
+        };
+        public override string? Name => Row.Kind switch
+        {
+            RowKind.Header => Row.Facet.Title,
+            RowKind.Value => Row.Value?.Text,
+            RowKind.More => _owner._showAll.Contains(Row.Facet.Field) ? "Show less" : $"Show {_owner._model.Fields.First(f => f.Field == Row.Facet.Field).Values.Count - _owner._collapsedLimit} more",
+            _ => $"{Row.Facet.Title} range"
+        };
+        public override string? Value => Row.Kind == RowKind.Value && _owner._showCounts
+            ? _owner._counts.TryGetValue((Row.Facet.Field, FacetKey(Row.Value!.Value)), out var count) ? count.ToString(CultureInfo.CurrentCulture) : Row.Value.Count.ToString(CultureInfo.CurrentCulture)
+            : null;
+        public override Rectangle Bounds => _owner.IsHandleCreated ? _owner.RectangleToScreen(_owner.ToControl(Row.Bounds)) : Rectangle.Empty;
+        public override AccessibleStates State
+        {
+            get
+            {
+                var state = AccessibleStates.Focusable;
+                if (!_owner.Enabled) state |= AccessibleStates.Unavailable;
+                if (_owner.Focused && _owner._current == _index) state |= AccessibleStates.Focused;
+                if (Row.Kind == RowKind.Header)
+                    state |= _owner._collapsed.Contains(Row.Facet.Field) ? AccessibleStates.Collapsed : AccessibleStates.Expanded;
+                if (Row.Kind == RowKind.Value && Row.Value is { } value && Row.Facet.Selected.Contains(value.Value)) state |= AccessibleStates.Checked;
+                return state;
+            }
+        }
+        public override int GetChildCount() => Row.Kind == RowKind.Range ? 2 : 0;
+        public override AccessibleObject? GetChild(int index)
+        {
+            if (Row.Kind != RowKind.Range || index is < 0 or > 1 || !_owner._ranges.TryGetValue(Row.Facet.Field, out var inputs)) return null;
+            return (index == 0 ? inputs.From : inputs.To).AccessibilityObject;
+        }
+        public override string? DefaultAction => Row.Kind switch
+        {
+            RowKind.Header => _owner._collapsed.Contains(Row.Facet.Field) ? "Expand" : "Collapse",
+            RowKind.Value => Row.Facet.Selected.Contains(Row.Value!.Value) ? "Deselect" : "Select",
+            RowKind.More => _owner._showAll.Contains(Row.Facet.Field) ? "Show less" : "Show more",
+            _ => null
+        };
+
+        public override void DoDefaultAction() => _owner.Activate(_index);
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection))
+            {
+                _owner._current = _index;
+                _owner.EnsureVisible(new Rectangle(0, Row.Bounds.Y, 1, Row.Bounds.Height + _owner.TitlePx));
+                if (_owner.IsHandleCreated) _owner.AccessibilityNotifyClients(AccessibleEvents.Selection, _index + 1);
+                _owner.Invalidate();
+            }
+        }
+    }
+
     // ---- input --------------------------------------------------------------------------
 
     private int RowIndexAt(Point location)
@@ -457,6 +554,7 @@ public class EnterpriseFilterViewControl : EnterpriseScrollableControl
                 LayoutRows();
                 break;
         }
+            if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.StateChange, index + 1);
     }
 
     protected override void OnMouseMove(MouseEventArgs e)

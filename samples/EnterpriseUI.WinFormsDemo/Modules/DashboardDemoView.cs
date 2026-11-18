@@ -15,7 +15,7 @@ public class DashboardDemoView : UserControl
     public DashboardDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
@@ -45,6 +45,8 @@ public class DashboardDemoView : UserControl
         // 2. EnterpriseChart Component
         _chart.Dock = DockStyle.Fill ;
         _chart.Title = "Global Revenue Trend & Forecast";
+        _chart.XAxis.Title = "Month";
+        _chart.YAxis.Title = "Revenue ($M)";
         var s = new ChartSeries { Name = "Revenue", Type = SeriesType.Area };
         s.DataPoints.Add(new ChartDataPoint { Category = "Jan", Value = 320 });
         s.DataPoints.Add(new ChartDataPoint { Category = "Feb", Value = 365 });
@@ -71,7 +73,7 @@ public class DashboardDemoView : UserControl
         };
 
         var bar = new Panel { Dock = DockStyle.Top, Height = 4, BackColor = accent };
-        var lblTitle = new Label { Text = title, Location = new Point(12, 12), AutoSize = true, Font = new Font("Segoe UI", 8f, FontStyle.Bold), ForeColor = Color.FromArgb(100, 100, 100) };
+        var lblTitle = new Label { Text = title, Location = new Point(12, 12), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold), ForeColor = Color.FromArgb(100, 100, 100) };
         var lblVal = new Label { Text = value, Location = new Point(10, 32), AutoSize = true, Font = new Font("Segoe UI", 16f, FontStyle.Bold), ForeColor = Color.FromArgb(30, 30, 30) };
         var lblChange = new Label { Text = change, Location = new Point(12, 68), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold), ForeColor = accent };
 

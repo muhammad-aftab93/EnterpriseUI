@@ -67,7 +67,7 @@ public class EnterpriseSchedulerControl : Control, IThemeableControl
 
         DoubleBuffered = true;
         Size = new Size(680, 420);
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _scheduler.SelectedDate = DateTime.Today;
         _scheduler.ActiveView = SchedulerViewType.Week;
@@ -193,7 +193,7 @@ public class EnterpriseSchedulerControl : Control, IThemeableControl
                     using var borderPen = new Pen(apptColor, 1f);
                     using var titleBrush = new SolidBrush(Color.FromArgb(30, 30, 30));
                     using var titleFont = new Font(Font, FontStyle.Bold);
-                    using var locFont = new Font(Font.FontFamily, 8f);
+                    using var locFont = new Font(Font.FontFamily, 9f);
 
                     g.FillRoundedRectangle(fillBrush, apptRect, 4);
                     g.DrawRoundedRectangle(borderPen, apptRect, 4);

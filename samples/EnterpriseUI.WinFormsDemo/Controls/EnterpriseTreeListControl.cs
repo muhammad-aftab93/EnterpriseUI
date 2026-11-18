@@ -40,7 +40,7 @@ public class EnterpriseTreeListControl : Control, IThemeableControl
 
         DoubleBuffered = true;
         Size = new Size(650, 360);
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         LoadDefaultData();
 

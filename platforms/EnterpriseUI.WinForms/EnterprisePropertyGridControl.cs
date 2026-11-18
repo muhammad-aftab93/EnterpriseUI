@@ -43,6 +43,7 @@ public class EnterprisePropertyGridControl : EnterpriseScrollableControl
     {
         Size = new Size(380, 420);
         AccessibleRole = AccessibleRole.Table;
+        AccessibleName = "Properties";
         _search.TextChanged += (_, _) => { EndEdit(false); Rebuild(); };
         _editor.KeyDown += OnEditorKeyDown;
         _editor.LostFocus += (_, _) => { if (_editing is not null && !_committing) CommitEdit(); };
@@ -50,6 +51,8 @@ public class EnterprisePropertyGridControl : EnterpriseScrollableControl
         Controls.Add(_editor);
         OnThemeApplied();
     }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new PropertyGridAccessibleObject(this);
 
     public event EventHandler<PropertyEntry>? PropertyValueChanged;
     public event EventHandler<PropertyEntry?>? SelectedPropertyChanged;
@@ -414,6 +417,115 @@ public class EnterprisePropertyGridControl : EnterpriseScrollableControl
         Chrome.DrawText(g, description, Font, new Rectangle(inner.X, inner.Y + S(20), inner.Width, Math.Max(0, inner.Height - S(20))), Colors.Muted, ContentAlignment.TopLeft, true);
     }
 
+    private sealed class PropertyGridAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterprisePropertyGridControl _owner;
+
+        public PropertyGridAccessibleObject(EnterprisePropertyGridControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.Table;
+        public override int GetChildCount() => _owner._rows.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new PropertyRowAccessibleObject(_owner, this, _owner._rows[index]);
+        public override AccessibleObject? GetFocused() => _owner.Focused && _owner._selectedKey is { } key
+            ? GetChild(_owner._rows.FindIndex(row => row.Key == key))
+            : null;
+    }
+
+    private sealed class PropertyRowAccessibleObject : AccessibleObject
+    {
+        private readonly EnterprisePropertyGridControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly Row _row;
+
+        public PropertyRowAccessibleObject(EnterprisePropertyGridControl owner, AccessibleObject parent, Row row)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+        }
+
+        private bool IsCollapsed => _row.Entry is null ? _row.Collapsed : !_row.Expanded;
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => _row.Entry is null ? AccessibleRole.Grouping : AccessibleRole.Row;
+        public override string? Name => _row.Entry?.DisplayName ?? _row.Category;
+        public override string? Value => _row.Entry?.DisplayText;
+        public override Rectangle Bounds => _owner.IsHandleCreated ? _owner.RectangleToScreen(_owner.RowRect(_row)) : Rectangle.Empty;
+        public override AccessibleStates State
+        {
+            get
+            {
+                var state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+                if (!_owner.Enabled) state |= AccessibleStates.Unavailable;
+                if (_row.Key == _owner._selectedKey) state |= AccessibleStates.Selected;
+                if (_owner.Focused && _row.Key == _owner._selectedKey) state |= AccessibleStates.Focused;
+                if (_row.Entry is null || _row.Entry.Kind == PropertyEditorKind.Nested)
+                    state |= IsCollapsed ? AccessibleStates.Collapsed : AccessibleStates.Expanded;
+                if (_row.Entry?.IsReadOnly == true) state |= AccessibleStates.ReadOnly;
+                return state;
+            }
+        }
+        public override int GetChildCount() => _row.Entry is null ? 0 : 2;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new PropertyCellAccessibleObject(_owner, this, _row, index);
+        public override string? DefaultAction => _row.Entry is null || _row.Entry.Kind == PropertyEditorKind.Nested
+            ? (IsCollapsed ? "Expand" : "Collapse")
+            : _row.Entry.IsReadOnly ? null : "Edit";
+
+        public override void DoDefaultAction()
+        {
+            if (_row.Entry is null || _row.Entry.Kind == PropertyEditorKind.Nested) _owner.ToggleRow(_row);
+            else if (!_row.Entry.IsReadOnly) _owner.BeginEdit(_row);
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.SelectRow(_row);
+        }
+    }
+
+    private sealed class PropertyCellAccessibleObject : AccessibleObject
+    {
+        private readonly EnterprisePropertyGridControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly Row _row;
+        private readonly int _column;
+
+        public PropertyCellAccessibleObject(EnterprisePropertyGridControl owner, AccessibleObject parent, Row row, int column)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+            _column = column;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.Cell;
+        public override string? Name => _column == 0 ? _row.Entry?.DisplayName : $"{_row.Entry?.DisplayName} value";
+        public override string? Value => _column == 1 ? _row.Entry?.DisplayText : _row.Entry?.DisplayName;
+        public override Rectangle Bounds
+        {
+            get
+            {
+                if (!_owner.IsHandleCreated) return Rectangle.Empty;
+                var row = _owner.RowRect(_row);
+                return _owner.RectangleToScreen(_column == 0 ? _owner.NameCell(row) : _owner.ValueCell(row));
+            }
+        }
+        public override AccessibleStates State => AccessibleStates.Focusable | AccessibleStates.Selectable |
+            (_row.Key == _owner._selectedKey ? AccessibleStates.Selected : 0) |
+            (_column == 1 && _row.Entry?.IsReadOnly == true ? AccessibleStates.ReadOnly : 0);
+        public override string? DefaultAction => _column == 1 && _row.Entry?.IsReadOnly == false ? "Edit" : null;
+
+        public override void DoDefaultAction()
+        {
+            if (_column == 1 && _row.Entry?.IsReadOnly == false) _owner.BeginEdit(_row);
+            else _owner.SelectRow(_row);
+        }
+    }
+
     // ---- editing ------------------------------------------------------------------------
 
     private void BeginEdit(Row row)
@@ -529,11 +641,13 @@ public class EnterprisePropertyGridControl : EnterpriseScrollableControl
         _selectedKey = row?.Key;
         if (row is not null) EnsureVisible(new Rectangle(0, row.Bounds.Y, 1, row.Bounds.Height + ToolbarPx + DescriptionPx));
         Invalidate();
+        if (IsHandleCreated && row is not null) AccessibilityNotifyClients(AccessibleEvents.Selection, _rows.IndexOf(row) + 1);
         SelectedPropertyChanged?.Invoke(this, row?.Entry);
     }
 
     private void ToggleRow(Row row)
     {
+        var index = _rows.IndexOf(row);
         if (row.Entry is null)
         {
             var name = row.Category ?? string.Empty;
@@ -546,6 +660,7 @@ public class EnterprisePropertyGridControl : EnterpriseScrollableControl
 
         EndEdit(false);
         Rebuild();
+        if (IsHandleCreated && index >= 0) AccessibilityNotifyClients(AccessibleEvents.StateChange, index + 1);
     }
 
     private Row? RowAt(Point location)

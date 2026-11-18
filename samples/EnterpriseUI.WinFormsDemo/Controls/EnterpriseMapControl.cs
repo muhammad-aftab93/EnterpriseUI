@@ -50,7 +50,7 @@ public class EnterpriseMapControl : Control, IThemeableControl
 
         DoubleBuffered = true;
         Size = new Size(600, 380);
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         ThemeManager.Instance.ThemeChanged += (_, newTheme) => OnThemeChanged(newTheme);
     }
@@ -158,7 +158,7 @@ public class EnterpriseMapControl : Control, IThemeableControl
         {
             var p = LatLonToScreen(_hoveredMarker.Location);
             var tip = $"{_hoveredMarker.Title}\n{_hoveredMarker.Description}";
-            using var tipFont = new Font("Segoe UI", 9f);
+            using var tipFont = new Font("Segoe UI", 10f);
             var sz = g.MeasureString(tip, tipFont);
             var tipRect = new RectangleF(p.X - (sz.Width / 2), p.Y - 50 - sz.Height, sz.Width + 16, sz.Height + 10);
 

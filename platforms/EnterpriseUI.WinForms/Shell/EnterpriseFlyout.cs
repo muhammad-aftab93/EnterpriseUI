@@ -38,7 +38,7 @@ public class EnterpriseFlyout : Form
         ShowInTaskbar = false;
         StartPosition = FormStartPosition.Manual;
         KeyPreview = true;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         _header.Controls.Add(_title);
         _header.Controls.Add(_closeGlyph);
         _surface.Controls.Add(_body);

@@ -85,6 +85,7 @@ public class EnterpriseCardViewControl : EnterpriseScrollableControl
     {
         Size = new Size(720, 420);
         AccessibleRole = AccessibleRole.List;
+        AccessibleName = "Cards";
     }
 
     public event EventHandler? SelectionChanged;
@@ -284,6 +285,96 @@ public class EnterpriseCardViewControl : EnterpriseScrollableControl
     {
         EnsureLayout(ViewPort.Width);
         return _entries.FirstOrDefault(e => e.Item is not null && ToControl(e.Bounds).Contains(location))?.Item;
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new CardViewAccessibleObject(this);
+
+    private Entry? EntryFor(object item)
+    {
+        EnsureLayout(ViewPort.Width);
+        return _entries.FirstOrDefault(entry => ReferenceEquals(entry.Item, item));
+    }
+
+    private sealed class CardViewAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseCardViewControl _owner;
+
+        public CardViewAccessibleObject(EnterpriseCardViewControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.List;
+        public override int GetChildCount()
+        {
+            _owner.EnsureLayout(_owner.ViewPort.Width);
+            return _owner._order.Count;
+        }
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new CardAccessibleObject(_owner, this, _owner._order[index]);
+        public override AccessibleObject? GetFocused() => _owner.Focused && _owner._current is { } item
+            ? new CardAccessibleObject(_owner, this, item)
+            : null;
+    }
+
+    private sealed class CardAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseCardViewControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly object _item;
+
+        public CardAccessibleObject(EnterpriseCardViewControl owner, AccessibleObject parent, object item)
+        {
+            _owner = owner;
+            _parent = parent;
+            _item = item;
+        }
+
+        private CardFormattingEventArgs Content => _owner.Format(_item);
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.ListItem;
+        public override string? Name => Content.Title;
+        public override string? Value
+        {
+            get
+            {
+                var content = Content;
+                var details = _owner._fields.Select(field => $"{field.Caption}: {_owner.FieldText(_item, field)}");
+                return string.Join("; ", new[] { content.Subtitle, content.Badge }.Concat(details).Where(value => !string.IsNullOrWhiteSpace(value)));
+            }
+        }
+        public override Rectangle Bounds
+        {
+            get
+            {
+                var entry = _owner.EntryFor(_item);
+                return entry is null || !_owner.IsHandleCreated ? Rectangle.Empty : _owner.RectangleToScreen(_owner.ToControl(entry.Bounds));
+            }
+        }
+        public override AccessibleStates State
+        {
+            get
+            {
+                var state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+                if (!_owner.Enabled) state |= AccessibleStates.Unavailable;
+                if (_owner._selected.Contains(_item)) state |= AccessibleStates.Selected;
+                if (_owner._checked.Contains(_item)) state |= AccessibleStates.Checked;
+                if (_owner.Focused && ReferenceEquals(_owner._current, _item)) state |= AccessibleStates.Focused;
+                return state;
+            }
+        }
+        public override string? DefaultAction => _owner.CheckBoxes ? (_owner.IsChecked(_item) ? "Uncheck" : "Check") : "Select";
+
+        public override void DoDefaultAction()
+        {
+            if (!_owner.Enabled) return;
+            if (_owner.CheckBoxes) _owner.SetChecked(_item, !_owner.IsChecked(_item));
+            _owner.SelectCard(_item);
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.SelectCard(_item);
+        }
     }
 
     // ---- selection ----------------------------------------------------------------------

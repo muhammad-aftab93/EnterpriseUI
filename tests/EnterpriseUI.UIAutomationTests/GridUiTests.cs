@@ -251,6 +251,8 @@ public class EnterpriseColorDialogTests
         RunSta(() =>
         {
             using var defaults = new EnterpriseColorDialog();
+            Assert.Equal(AutoScaleMode.Dpi, defaults.AutoScaleMode);
+            Assert.Equal(FormBorderStyle.Sizable, defaults.FormBorderStyle);
             Assert.Equal(Color.DodgerBlue, defaults.SelectedColor);
             Assert.Equal("#1E90FF", defaults.HexValue);
 
@@ -306,6 +308,33 @@ public class EnterprisePictureBoxControlTests
 
 public class EnterpriseMessageBoxTests
 {
+    [Fact]
+    public void ColorAndMessageDialogsFollowThemeChanges()
+    {
+        RunSta(() =>
+        {
+            var manager = ThemeManager.Instance;
+            var original = manager.CurrentTheme;
+            try
+            {
+                manager.ApplyTheme(BuiltInThemes.CreateFluent(ColorScheme.Light));
+                using var color = new EnterpriseColorDialog();
+                using var message = new EnterpriseMessageBox { MessageText = "Theme update" };
+                var dark = BuiltInThemes.CreateFluent(ColorScheme.Dark);
+                manager.ApplyTheme(dark);
+
+                var expectedSurface = EnterpriseThemeEngine.GetColor(dark, DesignTokens.Surface, SystemColors.Window);
+                Assert.Equal(expectedSurface, color.BackColor);
+                Assert.Equal(expectedSurface, message.BackColor);
+                Assert.Equal(Color.DodgerBlue, color.SelectedColor);
+            }
+            finally
+            {
+                manager.ApplyTheme(original);
+            }
+        });
+    }
+
     [Fact]
     public void MessageBoxConfiguresButtonsDetailsIconAndCopyText()
     {

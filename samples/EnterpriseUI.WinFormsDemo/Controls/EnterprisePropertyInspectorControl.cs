@@ -67,7 +67,7 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
     public EnterprisePropertyInspectorControl()
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _tabControl.            Dock = DockStyle.Fill;
 
@@ -79,7 +79,7 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
         _propertyGrid.            Dock = DockStyle.Fill;
         _propertyGrid.            HelpVisible = true;
         _propertyGrid.            ToolbarVisible = true;
-        _propertyGrid.            Font = new Font("Segoe UI", 9f)
+        _propertyGrid.            Font = new Font("Segoe UI", 10f)
 ;
         _propertyGrid.PropertyValueChanged += OnPropertyGridValueChanged;
         tabProps.Controls.Add(_propertyGrid);
@@ -178,7 +178,7 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             LogEvent("Playground state reset to baseline.");
         };
 
-        var lblThemeSel = new Label { Text = "Theme Selector:", Location = new Point(12, 218), AutoSize = true, Font = new Font("Segoe UI", 8.75f, FontStyle.Bold) };
+        var lblThemeSel = new Label { Text = "Theme Selector:", Location = new Point(12, 218), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         _cmbPlaygroundTheme.            DropDownStyle = ComboBoxStyle.DropDownList;
         _cmbPlaygroundTheme.            Location = new Point(130, 214);
         _cmbPlaygroundTheme.            Width = 260;
@@ -192,7 +192,7 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
             ThemeManager.Instance.ApplyTheme(tName);
         };
 
-        var lblDataSource = new Label { Text = "Data Source:", Location = new Point(12, 250), AutoSize = true, Font = new Font("Segoe UI", 8.75f, FontStyle.Bold) };
+        var lblDataSource = new Label { Text = "Data Source:", Location = new Point(12, 250), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
         _cmbDataSourcePreset.            DropDownStyle = ComboBoxStyle.DropDownList;
         _cmbDataSourcePreset.            Location = new Point(130, 246);
         _cmbDataSourcePreset.            Width = 260;
@@ -334,7 +334,7 @@ public class EnterprisePropertyInspectorControl : UserControl, IThemeableControl
         var tabExplain = new TabPage("Code Explainer");
         _explainerBox.            Dock = DockStyle.Fill;
         _explainerBox.            ReadOnly = true;
-        _explainerBox.            Font = new Font("Segoe UI", 9f);
+        _explainerBox.            Font = new Font("Segoe UI", 10f);
         _explainerBox.            BackColor = Color.FromArgb(250, 250, 252);
         _explainerBox.            BorderStyle = BorderStyle.None
 ;

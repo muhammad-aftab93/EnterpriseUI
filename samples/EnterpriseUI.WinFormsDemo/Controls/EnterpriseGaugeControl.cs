@@ -73,7 +73,7 @@ public class EnterpriseGaugeControl : Control, IThemeableControl
 
         DoubleBuffered = true;
         Size = new Size(260, 260);
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _gauge.Min = 0;
         _gauge.Max = 100;
@@ -142,7 +142,7 @@ public class EnterpriseGaugeControl : Control, IThemeableControl
 
         // Center Value Text
         using (var valFont = new Font("Segoe UI", 20f, FontStyle.Bold))
-        using (var labelFont = new Font("Segoe UI", 9f))
+        using (var labelFont = new Font("Segoe UI", 10f))
         using (var textBrush = new SolidBrush(fg))
         {
             var valStr = $"{_gauge.Value:F0}{_gauge.Unit}";

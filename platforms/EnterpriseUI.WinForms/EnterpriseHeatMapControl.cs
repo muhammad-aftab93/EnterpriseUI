@@ -289,6 +289,139 @@ public class EnterpriseHeatMapControl : EnterpriseScrollableControl
         return row >= 0 && row < _rows.Count && column >= 0 && column < _columns.Count ? (row, column) : (-1, -1);
     }
 
+    protected override AccessibleObject CreateAccessibilityInstance() => new HeatMapAccessibleObject(this);
+
+    private sealed class HeatMapAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseHeatMapControl _owner;
+
+        public HeatMapAccessibleObject(EnterpriseHeatMapControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.Table;
+        public override string? Name => string.IsNullOrWhiteSpace(_owner.Title) ? "Heat map" : _owner.Title;
+        public override string? Description => $"Heat map with {_owner._rows.Count} rows and {_owner._columns.Count} columns.";
+        public override int GetChildCount() => _owner._rows.Count == 0 || _owner._columns.Count == 0 ? 0 : _owner._rows.Count + 1;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new HeatMapRowAccessibleObject(_owner, this, index - 1);
+        public override AccessibleObject? GetFocused() => _owner.Focused && _owner._selectedRow >= 0
+            ? GetChild(_owner._selectedRow + 1)?.GetChild(_owner._selectedColumn + 1)
+            : null;
+    }
+
+    private sealed class HeatMapRowAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseHeatMapControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _row;
+
+        public HeatMapRowAccessibleObject(EnterpriseHeatMapControl owner, AccessibleObject parent, int row)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.Row;
+        public override string? Name => _row < 0 ? "Column headers" : _owner._rows[_row];
+        public override int GetChildCount() => _owner._columns.Count + 1;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new HeatMapCellAccessibleObject(_owner, this, _row, index - 1);
+        public override Rectangle Bounds
+        {
+            get
+            {
+                if (!_owner.IsHandleCreated) return Rectangle.Empty;
+                var (cw, ch, rh, hh) = _owner.Metrics();
+                var view = _owner.ViewPort;
+                var row = _row < 0
+                    ? new Rectangle(view.X, view.Y + _owner.LegendPx, view.Width, hh)
+                    : new Rectangle(view.X, _owner.CellRect(_row, 0).Y, view.Width, ch);
+                return _owner.RectangleToScreen(row);
+            }
+        }
+        public override AccessibleStates State => AccessibleStates.Focusable |
+            (_row >= 0 && _owner._selectedRow == _row ? AccessibleStates.Selected : 0);
+    }
+
+    private sealed class HeatMapCellAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseHeatMapControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _row;
+        private readonly int _column;
+
+        public HeatMapCellAccessibleObject(EnterpriseHeatMapControl owner, AccessibleObject parent, int row, int column)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+            _column = column;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => _row < 0
+            ? _column < 0 ? AccessibleRole.ColumnHeader : AccessibleRole.ColumnHeader
+            : _column < 0 ? AccessibleRole.RowHeader : AccessibleRole.Cell;
+        public override string? Name => _row < 0
+            ? _column < 0 ? "Category" : _owner._columns[_column]
+            : _column < 0 ? _owner._rows[_row] : $"{_owner._rows[_row]}, {_owner._columns[_column]}";
+        public override string? Value => _row < 0 || _column < 0
+            ? Name
+            : _owner._values[_row, _column]?.ToString(_owner._valueFormat, CultureInfo.CurrentCulture) ?? "No value";
+        public override Rectangle Bounds
+        {
+            get
+            {
+                if (!_owner.IsHandleCreated) return Rectangle.Empty;
+                if (_row < 0)
+                {
+                    var (cw, _, rh, hh) = _owner.Metrics();
+                    var view = _owner.ViewPort;
+                    var rect = _column < 0
+                        ? new Rectangle(view.X, view.Y + _owner.LegendPx, rh, hh)
+                        : new Rectangle(view.X + rh + _column * cw - _owner.ScrollX, view.Y + _owner.LegendPx, cw, hh);
+                    return _owner.RectangleToScreen(rect);
+                }
+
+                var cell = _column < 0 ? _owner.CellRect(_row, 0) : _owner.CellRect(_row, _column);
+                if (_column < 0)
+                {
+                    var (_, _, rh, _) = _owner.Metrics();
+                    cell.X = _owner.ViewPort.X;
+                    cell.Width = rh;
+                }
+                return _owner.RectangleToScreen(cell);
+            }
+        }
+        public override AccessibleStates State
+        {
+            get
+            {
+                var state = AccessibleStates.Focusable | AccessibleStates.ReadOnly;
+                if (_row >= 0 && _column >= 0 && _owner._selectedRow == _row && _owner._selectedColumn == _column)
+                {
+                    state |= AccessibleStates.Selected;
+                    if (_owner.Focused) state |= AccessibleStates.Focused;
+                }
+                return state;
+            }
+        }
+        public override string? DefaultAction => _row >= 0 && _column >= 0 ? "Select" : null;
+
+        public override void DoDefaultAction()
+        {
+            if (_row >= 0 && _column >= 0) _owner.Select(_row, _column);
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (_row < 0 || _column < 0) return;
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.Select(_row, _column);
+        }
+    }
+
     protected override void OnResize(EventArgs e)
     {
         base.OnResize(e);
@@ -521,6 +654,7 @@ public class EnterpriseHeatMapControl : EnterpriseScrollableControl
         var (cw, ch, rh, hh) = Metrics();
         EnsureVisible(new Rectangle(rh + column * cw, row * ch, cw, ch + LegendPx + hh));
         Invalidate();
+        if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.Selection, row + 2);
         if (changed) SelectionChanged?.Invoke(this, EventArgs.Empty);
     }
 

@@ -24,7 +24,7 @@ public class EnterpriseForm : Form, IThemeableControl
 
     public EnterpriseForm()
     {
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         Controls.Add(_titleBar);
         _titleBar.Text = base.Text;
         _titleBar.Height = ScaledCaptionHeight;
