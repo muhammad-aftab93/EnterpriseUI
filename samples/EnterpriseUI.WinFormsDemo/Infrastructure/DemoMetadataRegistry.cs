@@ -843,7 +843,8 @@ var allControls = EnterpriseControlRegistry.AllControls;",
         {
             "EnterpriseCalculatorDropDown" or "CalculatorControl" or "EnterpriseSyntaxEditor" or "SpellChecker" => "editors-fluent-validation",
             "EnterpriseBulletGraph" => "gauges-radial-linear",
-            "ImageEditorControl" or "PictureBoxControl" or "EnterpriseWebCam" => "documents-multiformat",
+            "ImageEditorControl" or "PictureBoxControl" or "EnterpriseWebCam" or "EnterpriseZipLibrary" => "documents-multiformat",
+            "EnterpriseControlSpy" or "EnterpriseFormConverter" or "EnterpriseElementHierarchyEditor" or "EnterpriseShapeEditor" or "EnterpriseVisualStyleBuilder" => "navigation-forms-overlays-suite",
             _ => entry.DemoSuiteId
         };
         id = ResolveDemoId(id);

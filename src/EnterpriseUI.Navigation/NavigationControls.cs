@@ -62,6 +62,8 @@ public class RibbonItem
     public string? Icon { get; set; }
     public RelayCommand? Command { get; set; }
     public bool IsLarge { get; set; } = true;
+    public string? ToolTip { get; set; }
+    public bool IsEnabled { get; set; } = true;
 }
 
 public class RibbonGroup
@@ -74,6 +76,12 @@ public class RibbonTab
 {
     public string Title { get; set; } = string.Empty;
     public List<RibbonGroup> Groups { get; } = new();
+
+    /// <summary>Name of the contextual tab group this tab belongs to; the tab is only shown while its group is active.</summary>
+    public string? ContextualGroup { get; set; }
+
+    /// <summary>HTML color (for example "#C0504D") that marks the contextual group.</summary>
+    public string? ContextualColor { get; set; }
 }
 
 /// <summary>

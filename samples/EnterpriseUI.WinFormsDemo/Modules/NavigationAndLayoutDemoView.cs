@@ -325,14 +325,15 @@ public class NavigationAndLayoutDemoView : UserControl
 
         btnDesktopAlert.Click += (_, _) =>
         {
-            var alert = new EnterpriseDesktopAlert
+            var model = new EnterpriseDesktopAlert
             {
                 CaptionText = "EnterpriseUI SLA Monitor",
                 ContentText = $"Cluster latency nominal at {DateTime.Now:HH:mm:ss}. Zero anomalies detected."
             };
+            var alert = new EnterpriseDesktopAlertWindow(model);
             alert.ShowAlert();
-            lblAlertStatus.Text = $"Dispatched EnterpriseDesktopAlert #{ToastService.Instance.NotificationHistory.Count}: {alert.ContentText}";
-            _baseView.LogEvent("EnterpriseDesktopAlert.ShowAlert", alert.ContentText);
+            lblAlertStatus.Text = $"Showing EnterpriseDesktopAlertWindow: {model.ContentText}";
+            _baseView.LogEvent("EnterpriseDesktopAlertWindow.ShowAlert", model.ContentText);
         };
 
         btnTaskDialog.Click += (_, _) =>
@@ -345,10 +346,10 @@ public class NavigationAndLayoutDemoView : UserControl
             };
             td.CommandLinks.Add(new EnterpriseUI.Layout.EnterpriseTaskDialog.CommandLinkOption("canary", "Canary Ring (5% Traffic)", "Deploy with automated rollback telemetry"));
             td.CommandLinks.Add(new EnterpriseUI.Layout.EnterpriseTaskDialog.CommandLinkOption("global", "Global Production GA", "Immediate rollout across all regions"));
-            td.SelectedCommandId = "canary";
-            lblAlertStatus.Text = $"EnterpriseTaskDialog executed: Selected CommandLink '{td.SelectedCommandId}' ({td.CommandLinks[0].Title})";
-            _baseView.LogEvent("EnterpriseTaskDialog.Execute", td.SelectedCommandId);
-            MessageBox.Show($"{td.MainInstruction}\n\n1. {td.CommandLinks[0].Title} — {td.CommandLinks[0].Description}\n2. {td.CommandLinks[1].Title} — {td.CommandLinks[1].Description}", td.WindowTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using var dialog = new EnterpriseTaskDialogForm(td) { DialogIcon = MessageBoxIcon.Question, CommonButtons = EnterpriseTaskDialogButtons.Cancel };
+            dialog.Execute(FindForm());
+            lblAlertStatus.Text = $"EnterpriseTaskDialogForm executed: selected command '{td.SelectedCommandId ?? "none"}'";
+            _baseView.LogEvent("EnterpriseTaskDialogForm.Execute", td.SelectedCommandId ?? "none");
         };
 
         alertPanel.Controls.AddRange(new Control[] { btnDesktopAlert, btnTaskDialog, lblAlertStatus });
