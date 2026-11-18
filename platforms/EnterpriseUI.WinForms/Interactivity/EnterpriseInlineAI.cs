@@ -325,7 +325,7 @@ internal sealed class InlineAIWindow : Form
         StartPosition = FormStartPosition.Manual;
         KeyPreview = true;
         DoubleBuffered = true;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         BackColor = _colors.Surface;
         _prompt.Font = Font;
         _prompt.BackColor = _colors.Surface;

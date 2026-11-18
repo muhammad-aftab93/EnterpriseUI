@@ -225,9 +225,9 @@ public class EnterpriseSplashScreen : LayeredPopupForm
                     x += logo + S(20);
                 }
 
-                using var titleFont = new Font("Segoe UI Semibold", 22f);
-                using var subFont = new Font("Segoe UI", 11f);
-                using var smallFont = new Font("Segoe UI", 9f);
+                using var titleFont = new Font("Segoe UI", (float)(22 * scale), FontStyle.Bold);
+                using var subFont = new Font("Segoe UI", (float)(11 * scale));
+                using var smallFont = new Font("Segoe UI", (float)(9 * scale));
                 var textWidth = face.Width - x - S(36);
                 Chrome.DrawText(fg, title, titleFont, new Rectangle(x, y, textWidth, titleFont.Height + S(4)), c.Text);
                 if (subtitle.Length > 0) Chrome.DrawText(fg, subtitle, subFont, new Rectangle(x, y + titleFont.Height + S(6), textWidth, subFont.Height + S(4)), c.Muted);

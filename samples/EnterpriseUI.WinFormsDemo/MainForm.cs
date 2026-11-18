@@ -50,7 +50,7 @@ public partial class MainForm : Form, IThemeableControl
         
         // 1080p target sizing & responsive constraints
         Size = new Size(1920, 1040);
-        MinimumSize = new Size(1280, 720);
+        MinimumSize = new Size(960, 640);
         StartPosition = FormStartPosition.CenterScreen;
         WindowState = FormWindowState.Maximized;
         Font = new Font("Segoe UI", 9.5f);
@@ -157,7 +157,7 @@ public partial class MainForm : Form, IThemeableControl
 
         _btnFavorite.            FlatStyle = FlatStyle.Flat;
 
-        _btnFavorite.            Font = new Font("Segoe UI", 9f)
+        _btnFavorite.            Font = new Font("Segoe UI", 10f)
 ;
         _btnFavorite.Click += OnFavoriteToggle;
 
@@ -166,14 +166,14 @@ public partial class MainForm : Form, IThemeableControl
             Text = "Recent:",
             AutoSize = true,
             Padding = new Padding(8, 6, 2, 0),
-            Font = new Font("Segoe UI", 9f)
+            Font = new Font("Segoe UI", 10f)
         };
 
         _cmbRecent.            DropDownStyle = ComboBoxStyle.DropDownList;
 
         _cmbRecent.            Size = new Size(170, 28);
 
-        _cmbRecent.            Font = new Font("Segoe UI", 9f)
+        _cmbRecent.            Font = new Font("Segoe UI", 10f)
 ;
         _cmbRecent.SelectedIndexChanged += OnRecentSelected;
 
@@ -182,14 +182,14 @@ public partial class MainForm : Form, IThemeableControl
             Text = "Theme:",
             AutoSize = true,
             Padding = new Padding(8, 6, 2, 0),
-            Font = new Font("Segoe UI", 9f)
+            Font = new Font("Segoe UI", 10f)
         };
 
         _cmbThemes.            DropDownStyle = ComboBoxStyle.DropDownList;
 
         _cmbThemes.            Size = new Size(160, 28);
 
-        _cmbThemes.            Font = new Font("Segoe UI", 9f)
+        _cmbThemes.            Font = new Font("Segoe UI", 10f)
 ;
         PopulateThemeSelector();
         _cmbThemes.SelectedIndexChanged += OnThemeComboChanged;
@@ -264,6 +264,7 @@ public partial class MainForm : Form, IThemeableControl
         RegisterRibbonActions();
 
         // Load Default Demo & Apply Optimal Left/Right Panel Widths
+        SizeChanged += (_, _) => ApplyOptimalPanelWidths();
         Load += (_, _) => ApplyOptimalPanelWidths();
         Shown += (_, _) =>
         {
@@ -280,27 +281,28 @@ public partial class MainForm : Form, IThemeableControl
     {
         try
         {
-            // Left navigation panel: 380px wide so long demo and feature titles never clip
-            const int targetLeftWidth = 380;
-            // Right inspector & playground panel: 480px wide so all 5 tabs & PropertyGrid values fit cleanly
-            const int targetRightWidth = 480;
+            var narrow = ClientSize.Width < 1440;
+            var targetLeftWidth = narrow ? 260 : 380;
+            var targetRightWidth = narrow ? 320 : 480;
 
-            _mainSplit.Panel1MinSize = 320;
-            _mainSplit.Panel2MinSize = 600;
+            _mainSplit.Panel1MinSize = 220;
+            _mainSplit.Panel2MinSize = 500;
             if (_mainSplit.Width > _mainSplit.Panel1MinSize + _mainSplit.Panel2MinSize)
             {
-                _mainSplit.SplitterDistance = targetLeftWidth;
+                _mainSplit.SplitterDistance = Math.Clamp(targetLeftWidth, _mainSplit.Panel1MinSize,
+                    _mainSplit.Width - _mainSplit.Panel2MinSize - _mainSplit.SplitterWidth);
             }
 
-            _centerSplit.Panel1MinSize = 500;
-            _centerSplit.Panel2MinSize = 420;
+            _centerSplit.Panel1MinSize = 320;
+            _centerSplit.Panel2MinSize = 260;
             int centerTotalWidth = _centerSplit.Width;
             if (centerTotalWidth > _centerSplit.Panel1MinSize + _centerSplit.Panel2MinSize)
             {
-                int desiredCenterDistance = Math.Max(
+                var desiredCenterDistance = Math.Max(
                     _centerSplit.Panel1MinSize,
                     centerTotalWidth - targetRightWidth - _centerSplit.SplitterWidth);
-                _centerSplit.SplitterDistance = desiredCenterDistance;
+                _centerSplit.SplitterDistance = Math.Min(desiredCenterDistance,
+                    centerTotalWidth - _centerSplit.Panel2MinSize - _centerSplit.SplitterWidth);
             }
         }
         catch

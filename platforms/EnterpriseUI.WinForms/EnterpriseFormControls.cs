@@ -72,6 +72,7 @@ public class EnterpriseTextBoxControl : EnterpriseControlBase
         _inner.GotFocus += (_, _) => Invalidate();
         _inner.LostFocus += (_, _) => Invalidate();
         Controls.Add(_inner);
+        SyncInnerAccessibility();
         OnThemeApplied();
         LayoutInner();
     }
@@ -119,6 +120,24 @@ public class EnterpriseTextBoxControl : EnterpriseControlBase
         _glyphFont?.Dispose();
         _glyphFont = null;
         LayoutInner();
+    }
+
+    public new string? AccessibleName
+    {
+        get => base.AccessibleName;
+        set { base.AccessibleName = value; SyncInnerAccessibility(); }
+    }
+
+    public new string? AccessibleDescription
+    {
+        get => base.AccessibleDescription;
+        set { base.AccessibleDescription = value; SyncInnerAccessibility(); }
+    }
+
+    private void SyncInnerAccessibility()
+    {
+        _inner.AccessibleName = AccessibleName;
+        _inner.AccessibleDescription = AccessibleDescription;
     }
 
     protected override void OnGotFocus(EventArgs e)
@@ -217,6 +236,7 @@ public class EnterpriseButtonTextBoxControl : EnterpriseControlBase
         _inner.GotFocus += (_, _) => Invalidate();
         _inner.LostFocus += (_, _) => Invalidate();
         Controls.Add(_inner);
+        SyncInnerAccessibility();
         OnThemeApplied();
         LayoutInner();
     }
@@ -244,6 +264,24 @@ public class EnterpriseButtonTextBoxControl : EnterpriseControlBase
 
     public event EventHandler? LeftButtonClick;
     public event EventHandler? RightButtonClick;
+
+    public new string? AccessibleName
+    {
+        get => base.AccessibleName;
+        set { base.AccessibleName = value; SyncInnerAccessibility(); }
+    }
+
+    public new string? AccessibleDescription
+    {
+        get => base.AccessibleDescription;
+        set { base.AccessibleDescription = value; SyncInnerAccessibility(); }
+    }
+
+    private void SyncInnerAccessibility()
+    {
+        _inner.AccessibleName = AccessibleName;
+        _inner.AccessibleDescription = AccessibleDescription;
+    }
 
     private int LeftWidth => _leftText.Length == 0 ? 0 : S(36);
     private int RightWidth => _rightText.Length == 0 ? 0 : Math.Max(S(40), Chrome.MeasureText(_rightText, Font) + S(24));
@@ -665,7 +703,7 @@ public class EnterpriseCollapsiblePanelControl : Panel, IThemeableControl
         SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
         Size = new Size(460, 140);
         Padding = new Padding(1);
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         _header = new Header(this) { Dock = DockStyle.Top, Height = HeaderHeight, Text = "Details" };
         _contentHost = new Panel { Dock = DockStyle.Fill, Padding = new Padding(10) };
         Controls.Add(_contentHost);

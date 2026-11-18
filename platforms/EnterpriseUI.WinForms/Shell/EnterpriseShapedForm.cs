@@ -29,7 +29,7 @@ public class EnterpriseShapedForm : Form, IThemeableControl
     {
         FormBorderStyle = FormBorderStyle.None;
         SetStyle(ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer, true);
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         ClientSize = new Size(420, 300);
         _themeHandler = (_, theme) =>
         {

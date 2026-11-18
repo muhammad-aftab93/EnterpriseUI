@@ -23,6 +23,7 @@ public class EnterpriseInputControl : EnterpriseControlBase
         _text.MouseEnter += (_, _) => OnMouseEnter(EventArgs.Empty);
         _text.MouseLeave += (_, _) => OnMouseLeave(EventArgs.Empty);
         Controls.Add(_text);
+        SyncTextAccessibility();
         OnThemeApplied();
         LayoutText();
     }
@@ -70,6 +71,24 @@ public class EnterpriseInputControl : EnterpriseControlBase
         LayoutText();
     }
 
+    public new string? AccessibleName
+    {
+        get => base.AccessibleName;
+        set { base.AccessibleName = value; SyncTextAccessibility(); }
+    }
+
+    public new string? AccessibleDescription
+    {
+        get => base.AccessibleDescription;
+        set { base.AccessibleDescription = value; SyncTextAccessibility(); }
+    }
+
+    private void SyncTextAccessibility()
+    {
+        _text.AccessibleName = AccessibleName;
+        _text.AccessibleDescription = AccessibleDescription;
+    }
+
     protected override void OnGotFocus(EventArgs e)
     {
         base.OnGotFocus(e);
@@ -115,6 +134,8 @@ public class EnterpriseDropDownControl : EnterpriseControlBase
     private readonly List<string> _items = new();
     private int _selected = -1;
     private bool _hasError;
+    private bool _dropDownOpen;
+    private ToolStripDropDown? _popup;
 
     public EnterpriseDropDownControl()
     {
@@ -150,6 +171,7 @@ public class EnterpriseDropDownControl : EnterpriseControlBase
             if (value == _selected) return;
             _selected = value;
             Invalidate();
+            if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.ValueChange, -1);
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -170,7 +192,40 @@ public class EnterpriseDropDownControl : EnterpriseControlBase
     public void ShowDropDown()
     {
         if (!Enabled || _items.Count == 0) return;
-        ChoicePopup.Show(this, new Rectangle(0, 0, Width, Height), _items, SelectedItem, choice => SelectedItem = choice);
+        _dropDownOpen = true;
+        NotifyComboState();
+        _popup = ChoicePopup.Show(this, new Rectangle(0, 0, Width, Height), _items, SelectedItem, choice => SelectedItem = choice);
+        _popup.Closed += (_, _) =>
+        {
+            _dropDownOpen = false;
+            _popup = null;
+            NotifyComboState();
+        };
+    }
+
+    private void NotifyComboState()
+    {
+        if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.StateChange, -1);
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new DropDownAccessibleObject(this);
+
+    private sealed class DropDownAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseDropDownControl _owner;
+
+        public DropDownAccessibleObject(EnterpriseDropDownControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.ComboBox;
+        public override string? Value { get => _owner.SelectedItem; set => _owner.SelectedItem = value; }
+        public override AccessibleStates State => base.State | (_owner._dropDownOpen ? AccessibleStates.Expanded : AccessibleStates.Collapsed);
+        public override string? DefaultAction => _owner._dropDownOpen ? "Close" : "Open";
+
+        public override void DoDefaultAction()
+        {
+            if (_owner._dropDownOpen) _owner._popup?.Close();
+            else _owner.ShowDropDown();
+        }
     }
 
     protected override void OnMouseDown(MouseEventArgs e)
@@ -242,6 +297,7 @@ public class EnterpriseCheckControl : EnterpriseControlBase
             if (_checked == value) return;
             _checked = value;
             Invalidate();
+            AccessibilityNotifyClients(AccessibleEvents.StateChange, -1);
             CheckedChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -281,5 +337,23 @@ public class EnterpriseCheckControl : EnterpriseControlBase
 
         Chrome.DrawCheckBox(g, Colors, box, _checked ? CheckState.Checked : CheckState.Unchecked, Enabled && !ReadOnly, IsHovered);
         Chrome.DrawText(g, Text, Font, new Rectangle(box.Right + S(10), 0, Math.Max(0, Width - box.Right - S(12)), Height), Enabled ? Colors.Text : Colors.Disabled);
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new CheckAccessibleObject(this);
+
+    private sealed class CheckAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseCheckControl _owner;
+
+        public CheckAccessibleObject(EnterpriseCheckControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.CheckButton;
+        public override AccessibleStates State => base.State | (_owner.Checked ? AccessibleStates.Checked : 0) | (_owner.ReadOnly ? AccessibleStates.ReadOnly : 0);
+        public override string? DefaultAction => _owner.Checked ? "Uncheck" : "Check";
+
+        public override void DoDefaultAction()
+        {
+            if (_owner.Enabled && !_owner.ReadOnly) _owner.Checked = !_owner.Checked;
+        }
     }
 }

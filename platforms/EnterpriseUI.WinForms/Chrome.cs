@@ -208,13 +208,13 @@ public abstract class EnterpriseControlBase : Control, IThemeableControl
     private ControlColors? _colors;
     private Font? _boldFont;
     private bool _hovered;
+    private bool _fontInitialized;
 
     protected EnterpriseControlBase()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.Selectable | ControlStyles.StandardClick | ControlStyles.StandardDoubleClick, true);
         DoubleBuffered = true;
         TabStop = true;
-        Font = new Font("Segoe UI", 9f);
         _themeHandler = (_, theme) =>
         {
             if (!IsDisposed) OnThemeChanged(theme);
@@ -267,6 +267,11 @@ public abstract class EnterpriseControlBase : Control, IThemeableControl
 
     protected override void OnHandleCreated(EventArgs e)
     {
+        if (!_fontInitialized)
+        {
+            _fontInitialized = true;
+            Font = new Font("Segoe UI", 10f);
+        }
         base.OnHandleCreated(e);
         BackColor = Colors.Surface;
         ForeColor = Colors.Text;
@@ -274,6 +279,7 @@ public abstract class EnterpriseControlBase : Control, IThemeableControl
 
     protected override void OnFontChanged(EventArgs e)
     {
+        _fontInitialized = true;
         base.OnFontChanged(e);
         _boldFont?.Dispose();
         _boldFont = null;

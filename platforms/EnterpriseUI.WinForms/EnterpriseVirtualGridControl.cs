@@ -30,6 +30,7 @@ public class EnterpriseVirtualGridControl : EnterpriseScrollableControl
     {
         Size = new Size(760, 280);
         AccessibleRole = AccessibleRole.Table;
+        AccessibleName = "Virtual data grid";
         _grid.CellValueNeeded += (_, e) =>
         {
             if (!UseSampleData) return;
@@ -132,6 +133,15 @@ public class EnterpriseVirtualGridControl : EnterpriseScrollableControl
     {
         var view = ViewPort;
         return new Rectangle(view.X + RowHeaderPx + column * ColPx - ScrollX, view.Y + HeaderPx + (int)((long)row * RowPx - ScrollY), ColPx, RowPx);
+    }
+
+    private (int First, int Last) VisibleRows
+    {
+        get
+        {
+            if (_grid.RowCount == 0 || CellsArea.Height <= 0) return (0, -1);
+            return (Math.Max(0, ScrollY / RowPx), (int)Math.Min(_grid.RowCount - 1L, ((long)ScrollY + CellsArea.Height) / RowPx));
+        }
     }
 
     private (int Row, int Column) CellAt(Point location)
@@ -393,5 +403,133 @@ public class EnterpriseVirtualGridControl : EnterpriseScrollableControl
         if (char.IsControl(e.KeyChar) || !AllowEdit) return;
         BeginEdit(e.KeyChar.ToString());
         e.Handled = true;
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new VirtualGridAccessibleObject(this);
+
+    private sealed class VirtualGridAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseVirtualGridControl _owner;
+
+        public VirtualGridAccessibleObject(EnterpriseVirtualGridControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.Table;
+        public override string? Description => "Use arrow keys to move between cells, Enter or F2 to edit.";
+        public override int GetChildCount()
+        {
+            if (_owner._grid.RowCount == 0 || _owner._grid.ColumnCount == 0) return 0;
+            var visible = _owner.VisibleRows;
+            return 1 + Math.Max(0, visible.Last - visible.First + 1);
+        }
+        public override AccessibleObject? GetChild(int index)
+        {
+            if (index < 0 || index >= GetChildCount()) return null;
+            var visible = _owner.VisibleRows;
+            return new VirtualRowAccessibleObject(_owner, this, index == 0 ? -1 : visible.First + index - 1);
+        }
+        public override AccessibleObject? GetFocused()
+        {
+            if (!_owner.Focused || _owner._grid.RowCount == 0 || _owner._grid.ColumnCount == 0) return null;
+            var visible = _owner.VisibleRows;
+            if (_owner._selectedRow < visible.First || _owner._selectedRow > visible.Last) return null;
+            return new VirtualCellAccessibleObject(_owner, GetChild(_owner._selectedRow - visible.First + 1)!, _owner._selectedRow, _owner._selectedColumn);
+        }
+    }
+
+    private sealed class VirtualRowAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseVirtualGridControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _row;
+
+        public VirtualRowAccessibleObject(EnterpriseVirtualGridControl owner, AccessibleObject parent, int row)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.Row;
+        public override string? Name => _row < 0 ? "Column headers" : $"Row {_row + 1:N0}";
+        public override Rectangle Bounds
+        {
+            get
+            {
+                var view = _owner.ViewPort;
+                var bounds = _row < 0
+                    ? new Rectangle(view.X + _owner.RowHeaderPx, view.Y, Math.Max(0, view.Width - _owner.RowHeaderPx), _owner.HeaderPx)
+                    : new Rectangle(view.X, _owner.CellRect(_row, 0).Y, view.Width, _owner.RowPx);
+                return _owner.IsHandleCreated ? _owner.RectangleToScreen(bounds) : Rectangle.Empty;
+            }
+        }
+        public override AccessibleStates State => AccessibleStates.Focusable | (_row >= 0 && _owner._selectedRow == _row ? AccessibleStates.Selected : 0);
+        public override int GetChildCount() => _owner._grid.ColumnCount;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new VirtualCellAccessibleObject(_owner, this, _row, index);
+    }
+
+    private sealed class VirtualCellAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseVirtualGridControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _row;
+        private readonly int _column;
+
+        public VirtualCellAccessibleObject(EnterpriseVirtualGridControl owner, AccessibleObject parent, int row, int column)
+        {
+            _owner = owner;
+            _parent = parent;
+            _row = row;
+            _column = column;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => _row < 0 ? AccessibleRole.ColumnHeader : AccessibleRole.Cell;
+        public override string? Name
+        {
+            get
+            {
+                var title = _owner.Title(_column);
+                return _row < 0 ? title : $"{title}, row {_row + 1:N0}, {Value}";
+            }
+        }
+        public override string? Value => _row < 0 ? null : Convert.ToString(_owner.GetCellValue(_row, _column), CultureInfo.CurrentCulture);
+        public override Rectangle Bounds
+        {
+            get
+            {
+                var cell = _owner.CellRect(Math.Max(0, _row), _column);
+                if (_row < 0) cell.Y = _owner.ViewPort.Y;
+                return _owner.IsHandleCreated ? _owner.RectangleToScreen(cell) : Rectangle.Empty;
+            }
+        }
+        public override AccessibleStates State
+        {
+            get
+            {
+                if (_row < 0) return AccessibleStates.Focusable;
+                var state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+                if (!_owner.AllowEdit) state |= AccessibleStates.ReadOnly;
+                if (_row == _owner._selectedRow && _column == _owner._selectedColumn) state |= AccessibleStates.Selected;
+                if (_owner.Focused && _row == _owner._selectedRow && _column == _owner._selectedColumn) state |= AccessibleStates.Focused;
+                return state;
+            }
+        }
+        public override string? DefaultAction => _row >= 0 && _owner.AllowEdit ? "Edit" : null;
+
+        public override void DoDefaultAction()
+        {
+            if (_row < 0 || !_owner.AllowEdit) return;
+            _owner.SelectCell(_row, _column);
+            _owner.BeginEdit();
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (_row < 0) return;
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.SelectCell(_row, _column);
+        }
     }
 }

@@ -105,6 +105,7 @@ public class InteractiveControlTests
             Ui.Key(split, Keys.Enter);
             Assert.Equal(2, primary);
 
+            Cursor.Position = split.PointToScreen(new Point(split.Width - 8, 10));
             Ui.Click(split, split.Width - 8, 10);
             Pump(60);
             Assert.True(split.IsDropDownOpen);

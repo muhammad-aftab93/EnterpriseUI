@@ -121,7 +121,7 @@ internal sealed class CommandLinkButton : EnterpriseControlBase
 public class EnterpriseTaskDialogForm : EnterpriseForm
 {
     private const int ContentWidth = 452;
-    private readonly FlowLayoutPanel _stack = new() { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false, Padding = new Padding(24, 18, 24, 8), AutoScroll = false };
+    private readonly FlowLayoutPanel _stack = new() { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false, Padding = new Padding(24, 18, 24, 8), AutoScroll = true };
     private readonly FlowLayoutPanel _buttons = new() { Dock = DockStyle.Bottom, Height = 52, FlowDirection = FlowDirection.RightToLeft, Padding = new Padding(16, 8, 16, 8) };
     private readonly Label _footer = new() { Dock = DockStyle.Bottom, Height = 36, Padding = new Padding(24, 10, 24, 0), Visible = false };
     private readonly Label _icon = new() { TextAlign = ContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 16, FontStyle.Bold), Size = new Size(40, 40), Margin = new Padding(0, 0, 12, 0) };
@@ -459,7 +459,15 @@ public class EnterpriseTaskDialogForm : EnterpriseForm
         var stackHeight = _stack.GetPreferredSize(new Size(ContentWidth + 48, 0)).Height;
         var footer = _footer.Visible ? _footer.Height : 0;
         var buttons = _buttons.Visible ? _buttons.Height : 0;
-        ClientSize = new Size(ContentWidth + 48, TitleBar.Height + stackHeight + 8 + footer + buttons);
+        var screen = Owner is not null ? Screen.FromControl(Owner)
+            : IsHandleCreated ? Screen.FromControl(this) : Screen.FromPoint(Cursor.Position);
+        var maxWidth = Math.Max(320, screen.WorkingArea.Width - 32);
+        var maxHeight = Math.Max(200, screen.WorkingArea.Height - 32);
+        var width = Math.Min(ContentWidth + 48, maxWidth);
+        var fixedHeight = TitleBar.Height + 8 + footer + buttons;
+        var height = Math.Min(fixedHeight + stackHeight, maxHeight);
+        _stack.AutoScroll = stackHeight > Math.Max(0, height - fixedHeight);
+        ClientSize = new Size(width, height);
     }
 
     private void OnCommandLink(string id)

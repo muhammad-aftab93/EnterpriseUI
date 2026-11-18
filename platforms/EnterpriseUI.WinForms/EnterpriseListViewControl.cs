@@ -160,6 +160,7 @@ public class EnterpriseListViewControl : EnterpriseScrollableControl
         Items = new EnterpriseListViewItemCollection(this);
         Size = new Size(520, 300);
         AccessibleRole = AccessibleRole.List;
+        AccessibleName = "List view";
     }
 
     public EnterpriseListViewItemCollection Items { get; }
@@ -291,6 +292,152 @@ public class EnterpriseListViewControl : EnterpriseScrollableControl
 
     private int CellWidth => S(ItemWidth > 0 ? ItemWidth : _mode == ListViewMode.Tiles ? 230 : 190);
     private int CellHeight => _mode == ListViewMode.Tiles ? S(60) : RowPx;
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new ListViewAccessibleObject(this);
+
+    private Entry? EntryFor(EnterpriseListViewItem item)
+    {
+        EnsureLayout(ViewPort.Width);
+        return _entries.FirstOrDefault(entry => ReferenceEquals(entry.Item, item));
+    }
+
+    private sealed class ListViewAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseListViewControl _owner;
+
+        public ListViewAccessibleObject(EnterpriseListViewControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => _owner.View == ListViewMode.Details ? AccessibleRole.Table : AccessibleRole.List;
+        public override int GetChildCount()
+        {
+            _owner.EnsureLayout(_owner.ViewPort.Width);
+            return (_owner.HeaderPx > 0 ? 1 : 0) + _owner._order.Count;
+        }
+        public override AccessibleObject? GetChild(int index)
+        {
+            if (index < 0 || index >= GetChildCount()) return null;
+            if (_owner.HeaderPx > 0 && index == 0) return new ListViewItemAccessibleObject(_owner, this, null);
+            var itemIndex = index - (_owner.HeaderPx > 0 ? 1 : 0);
+            return new ListViewItemAccessibleObject(_owner, this, _owner._order[itemIndex]);
+        }
+        public override AccessibleObject? GetFocused()
+        {
+            if (!_owner.Focused || _owner._current is null) return null;
+            var index = _owner._order.IndexOf(_owner._current) + (_owner.HeaderPx > 0 ? 1 : 0);
+            return index < 0 ? null : GetChild(index);
+        }
+    }
+
+    private sealed class ListViewItemAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseListViewControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly EnterpriseListViewItem? _item;
+
+        public ListViewItemAccessibleObject(EnterpriseListViewControl owner, AccessibleObject parent, EnterpriseListViewItem? item)
+        {
+            _owner = owner;
+            _parent = parent;
+            _item = item;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => _item is null ? AccessibleRole.Row : _owner.View == ListViewMode.Details ? AccessibleRole.Row : AccessibleRole.ListItem;
+        public override string? Name => _item is null ? "Column headers" : _item.Text;
+        public override string? Value => _item is null ? null : string.Join(", ", _owner.VisibleColumns().Select(column => _owner.GetCellText(_item, column.Index)));
+        public override Rectangle Bounds
+        {
+            get
+            {
+                var view = _owner.ViewPort;
+                if (_item is null)
+                    return _owner.IsHandleCreated ? _owner.RectangleToScreen(new Rectangle(view.X, view.Y, view.Width, _owner.HeaderPx)) : Rectangle.Empty;
+                var entry = _owner.EntryFor(_item);
+                return entry is null || !_owner.IsHandleCreated ? Rectangle.Empty : _owner.RectangleToScreen(_owner.ToControl(entry.Bounds));
+            }
+        }
+        public override AccessibleStates State
+        {
+            get
+            {
+                if (_item is null) return AccessibleStates.Focusable;
+                var state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+                if (!_owner.Enabled) state |= AccessibleStates.Unavailable;
+                if (_owner._selected.Contains(_item)) state |= AccessibleStates.Selected;
+                if (_owner._checkBoxes && _item.Checked) state |= AccessibleStates.Checked;
+                if (_owner.Focused && ReferenceEquals(_owner._current, _item)) state |= AccessibleStates.Focused;
+                return state;
+            }
+        }
+        public override int GetChildCount() => _owner.View == ListViewMode.Details ? _owner.VisibleColumns().Count() : 0;
+        public override AccessibleObject? GetChild(int index)
+        {
+            if (index < 0 || index >= GetChildCount()) return null;
+            var columns = _owner.VisibleColumns().ToList();
+            return new ListViewCellAccessibleObject(_owner, this, _item, columns[index].Column, columns[index].Index);
+        }
+        public override string? DefaultAction => _item is null ? null : _owner._checkBoxes ? (_item.Checked ? "Uncheck" : "Check") : "Select";
+
+        public override void DoDefaultAction()
+        {
+            if (_item is null || !_owner.Enabled) return;
+            if (_owner._checkBoxes) _item.Checked = !_item.Checked;
+            _owner.SelectItem(_item);
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (_item is null) return;
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.SelectItem(_item);
+        }
+    }
+
+    private sealed class ListViewCellAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseListViewControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly EnterpriseListViewItem? _item;
+        private readonly EnterpriseListViewColumn _column;
+        private readonly int _index;
+
+        public ListViewCellAccessibleObject(EnterpriseListViewControl owner, AccessibleObject parent, EnterpriseListViewItem? item, EnterpriseListViewColumn column, int index)
+        {
+            _owner = owner;
+            _parent = parent;
+            _item = item;
+            _column = column;
+            _index = index;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => _item is null ? AccessibleRole.ColumnHeader : AccessibleRole.Cell;
+        public override string? Name => _item is null ? _column.Text : $"{_column.Text}: {Value}";
+        public override string? Value => _item is null ? null : _owner.GetCellText(_item, _index);
+        public override Rectangle Bounds
+        {
+            get
+            {
+                if (!_owner.IsHandleCreated) return Rectangle.Empty;
+                if (_item is null) return _owner.RectangleToScreen(_owner.HeaderCell(_index));
+                var entry = _owner.EntryFor(_item);
+                if (entry is null) return Rectangle.Empty;
+                var row = _owner.ToControl(entry.Bounds);
+                var x = _owner.ViewPort.X - _owner.ScrollX + _owner.CheckGutter;
+                foreach (var column in _owner.VisibleColumns())
+                {
+                    var width = _owner.S(column.Column.Width);
+                    if (column.Index == _index) return _owner.RectangleToScreen(new Rectangle(x, row.Y, width, row.Height));
+                    x += width;
+                }
+
+                return Rectangle.Empty;
+            }
+        }
+        public override AccessibleStates State => _item is null ? AccessibleStates.Focusable :
+            AccessibleStates.Focusable | AccessibleStates.ReadOnly |
+            (_owner._selected.Contains(_item) ? AccessibleStates.Selected : 0);
+    }
 
     public void Relayout()
     {

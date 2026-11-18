@@ -37,7 +37,7 @@ public class EnterpriseLabelControl : Control, IThemeableControl
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.SupportsTransparentBackColor, true);
         SetStyle(ControlStyles.Selectable, false);
         BackColor = Color.Transparent;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
         Size = new Size(200, 24);
         TabStop = false;
         AccessibleRole = AccessibleRole.StaticText;

@@ -253,6 +253,7 @@ public class EnterpriseListControl : EnterpriseScrollableControl
             }
 
             Invalidate();
+            NotifySelectionChanged(_current);
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -302,6 +303,12 @@ public class EnterpriseListControl : EnterpriseScrollableControl
 
     public string GetItemText(int index) => index >= 0 && index < _items.Count ? MemberAccess.Text(_items[index], _displayMember) : string.Empty;
 
+    protected void NotifyItemStateChanged(int sourceIndex)
+    {
+        var position = _view.IndexOf(sourceIndex);
+        if (IsHandleCreated && position >= 0) AccessibilityNotifyClients(AccessibleEvents.StateChange, position + 1);
+    }
+
     public int IndexFromPoint(Point location)
     {
         var view = ViewPort;
@@ -350,6 +357,7 @@ public class EnterpriseListControl : EnterpriseScrollableControl
         _current = pos;
         EnsureRowVisible(pos);
         Invalidate();
+        NotifySelectionChanged(pos);
         if (!before.SequenceEqual(_selected.OrderBy(i => i))) SelectionChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -568,6 +576,98 @@ public class EnterpriseListControl : EnterpriseScrollableControl
         e.Handled = true;
     }
 
+    protected override AccessibleObject CreateAccessibilityInstance() => new ListAccessibleObject(this);
+
+    private void NotifySelectionChanged(int position)
+    {
+        if (!IsHandleCreated) return;
+        if (position >= 0) AccessibilityNotifyClients(AccessibleEvents.Selection, position + 1);
+        AccessibilityNotifyClients(AccessibleEvents.SelectionWithin, -1);
+    }
+
+    private sealed class ListAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseListControl _owner;
+
+        public ListAccessibleObject(EnterpriseListControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.List;
+        public override int GetChildCount() => _owner._view.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new ListItemAccessibleObject(_owner, this, index);
+        public override AccessibleObject? GetFocused() =>
+            _owner.Focused && _owner._current >= 0 ? GetChild(_owner._current) : null;
+    }
+
+    private sealed class ListItemAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseListControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly int _position;
+
+        public ListItemAccessibleObject(EnterpriseListControl owner, AccessibleObject parent, int position)
+        {
+            _owner = owner;
+            _parent = parent;
+            _position = position;
+        }
+
+        private int SourceIndex => _position >= 0 && _position < _owner._view.Count ? _owner._view[_position] : -1;
+        private Rectangle ClientBounds
+        {
+            get
+            {
+                if (SourceIndex < 0) return Rectangle.Empty;
+                var view = _owner.ViewPort;
+                return new Rectangle(view.X, view.Y + _position * _owner.ItemPixelHeight - _owner.ScrollY, view.Width, _owner.ItemPixelHeight);
+            }
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.ListItem;
+        public override string? Name => SourceIndex >= 0 ? _owner.GetItemText(SourceIndex) : null;
+        public override string? Value { get => Name; set { } }
+        public override Rectangle Bounds => ClientBounds.IsEmpty ? Rectangle.Empty : _owner.RectangleToScreen(ClientBounds);
+        public override AccessibleStates State
+        {
+            get
+            {
+                var source = SourceIndex;
+                if (source < 0) return AccessibleStates.Offscreen;
+                var state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+                if (!_owner.Enabled) state |= AccessibleStates.Unavailable;
+                if (_owner._selected.Contains(source)) state |= AccessibleStates.Selected;
+                if (_owner.Focused && _owner._current == _position) state |= AccessibleStates.Focused;
+                if (_owner is EnterpriseCheckedListBoxControl checks && checks.GetItemChecked(source)) state |= AccessibleStates.Checked;
+                if (!_owner.ViewPort.IntersectsWith(ClientBounds)) state |= AccessibleStates.Offscreen;
+                return state;
+            }
+        }
+        public override string? DefaultAction => SourceIndex < 0 ? null : _owner is EnterpriseCheckedListBoxControl checks
+            ? checks.GetItemChecked(SourceIndex) ? "Uncheck" : "Check"
+            : _owner.SelectionMode == ListSelectionMode.None ? null : "Select";
+
+        public override void DoDefaultAction()
+        {
+            var source = SourceIndex;
+            if (source < 0 || !_owner.Enabled) return;
+            if (_owner is EnterpriseCheckedListBoxControl checks)
+            {
+                checks.SetItemChecked(source, !checks.GetItemChecked(source));
+                _owner.SelectedIndex = source;
+            }
+            else _owner.SelectedIndex = source;
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            var source = SourceIndex;
+            if (source < 0) return;
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.SelectedIndex = source;
+        }
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (disposing)
@@ -611,6 +711,7 @@ public class EnterpriseCheckedListBoxControl : EnterpriseListControl
         if (args.NewValue == CheckState.Checked) _checked.Add(index);
         else _checked.Remove(index);
         Invalidate();
+        NotifyItemStateChanged(index);
     }
 
     public void CheckAll()

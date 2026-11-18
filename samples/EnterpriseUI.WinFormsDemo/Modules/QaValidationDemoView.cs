@@ -14,7 +14,7 @@ public class QaValidationDemoView : UserControl
     public QaValidationDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
@@ -90,7 +90,7 @@ public class QaValidationDemoView : UserControl
 
         _testsList.            GridLines = true;
 
-        _testsList.            Font = new Font("Segoe UI", 9f)
+        _testsList.            Font = new Font("Segoe UI", 10f)
 ;
         _testsList.Columns.Add("Test Suite Module", 220);
         _testsList.Columns.Add("Target Assembly", 180);

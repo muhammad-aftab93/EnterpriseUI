@@ -49,6 +49,7 @@ public class EnterpriseTreeMapControl : EnterpriseControlBase
     {
         Size = new Size(640, 400);
         AccessibleRole = AccessibleRole.Graphic;
+        AccessibleName = "Treemap";
     }
 
     public event EventHandler<TreeMapItem>? ItemClick;
@@ -198,6 +199,83 @@ public class EnterpriseTreeMapControl : EnterpriseControlBase
             var w = Chrome.MeasureText(text, Font) + S(14);
             _crumbs.Add((new Rectangle(x, 1 + S(4), w, CrumbPx - S(8)), chain[i], text));
             x += w + S(18);
+        }
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new TreeMapAccessibleObject(this);
+
+    private sealed class TreeMapAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseTreeMapControl _owner;
+
+        public TreeMapAccessibleObject(EnterpriseTreeMapControl owner) : base(owner) => _owner = owner;
+
+        private IReadOnlyList<TreeMapItem> CurrentItems => _owner._current?.Children ?? _owner._roots;
+
+        public override AccessibleRole Role => AccessibleRole.Graphic;
+        public override string? Name => string.IsNullOrWhiteSpace(_owner.RootCaption) ? "Treemap" : _owner.RootCaption;
+        public override string? Description => $"{CurrentItems.Count} items; total {_owner.CurrentTotal().ToString(_owner._valueFormat, CultureInfo.CurrentCulture)}.";
+        public override int GetChildCount() => CurrentItems.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new TreeMapItemAccessibleObject(_owner, this, CurrentItems[index]);
+    }
+
+    private double CurrentTotal() => (_current?.Children ?? _roots).Sum(item => item.TotalValue);
+
+    private sealed class TreeMapItemAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseTreeMapControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly TreeMapItem _item;
+
+        public TreeMapItemAccessibleObject(EnterpriseTreeMapControl owner, AccessibleObject parent, TreeMapItem item)
+        {
+            _owner = owner;
+            _parent = parent;
+            _item = item;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.OutlineItem;
+        public override string? Name { get => _item.Name; set { } }
+        public override string? Value => _item.TotalValue.ToString(_owner._valueFormat, CultureInfo.CurrentCulture);
+        public override string? Description => _item.ColorValue is { } value ? $"{_item.Path}; color value {value.ToString("0.##", CultureInfo.CurrentCulture)}" : _item.Path;
+        public override int GetChildCount() => _item.Children.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new TreeMapItemAccessibleObject(_owner, this, _item.Children[index]);
+        public override Rectangle Bounds
+        {
+            get
+            {
+                if (!_owner.IsHandleCreated) return Rectangle.Empty;
+                _owner.EnsureLayout();
+                var tile = _owner._tiles.FirstOrDefault(candidate => ReferenceEquals(candidate.Item, _item));
+                return tile is null ? Rectangle.Empty : _owner.RectangleToScreen(tile.Bounds);
+            }
+        }
+        public override AccessibleStates State
+        {
+            get
+            {
+                var state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+                if (ReferenceEquals(_owner.SelectedItem, _item)) state |= AccessibleStates.Selected;
+                if (_item.Children.Count > 0) state |= ReferenceEquals(_owner.CurrentItem, _item) ? AccessibleStates.Expanded : AccessibleStates.Collapsed;
+                if (Bounds.IsEmpty) state |= AccessibleStates.Offscreen;
+                return state;
+            }
+        }
+        public override string? DefaultAction => _item.Children.Count > 0 ? "Drill into" : "Select";
+
+        public override void DoDefaultAction()
+        {
+            if (_item.Children.Count > 0) _owner.DrillInto(_item);
+            else _owner.SelectItem(_item);
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.SelectItem(_item);
         }
     }
 
@@ -388,6 +466,7 @@ public class EnterpriseTreeMapControl : EnterpriseControlBase
         if (ReferenceEquals(item, _selected)) return;
         _selected = item;
         Invalidate();
+        if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.Selection, -1);
         SelectionChanged?.Invoke(this, EventArgs.Empty);
     }
 

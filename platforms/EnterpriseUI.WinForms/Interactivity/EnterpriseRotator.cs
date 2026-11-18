@@ -283,6 +283,7 @@ public class EnterpriseRotatorControl : EnterpriseControlBase
         using (var g = Graphics.FromImage(bitmap))
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             var accent = panel.Accent.IsEmpty ? c.Primary : panel.Accent;
             g.Clear(Chrome.Blend(c.Surface, accent, 0.06));
             using (var bar = new SolidBrush(accent)) g.FillRectangle(bar, 0, 0, S(4), Height);
@@ -304,7 +305,17 @@ public class EnterpriseRotatorControl : EnterpriseControlBase
             var total = titleHeight + layout.Size.Height;
             var top = area.Y + Math.Max(0, (area.Height - total) / 2);
             if (titleHeight > 0)
-                TextRenderer.DrawText(g, panel.Title, titleFont, new Rectangle(area.X, top, area.Width, titleFont.Height + 2), accent == c.Primary ? c.Text : accent, ToFlags(_alignment));
+            {
+                using var titleBrush = new SolidBrush(accent == c.Primary ? c.Text : accent);
+                using var titleFormat = new StringFormat(StringFormat.GenericTypographic)
+                {
+                    Alignment = _alignment == HorizontalAlignment.Center ? StringAlignment.Center : _alignment == HorizontalAlignment.Right ? StringAlignment.Far : StringAlignment.Near,
+                    LineAlignment = StringAlignment.Near,
+                    FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip,
+                    Trimming = StringTrimming.EllipsisCharacter
+                };
+                g.DrawString(panel.Title, titleFont, titleBrush, new RectangleF(area.X, top, area.Width, titleFont.Height + 2), titleFormat);
+            }
             origin = new Point(area.X, top + titleHeight);
             layout.Draw(g, origin);
         }

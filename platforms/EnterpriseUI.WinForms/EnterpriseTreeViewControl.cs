@@ -254,7 +254,11 @@ public class EnterpriseTreeViewControl : EnterpriseScrollableControl
             }
 
             Invalidate();
-            if (value is not null) AfterSelect?.Invoke(this, new EnterpriseTreeNodeEventArgs(value));
+            if (value is not null)
+            {
+                NotifyAccessibleNode(value, AccessibleEvents.Selection);
+                AfterSelect?.Invoke(this, new EnterpriseTreeNodeEventArgs(value));
+            }
         }
     }
 
@@ -335,6 +339,14 @@ public class EnterpriseTreeViewControl : EnterpriseScrollableControl
         return ReferenceEquals(top.RootTree, this);
     }
 
+    private void NotifyAccessibleNode(EnterpriseTreeNode node, AccessibleEvents accessibleEvent)
+    {
+        if (!IsHandleCreated) return;
+        Rebuild();
+        var index = _visible.IndexOf(node);
+        if (index >= 0) AccessibilityNotifyClients(accessibleEvent, index + 1);
+    }
+
     private void Rebuild()
     {
         if (!_dirty) return;
@@ -373,6 +385,7 @@ public class EnterpriseTreeViewControl : EnterpriseScrollableControl
 
             node.SetExpandedCore(true);
             NodesChanged();
+            NotifyAccessibleNode(node, AccessibleEvents.StateChange);
             AfterExpand?.Invoke(this, new EnterpriseTreeNodeEventArgs(node));
         }
         else
@@ -382,9 +395,11 @@ public class EnterpriseTreeViewControl : EnterpriseScrollableControl
             {
                 _selected = node;
                 AfterSelect?.Invoke(this, new EnterpriseTreeNodeEventArgs(node));
+                NotifyAccessibleNode(node, AccessibleEvents.Selection);
             }
 
             NodesChanged();
+            NotifyAccessibleNode(node, AccessibleEvents.StateChange);
             AfterCollapse?.Invoke(this, new EnterpriseTreeNodeEventArgs(node));
         }
     }
@@ -414,6 +429,7 @@ public class EnterpriseTreeViewControl : EnterpriseScrollableControl
         }
 
         Invalidate();
+        NotifyAccessibleNode(node, AccessibleEvents.StateChange);
         AfterCheck?.Invoke(this, new EnterpriseTreeNodeEventArgs(node));
     }
 
@@ -469,6 +485,109 @@ public class EnterpriseTreeViewControl : EnterpriseScrollableControl
     {
         var pos = PositionAt(location);
         return pos < 0 ? null : _visible[pos];
+    }
+
+    protected override AccessibleObject CreateAccessibilityInstance() => new TreeAccessibleObject(this);
+
+    private sealed class TreeAccessibleObject : ControlAccessibleObject
+    {
+        private readonly EnterpriseTreeViewControl _owner;
+
+        public TreeAccessibleObject(EnterpriseTreeViewControl owner) : base(owner) => _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.Outline;
+        public override int GetChildCount() => _owner.Nodes.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new TreeNodeAccessibleObject(_owner, this, _owner.Nodes[index]);
+        public override AccessibleObject? GetFocused() =>
+            _owner.Focused && _owner.SelectedNode is { } node ? ForNode(node) : null;
+
+        public override AccessibleObject? HitTest(int x, int y)
+        {
+            var node = _owner.NodeAt(_owner.PointToClient(new Point(x, y)));
+            return node is null ? base.HitTest(x, y) : ForNode(node);
+        }
+
+        private AccessibleObject? ForNode(EnterpriseTreeNode node)
+        {
+            var path = new Stack<EnterpriseTreeNode>();
+            for (var current = node; current is not null; current = current.Parent) path.Push(current);
+            AccessibleObject currentObject = this;
+            while (path.Count > 0)
+            {
+                var next = path.Pop();
+                var siblings = next.Parent?.Nodes ?? _owner.Nodes;
+                var index = -1;
+                for (var i = 0; i < siblings.Count; i++)
+                {
+                    if (ReferenceEquals(siblings[i], next)) { index = i; break; }
+                }
+                if (index < 0) return null;
+                currentObject = currentObject.GetChild(index)!;
+            }
+
+            return currentObject;
+        }
+    }
+
+    private sealed class TreeNodeAccessibleObject : AccessibleObject
+    {
+        private readonly EnterpriseTreeViewControl _owner;
+        private readonly AccessibleObject _parent;
+        private readonly EnterpriseTreeNode _node;
+
+        public TreeNodeAccessibleObject(EnterpriseTreeViewControl owner, AccessibleObject parent, EnterpriseTreeNode node)
+        {
+            _owner = owner;
+            _parent = parent;
+            _node = node;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+        public override AccessibleRole Role => AccessibleRole.OutlineItem;
+        public override string? Name { get => _node.Text; set { } }
+        public override string? Value { get => _node.FullPath(); set { } }
+        public override int GetChildCount() => _node.Nodes.Count;
+        public override AccessibleObject? GetChild(int index) =>
+            index < 0 || index >= GetChildCount() ? null : new TreeNodeAccessibleObject(_owner, this, _node.Nodes[index]);
+        public override Rectangle Bounds
+        {
+            get
+            {
+                if (!_owner.IsHandleCreated) return Rectangle.Empty;
+                _owner.Rebuild();
+                var position = _owner._visible.IndexOf(_node);
+                return position < 0 ? Rectangle.Empty : _owner.RectangleToScreen(_owner.RowRect(position));
+            }
+        }
+        public override AccessibleStates State
+        {
+            get
+            {
+                var state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+                if (!_owner.Enabled || !_node.Enabled) state |= AccessibleStates.Unavailable;
+                if (ReferenceEquals(_owner.SelectedNode, _node)) state |= AccessibleStates.Selected;
+                if (_owner.Focused && ReferenceEquals(_owner.SelectedNode, _node)) state |= AccessibleStates.Focused;
+                if (_node.HasChildren) state |= _node.Expanded ? AccessibleStates.Expanded : AccessibleStates.Collapsed;
+                if (_owner.CheckBoxes && _node.CheckState == CheckState.Checked) state |= AccessibleStates.Checked;
+                if (_owner.CheckBoxes && _node.CheckState == CheckState.Indeterminate) state |= AccessibleStates.Mixed;
+                if (Bounds.IsEmpty || !_owner.ViewPort.IntersectsWith(_owner.RectangleToClient(Bounds))) state |= AccessibleStates.Offscreen;
+                return state;
+            }
+        }
+        public override string? DefaultAction => _node.HasChildren ? (_node.Expanded ? "Collapse" : "Expand") : "Select";
+
+        public override void DoDefaultAction()
+        {
+            if (_node.HasChildren) _owner.SetExpanded(_node, !_node.Expanded);
+            else _owner.SelectedNode = _node;
+        }
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (flags.HasFlag(AccessibleSelection.TakeFocus)) _owner.Focus();
+            if (flags.HasFlag(AccessibleSelection.TakeSelection) || flags.HasFlag(AccessibleSelection.AddSelection)) _owner.SelectedNode = _node;
+        }
     }
 
     // ---- painting -----------------------------------------------------------------------

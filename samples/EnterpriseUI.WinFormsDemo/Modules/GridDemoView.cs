@@ -51,7 +51,7 @@ public class GridDemoView : UserControl
     public GridDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);
@@ -356,13 +356,13 @@ public class GridDemoView : UserControl
 
         // DataGrid Setup
         _grid.Dock = DockStyle.Fill ;
-        _grid.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 90 });
-        _grid.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 180 });
-        _grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 170 });
-        _grid.Columns.Add(new GridColumn { Field = "Region", Title = "Region", Width = 110 });
-        _grid.Columns.Add(new GridColumn { Field = "UnitPrice", Title = "Unit Price", FormatString = "C2", Width = 100 });
-        _grid.Columns.Add(new GridColumn { Field = "Quantity", Title = "Qty", Width = 70 });
-        _grid.Columns.Add(new GridColumn { Field = "Total", Title = "Gross Amount", FormatString = "C2", Width = 110 });
+        _grid.Columns.Add(new GridColumn { Field = "Id", Title = "Record ID", Width = 130 });
+        _grid.Columns.Add(new GridColumn { Field = "Customer", Title = "Enterprise Customer", Width = 205 });
+        _grid.Columns.Add(new GridColumn { Field = "Product", Title = "Product Line", Width = 185 });
+        _grid.Columns.Add(new GridColumn { Field = "Region", Title = "Region", Width = 120 });
+        _grid.Columns.Add(new GridColumn { Field = "UnitPrice", Title = "Unit Price", FormatString = "C2", Width = 130 });
+        _grid.Columns.Add(new GridColumn { Field = "Quantity", Title = "Qty", Width = 80 });
+        _grid.Columns.Add(new GridColumn { Field = "Total", Title = "Gross Amount", FormatString = "C2", Width = 160 });
         _grid.Columns.Add(new GridColumn { Field = "Priority", Title = "Priority", Width = 90 });
         _grid.Columns.Add(new GridColumn { Field = "Status", Title = "Status", Width = 100 });
 

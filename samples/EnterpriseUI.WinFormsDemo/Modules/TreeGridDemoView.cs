@@ -14,7 +14,7 @@ public class TreeGridDemoView : UserControl
     public TreeGridDemoView(DemoItem metadata)
     {
         Dock = DockStyle.Fill;
-        Font = new Font("Segoe UI", 9f);
+        Font = new Font("Segoe UI", 10f);
 
         _baseView.Dock = DockStyle.Fill ;
         _baseView.BindDemoMetadata(metadata);

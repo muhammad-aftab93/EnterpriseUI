@@ -3,10 +3,333 @@ using EnterpriseUI.Grids;
 using EnterpriseUI.Tests.Support;
 using EnterpriseUI.Theming;
 using EnterpriseUI.Theming.Themes;
+using EnterpriseUI.WinForms;
 using Xunit;
 using static EnterpriseUI.Tests.Support.WinFormsTestSupport;
 
 namespace EnterpriseUI.Tests.Accessibility;
+
+public class CustomControlAccessibilityTests
+{
+    private sealed class PropertyProfile
+    {
+        [System.ComponentModel.DataAnnotations.Display(Name = "Email", GroupName = "Identity")]
+        public string Email { get; set; } = "not-an-email";
+    }
+
+    private sealed record PivotSample(string Region, int Amount);
+    private sealed record CardSample(string Name, string Status);
+
+    [Fact]
+    public void ListItemsExposeNamesSelectionAndCheckedState()
+    {
+        RunSta(() =>
+        {
+            using var list = new EnterpriseListControl();
+            list.AddRange(new object[] { "First", "Second" });
+            var accessibleList = list.AccessibilityObject;
+
+            Assert.Equal(2, accessibleList.GetChildCount());
+            Assert.Equal("First", accessibleList.GetChild(0)!.Name);
+            list.SelectedIndex = 1;
+            Assert.True(accessibleList.GetChild(1)!.State.HasFlag(AccessibleStates.Selected));
+
+            using var checks = new EnterpriseCheckedListBoxControl();
+            checks.AddRange(new object[] { "Read", "Write" });
+            checks.SetItemChecked(0, true);
+            var checkedItem = checks.AccessibilityObject.GetChild(0)!;
+            Assert.Equal("Read", checkedItem.Name);
+            Assert.True(checkedItem.State.HasFlag(AccessibleStates.Checked));
+            Assert.Equal("Uncheck", checkedItem.DefaultAction);
+        });
+    }
+
+    [Fact]
+    public void TreeNodesExposeHierarchyExpansionAndCheckState()
+    {
+        RunSta(() =>
+        {
+            using var tree = new EnterpriseTreeViewControl { CheckBoxes = true };
+            var root = tree.Nodes.Add("Root");
+            var child = root.Nodes.Add("Child");
+            var accessibleRoot = tree.AccessibilityObject.GetChild(0)!;
+
+            Assert.Equal(AccessibleRole.OutlineItem, accessibleRoot.Role);
+            Assert.Equal("Root", accessibleRoot.Name);
+            Assert.True(accessibleRoot.State.HasFlag(AccessibleStates.Collapsed));
+            Assert.Equal("Expand", accessibleRoot.DefaultAction);
+
+            accessibleRoot.DoDefaultAction();
+            Assert.True(root.Expanded);
+            Assert.True(accessibleRoot.State.HasFlag(AccessibleStates.Expanded));
+
+            var accessibleChild = accessibleRoot.GetChild(0)!;
+            Assert.Equal("Child", accessibleChild.Name);
+            child.Checked = true;
+            Assert.True(accessibleChild.State.HasFlag(AccessibleStates.Checked));
+            accessibleChild.DoDefaultAction();
+            Assert.Same(child, tree.SelectedNode);
+            Assert.True(accessibleChild.State.HasFlag(AccessibleStates.Selected));
+        });
+    }
+
+    [Fact]
+    public void VirtualGridExposesHeadersVisibleRowsAndCellValues()
+    {
+        RunSta(() =>
+        {
+            using var grid = new EnterpriseVirtualGridControl { RowCount = 3, ColumnCount = 2, UseSampleData = false };
+            grid.ColumnTitles.AddRange(new[] { "Name", "Amount" });
+            grid.SetCellValue(0, 0, "Alice");
+            grid.SetCellValue(0, 1, 125m);
+            var accessible = grid.AccessibilityObject;
+
+            Assert.Equal(AccessibleRole.Table, accessible.Role);
+            Assert.Equal(4, accessible.GetChildCount());
+            var headers = accessible.GetChild(0)!;
+            Assert.Equal("Name", headers.GetChild(0)!.Name);
+            var firstRow = accessible.GetChild(1)!;
+            Assert.Equal("Alice", firstRow.GetChild(0)!.Value);
+            Assert.Equal("125", firstRow.GetChild(1)!.Value);
+
+            grid.SelectCell(0, 1);
+            Assert.True(firstRow.GetChild(1)!.State.HasFlag(AccessibleStates.Selected));
+        });
+    }
+
+    [Fact]
+    public void PropertyGridExposesPropertyRowsAndValues()
+    {
+        RunSta(() =>
+        {
+            using var grid = new EnterprisePropertyGridControl { SelectedObject = new PropertyProfile() };
+            var accessible = grid.AccessibilityObject;
+            var emailRow = Enumerable.Range(0, accessible.GetChildCount())
+                .Select(accessible.GetChild)
+                .First(row => row?.Name == "Email")!;
+
+            Assert.Equal(AccessibleRole.Table, accessible.Role);
+            Assert.Equal(AccessibleRole.Row, emailRow.Role);
+            Assert.Equal(2, emailRow.GetChildCount());
+            Assert.Equal("Email", emailRow.GetChild(0)!.Name);
+            Assert.Equal("not-an-email", emailRow.GetChild(1)!.Value);
+
+            emailRow.Select(AccessibleSelection.TakeSelection);
+            Assert.Equal("Email", grid.SelectedProperty?.Name);
+            Assert.True(emailRow.State.HasFlag(AccessibleStates.Selected));
+        });
+    }
+
+    [Fact]
+    public void PivotGridExposesHeadersAndFormattedResultValues()
+    {
+        RunSta(() =>
+        {
+            using var pivot = new EnterprisePivotGridControl();
+            pivot.RowFields.Add(nameof(PivotSample.Region));
+            pivot.Values.Add(new PivotValueField(nameof(PivotSample.Amount)));
+            pivot.DataSource = new[] { new PivotSample("EMEA", 5), new PivotSample("AMER", 9) };
+            var accessible = pivot.AccessibilityObject;
+            var result = pivot.Result!;
+
+            Assert.Equal(AccessibleRole.Table, accessible.Role);
+            Assert.Equal(result.Rows.Count + 1, accessible.GetChildCount());
+            var headers = accessible.GetChild(0)!;
+            Assert.Equal("Region", headers.GetChild(0)!.Name);
+
+            var row = accessible.GetChild(1)!;
+            Assert.Equal(2, row.GetChildCount());
+            Assert.Equal(result.Rows[0].Labels[0], row.GetChild(0)!.Value);
+            Assert.Equal(result.FormatValue(0, result.Rows[0].Values[0]), row.GetChild(1)!.Value);
+        });
+    }
+
+    [Fact]
+    public void ListViewExposesDetailsCellsSelectionAndCheckedState()
+    {
+        RunSta(() =>
+        {
+            using var list = new EnterpriseListViewControl { View = ListViewMode.Details, CheckBoxes = true };
+            list.AddColumn("Name", 140);
+            list.AddColumn("Status", 100);
+            var item = list.Items.Add("Alice", "Active");
+            item.Checked = true;
+            var accessible = list.AccessibilityObject;
+
+            Assert.Equal(AccessibleRole.Table, accessible.Role);
+            Assert.Equal(2, accessible.GetChildCount());
+            Assert.Equal("Name", accessible.GetChild(0)!.GetChild(0)!.Name);
+            var row = accessible.GetChild(1)!;
+            Assert.Equal("Alice", row.Name);
+            Assert.Equal("Active", row.GetChild(1)!.Value);
+            Assert.True(row.State.HasFlag(AccessibleStates.Checked));
+
+            row.Select(AccessibleSelection.TakeSelection);
+            Assert.True(accessible.GetChild(1)!.State.HasFlag(AccessibleStates.Selected));
+        });
+    }
+
+    [Fact]
+    public void HeatMapExposesRowAndColumnLabelsWithCellValues()
+    {
+        RunSta(() =>
+        {
+            using var heatMap = new EnterpriseHeatMapControl { Title = "Orders" };
+            heatMap.SetMatrix(new[] { "North", "South" }, new[] { "Q1", "Q2" }, new double?[,] { { 12, 18 }, { 7, 9 } });
+            var accessible = heatMap.AccessibilityObject;
+
+            Assert.Equal(AccessibleRole.Table, accessible.Role);
+            Assert.Contains("2 rows and 2 columns", accessible.Description);
+            Assert.Equal(3, accessible.GetChildCount());
+            Assert.Equal("Q1", accessible.GetChild(0)!.GetChild(1)!.Name);
+            var cell = accessible.GetChild(1)!.GetChild(1)!;
+            Assert.Equal("North, Q1", cell.Name);
+            Assert.Equal("12", cell.Value);
+            cell.Select(AccessibleSelection.TakeSelection);
+            Assert.True(cell.State.HasFlag(AccessibleStates.Selected));
+        });
+    }
+
+    [Fact]
+    public void CompositeInputNamesReachTheFocusableChild()
+    {
+        RunSta(() =>
+        {
+            using var input = new EnterpriseInputControl { AccessibleName = "Account name", AccessibleDescription = "Name on the customer account" };
+            using var textBox = new EnterpriseTextBoxControl { AccessibleName = "Search", AccessibleDescription = "Search customer records" };
+            using var combo = new EnterpriseDropDownControl { AccessibleName = "Region" };
+            combo.SetItems(new[] { "North", "South" });
+
+            Assert.Equal("Account name", input.InnerTextBox.AccessibleName);
+            Assert.Equal("Name on the customer account", input.InnerTextBox.AccessibleDescription);
+            Assert.Equal("Search", textBox.Controls.OfType<TextBox>().Single().AccessibleName);
+            Assert.Equal(AccessibleRole.ComboBox, combo.AccessibilityObject.Role);
+            Assert.Equal("North", (combo.AccessibilityObject.Value = "North") is null ? null : combo.SelectedItem);
+        });
+    }
+
+    [Fact]
+    public void StandaloneScrollBarExposesValueAndKeyboardRangeCommands()
+    {
+        RunSta(() =>
+        {
+            using var scrollBar = new EnterpriseScrollBar(Orientation.Vertical) { Minimum = 0, Maximum = 100, LargeChange = 10 };
+            var accessible = scrollBar.AccessibilityObject;
+
+            Assert.Equal(AccessibleRole.ScrollBar, accessible.Role);
+            Assert.True(scrollBar.TabStop);
+            Assert.Equal("Vertical scroll bar", accessible.Name);
+            Assert.Contains("0 to 91", accessible.Description);
+
+            scrollBar.Value = 20;
+            Assert.Equal("20", accessible.Value);
+            Invoke(scrollBar, "OnKeyDown", new KeyEventArgs(Keys.End));
+            Assert.Equal(scrollBar.MaxValue, scrollBar.Value);
+        });
+    }
+
+    [Fact]
+    public void CardViewExposesAccessibleTitlesDetailsAndState()
+    {
+        RunSta(() =>
+        {
+            var sample = new CardSample("Northwind", "Active");
+            using var cards = new EnterpriseCardViewControl
+            {
+                DataSource = new[] { sample },
+                TitleField = nameof(CardSample.Name),
+                SubtitleField = nameof(CardSample.Status),
+                CheckBoxes = true
+            };
+            cards.SetChecked(sample, true);
+            var accessible = cards.AccessibilityObject;
+            var card = accessible.GetChild(0)!;
+
+            Assert.Equal(AccessibleRole.List, accessible.Role);
+            Assert.Equal(1, accessible.GetChildCount());
+            Assert.Equal("Northwind", card.Name);
+            Assert.Contains("Active", card.Value);
+            Assert.True(card.State.HasFlag(AccessibleStates.Checked));
+
+            card.Select(AccessibleSelection.TakeSelection);
+            Assert.True(cards.SelectedItems.Contains(sample));
+            Assert.True(card.State.HasFlag(AccessibleStates.Selected));
+        });
+    }
+
+    [Fact]
+    public void TreeMapExposesHierarchyValuesAndDrillAction()
+    {
+        RunSta(() =>
+        {
+            var root = new TreeMapItem("Regions");
+            var north = root.Add("North", 12);
+            root.Add("South", 8);
+            using var map = new EnterpriseTreeMapControl();
+            map.SetItems(new[] { root });
+            var accessible = map.AccessibilityObject;
+            var accessibleRoot = accessible.GetChild(0)!;
+
+            Assert.Equal(AccessibleRole.Graphic, accessible.Role);
+            Assert.Equal("Regions", accessibleRoot.Name);
+            Assert.Equal("20", accessibleRoot.Value);
+            Assert.Equal("Drill into", accessibleRoot.DefaultAction);
+
+            accessibleRoot.DoDefaultAction();
+            Assert.Same(root, map.CurrentItem);
+            var accessibleNorth = accessible.GetChild(0)!;
+            Assert.Equal("North", accessibleNorth.Name);
+            Assert.Equal("12", accessibleNorth.Value);
+            accessibleNorth.Select(AccessibleSelection.TakeSelection);
+            Assert.Same(north, map.SelectedItem);
+            Assert.True(accessibleNorth.State.HasFlag(AccessibleStates.Selected));
+        });
+    }
+
+    [Fact]
+    public void FilterViewExposesFacetValuesAndSelectionActions()
+    {
+        RunSta(() =>
+        {
+            using var filters = new EnterpriseFilterViewControl
+            {
+                DataSource = new[] { new PivotSample("EMEA", 5), new PivotSample("AMER", 9) }
+            };
+            var facet = filters.AddListFacet(nameof(PivotSample.Region));
+            var accessible = filters.AccessibilityObject;
+            var value = Enumerable.Range(0, accessible.GetChildCount())
+                .Select(accessible.GetChild)
+                .First(row => row?.Name == "EMEA")!;
+
+            Assert.Equal(AccessibleRole.Grouping, accessible.Role);
+            Assert.Equal(AccessibleRole.CheckButton, value.Role);
+            Assert.Equal("Select", value.DefaultAction);
+            value.DoDefaultAction();
+            Assert.Contains("EMEA", facet.Selected);
+            Assert.True(value.State.HasFlag(AccessibleStates.Checked));
+        });
+    }
+
+    [Fact]
+    public void CheckControlExposesCheckedStateAndAccessibleDefaultAction()
+    {
+        RunSta(() =>
+        {
+            using var check = new EnterpriseCheckControl { Text = "Enable reports" };
+            var accessible = check.AccessibilityObject;
+
+            Assert.Equal(AccessibleRole.CheckButton, accessible.Role);
+            Assert.False(accessible.State.HasFlag(AccessibleStates.Checked));
+            Assert.Equal("Check", accessible.DefaultAction);
+
+            accessible.DoDefaultAction();
+
+            Assert.True(check.Checked);
+            Assert.True(accessible.State.HasFlag(AccessibleStates.Checked));
+            Assert.Equal("Uncheck", accessible.DefaultAction);
+        });
+    }
+}
 
 public class AccessibleTreeTests
 {

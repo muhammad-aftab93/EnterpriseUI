@@ -72,7 +72,7 @@ internal sealed class RibbonHeaderStrip : EnterpriseTitleBarContentControl
     protected override void OnFontChanged(EventArgs e)
     {
         base.OnFontChanged(e);
-        Relayout();
+        if (_ribbon is not null) Relayout();
     }
 
     protected override void OnHandleCreated(EventArgs e)
