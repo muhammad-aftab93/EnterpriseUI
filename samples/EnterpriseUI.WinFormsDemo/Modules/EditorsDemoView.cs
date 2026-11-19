@@ -418,8 +418,91 @@ public class EditorsDemoView : UserControl
         tbSplit.Panel2Collapsed = true;
         tabTouchAndButtons.Controls.Add(tbSplit);
 
-        tabs.TabPages.AddRange(new[] { tabCoreForm, tabButtonsSuite, tabSpecialized, tabSyntax, tabTouchAndButtons });
+        tabs.TabPages.AddRange(new[] { tabCoreForm, tabButtonsSuite, tabSpecialized, tabSyntax, tabTouchAndButtons, BuildDateTimeTab() });
         _baseView.DemoContainer.Controls.Add(tabs);
+    }
+
+    /// <summary>One booking assembled from the date, time, spinner and pop-up editors, plus the standalone calculator keypad.</summary>
+    private TabPage BuildDateTimeTab()
+    {
+        var tab = new TabPage("📅 Date, Time & Composite Editors");
+        var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(16), AutoScroll = true };
+        var bold = new Font("Segoe UI", 9f, FontStyle.Bold);
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        Label Caption(string text, int top) => new() { Text = text, Location = new Point(16, top + 6), AutoSize = true, Font = bold };
+
+        var date = new EnterpriseDateOnlyPickerControl
+        {
+            Location = new Point(330, 12), Width = 210, ShowWeekNumbers = true, PlaceholderText = "Pick a date",
+            MinDate = new DateOnly(today.Year, 1, 1), MaxDate = new DateOnly(today.Year, 12, 31), Value = today
+        };
+        var start = new EnterpriseTimePickerControl
+        {
+            Location = new Point(330, 56), Width = 210, MinuteStep = 15, Minimum = new TimeSpan(8, 0, 0), Maximum = new TimeSpan(18, 0, 0),
+            PlaceholderText = "Start time", Value = DateTime.Today.AddHours(9)
+        };
+        var end = new EnterpriseTimeOnlyPickerControl
+        {
+            Location = new Point(330, 100), Width = 210, Is24Hour = true, MinuteStep = 15, PlaceholderText = "End time", Value = new TimeOnly(10, 30)
+        };
+        var spinner = new EnterpriseItemSpinner { Location = new Point(330, 144), Width = 210, Wrap = true };
+        foreach (var day in new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" }) spinner.Items.Add(day);
+        spinner.SelectedIndex = 2;
+
+        var regions = new EnterpriseCheckedListBoxControl { ItemHeight = 28 };
+        regions.AddRange(CachedValues3.Cast<object>());
+        regions.SetItemChecked(0, true);
+        var popup = new EnterprisePopupBox { Location = new Point(330, 188), Width = 210, DropDownSize = new Size(240, 150), PlaceholderText = "Regions", PopupContent = regions };
+
+        var summary = new Label { Location = new Point(16, 244), Size = new Size(524, 44), Font = new Font("Segoe UI", 10f, FontStyle.Bold), ForeColor = Color.FromArgb(0, 102, 180) };
+        var calcResult = new Label { Location = new Point(560, 358), AutoSize = true, Font = bold };
+        var pad = new EnterpriseCalculatorPad { Location = new Point(560, 12), Size = new Size(264, 336) };
+
+        void UpdateSummary()
+        {
+            var valid = start.Value is { } s && end.Value is { } e && e.ToTimeSpan() > s.TimeOfDay;
+            end.HasError = start.Value is not null && end.Value is not null && !valid;
+            if (date.Value is not { } day || start.Value is not { } begin || end.Value is not { } finish)
+            {
+                summary.Text = "Fill in the date, start and end time to see the booking.";
+                return;
+            }
+            summary.Text = valid
+                ? $"{day.ToString("ddd d MMM yyyy")}  {begin:t} - {finish.ToString("t")}  ({(finish.ToTimeSpan() - begin.TimeOfDay).TotalMinutes:0} min), {spinner.SelectedItem}, regions: {popup.DisplayText}"
+                : "The end time must be after the start time.";
+        }
+
+        void UpdateRegions()
+        {
+            var names = regions.CheckedItems.Select(i => i.ToString()).ToList();
+            popup.DisplayText = names.Count == 0 ? string.Empty : string.Join(", ", names);
+            UpdateSummary();
+        }
+
+        date.ValueChanged += (_, _) => { _baseView.LogEvent("EnterpriseDateOnlyPicker.Value", date.Value?.ToString("O") ?? "(empty)"); UpdateSummary(); };
+        start.ValueChanged += (_, _) => { _baseView.LogEvent("EnterpriseTimePicker.Value", start.Value?.ToString("t") ?? "(empty)"); UpdateSummary(); };
+        end.ValueChanged += (_, _) => { _baseView.LogEvent("EnterpriseTimeOnlyPicker.Value", end.Value?.ToString("t") ?? "(empty)"); UpdateSummary(); };
+        spinner.SelectedIndexChanged += (_, _) => { _baseView.LogEvent("EnterpriseItemSpinner.SelectedItem", spinner.SelectedItem ?? "(none)"); UpdateSummary(); };
+        regions.ItemCheck += (_, _) => regions.BeginInvoke(new Action(UpdateRegions));
+        pad.ValueChanged += (_, _) =>
+        {
+            calcResult.Text = $"Last result: {pad.Value:N2}";
+            _baseView.LogEvent("EnterpriseCalculatorPad.Value", pad.Value.ToString("N2"));
+        };
+
+        panel.Controls.AddRange(new Control[]
+        {
+            Caption("EnterpriseDateOnlyPicker (DateOnly):", 12), date,
+            Caption("EnterpriseTimePicker (start, 15-min steps):", 56), start,
+            Caption("EnterpriseTimeOnlyPicker (end, 24h):", 100), end,
+            Caption("EnterpriseItemSpinner (weekday, wraps):", 144), spinner,
+            Caption("EnterprisePopupBox (hosts a checked list):", 188), popup,
+            summary, pad, calcResult
+        });
+        UpdateRegions();
+        tab.Controls.Add(panel);
+        return tab;
     }
 
     private async void RunValidation()

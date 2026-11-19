@@ -25,7 +25,14 @@ internal static class DemoVerification
         [typeof(EnterpriseUI.WinForms.EnterpriseChatControl)] = "interactive-chat",
         [typeof(EnterpriseUI.WinForms.EnterpriseAIPromptControl)] = "interactive-aiprompt",
         [typeof(EnterpriseUI.WinForms.EnterpriseSmartPasteButton)] = "interactive-smartpaste",
-        [typeof(EnterpriseUI.WinForms.EnterpriseSpeechToTextButton)] = "interactive-speechtotext"
+        [typeof(EnterpriseUI.WinForms.EnterpriseSpeechToTextButton)] = "interactive-speechtotext",
+        [typeof(EnterpriseUI.WinForms.EnterpriseDateOnlyPickerControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseTimePickerControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseTimeOnlyPickerControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseItemSpinner)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterprisePopupBox)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseCalculatorPad)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseBrowseBox)] = "documents-multiformat"
     };
 
     private static IEnumerable<Control> Descendants(Control parent)

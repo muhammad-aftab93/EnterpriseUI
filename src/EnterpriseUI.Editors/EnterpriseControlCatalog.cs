@@ -58,21 +58,21 @@ public static class EnterpriseControlRegistry
         new("EnterpriseTextBoxControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "NullText placeholder, Clear button (✕), Prefix glyph, Validation border", "editors-fluent-validation"),
         new("EnterpriseTextBoxControl / SyntaxTextBoxControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Hardware-accelerated text surface with custom selection painting", "editors-fluent-validation"),
         new("EnterpriseButtonTextBoxControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "TextBox with embedded left/right command buttons", "editors-fluent-validation"),
-        new("EnterpriseButtonTextBoxControl (BrowseMode)", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "File/Folder path editor with integrated browse dialog trigger", "editors-fluent-validation"),
+        new("EnterpriseBrowseBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "File open, file save and folder path editor with an integrated browse dialog, start directory and PathSelected event", "editors-fluent-validation"),
         new("EnterpriseMaskedTextBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Phone, SSN, IP, Currency, Regex, and Standard masks", "editors-fluent-validation"),
-        new("SpinEditor / NumericUpDown", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Decimal/Hexadecimal numeric spinner with step & min/max", "editors-fluent-validation"),
-        new("DomainUpDownControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "String collection up/down spinner with wrap-around", "editors-fluent-validation"),
+        new("EnterpriseNumericTextBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Numeric spin editor with step, min/max, decimals and standard, currency, percentage or scientific format", "editors-fluent-validation"),
+        new("EnterpriseItemSpinner", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "String list up/down editor with wrap-around, press-and-hold repeat, type-ahead and mouse wheel", "editors-fluent-validation"),
         new("EnterpriseAutoCompleteBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Tokenized multi-value chips with prefix/contains search", "editors-fluent-validation"),
-        new("PopupEditorControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Resizable dropdown container hosting arbitrary custom controls", "editors-fluent-validation"),
+        new("EnterprisePopupBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Editor whose resizable pop-up hosts any custom control that survives closing", "editors-fluent-validation"),
         new("EnterpriseCalculatorDropDown", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Dropdown arithmetic calculator with memory (MC/MR/MS/M+) & history", "component-catalog"),
-        new("CalculatorControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Standalone scientific/standard calculator pad with expression parser", "component-catalog"),
+        new("EnterpriseCalculatorPad", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Standalone calculator keypad with memory keys, keyboard input and expression evaluation shared with the calculator drop-down", "editors-fluent-validation"),
         new("ColorPicker / ColorBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "HEX/ARGB input, Web/System/Professional palettes, Screen eyedropper", "editors-fluent-validation"),
-        new("DateTimePickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Calendar dropdown, Free-form date parsing, Null date support", "editors-fluent-validation"),
-        new("DateOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Dedicated .NET 8 DateOnly picker with ISO-8601 calendar popup", "editors-fluent-validation"),
-        new("TimePickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Clock face & hour/minute table popup with 12h/24h formats", "editors-fluent-validation"),
-        new("TimeOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Dedicated .NET 8 TimeOnly picker with precision interval selector", "editors-fluent-validation"),
+        new("EnterpriseDatePicker", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Date and time editor model with range, format and optional time part", "editors-fluent-validation"),
+        new("EnterpriseDateOnlyPicker / EnterpriseDateOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "DateOnly editor with typed entry, month grid pop-up, week numbers, range limits and keyboard navigation", "editors-fluent-validation"),
+        new("EnterpriseTimePicker / EnterpriseTimePickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Edits the time part of a DateTime with hour, minute, second and AM/PM columns, 12h/24h format and minute step", "editors-fluent-validation"),
+        new("EnterpriseTimeOnlyPicker / EnterpriseTimeOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "TimeOnly editor with minute, second or millisecond precision, range limits and wrap-around stepping", "editors-fluent-validation"),
         new("EnterpriseTimeSpanPicker", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Days, Hours, Minutes, Seconds, Milliseconds duration picker", "editors-fluent-validation"),
-        new("DropDownListControl<T>", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Virtualized dropdown with auto-complete suggest & append", "editors-fluent-validation"),
+        new("EnterpriseDropDownControl / ComboBox<T>", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Themed single-choice drop-down with keyboard navigation and data-bound combo box model", "editors-fluent-validation"),
         new("EnterpriseListControl", "Editors & Pickers", "docs/Controls/DataManagementControls.md", "Virtualized list with DisplayMember/ValueMember, selection modes, filter, sort, type-ahead", "data-listcontrol"),
         new("EnterpriseCheckedDropDownList<TItem>", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Multi-select checkable dropdown with summary token header", "editors-fluent-validation"),
         new("EnterpriseCheckedListBoxControl", "Editors & Pickers", "docs/Controls/DataManagementControls.md", "Check boxes, CheckOnClick, check all/uncheck all/invert, ItemCheck event, Space toggle", "data-checkedlistbox"),
@@ -132,7 +132,7 @@ public static class EnterpriseControlRegistry
         new("PdfDocumentGenerator / PdfViewerControl", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Page rendering, Thumbnails, Text search, Zoom/Rotate, PdfViewerNavigator", "documents-multiformat"),
         new("EnterpriseSyntaxEditor / EnterpriseSyntaxEditorControl", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Lexical AST tokenizer (C#, SQL, JSON, XML), Line numbers, Code folding", "component-catalog"),
         new("SpellChecker", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Levenshtein distance dictionary suggestions, Custom dictionary, As-you-type", "component-catalog"),
-        new("DocumentProcessingSuite", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Headless WordsProcessing, SpreadProcessing, PdfProcessing & ZipLibrary", "documents-multiformat"),
+        new("DocumentProcessingSuite", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Headless spreadsheet formula helper and ZIP wrappers; full engines are listed under Document Processing", "documents-multiformat"),
 
         // 9. Track, Status, Alerts, Overlays & Notifications (14)
         new("EnterpriseProgressBarControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Determinate and indeterminate, gradient, striped and segmented fill, text overlay, states, animation speed", "interactive-progressbar"),
@@ -176,7 +176,11 @@ public static class EnterpriseControlRegistry
         new("EnterpriseElementHierarchyEditor", "Developer Tools", "docs/Tools/DeveloperTools.md", "Navigate nested controls and edit their properties", "developer-element-hierarchy"),
         new("EnterpriseShapeEditor", "Developer Tools", "docs/Tools/DeveloperTools.md", "Create vector paths by adding, moving, removing, and curving vertices", "developer-shape-editor"),
         new("EnterpriseVisualStyleBuilder", "Developer Tools", "docs/Tools/DeveloperTools.md", "Edit inherited theme tokens and import or export theme documents", "developer-style-builder"),
-        new("EnterpriseZipLibrary", "Document Processing", "docs/Tools/DeveloperTools.md", "Create, list, and extract stream-based ZIP archives with path traversal protection", "documents-zip-library")
+        new("EnterpriseZipLibrary", "Document Processing", "docs/Tools/DeveloperTools.md", "Create, list, and extract stream-based ZIP archives with path traversal protection", "documents-zip-library"),
+        new("EnterprisePdfEngine", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Write, read, merge and split text PDFs; classic cross-reference files with plain or Flate content streams", "documents-multiformat"),
+        new("EnterpriseWordEngine", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Write and read .docx packages: headings, bullets, bold/italic/underline runs and tables", "documents-multiformat"),
+        new("EnterpriseSheetEngine", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Read and write .xlsx workbooks with dates, formulas and cached results; expression evaluator with ranges and common functions", "documents-multiformat"),
+        new("EnterpriseSheetStreamWriter / EnterpriseSheetStreamReader", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Forward-only .xlsx streaming for very large sheets with constant memory", "documents-multiformat")
     };
 }
 
