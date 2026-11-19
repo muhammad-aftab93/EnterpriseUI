@@ -10,7 +10,7 @@ namespace EnterpriseUI.WinFormsDemo.Modules;
 public class DashboardDemoView : UserControl
 {
     private readonly BaseDemoView _baseView=new BaseDemoView();
-    private readonly EnterpriseChartControl _chart=new EnterpriseChartControl();
+    private readonly EnterpriseChartView _chart=new EnterpriseChartView();
 
     public DashboardDemoView(DemoItem metadata)
     {

@@ -102,7 +102,7 @@ public static class DocumentProcessingSuite
     private static List<double> ExtractReferencedValues(string args, IReadOnlyDictionary<string, double> cellValues)
     {
         var result = new List<double>();
-        foreach (var part in args.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        foreach (var part in args.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(p => p.Trim()).Where(p => p.Length > 0))
         {
             if (cellValues.TryGetValue(part, out var v)) result.Add(v);
             else if (double.TryParse(part, NumberStyles.Any, CultureInfo.InvariantCulture, out var lit)) result.Add(lit);

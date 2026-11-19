@@ -9,7 +9,7 @@ using EnterpriseUI.Map;
 using EnterpriseUI.Theming;
 using EnterpriseUI.WinForms;
 
-namespace EnterpriseUI.WinFormsDemo.Controls;
+namespace EnterpriseUI.WinForms;
 
 public class EnterpriseMapControl : Control, IThemeableControl
 {

@@ -626,12 +626,29 @@ internal sealed class PopupDismissFilter : IMessageFilter
     }
 }
 
-/// <summary>Menu look that follows the control palette (used by split and drop-down buttons).</summary>
-internal sealed class ThemedMenuRenderer : ToolStripProfessionalRenderer
+/// <summary>Menu, context menu and tool strip look that follows the active theme or an explicit palette.</summary>
+public sealed class EnterpriseMenuRenderer : ToolStripProfessionalRenderer
 {
     private readonly ControlColors _c;
 
-    public ThemedMenuRenderer(ControlColors colors) : base(new Table(colors)) => _c = colors;
+    /// <summary>Creates a renderer from the palette of the current theme.</summary>
+    public EnterpriseMenuRenderer() : this(ControlColors.FromTheme(EnterpriseUI.Theming.ThemeManager.Instance.CurrentTheme))
+    {
+    }
+
+    public EnterpriseMenuRenderer(ControlColors colors) : base(new Table(colors)) => _c = colors;
+
+    public ControlColors Colors => _c;
+
+    /// <summary>Applies the renderer for the current theme to a tool strip (menu bar, context menu, toolbar or drop-down).</summary>
+    public static void Apply(ToolStrip strip)
+    {
+        ArgumentNullException.ThrowIfNull(strip);
+        var colors = ControlColors.FromTheme(EnterpriseUI.Theming.ThemeManager.Instance.CurrentTheme);
+        strip.Renderer = new EnterpriseMenuRenderer(colors);
+        strip.BackColor = strip is ToolStripDropDown ? colors.Surface : colors.Header;
+        strip.ForeColor = colors.Text;
+    }
 
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
@@ -639,17 +656,69 @@ internal sealed class ThemedMenuRenderer : ToolStripProfessionalRenderer
         base.OnRenderItemText(e);
     }
 
+    protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
+    {
+        e.ArrowColor = e.Item.Enabled ? _c.Muted : _c.Disabled;
+        base.OnRenderArrow(e);
+    }
+
+    protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+    {
+        using var brush = new SolidBrush(e.ToolStrip is ToolStripDropDown ? _c.Surface : _c.Header);
+        e.Graphics.FillRectangle(brush, e.AffectedBounds);
+    }
+
+    protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+    {
+        if (e.ToolStrip is not ToolStripDropDown) return;
+        using var pen = new Pen(_c.Border);
+        e.Graphics.DrawRectangle(pen, 0, 0, e.ToolStrip.Width - 1, e.ToolStrip.Height - 1);
+    }
+
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
-        if (!e.Item.Selected || !e.Item.Enabled) return;
-        var rect = new Rectangle(3, 1, e.Item.Width - 6, e.Item.Height - 2);
+        if (!e.Item.Enabled || !(e.Item.Selected || e.Item.Pressed)) return;
+        var inDropDown = e.Item.Owner is ToolStripDropDown;
+        var rect = inDropDown ? new Rectangle(3, 1, e.Item.Width - 6, e.Item.Height - 2) : new Rectangle(1, 2, e.Item.Width - 2, e.Item.Height - 4);
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-        Chrome.FillRounded(e.Graphics, rect, _c.SelectionBack, 3);
+        Chrome.FillRounded(e.Graphics, rect, e.Item.Pressed && !inDropDown ? Chrome.Blend(_c.SelectionBack, _c.Primary, 0.25) : _c.SelectionBack, 3);
+    }
+
+    protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
+    {
+        var button = e.Item as ToolStripButton;
+        var active = e.Item.Selected || e.Item.Pressed || button?.Checked == true;
+        if (!active || !e.Item.Enabled) return;
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+        var rect = new Rectangle(1, 1, e.Item.Width - 2, e.Item.Height - 2);
+        Chrome.FillRounded(e.Graphics, rect, e.Item.Pressed || button?.Checked == true ? _c.SelectionBack : _c.HoverBack, 3);
+    }
+
+    protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
+    {
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+        var box = e.ImageRectangle;
+        box.Inflate(2, 2);
+        Chrome.FillRounded(e.Graphics, box, Chrome.Blend(_c.Surface, _c.Primary, 0.18), 3);
+        using var pen = new Pen(_c.Primary, 1.75f) { StartCap = LineCap.Round, EndCap = LineCap.Round, LineJoin = LineJoin.Round };
+        e.Graphics.DrawLines(pen, new[]
+        {
+            new PointF(box.X + box.Width * 0.25f, box.Y + box.Height * 0.52f),
+            new PointF(box.X + box.Width * 0.43f, box.Y + box.Height * 0.70f),
+            new PointF(box.X + box.Width * 0.76f, box.Y + box.Height * 0.30f)
+        });
     }
 
     protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
     {
         using var pen = new Pen(_c.Border);
+        if (e.Vertical)
+        {
+            var x = e.Item.Width / 2;
+            e.Graphics.DrawLine(pen, x, 4, x, e.Item.Height - 4);
+            return;
+        }
+
         var y = e.Item.Height / 2;
         e.Graphics.DrawLine(pen, 8, y, e.Item.Width - 8, y);
     }

@@ -354,7 +354,7 @@ public class EnterpriseSpeechToTextButton : EnterpriseButtonBase
         _error = null;
         _partial = string.Empty;
         _discard = false;
-        Array.Clear(_levels);
+        Array.Clear(_levels, 0, _levels.Length);
         if (Provider == null)
         {
             Fail(new InvalidOperationException("No speech recognition provider is configured."));

@@ -10,9 +10,9 @@ using EnterpriseUI.Charts;
 using EnterpriseUI.Theming;
 using EnterpriseUI.WinForms;
 
-namespace EnterpriseUI.WinFormsDemo.Controls;
+namespace EnterpriseUI.WinForms;
 
-public class EnterpriseChartControl : Control, IThemeableControl
+public class EnterpriseChartView : Control, IThemeableControl
 {
     private readonly EnterpriseChart _chart = new();
     private ITheme _theme = ThemeManager.Instance.CurrentTheme;
@@ -58,7 +58,7 @@ public class EnterpriseChartControl : Control, IThemeableControl
         set => _chart.EnableZoomPan = value;
     }
 
-    public EnterpriseChartControl()
+    public EnterpriseChartView()
     {
         SetStyle(
             ControlStyles.AllPaintingInWmPaint |
@@ -87,9 +87,9 @@ public class EnterpriseChartControl : Control, IThemeableControl
 
     private sealed class ChartAccessibleObject : ControlAccessibleObject
     {
-        private readonly EnterpriseChartControl _owner;
+        private readonly EnterpriseChartView _owner;
 
-        public ChartAccessibleObject(EnterpriseChartControl owner) : base(owner) => _owner = owner;
+        public ChartAccessibleObject(EnterpriseChartView owner) : base(owner) => _owner = owner;
 
         public override AccessibleRole Role => AccessibleRole.Graphic;
         public override string? Name => string.IsNullOrWhiteSpace(_owner._chart.Title) ? "Chart" : _owner._chart.Title;
@@ -116,14 +116,14 @@ public class EnterpriseChartControl : Control, IThemeableControl
         private readonly AccessibleObject _parent;
         private readonly ChartSeries _series;
 
-        public ChartSeriesAccessibleObject(EnterpriseChartControl owner, AccessibleObject parent, ChartSeries series)
+        public ChartSeriesAccessibleObject(EnterpriseChartView owner, AccessibleObject parent, ChartSeries series)
         {
             Owner = owner;
             _parent = parent;
             _series = series;
         }
 
-        private EnterpriseChartControl Owner { get; }
+        private EnterpriseChartView Owner { get; }
         public override AccessibleObject? Parent => _parent;
         public override AccessibleRole Role => AccessibleRole.List;
         public override string? Name => _series.Name;
@@ -135,12 +135,12 @@ public class EnterpriseChartControl : Control, IThemeableControl
 
     private sealed class ChartPointAccessibleObject : AccessibleObject
     {
-        private readonly EnterpriseChartControl _owner;
+        private readonly EnterpriseChartView _owner;
         private readonly AccessibleObject _parent;
         private readonly ChartSeries _series;
         private readonly int _index;
 
-        public ChartPointAccessibleObject(EnterpriseChartControl owner, AccessibleObject parent, ChartSeries series, int index)
+        public ChartPointAccessibleObject(EnterpriseChartView owner, AccessibleObject parent, ChartSeries series, int index)
         {
             _owner = owner;
             _parent = parent;

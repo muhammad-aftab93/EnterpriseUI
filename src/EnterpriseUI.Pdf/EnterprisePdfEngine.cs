@@ -226,7 +226,12 @@ public static class EnterprisePdfEngine
     private static byte[] Inflate(byte[] compressed)
     {
         using var input = new MemoryStream(compressed);
+#if NET6_0_OR_GREATER
         using var zlib = new ZLibStream(input, CompressionMode.Decompress);
+#else
+        if (compressed.Length >= 2) input.Position = 2;
+        using var zlib = new DeflateStream(input, CompressionMode.Decompress);
+#endif
         using var output = new MemoryStream();
         zlib.CopyTo(output);
         return output.ToArray();

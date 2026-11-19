@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\src\EnterpriseUI.Documents\EnterpriseUI.Documents.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Pdf\EnterpriseUI.Pdf.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Office\EnterpriseUI.Office.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Framework\EnterpriseUI.Framework.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Media\EnterpriseUI.Media.csproj" />
   </ItemGroup>
 

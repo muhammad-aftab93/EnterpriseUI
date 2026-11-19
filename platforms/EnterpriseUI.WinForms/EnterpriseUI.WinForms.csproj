@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -12,6 +12,10 @@
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Design" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="Packaging\package-icon.png" Pack="true" PackagePath="\" />
@@ -38,6 +42,9 @@
     <ProjectReference Include="..\..\src\EnterpriseUI.Pdf\EnterpriseUI.Pdf.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Office\EnterpriseUI.Office.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Media\EnterpriseUI.Media.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.AI\EnterpriseUI.AI.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Diagrams\EnterpriseUI.Diagrams.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Map\EnterpriseUI.Map.csproj" />
   </ItemGroup>
 
 </Project>

@@ -551,6 +551,7 @@ public class SpellChecker : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(text)) return Array.Empty<string>();
         return Regex.Matches(text, @"\b[a-zA-Z]{3,}\b")
+            .Cast<Match>()
             .Select(m => m.Value)
             .Where(w => !Dictionary.Contains(w))
             .Distinct(StringComparer.OrdinalIgnoreCase)

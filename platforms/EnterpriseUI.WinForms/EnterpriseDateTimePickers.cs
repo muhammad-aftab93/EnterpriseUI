@@ -174,7 +174,7 @@ internal sealed class TimeSelectorPanel : EnterpriseControlBase
         {
             if (!ColumnRect(i).Contains(e.Location)) continue;
             var column = _columns[i];
-            column.Scroll = Math.Clamp(MathF.Round((column.Scroll - e.Delta / 120f * RowHeight * 2) / RowHeight) * RowHeight, 0, MaxScroll(column));
+            column.Scroll = Math.Clamp((float)Math.Round((column.Scroll - e.Delta / 120f * RowHeight * 2) / RowHeight) * RowHeight, 0, MaxScroll(column));
             Invalidate();
             return;
         }

@@ -8,7 +8,7 @@ EnterpriseUI.WinForms is the Windows Forms adapter package for the EnterpriseUI 
 
 - **Data:** typed and virtualized grids, hierarchical and pivot views, card and list views, filtering, paging, grouping, and selection.
 - **Editors and forms:** text and numeric input, pickers, masked and autocomplete editors, buttons, switches, dialogs, and validation.
-- **Navigation and layout:** ribbon and navigation controls, menus, page views, docking and layout containers, breadcrumbs, and wizards.
+- **Navigation and layout:** ribbon, navigation pane, compact navigation bar and backstage menu, menus and command bars, page views, docking and split containers, customizable layout, panels, breadcrumbs, record navigator, live tiles and wizards.
 - **Visualization:** charts, gauges, maps, diagrams, barcodes, and related data views.
 - **Scheduling and workflow:** calendars, schedulers, task boards, and Gantt views.
 - **Documents and media:** PDF and rich-text views, spreadsheet and document workflows, image editing, webcam, and virtual keyboard controls.
@@ -18,7 +18,7 @@ The exact controls exposed in Visual Studio's Toolbox are the concrete, nongener
 
 ## Requirements and Installation
 
-Requires Windows and a Windows Forms application targeting `net8.0-windows` or a compatible later Windows target, with `UseWindowsForms` enabled.
+Requires Windows and a Windows Forms application targeting `net8.0-windows` or later, or .NET Framework 4.8, with `UseWindowsForms` enabled.
 
 Install from a NuGet source containing the EnterpriseUI packages:
 

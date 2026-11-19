@@ -458,7 +458,15 @@ public static class QueryEngine
             {
                 if (value is string name)
                 {
+#if NET6_0_OR_GREATER
                     if (Enum.TryParse(target, name.Trim(), ignoreCase: true, out var parsed) && Enum.IsDefined(target, parsed!))
+#else
+                    object? parsed = null;
+                    try { parsed = Enum.Parse(target, name.Trim(), ignoreCase: true); }
+                    catch (ArgumentException) { }
+                    catch (OverflowException) { }
+                    if (parsed is not null && Enum.IsDefined(target, parsed))
+#endif
                     {
                         result = parsed;
                         return true;

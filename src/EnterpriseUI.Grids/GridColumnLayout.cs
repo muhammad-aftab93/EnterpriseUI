@@ -260,7 +260,7 @@ public static class GridColumnLayout
 
     private static Dictionary<GridColumnBand, GridColumnBand?> BuildParentMap(IReadOnlyList<GridColumnBand> bands)
     {
-        var map = new Dictionary<GridColumnBand, GridColumnBand?>(ReferenceEqualityComparer.Instance);
+        var map = new Dictionary<GridColumnBand, GridColumnBand?>(GridReferenceComparer.Instance);
 
         void Visit(GridColumnBand band, GridColumnBand? parent)
         {

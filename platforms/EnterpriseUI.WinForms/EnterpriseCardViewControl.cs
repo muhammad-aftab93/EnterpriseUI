@@ -57,8 +57,8 @@ public class EnterpriseCardViewControl : EnterpriseScrollableControl
     private readonly List<object> _source = new();
     private readonly List<Entry> _entries = new();
     private readonly List<object> _order = new();
-    private readonly HashSet<object> _selected = new(ReferenceEqualityComparer.Instance);
-    private readonly HashSet<object> _checked = new(ReferenceEqualityComparer.Instance);
+    private readonly HashSet<object> _selected = new(ObjectReferenceComparer.Instance);
+    private readonly HashSet<object> _checked = new(ObjectReferenceComparer.Instance);
     private readonly HashSet<string> _collapsed = new();
     private readonly List<CardField> _fields = new();
     private object? _dataSource;
@@ -337,9 +337,12 @@ public class EnterpriseCardViewControl : EnterpriseScrollableControl
             get
             {
                 var content = Content;
-                var details = _owner._fields.Select(field => $"{field.Caption}: {_owner.FieldText(_item, field)}");
+                var details = _owner._fields.Select(f => $"{f.Caption}: {_owner.FieldText(_item, f)}");
                 return string.Join("; ", new[] { content.Subtitle, content.Badge }.Concat(details).Where(value => !string.IsNullOrWhiteSpace(value)));
             }
+#if NETFRAMEWORK
+            set { }
+#endif
         }
         public override Rectangle Bounds
         {

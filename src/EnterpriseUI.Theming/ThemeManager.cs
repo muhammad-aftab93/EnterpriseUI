@@ -86,7 +86,7 @@ public sealed class ThemeBuilder
             _ => BuiltInThemes.CreateDefault(_scheme)
         };
 
-        var mergedTokens = new Dictionary<string, string>(_baseTheme?.DesignTokens ?? baseTheme.DesignTokens, StringComparer.OrdinalIgnoreCase);
+        var mergedTokens = (_baseTheme?.DesignTokens ?? baseTheme.DesignTokens).ToDictionary(p => p.Key, p => p.Value, StringComparer.OrdinalIgnoreCase);
         foreach (var (k, v) in _overrides)
         {
             mergedTokens[k] = v;

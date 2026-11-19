@@ -365,7 +365,7 @@ public class EnterpriseToolbarStrip : EnterpriseTitleBarContentControl
 
     private void ShowOverflow()
     {
-        var menu = new ContextMenuStrip { Renderer = new ThemedMenuRenderer(Colors), BackColor = Colors.Surface, ForeColor = Colors.Text, ShowImageMargin = true };
+        var menu = new ContextMenuStrip { Renderer = new EnterpriseMenuRenderer(Colors), BackColor = Colors.Surface, ForeColor = Colors.Text, ShowImageMargin = true };
         foreach (var item in _overflow)
         {
             var entry = new ToolStripMenuItem((item.Glyph.Length > 0 ? item.Glyph + "  " : string.Empty) + item.Text) { Enabled = item.Enabled, Checked = item.Checked };
@@ -380,7 +380,7 @@ public class EnterpriseToolbarStrip : EnterpriseTitleBarContentControl
 
     private void ShowDropDown(ContextMenuStrip menu, int x)
     {
-        menu.Renderer = new ThemedMenuRenderer(Colors);
+        menu.Renderer = new EnterpriseMenuRenderer(Colors);
         menu.BackColor = Colors.Surface;
         menu.ForeColor = Colors.Text;
         menu.Show(this, new Point(x, Height));
