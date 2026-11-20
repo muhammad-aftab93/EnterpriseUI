@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -58,21 +58,21 @@ public static class EnterpriseControlRegistry
         new("EnterpriseTextBoxControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "NullText placeholder, Clear button (✕), Prefix glyph, Validation border", "editors-fluent-validation"),
         new("EnterpriseTextBoxControl / SyntaxTextBoxControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Hardware-accelerated text surface with custom selection painting", "editors-fluent-validation"),
         new("EnterpriseButtonTextBoxControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "TextBox with embedded left/right command buttons", "editors-fluent-validation"),
-        new("EnterpriseButtonTextBoxControl (BrowseMode)", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "File/Folder path editor with integrated browse dialog trigger", "editors-fluent-validation"),
+        new("EnterpriseBrowseBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "File open, file save and folder path editor with an integrated browse dialog, start directory and PathSelected event", "editors-fluent-validation"),
         new("EnterpriseMaskedTextBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Phone, SSN, IP, Currency, Regex, and Standard masks", "editors-fluent-validation"),
-        new("SpinEditor / NumericUpDown", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Decimal/Hexadecimal numeric spinner with step & min/max", "editors-fluent-validation"),
-        new("DomainUpDownControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "String collection up/down spinner with wrap-around", "editors-fluent-validation"),
+        new("EnterpriseNumericTextBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Numeric spin editor with step, min/max, decimals and standard, currency, percentage or scientific format", "editors-fluent-validation"),
+        new("EnterpriseItemSpinner", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "String list up/down editor with wrap-around, press-and-hold repeat, type-ahead and mouse wheel", "editors-fluent-validation"),
         new("EnterpriseAutoCompleteBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Tokenized multi-value chips with prefix/contains search", "editors-fluent-validation"),
-        new("PopupEditorControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Resizable dropdown container hosting arbitrary custom controls", "editors-fluent-validation"),
+        new("EnterprisePopupBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Editor whose resizable pop-up hosts any custom control that survives closing", "editors-fluent-validation"),
         new("EnterpriseCalculatorDropDown", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Dropdown arithmetic calculator with memory (MC/MR/MS/M+) & history", "component-catalog"),
-        new("CalculatorControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Standalone scientific/standard calculator pad with expression parser", "component-catalog"),
+        new("EnterpriseCalculatorPad", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Standalone calculator keypad with memory keys, keyboard input and expression evaluation shared with the calculator drop-down", "editors-fluent-validation"),
         new("ColorPicker / ColorBox", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "HEX/ARGB input, Web/System/Professional palettes, Screen eyedropper", "editors-fluent-validation"),
-        new("DateTimePickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Calendar dropdown, Free-form date parsing, Null date support", "editors-fluent-validation"),
-        new("DateOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Dedicated .NET 8 DateOnly picker with ISO-8601 calendar popup", "editors-fluent-validation"),
-        new("TimePickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Clock face & hour/minute table popup with 12h/24h formats", "editors-fluent-validation"),
-        new("TimeOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Dedicated .NET 8 TimeOnly picker with precision interval selector", "editors-fluent-validation"),
+        new("EnterpriseDatePicker", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Date and time editor model with range, format and optional time part", "editors-fluent-validation"),
+        new("EnterpriseDateOnlyPicker / EnterpriseDateOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "DateOnly editor with typed entry, month grid pop-up, week numbers, range limits and keyboard navigation", "editors-fluent-validation"),
+        new("EnterpriseTimePicker / EnterpriseTimePickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Edits the time part of a DateTime with hour, minute, second and AM/PM columns, 12h/24h format and minute step", "editors-fluent-validation"),
+        new("EnterpriseTimeOnlyPicker / EnterpriseTimeOnlyPickerControl", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "TimeOnly editor with minute, second or millisecond precision, range limits and wrap-around stepping", "editors-fluent-validation"),
         new("EnterpriseTimeSpanPicker", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Days, Hours, Minutes, Seconds, Milliseconds duration picker", "editors-fluent-validation"),
-        new("DropDownListControl<T>", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Virtualized dropdown with auto-complete suggest & append", "editors-fluent-validation"),
+        new("EnterpriseDropDownControl / ComboBox<T>", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Themed single-choice drop-down with keyboard navigation and data-bound combo box model", "editors-fluent-validation"),
         new("EnterpriseListControl", "Editors & Pickers", "docs/Controls/DataManagementControls.md", "Virtualized list with DisplayMember/ValueMember, selection modes, filter, sort, type-ahead", "data-listcontrol"),
         new("EnterpriseCheckedDropDownList<TItem>", "Editors & Pickers", "docs/Controls/UnifiedControlsCatalog.md", "Multi-select checkable dropdown with summary token header", "editors-fluent-validation"),
         new("EnterpriseCheckedListBoxControl", "Editors & Pickers", "docs/Controls/DataManagementControls.md", "Check boxes, CheckOnClick, check all/uncheck all/invert, ItemCheck event, Space toggle", "data-checkedlistbox"),
@@ -82,7 +82,7 @@ public static class EnterpriseControlRegistry
 
         // 5. Data Visualization: Charts, Gauges, Maps & Diagrams (13)
         new("CartesianChart / PieChart / CandlestickChart", "Charts, Gauges & Maps", "docs/Controls/UnifiedControlsCatalog.md", "Bar, Line, Spline, Area, Pie, Donut, Candlestick, Radar, Funnel, DrillDown", "charts-financial-realtime"),
-        new("EnterpriseSparkline", "Charts, Gauges & Maps", "docs/Controls/UnifiedControlsCatalog.md", "Compact inline Line, Column, Win/Loss sparkline with High/Low/First/Last markers", "charts-financial-realtime"),
+        new("EnterpriseSparkline / EnterpriseSparklineControl", "Charts, Gauges & Maps", "docs/Controls/UnifiedControlsCatalog.md", "Line, area, column and win/loss sparkline with high, low, first and last markers and hover tooltips", "navigation-containers-suite"),
         new("EnterpriseRangeSelectorControl", "Charts, Gauges & Maps", "docs/Controls/UnifiedControlsCatalog.md", "Dual-thumb zoom/pan range selector linked to ChartView", "clock-callout-rangeselector-suite"),
         new("EnterpriseHeatMap / EnterpriseHeatMapControl", "Charts, Gauges & Maps", "docs/Controls/DataManagementControls.md", "2D color-scale matrix with legend, aggregation, header sorting, tooltips and selection", "data-heatmap"),
         new("EnterpriseTreeMap / EnterpriseTreeMapControl", "Charts, Gauges & Maps", "docs/Controls/DataManagementControls.md", "Squarified tiles, group headers, color by category or value, drill-down breadcrumb, tooltips", "data-treemap"),
@@ -102,29 +102,31 @@ public static class EnterpriseControlRegistry
 
         // 7. Navigation, Containers, Layout & Docking (24)
         new("EnterpriseRibbonBar / EnterpriseRibbonBarControl", "Navigation, Layout & Docking", "docs/Controls/FormsAndDialogs.md", "Tabs, contextual tab groups, quick access toolbar, grouped large and small commands, collapsible body", "navigation-forms-overlays-suite"),
-        new("EnterpriseDockManager", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "ToolWindows, DocumentWindows, Floating, Auto-Hide pins, Compass indicators, Layout XML", "navigation-layout-alerts-suite"),
-        new("EnterprisePageView", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "StripView, StackView, OutlookView, ExplorerBarView, BackstageView, NavigationView", "navigation-layout-alerts-suite"),
-        new("NavigationViewControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Hamburger menu with Expanded, Compact, and Minimal modes, Hierarchy & Footer", "navigation-forms-overlays-suite"),
-        new("OfficeNavigationBarControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Outlook bottom navigation bar with hover Peek Window & Options dialog", "navigation-forms-overlays-suite"),
-        new("EnterpriseBreadcrumb", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Path hierarchy selector with dropdown node children & history", "navigation-layout-alerts-suite"),
-        new("EnterpriseBindingNavigator<TItem>", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "First, Previous, Record Position, Next, Last, AddNew, Delete, Save", "navigation-layout-alerts-suite"),
-        new("EnterpriseCommandBar", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Dockable/Floating multi-row toolstrips with overflow chevron", "navigation-layout-alerts-suite"),
-        new("EnterprisePanorama", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Windows Live Tiles (Single/Double/Quad) with live flip animation & groups", "navigation-layout-alerts-suite"),
+        new("EnterpriseDockManager / EnterpriseDockHost", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Tool windows on four sides, tabbed document area, splitters, auto-hide strips, floating windows, panel menu, JSON layout save and restore", "navigation-containers-suite"),
+        new("EnterprisePageView / EnterprisePageViewControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Tab strip, stack, Outlook bar, accordion, backstage list or navigation pane over the same pages, keyboard navigation", "navigation-containers-suite"),
+        new("EnterpriseNavigationPane", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Collapsible icon rail, sections, nested groups, badges, pinned footer items, fly-outs, auto-compact breakpoint, keyboard and screen reader support", "navigation-containers-suite"),
+        new("EnterpriseCompactNavBar", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Labelled destination buttons that collapse to icons and an overflow menu, horizontal or vertical, badges", "navigation-containers-suite"),
+        new("EnterpriseBreadcrumb / EnterpriseBreadcrumbControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Clickable path segments, chevron separators, overflow menu for leading segments, keyboard navigation, truncate on click", "navigation-containers-suite"),
+        new("EnterpriseBindingNavigator<TItem> / EnterpriseBindingNavigatorControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "First, previous, position, next, last, add and delete over a BindingSource, cancelable add and delete events, keyboard shortcuts", "navigation-containers-suite"),
+        new("EnterpriseCommandBar / EnterpriseCommandBarControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Multi-row themed tool strips, glyph icons, overflow chevron, end-user show/hide of commands", "navigation-containers-suite"),
+        new("EnterpriseBackstageMenu", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Full-window application menu with page list, command entries, back button and Escape to close", "navigation-containers-suite"),
+        new("StyleSheet / StyleResolver (EnterpriseUI.Framework)", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Retained element tree with type, id, class, state and attribute selectors, specificity cascade, inheritance and var() substitution", "navigation-containers-suite"),
+        new("EnterprisePanorama / EnterprisePanoramaControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Live tiles in named groups, multi-frame tiles that cycle with a slide transition, horizontal scrolling, keyboard navigation", "navigation-containers-suite"),
         new("EnterpriseCarouselControl", "Navigation, Layout & Docking", "docs/Controls/InteractiveControls.md", "Flat, cover-flow and ring layouts, infinite loop, autoplay, swipe, custom item painting", "interactive-carousel"),
         new("EnterpriseRotatorControl", "Navigation, Layout & Docking", "docs/Controls/InteractiveControls.md", "Timed or manual panel ticker with fade, slide and flip transitions, HTML and Markdown content", "interactive-rotator"),
         new("SlideViewControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Interactive slide gallery with Prev/Next navigation & infinite loop", "slide-rotator-pips-media-suite"),
         new("PipsPagerControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Dot/Number pagination indicator with horizontal/vertical orientation", "slide-rotator-pips-media-suite"),
         new("EnterpriseWizardControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Welcome, Interior, Completion pages, Per-step validation, Aero/Wizard97", "navigation-layout-alerts-suite"),
-        new("LayoutControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Runtime drag-and-drop layout customization, layout groups, JSON/XML persistence", "navigation-layout-alerts-suite"),
+        new("EnterpriseCustomizableLayout", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Grid of captioned controls with drag to reorder, corner resize, hide and restore, locked items, JSON save and restore", "navigation-containers-suite"),
         new("EnterpriseDataLayout<TEntity> / EnterpriseDataLayoutControl", "Navigation, Layout & Docking", "docs/Controls/DataManagementControls.md", "Grouped card layout of any controls, responsive columns, column span, caption left/top, collapsible groups", "data-datalayout"),
-        new("SplitContainer", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Multi-panel nested splitter with collapse/expand buttons & proportional sizing", "navigation-layout-alerts-suite"),
+        new("EnterpriseSplitPanel", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Themed splitter with grip, collapse buttons, double-click toggle, minimum sizes and fixed panel", "navigation-containers-suite"),
         new("EnterpriseCollapsiblePanel", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Animated expand/collapse header container (Vertical & Horizontal)", "navigation-layout-alerts-suite"),
-        new("GroupBoxControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Themed header group box with header alignment & custom border styles", "navigation-layout-alerts-suite"),
-        new("PanelControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Bordered theme-aware container panel with shadow & corner radius", "navigation-layout-alerts-suite"),
-        new("ScrollablePanelControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Themed custom scrollbar container with touch kinetic scrolling", "navigation-layout-alerts-suite"),
+        new("EnterpriseGroupPanel", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Outlined, header band or underlined caption styles, caption alignment, DPI-aware layout", "navigation-containers-suite"),
+        new("EnterpriseSurfacePanel", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Flat, outlined, filled or raised surface with corner radius and shadow depth", "navigation-containers-suite"),
+        new("EnterpriseScrollPanel", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Vertical, horizontal or both scrolling with themed scroll bars, wheel step, scroll-into-view", "navigation-containers-suite"),
         new("EnterpriseLabelControl", "Navigation, Layout & Docking", "docs/Controls/InteractiveControls.md", "Auto-ellipsis, access keys, rotation, Markdown and HTML formatting with links, image alignment", "interactive-label"),
-        new("SeparatorControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Horizontal/Vertical visual divider with optional shadow line", "navigation-layout-alerts-suite"),
-        new("MenuControl / ContextMenuControl", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Multi-column drop-down menus, checkable items, keyboard shortcuts, icons", "navigation-forms-overlays-suite"),
+        new("EnterpriseDivider", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Horizontal or vertical rule, solid, dashed or fading, optional caption and inset", "navigation-containers-suite"),
+        new("EnterpriseMenuBar / EnterpriseContextMenu", "Navigation, Layout & Docking", "docs/Controls/UnifiedControlsCatalog.md", "Themed menu bar and context menu, path based item creation, shortcuts, check marks, public EnterpriseMenuRenderer for any tool strip", "navigation-containers-suite"),
 
         // 8. Documents, RichText, Spreadsheet, PDF & Syntax (6)
         new("RichTextDocument / RichTextEditorControl", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Formatted paragraphs, tables, inline images, ruler, DOCX/RTF/HTML export", "documents-multiformat"),
@@ -132,7 +134,7 @@ public static class EnterpriseControlRegistry
         new("PdfDocumentGenerator / PdfViewerControl", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Page rendering, Thumbnails, Text search, Zoom/Rotate, PdfViewerNavigator", "documents-multiformat"),
         new("EnterpriseSyntaxEditor / EnterpriseSyntaxEditorControl", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Lexical AST tokenizer (C#, SQL, JSON, XML), Line numbers, Code folding", "component-catalog"),
         new("SpellChecker", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Levenshtein distance dictionary suggestions, Custom dictionary, As-you-type", "component-catalog"),
-        new("DocumentProcessingSuite", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Headless WordsProcessing, SpreadProcessing, PdfProcessing & ZipLibrary", "documents-multiformat"),
+        new("DocumentProcessingSuite", "Documents & Code Editors", "docs/Controls/UnifiedControlsCatalog.md", "Headless spreadsheet formula helper and ZIP wrappers; full engines are listed under Document Processing", "documents-multiformat"),
 
         // 9. Track, Status, Alerts, Overlays & Notifications (14)
         new("EnterpriseProgressBarControl", "Status, Alerts & Overlays", "docs/Controls/InteractiveControls.md", "Determinate and indeterminate, gradient, striped and segmented fill, text overlay, states, animation speed", "interactive-progressbar"),
@@ -176,7 +178,11 @@ public static class EnterpriseControlRegistry
         new("EnterpriseElementHierarchyEditor", "Developer Tools", "docs/Tools/DeveloperTools.md", "Navigate nested controls and edit their properties", "developer-element-hierarchy"),
         new("EnterpriseShapeEditor", "Developer Tools", "docs/Tools/DeveloperTools.md", "Create vector paths by adding, moving, removing, and curving vertices", "developer-shape-editor"),
         new("EnterpriseVisualStyleBuilder", "Developer Tools", "docs/Tools/DeveloperTools.md", "Edit inherited theme tokens and import or export theme documents", "developer-style-builder"),
-        new("EnterpriseZipLibrary", "Document Processing", "docs/Tools/DeveloperTools.md", "Create, list, and extract stream-based ZIP archives with path traversal protection", "documents-zip-library")
+        new("EnterpriseZipLibrary", "Document Processing", "docs/Tools/DeveloperTools.md", "Create, list, and extract stream-based ZIP archives with path traversal protection", "documents-zip-library"),
+        new("EnterprisePdfEngine", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Write, read, merge and split text PDFs; classic cross-reference files with plain or Flate content streams", "documents-multiformat"),
+        new("EnterpriseWordEngine", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Write and read .docx packages: headings, bullets, bold/italic/underline runs and tables", "documents-multiformat"),
+        new("EnterpriseSheetEngine", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Read and write .xlsx workbooks with dates, formulas and cached results; expression evaluator with ranges and common functions", "documents-multiformat"),
+        new("EnterpriseSheetStreamWriter / EnterpriseSheetStreamReader", "Document Processing", "docs/Controls/UnifiedControlsCatalog.md", "Forward-only .xlsx streaming for very large sheets with constant memory", "documents-multiformat")
     };
 }
 

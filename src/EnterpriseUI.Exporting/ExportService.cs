@@ -98,7 +98,7 @@ public sealed class ExportService
             instrumented.Sheets.Add(Instrument(sheet, options, progress, state, cancellationToken));
         }
 
-        await using var counting = new CountingStream(output);
+        using var counting = new CountingStream(output);
         await provider.WriteAsync(instrumented, counting, new ExportContext(options, cancellationToken)).ConfigureAwait(false);
         await counting.FlushAsync(cancellationToken).ConfigureAwait(false);
 
@@ -123,7 +123,7 @@ public sealed class ExportService
         try
         {
             ExportResult result;
-            await using (var file = new FileStream(temp, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, useAsync: true))
+            using (var file = new FileStream(temp, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, useAsync: true))
             {
                 result = await ExportAsync(document, formatId, file, options, progress, cancellationToken).ConfigureAwait(false);
             }
@@ -233,6 +233,7 @@ internal sealed class CountingStream : Stream
         BytesWritten += count;
     }
 
+#if NET6_0_OR_GREATER
     public override void Write(ReadOnlySpan<byte> buffer)
     {
         _inner.Write(buffer);
@@ -244,9 +245,13 @@ internal sealed class CountingStream : Stream
         await _inner.WriteAsync(buffer, cancellationToken).ConfigureAwait(false);
         BytesWritten += buffer.Length;
     }
+#endif
 
-    public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) =>
-        WriteAsync(buffer.AsMemory(offset, count), cancellationToken).AsTask();
+    public override async Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+    {
+        await _inner.WriteAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
+        BytesWritten += count;
+    }
 
     protected override void Dispose(bool disposing)
     {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -8,7 +8,7 @@ using EnterpriseUI.Abstractions.Theming;
 using EnterpriseUI.Theming;
 using EnterpriseUI.WinForms;
 
-namespace EnterpriseUI.WinFormsDemo.Controls;
+namespace EnterpriseUI.WinForms;
 
 public sealed class GanttTaskItem
 {

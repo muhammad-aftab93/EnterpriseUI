@@ -25,7 +25,7 @@ public class ChartsDemoView : UserControl
             "Candlestick Financial"
         };
     private readonly BaseDemoView _baseView=new BaseDemoView();
-    private readonly EnterpriseChartControl _chartControl=new EnterpriseChartControl();
+    private readonly EnterpriseChartView _chartControl=new EnterpriseChartView();
     private readonly System.Windows.Forms.Timer _liveTimer=new System.Windows.Forms.Timer();
     private bool _isLive;
 

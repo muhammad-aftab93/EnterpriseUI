@@ -1,9 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using EnterpriseUI.Documents;
 using EnterpriseUI.Media;
+using EnterpriseUI.Office;
+using EnterpriseUI.Pdf;
+using EnterpriseUI.WinForms;
 using EnterpriseUI.WinFormsDemo.Controls;
 using EnterpriseUI.WinFormsDemo.Infrastructure;
 
@@ -182,7 +188,169 @@ public class DocumentsDemoView : UserControl
         mzPanel.Controls.AddRange(new Control[] { lblImgHeader, btnRotate, btnZoomIn, btnCamSnap, btnZip, lblMediaState });
         tabMediaZip.Controls.Add(mzPanel);
 
-        _docTabs.TabPages.AddRange(new[] { tabPdf, tabRtf, tabSheet, tabMediaZip });
+        _docTabs.TabPages.AddRange(new[] { tabPdf, tabRtf, tabSheet, tabMediaZip, BuildProcessingTab() });
         _baseView.DemoContainer.Controls.Add(_docTabs);
+    }
+
+    private static readonly (int Id, string Name, string Department, decimal Salary)[] SampleStaff =
+    {
+        (1, "Alexander Hamilton", "Treasury", 182000m), (2, "Abigail Adams", "Legal", 141500m), (3, "Benjamin Franklin", "Engineering", 168250m),
+        (4, "Dolley Madison", "Operations", 97800m), (5, "Frederick Douglass", "Communications", 118400m), (6, "Harriet Tubman", "Logistics", 104900m),
+        (7, "Thomas Edison", "Engineering", 175000m), (8, "Ada Lovelace", "Engineering", 189600m), (9, "Grace Hopper", "Engineering", 192300m),
+        (10, "Katherine Johnson", "Research", 158700m), (11, "Nikola Tesla", "Research", 163100m), (12, "Marie Curie", "Research", 171900m)
+    };
+
+    /// <summary>Generates a PDF, DOCX and XLSX from the same data, then reads each file back to prove the round trip.</summary>
+    private TabPage BuildProcessingTab()
+    {
+        var tab = new TabPage("⚙️ PDF, Word & Sheet Processing");
+        var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(16), AutoScroll = true };
+        var bold = new Font("Segoe UI", 9.5f, FontStyle.Bold);
+
+        panel.Controls.Add(new Label { Text = "Output folder (EnterpriseBrowseBox):", Location = new Point(16, 18), AutoSize = true, Font = bold });
+        var folder = new EnterpriseBrowseBox
+        {
+            Mode = BrowseMode.Folder,
+            DialogTitle = "Select the output folder",
+            Location = new Point(280, 10),
+            Width = 440,
+            Text = Path.Combine(Path.GetTempPath(), "EnterpriseUI-Demo"),
+            CheckFileExists = false
+        };
+        panel.Controls.Add(folder);
+
+        var results = new ListBox { Location = new Point(16, 112), Size = new Size(740, 250), IntegralHeight = false, Font = new Font("Consolas", 9.5f) };
+        var buttons = new List<Button>();
+
+        Button AddButton(string text, Func<Task> run)
+        {
+            var button = new Button { Text = text, Location = new Point(16 + buttons.Count * 148, 58), Size = new Size(140, 34), FlatStyle = FlatStyle.Flat };
+            button.Click += async (_, _) =>
+            {
+                foreach (var b in buttons) b.Enabled = false;
+                try { await run(); }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or InvalidDataException)
+                {
+                    results.Items.Add("ERROR: " + ex.Message);
+                }
+                finally { foreach (var b in buttons) b.Enabled = true; }
+            };
+            buttons.Add(button);
+            panel.Controls.Add(button);
+            return button;
+        }
+
+        string Target(string file)
+        {
+            Directory.CreateDirectory(folder.Text);
+            return Path.Combine(folder.Text, file);
+        }
+
+        void Report(string source, string message)
+        {
+            results.Items.Add(message);
+            results.TopIndex = results.Items.Count - 1;
+            _baseView.LogEvent(source, message);
+        }
+
+        AddButton("Build PDF", () =>
+        {
+            var lines = new List<string> { "Staff directory", string.Empty };
+            lines.AddRange(SampleStaff.Select(s => $"{s.Id,3}  {s.Name,-22} {s.Department,-16} {s.Salary,10:N0}"));
+            var document = EnterprisePdfEngine.CreateFromLines("Staff directory", lines);
+            var bytes = EnterprisePdfEngine.Write(document);
+            File.WriteAllBytes(Target("staff.pdf"), bytes);
+            var back = EnterprisePdfEngine.Read(bytes);
+            Report("PdfProcessing.Roundtrip", $"PDF   {bytes.Length,9:N0} bytes, {back.Pages.Count} page(s), text identical: {EnterprisePdfEngine.ExtractText(document) == EnterprisePdfEngine.ExtractText(back)}");
+            return Task.CompletedTask;
+        });
+
+        AddButton("Merge + Split PDF", () =>
+        {
+            var parts = Enumerable.Range(1, 3).Select(i => EnterprisePdfEngine.CreateFromLines($"Part {i}", Enumerable.Range(1, 120).Select(n => $"Part {i} line {n}"))).ToList();
+            var merged = EnterprisePdfEngine.Merge(parts, "merged.pdf");
+            var split = EnterprisePdfEngine.Split(merged, 2);
+            File.WriteAllBytes(Target("merged.pdf"), EnterprisePdfEngine.Write(merged));
+            Report("PdfProcessing.MergeSplit", $"PDF   merged {parts.Count} files into {merged.Pages.Count} pages, split into {split.Count} files of up to 2 pages");
+            return Task.CompletedTask;
+        });
+
+        AddButton("Build Word (.docx)", () =>
+        {
+            var document = new WordDocument { Title = "Staff report", Author = "EnterpriseUI Demo" };
+            document.AddParagraph("Staff report", WordParagraphStyle.Heading1);
+            var intro = document.AddParagraph("Headcount by department, generated with ");
+            intro.Runs.Add(new WordRun("EnterpriseWordEngine", bold: true));
+            intro.Runs.Add(new WordRun(".", italic: true));
+            document.AddTable(new[] { new[] { "Id", "Name", "Department", "Salary" } }.Concat(SampleStaff.Select(s => new[] { s.Id.ToString(), s.Name, s.Department, s.Salary.ToString("N0") })));
+            var bytes = EnterpriseWordEngine.Write(document);
+            File.WriteAllBytes(Target("staff.docx"), bytes);
+            var back = EnterpriseWordEngine.Read(bytes);
+            var table = back.Blocks.OfType<WordTable>().Single();
+            Report("WordsProcessing.Roundtrip", $"DOCX  {bytes.Length,9:N0} bytes, {back.Blocks.Count} blocks, table {table.Rows.Count}x{table.Rows[0].Count}, header row: {table.HasHeaderRow}");
+            return Task.CompletedTask;
+        });
+
+        AddButton("Build Excel (.xlsx)", () =>
+        {
+            var sheet = new SpreadsheetWorksheet { Name = "Staff" };
+            string[] headers = { "Id", "Name", "Department", "Salary" };
+            for (var c = 0; c < headers.Length; c++) sheet.GetOrCreateCell(SheetReference.Format(1, c + 1)).Value = headers[c];
+            for (var r = 0; r < SampleStaff.Length; r++)
+            {
+                var s = SampleStaff[r];
+                sheet.GetOrCreateCell($"A{r + 2}").Value = s.Id;
+                sheet.GetOrCreateCell($"B{r + 2}").Value = s.Name;
+                sheet.GetOrCreateCell($"C{r + 2}").Value = s.Department;
+                sheet.GetOrCreateCell($"D{r + 2}").Value = s.Salary;
+            }
+            var last = SampleStaff.Length + 1;
+            sheet.GetOrCreateCell($"C{last + 1}").Value = "Total";
+            sheet.GetOrCreateCell($"D{last + 1}").Formula = $"=SUM(D2:D{last})";
+            sheet.GetOrCreateCell($"C{last + 2}").Value = "Average";
+            sheet.GetOrCreateCell($"D{last + 2}").Formula = $"=AVERAGE(D2:D{last})";
+            var book = new SpreadsheetWorkbook();
+            book.Worksheets.Add(sheet);
+
+            var bytes = EnterpriseSheetEngine.Write(book);
+            File.WriteAllBytes(Target("staff.xlsx"), bytes);
+            var back = EnterpriseSheetEngine.Read(bytes).Worksheets.Single();
+            Report("SpreadProcessing.Roundtrip", $"XLSX  {bytes.Length,9:N0} bytes, {back.Cells.Count} cells, total {EnterpriseSheetEngine.EvaluateCell(back, $"D{last + 1}"):N0}, average {EnterpriseSheetEngine.EvaluateCell(back, $"D{last + 2}"):N0}");
+            return Task.CompletedTask;
+        });
+
+        AddButton("Stream 100k rows", async () =>
+        {
+            var path = Target("stream.xlsx");
+            var watch = Stopwatch.StartNew();
+            const int rows = 100_000;
+            await Task.Run(() =>
+            {
+                using var output = File.Create(path);
+                using var writer = new EnterpriseSheetStreamWriter(output);
+                writer.BeginSheet("Readings");
+                writer.WriteRow("Id", "Sensor", "Reading", "At");
+                var start = new DateTime(2026, 1, 1);
+                for (var i = 1; i <= rows; i++) writer.WriteRow(i, "S-" + i % 50, Math.Round(20 + Math.Sin(i / 50.0) * 5, 3), start.AddSeconds(i));
+            });
+            var written = watch.ElapsedMilliseconds;
+            var counted = await Task.Run(() =>
+            {
+                using var input = File.OpenRead(path);
+                using var reader = new EnterpriseSheetStreamReader(input);
+                return reader.ReadRows().Count();
+            });
+            Report("SpreadStreamProcessing.Roundtrip", $"XLSX  streamed {rows:N0} rows in {written:N0} ms, {new FileInfo(path).Length:N0} bytes, read back {counted:N0} rows");
+        });
+
+        var openFolder = new Button { Text = "Open output folder", Location = new Point(16, 372), Size = new Size(170, 30), FlatStyle = FlatStyle.Flat };
+        openFolder.Click += (_, _) =>
+        {
+            if (Directory.Exists(folder.Text)) Process.Start(new ProcessStartInfo(folder.Text) { UseShellExecute = true });
+            else Report("Documents.OpenFolder", "The output folder does not exist yet; build a document first.");
+        };
+        panel.Controls.AddRange(new Control[] { results, openFolder });
+        tab.Controls.Add(panel);
+        return tab;
     }
 }

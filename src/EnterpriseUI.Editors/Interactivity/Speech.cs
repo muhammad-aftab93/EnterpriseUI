@@ -133,7 +133,8 @@ public sealed class SpeechDictationSession : IAsyncDisposable
     {
         try
         {
-            await foreach (var chunk in reader.ReadAllAsync(token).ConfigureAwait(false)) await stream.WriteAudioAsync(chunk, token).ConfigureAwait(false);
+            while (await reader.WaitToReadAsync(token).ConfigureAwait(false))
+                while (reader.TryRead(out var chunk)) await stream.WriteAudioAsync(chunk, token).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {

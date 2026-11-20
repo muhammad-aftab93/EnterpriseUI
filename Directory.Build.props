@@ -1,6 +1,5 @@
 <Project>
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>12.0</LangVersion>
@@ -15,7 +14,7 @@
     <RepositoryUrl>https://github.com/muhammad-aftab93/EnterpriseUI</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>Open-source EnterpriseUI components for .NET. Source code and documentation: https://github.com/muhammad-aftab93/EnterpriseUI</Description>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     
@@ -26,10 +25,30 @@
     <NoWarn>$(NoWarn);1591;CS1591;CA1305;CA2007;IL2026;IL2075;IL2060;IL2090;CA1000;CA1816;CA1805</NoWarn>
     
     <!-- Trimming & AOT Preparedness -->
-    <IsTrimmable Condition="'$(IsTrimmable)' == ''">true</IsTrimmable>
-    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <IsTrimmable Condition="'$(IsTrimmable)' == '' and '$(TargetFramework)' != 'net48'">true</IsTrimmable>
+    <EnableTrimAnalyzer Condition="'$(TargetFramework)' != 'net48'">true</EnableTrimAnalyzer>
 
     <!-- Disable packing for samples, tests, and benchmarks so solution-wide `dotnet pack` only packs distributable libraries -->
     <IsPackable Condition="$(MSBuildProjectDirectory.Contains('samples')) Or $(MSBuildProjectDirectory.Contains('tests')) Or $(MSBuildProjectDirectory.Contains('benchmarks'))">false</IsPackable>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+    <LangVersion>latest</LangVersion>
+    <PolyArgumentExceptions>true</PolyArgumentExceptions>
+  </PropertyGroup>
+
+  <!-- Language and runtime features that .NET Framework 4.8 lacks. -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PackageReference Include="Polyfill" Version="11.4.5" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageReference Include="System.Memory" Version="4.6.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Portable.System.DateTimeOnly" Version="8.0.2" />
+    <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
+    <Compile Include="$(MSBuildThisFileDirectory)build\Net48Compat.cs" Visible="false" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
 </Project>

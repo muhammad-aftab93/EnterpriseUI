@@ -56,7 +56,7 @@ public class GridHierarchyRelation
 /// <summary>Resolves and caches child rows for hierarchy relations.</summary>
 internal sealed class GridHierarchyResolver
 {
-    private readonly Dictionary<GridHierarchyRelation, Dictionary<object, List<object>>> _lookups = new(ReferenceEqualityComparer.Instance);
+    private readonly Dictionary<GridHierarchyRelation, Dictionary<object, List<object>>> _lookups = new(GridReferenceComparer.Instance);
     private readonly Dictionary<(object Parent, GridHierarchyRelation Relation), IReadOnlyList<object>> _loaded = new(new LoadedKeyComparer());
 
     private sealed class LoadedKeyComparer : IEqualityComparer<(object Parent, GridHierarchyRelation Relation)>

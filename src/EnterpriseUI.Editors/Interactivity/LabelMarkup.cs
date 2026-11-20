@@ -83,7 +83,7 @@ public static class LabelMarkup
                 continue;
             }
 
-            var attributes = Attribute.Matches(match.Groups[3].Value).ToDictionary(a => a.Groups[1].Value.ToLowerInvariant(),
+            var attributes = Attribute.Matches(match.Groups[3].Value).Cast<Match>().ToDictionary(a => a.Groups[1].Value.ToLowerInvariant(),
                 a => a.Groups[2].Success ? a.Groups[2].Value : a.Groups[3].Success ? a.Groups[3].Value : a.Groups[4].Value);
             string? color = null, href = null;
             switch (name)

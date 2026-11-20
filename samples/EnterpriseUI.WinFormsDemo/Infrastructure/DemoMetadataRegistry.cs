@@ -177,14 +177,14 @@ treeList.Items.Add(new TreeListDemoItem { Id = 2, ParentId = 1, Name = ""Enginee
             Description = "High-performance vector charts supporting Bar, Column, Line, Spline, Area, Pie, Donut, and Candlestick series with live real-time tick streaming.",
             Category = DemoCategoryType.ChartsAndGauges,
             SubCategory = "Charts",
-            TargetControlName = "EnterpriseChart, EnterpriseChartControl",
+            TargetControlName = "EnterpriseChart, EnterpriseChartView",
             Features = CachedValues7,
             Tags = CachedValues8,
             Industry = "Capital Markets & IoT Telemetry",
             IsFeatured = true,
             ViewFactory = () => new ChartsDemoView(GetById("charts-financial-realtime")),
             SourceCode =
-@"var chart = new EnterpriseChartControl();
+@"var chart = new EnterpriseChartView();
 var series = new ChartSeries { Name = ""Equity"", Type = SeriesType.Candlestick };
 series.DataPoints.Add(new ChartDataPoint { Category = ""Day 1"", Open = 150, Close = 158, High = 162, Low = 148 });
 chart.Series.Add(series);",
@@ -355,10 +355,10 @@ dashboard.Widgets.Add(new DashboardWidget { Title = ""Revenue Trend"", Type = Wi
         {
             Id = "editors-fluent-validation",
             Title = "Editors - Enterprise Form Input & Fluent Validation",
-            Description = "Text, Numeric, Date, ComboBox, and Switch editors wired to fluent async validation rules with instant visual compliance feedback.",
+            Description = "Text, Numeric, Date, Time, ComboBox, Calculator and Switch editors wired to fluent async validation rules with instant visual compliance feedback.",
             Category = DemoCategoryType.EditorsAndForms,
             SubCategory = "Editors",
-            TargetControlName = "TextBox, EnterpriseNumericTextBox, EnterpriseDatePicker, Validator<T>",
+            TargetControlName = "TextBox, EnterpriseNumericTextBox, EnterpriseDatePicker, EnterpriseDateOnlyPicker, EnterpriseTimePicker, EnterpriseTimeOnlyPicker, EnterpriseItemSpinner, EnterprisePopupBox, EnterpriseCalculatorPad, Validator<T>",
             Features = CachedValues21,
             Tags = CachedValues22,
             Industry = "Cross-Industry Data Entry",
@@ -382,7 +382,7 @@ var result = validator.Validate(model);",
             Description = "Document and media workstation with PDF viewing, rich text, spreadsheet calculations, image transforms, webcam snapshots and ZIP processing.",
             Category = DemoCategoryType.DocumentsAndMedia,
             SubCategory = "Documents",
-            TargetControlName = "EnterprisePdfViewer, EnterpriseRichTextEditor, EnterpriseSpreadsheetControl",
+            TargetControlName = "EnterprisePdfViewer, EnterpriseRichTextEditor, EnterpriseSpreadsheetControl, EnterprisePdfEngine, EnterpriseWordEngine, EnterpriseSheetEngine, EnterpriseSheetStreamWriter, EnterpriseBrowseBox",
             Features = CachedValues23,
             Tags = CachedValues24,
             Industry = "Legal, Contract Management & Office Productivity",
@@ -662,6 +662,34 @@ var carousel = new EnterpriseCarouselControl();",
             ApiReference = "EnterpriseBreadcrumb, EnterpriseStepProgressBar, EnterpriseBindingNavigator<T>, EnterpriseCarousel, EnterprisePanorama, EnterpriseWizardControl, EnterpriseDesktopAlert, EnterpriseTaskDialog"
         });
 
+        // 23b. Navigation panes, menus, containers, docking, page views, live tiles, layout customization and style engine
+        _allDemos.Add(new DemoItem
+        {
+            Id = "navigation-containers-suite",
+            Title = "Navigation, Menus, Containers & Docking",
+            Description = "Navigation pane with icon rail, breadcrumb, compact navigation bar, menu bar, context menu, command bar, record navigator, backstage menu, surface, group and scroll panels, splitter, dock host, page views, live tiles, customizable layout, sparklines and the style engine.",
+            Category = DemoCategoryType.NavigationAndLayout,
+            SubCategory = "Navigation, Menus & Containers",
+            TargetControlName = "EnterpriseNavigationPane, EnterpriseBreadcrumbControl, EnterpriseCompactNavBar, EnterpriseMenuBar, EnterpriseContextMenu, EnterpriseCommandBarControl, EnterpriseBindingNavigatorControl, EnterpriseBackstageMenu, EnterpriseSurfacePanel, EnterpriseGroupPanel, EnterpriseScrollPanel, EnterpriseDivider, EnterpriseSplitPanel, EnterpriseDockHost, EnterprisePageViewControl, EnterprisePanoramaControl, EnterpriseCustomizableLayout, EnterpriseSparklineControl, StyleResolver",
+            Features = new[] { "Collapsible navigation pane", "Breadcrumb", "Menus and command bars", "Backstage", "Panels and splitter", "Docking with layouts", "Page views", "Live tiles", "Layout customization", "Sparklines", "Style rules" },
+            Tags = new[] { "Navigation", "Menus", "Docking", "Layout", "Containers", "Sparkline", "Styles" },
+            Industry = "Enterprise Application Shell",
+            IsNew = true,
+            IsFeatured = true,
+            ViewFactory = () => new NavigationContainersDemoView(GetById("navigation-containers-suite")),
+            SourceCode =
+@"var pane = new EnterpriseNavigationPane { Title = ""School"" };
+pane.Items.Add(new EnterpriseNavigationItem(""Overview"", ""\u2302""));
+var menu = new EnterpriseMenuBar();
+menu.AddItem(""&File/&Open..."", OpenFile, Keys.Control | Keys.O);
+var dock = new EnterpriseDockHost();
+dock.AddPanel(""Explorer"", DockPosition.Left, 220);",
+            Documentation = "Every control follows the active theme, scales with DPI, supports keyboard navigation and exposes accessible names and roles.",
+            BestPractices = "Use the navigation pane for top-level destinations and the breadcrumb for the current location; save and restore dock layouts per user.",
+            Troubleshooting = "Docked panels are matched by Name when a saved layout is loaded; give each panel a stable Name.",
+            ApiReference = "EnterpriseNavigationPane, EnterpriseMenuBar, EnterpriseDockHost, EnterprisePageViewControl, EnterpriseCustomizableLayout, EnterpriseUI.Framework.StyleResolver"
+        });
+
         // 26. SlideView, Rotator, PipsPager, EnterpriseImageEditor, PictureBox & EnterpriseWebCam Suite
         _allDemos.Add(new DemoItem
         {
@@ -841,7 +869,7 @@ var allControls = EnterpriseControlRegistry.AllControls;",
     {
         var id = entry.Name switch
         {
-            "EnterpriseCalculatorDropDown" or "CalculatorControl" or "EnterpriseSyntaxEditor" or "SpellChecker" => "editors-fluent-validation",
+            "EnterpriseCalculatorDropDown" or "EnterpriseCalculatorPad" or "EnterpriseSyntaxEditor" or "SpellChecker" => "editors-fluent-validation",
             "EnterpriseBulletGraph" => "gauges-radial-linear",
             "ImageEditorControl" or "PictureBoxControl" or "EnterpriseWebCam" or "EnterpriseZipLibrary" => "documents-multiformat",
             "EnterpriseControlSpy" or "EnterpriseFormConverter" or "EnterpriseElementHierarchyEditor" or "EnterpriseShapeEditor" or "EnterpriseVisualStyleBuilder" => "navigation-forms-overlays-suite",

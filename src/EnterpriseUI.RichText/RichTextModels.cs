@@ -68,7 +68,7 @@ public class EnterpriseRichTextEditor : ObservableObject, IInteractiveControl, I
     public bool AriaInvalid { get; set; }
     public string? ThemeOverride { get; set; }
 
-    public ValueTask<bool> FocusAsync() => ValueTask.FromResult(true);
+    public ValueTask<bool> FocusAsync() => new ValueTask<bool>(true);
     public Task InitializeAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
     public void OnThemeChanged(ITheme newTheme) { }
     public void Dispose() { }

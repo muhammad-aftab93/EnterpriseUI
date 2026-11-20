@@ -16,16 +16,37 @@ internal static class DemoVerification
         [typeof(EnterpriseUI.WinForms.EnterpriseDataFilterControl)] = "data-datafilter",
         [typeof(EnterpriseUI.WinForms.EnterpriseFilterViewControl)] = "data-filterview",
         [typeof(EnterpriseUI.WinForms.EnterpriseSyntaxEditorControl)] = "editors-fluent-validation",
-        [typeof(EnterpriseUI.WinFormsDemo.Controls.EnterpriseSignaturePadControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseSignaturePadControl)] = "editors-fluent-validation",
         [typeof(EnterpriseUI.WinForms.EnterpriseVirtualKeyboardControl)] = "interactive-virtualkeyboard",
-        [typeof(EnterpriseUI.WinFormsDemo.Controls.EnterpriseBarcodeControl)] = "specialized-gantt-barcode-kanban",
+        [typeof(EnterpriseUI.WinForms.EnterpriseBarcodeControl)] = "specialized-gantt-barcode-kanban",
         [typeof(EnterpriseUI.WinForms.EnterpriseCarouselControl)] = "interactive-carousel",
         [typeof(EnterpriseUI.WinForms.EnterpriseBulletGraphControl)] = "gauges-radial-linear",
         [typeof(EnterpriseUI.WinForms.EnterpriseRotatorControl)] = "interactive-rotator",
         [typeof(EnterpriseUI.WinForms.EnterpriseChatControl)] = "interactive-chat",
         [typeof(EnterpriseUI.WinForms.EnterpriseAIPromptControl)] = "interactive-aiprompt",
         [typeof(EnterpriseUI.WinForms.EnterpriseSmartPasteButton)] = "interactive-smartpaste",
-        [typeof(EnterpriseUI.WinForms.EnterpriseSpeechToTextButton)] = "interactive-speechtotext"
+        [typeof(EnterpriseUI.WinForms.EnterpriseSpeechToTextButton)] = "interactive-speechtotext",
+        [typeof(EnterpriseUI.WinForms.EnterpriseDateOnlyPickerControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseTimePickerControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseTimeOnlyPickerControl)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseItemSpinner)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterprisePopupBox)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseCalculatorPad)] = "editors-fluent-validation",
+        [typeof(EnterpriseUI.WinForms.EnterpriseBrowseBox)] = "documents-multiformat",
+        [typeof(EnterpriseUI.WinForms.EnterpriseNavigationPane)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseBreadcrumbControl)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseCompactNavBar)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseMenuBar)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseCommandBarControl)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseBindingNavigatorControl)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseSplitPanel)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseSurfacePanel)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseGroupPanel)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseScrollPanel)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseDockHost)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterprisePageViewControl)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterprisePanoramaControl)] = "navigation-containers-suite",
+        [typeof(EnterpriseUI.WinForms.EnterpriseCustomizableLayout)] = "navigation-containers-suite"
     };
 
     private static IEnumerable<Control> Descendants(Control parent)
@@ -114,6 +135,8 @@ internal static class DemoVerification
                             view.PerformLayout();
                             using var tabImage = new Bitmap(view.Width, view.Height);
                             view.DrawToBitmap(tabImage, view.ClientRectangle);
+                            if (demo.Id == "navigation-containers-suite")
+                                tabImage.Save(Path.Combine(directory, $"{demo.Id}-{tabIndex}.png"), System.Drawing.Imaging.ImageFormat.Png);
                         }
                         tabs.SelectedIndex = 0;
                     }

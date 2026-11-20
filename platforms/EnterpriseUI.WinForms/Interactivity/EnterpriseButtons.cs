@@ -561,7 +561,7 @@ public class EnterpriseSplitButtonControl : EnterpriseButtonBase
 
     private void ApplyMenuTheme()
     {
-        _menu.Renderer = new ThemedMenuRenderer(Colors);
+        _menu.Renderer = new EnterpriseMenuRenderer(Colors);
         _menu.BackColor = Colors.Surface;
         _menu.ForeColor = Colors.Text;
         _menu.Font = Font;

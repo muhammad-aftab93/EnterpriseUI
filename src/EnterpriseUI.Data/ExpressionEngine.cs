@@ -588,7 +588,7 @@ internal sealed class FunctionNode : ExpressionNode
                 Require(2);
                 if (!NumericValue.TryGet(values[0], out var b) || !NumericValue.TryGet(values[1], out var e)) return null;
                 var result = Math.Pow((double)b, (double)e);
-                return double.IsFinite(result) && Math.Abs(result) < 7.9e28 ? (decimal)result : null;
+                return !double.IsNaN(result) && !double.IsInfinity(result) && Math.Abs(result) < 7.9e28 ? (decimal)result : null;
             }
             case "MIN":
             case "MAX":

@@ -285,7 +285,7 @@ public sealed class SampleAIPromptProvider : IAIPromptProvider
         }
 
         var keep = Math.Max(1, (int)Math.Ceiling(sentences.Length / 3.0));
-        var chosen = sentences.Select((s, i) => (s, i, score: Words.Matches(s).Sum(m => frequency.GetValueOrDefault(m.Value)) / Math.Sqrt(Math.Max(1, Words.Matches(s).Count))))
+        var chosen = sentences.Select((s, i) => (s, i, score: Words.Matches(s).Cast<Match>().Sum(m => frequency.GetValueOrDefault(m.Value)) / Math.Sqrt(Math.Max(1, Words.Matches(s).Count))))
             .OrderByDescending(x => x.score).Take(keep).OrderBy(x => x.i).Select(x => x.s);
         return string.Join(' ', chosen);
     }

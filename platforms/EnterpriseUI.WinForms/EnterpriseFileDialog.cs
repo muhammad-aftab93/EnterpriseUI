@@ -100,7 +100,9 @@ public sealed class EnterpriseFileDialog : Component
             Description = FolderDescription,
             SelectedPath = ExistingDirectory(InitialDirectory),
             ShowNewFolderButton = true,
+#if NET5_0_OR_GREATER
             UseDescriptionForTitle = true
+#endif
         };
         if (ShowDialog(dialog, owner) != DialogResult.OK) return DialogResult.Cancel;
         FolderPath = dialog.SelectedPath;

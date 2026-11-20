@@ -28,6 +28,7 @@
     <Project Path="src/EnterpriseUI.Gauges/EnterpriseUI.Gauges.csproj" />
     <Project Path="src/EnterpriseUI.Grids/EnterpriseUI.Grids.csproj" />
     <Project Path="src/EnterpriseUI.Icons/EnterpriseUI.Icons.csproj" />
+    <Project Path="src/EnterpriseUI.Framework/EnterpriseUI.Framework.csproj" />
     <Project Path="src/EnterpriseUI.Layout/EnterpriseUI.Layout.csproj" />
     <Project Path="src/EnterpriseUI.Localization/EnterpriseUI.Localization.csproj" />
     <Project Path="src/EnterpriseUI.Map/EnterpriseUI.Map.csproj" />

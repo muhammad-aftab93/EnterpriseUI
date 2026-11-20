@@ -93,7 +93,7 @@ public class EnterpriseNotifyIcon : Component
             _icon.ContextMenuStrip = value;
             if (value == null) return;
             var colors = ControlColors.FromTheme(ThemeManager.Instance.CurrentTheme);
-            value.Renderer = new ThemedMenuRenderer(colors);
+            value.Renderer = new EnterpriseMenuRenderer(colors);
             value.BackColor = colors.Surface;
             value.ForeColor = colors.Text;
         }

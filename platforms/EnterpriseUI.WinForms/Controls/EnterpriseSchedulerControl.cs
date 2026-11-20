@@ -9,7 +9,7 @@ using EnterpriseUI.Scheduling;
 using EnterpriseUI.Theming;
 using EnterpriseUI.WinForms;
 
-namespace EnterpriseUI.WinFormsDemo.Controls;
+namespace EnterpriseUI.WinForms;
 
 public class EnterpriseSchedulerControl : Control, IThemeableControl
 {

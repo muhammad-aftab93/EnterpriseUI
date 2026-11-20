@@ -1,17 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageVersion>1.1.0</PackageVersion>
+    <PackageVersion>1.2.0</PackageVersion>
     <Title>EnterpriseUI WinForms Controls</Title>
     <Description>Open-source Windows Forms component suite for .NET 8, including data grids, editors, navigation and layout controls, charts and gauges, scheduling, notifications, document and media controls, theming, accessibility, exporting, and printing. Source code, documentation, and runnable demonstrations: https://github.com/muhammad-aftab93/EnterpriseUI</Description>
     <PackageTags>WinForms;WindowsForms;UI;Controls;DataGrid;Editors;Navigation;Layout;Charts;Gauges;Scheduling;Documents;Theming;Accessibility;Export;Printing</PackageTags>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Design" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="Packaging\package-icon.png" Pack="true" PackagePath="\" />
@@ -35,7 +39,12 @@
     <ProjectReference Include="..\..\src\EnterpriseUI.Scheduling\EnterpriseUI.Scheduling.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Notifications\EnterpriseUI.Notifications.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Documents\EnterpriseUI.Documents.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Pdf\EnterpriseUI.Pdf.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Office\EnterpriseUI.Office.csproj" />
     <ProjectReference Include="..\..\src\EnterpriseUI.Media\EnterpriseUI.Media.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.AI\EnterpriseUI.AI.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Diagrams\EnterpriseUI.Diagrams.csproj" />
+    <ProjectReference Include="..\..\src\EnterpriseUI.Map\EnterpriseUI.Map.csproj" />
   </ItemGroup>
 
 </Project>

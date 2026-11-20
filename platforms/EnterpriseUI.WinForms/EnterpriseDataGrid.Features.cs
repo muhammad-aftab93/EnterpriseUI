@@ -34,7 +34,7 @@ public partial class EnterpriseDataGrid<TItem>
     private readonly Button _searchNext = new() { Text = "\u25BC", AccessibleName = "Next match", FlatStyle = FlatStyle.Flat };
     private readonly Button _searchClose = new() { Text = "\u2715", AccessibleName = "Close search", FlatStyle = FlatStyle.Flat };
     private readonly CheckBox _searchFilter = new() { Text = "Filter rows", Checked = true, AutoSize = false };
-    private readonly HashSet<object> _observed = new(ReferenceEqualityComparer.Instance);
+    private readonly HashSet<object> _observed = new(ObjectReferenceComparer.Instance);
 
     private bool _showPager = true;
     private bool _showColumnSummaries = true;
@@ -457,7 +457,7 @@ public partial class EnterpriseDataGrid<TItem>
             return;
         }
 
-        var current = new HashSet<object>(ReferenceEqualityComparer.Instance);
+        var current = new HashSet<object>(ObjectReferenceComparer.Instance);
         foreach (var item in _engine.RenderedItems.Take(2000))
         {
             if (item is INotifyPropertyChanged notify) current.Add(notify);
@@ -579,7 +579,7 @@ public partial class EnterpriseDataGrid<TItem>
             return;
         }
 
-        await using var stream = File.Create(filePath);
+        using var stream = File.Create(filePath);
         await ExportAsync("excelxml", stream);
     }
 

@@ -290,7 +290,11 @@ public partial class EnterpriseDataGrid<TItem> : Control, IThemeableControl, INo
     }
 
     /// <summary>Display rows (positions on the current page) of the selected rows.</summary>
+#if NET5_0_OR_GREATER
     public IReadOnlySet<int> SelectedIndices => new HashSet<int>(_engine.Selection.SelectedRows);
+#else
+    public ISet<int> SelectedIndices => new HashSet<int>(_engine.Selection.SelectedRows);
+#endif
 
     public bool ShowFilterRow { get => _showFilterRow; set { _showFilterRow = value; RefreshLayout(); } }
     public bool ShowSummaryFooter { get => _showFooter; set { _showFooter = value; RefreshLayout(); } }
