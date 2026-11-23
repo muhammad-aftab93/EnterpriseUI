@@ -14,6 +14,7 @@
     <RepositoryUrl>https://github.com/muhammad-aftab93/EnterpriseUI</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>Open-source EnterpriseUI components for .NET. Source code and documentation: https://github.com/muhammad-aftab93/EnterpriseUI</Description>
+    <PackageReadmeFile Condition="'$(PackageReadmeFile)' == '' And Exists('$(MSBuildProjectDirectory)\Packaging\README.md')">README.md</PackageReadmeFile>
     <Version>1.2.0</Version>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
@@ -31,6 +32,10 @@
     <!-- Disable packing for samples, tests, and benchmarks so solution-wide `dotnet pack` only packs distributable libraries -->
     <IsPackable Condition="$(MSBuildProjectDirectory.Contains('samples')) Or $(MSBuildProjectDirectory.Contains('tests')) Or $(MSBuildProjectDirectory.Contains('benchmarks'))">false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)\Packaging\README.md')">
+    <None Include="Packaging\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
     <LangVersion>latest</LangVersion>
