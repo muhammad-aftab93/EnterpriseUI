@@ -155,6 +155,16 @@ dotnet test tests/EnterpriseUI.UnitTests/EnterpriseUI.UnitTests.csproj -c Releas
 dotnet run --project benchmarks/EnterpriseUI.Benchmarks/EnterpriseUI.Benchmarks.csproj -c Release
 ```
 
+### 5. Pack EnterpriseUI NuGet Packages
+
+`EnterpriseUI.WinForms` declares its module references as NuGet dependencies. Pack the solution when publishing so the dependent package files are generated into the same feed directory:
+
+```powershell
+./build/Pack-NuGet.ps1 C:/LocalNugetPackages
+```
+
+Publish all generated `*.nupkg` files to the same NuGet feed. Consumers can then install only `EnterpriseUI.WinForms`; NuGet restores its declared dependencies automatically.
+
 ---
 
 ## 🏛️ Ecosystem Architecture

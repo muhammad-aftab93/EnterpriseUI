@@ -41,13 +41,12 @@ jobs:
       - name: Run High-Performance Benchmarks (Verification Run)
         run: dotnet run --project benchmarks/EnterpriseUI.Benchmarks/EnterpriseUI.Benchmarks.csproj -c Release --no-build
 
-      - name: Package Signed NuGet Artifacts
+      - name: Package NuGet Artifacts
         if: github.ref == 'refs/heads/main'
-        run: |
-          dotnet pack src/EnterpriseUI.Core/EnterpriseUI.Core.csproj -c Release -o ./artifacts
-          dotnet pack src/EnterpriseUI.Grids/EnterpriseUI.Grids.csproj -c Release -o ./artifacts
-          dotnet pack src/EnterpriseUI.Theming/EnterpriseUI.Theming.csproj -c Release -o ./artifacts
+        run: ./build/Pack-NuGet.ps1 ./artifacts/nuget
 ```
+
+The WinForms package contains dependency metadata, not copies of the referenced project DLLs. Publish the generated packages to the same NuGet feed; consumers install `EnterpriseUI.WinForms` and NuGet resolves the `EnterpriseUI.*` dependencies.
 
 ---
 
