@@ -28,7 +28,7 @@ public static class InteractiveControlScenarios
 
     public static IReadOnlyList<GridScenario> All { get; } = new List<GridScenario>
     {
-        AIPrompt(), Buttons(), Carousel(), Chat(), InlineAI(), Label(), ProgressBar(), Rating(), Rotator(),
+        AIPrompt(), Buttons(), ButtonShowcase.Create(), Carousel(), Chat(), InlineAI(), Label(), ProgressBar(), Rating(), Rotator(),
         SmartPaste(), SpeechToText(), StepProgress(), TrackBar(), WaitingBar(), VirtualKeyboard(), Callout(), NotifyIcon()
     };
 

@@ -34,6 +34,7 @@ Welcome to the comprehensive technical documentation for the **EnterpriseUI Comp
 - [Navigation, Menus, Containers and Docking](Controls/NavigationAndLayoutControls.md)
 - [Data Management Controls (List, Tree, PropertyGrid, DataEntry, CardView, Pivot, TreeMap, HeatMap and more)](Controls/DataManagementControls.md)
 - [Interactive Controls (AIPrompt, Buttons, Carousel, Chat, InlineAIAssistant, Label, ProgressBar, Rating, Rotator, SmartPaste, SpeechToText, StepProgressBar, TrackBar, WaitingBar, VirtualKeyboard, Callout, NotifyIcon)](Controls/InteractiveControls.md)
+- [Button](Controls/Button.md): [feature comparison with a commercial reference button](Controls/ButtonFeatureComparison.md), [migration guide](Controls/ButtonMigrationGuide.md), [architecture and sequence diagrams](Controls/ButtonArchitecture.md), [implementation review](Controls/ButtonImplementationReview.md)
 - [EnterpriseRibbonBar Navigation](Controls/UnifiedControlsCatalog.md#21-ribbonbar-navigation)
 - [EnterpriseDockManager & Layout System](Controls/UnifiedControlsCatalog.md#22-dockmanager-layout)
 - [EnterpriseScheduler & RFC 5545 Recurrence Engine](Controls/UnifiedControlsCatalog.md#23-scheduler-scheduling)

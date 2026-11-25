@@ -7,7 +7,7 @@ Headless logic (state machines, parsers, providers) lives in `EnterpriseUI.Edito
 | Control | Summary |
 |---|---|
 | `EnterpriseAIPromptControl` | Prompt, streamed output, command suggestions, history, token usage, copy / insert / retry / rating |
-| `EnterpriseButtonControl`, `EnterpriseToggleButtonControl`, `EnterpriseSplitButtonControl`, `EnterpriseDropDownButtonControl` | Variants, glyph or image, badge counter, access keys, animated hover / pressed / focus states |
+| `EnterpriseButtonControl`, `EnterpriseToggleButtonControl`, `EnterpriseSplitButtonControl`, `EnterpriseDropDownButtonControl` | Variants, glyph, image or SVG, badge counter, access keys, commands, tooltips, auto size, animated hover / pressed / focus states. Full guide: [Button](Button.md) |
 | `EnterpriseCarouselControl` | Flat, cover flow and ring layouts, looping, auto-play, custom item painting |
 | `EnterpriseChatControl` | Grouped bubbles, avatars, timestamps, delivery state, attachments, quick replies, typing indicator |
 | `EnterpriseInlineAIAssistant` (component) | Summarize, rewrite, expand and tone actions on the selection of a text box, with preview |

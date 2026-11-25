@@ -4,7 +4,7 @@ public static class FluentIconPack
 {
     public const string PackName = "Fluent";
 
-    public static readonly SvgIcon Add = new("add", PackName, "M12 4v16m-8-8h16");
+    public static readonly SvgIcon Add = new("add", PackName, "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z");
     public static readonly SvgIcon Edit = new("edit", PackName, "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z");
     public static readonly SvgIcon Delete = new("delete", PackName, "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z");
     public static readonly SvgIcon Save = new("save", PackName, "M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z");

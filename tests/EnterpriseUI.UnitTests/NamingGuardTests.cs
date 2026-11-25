@@ -13,6 +13,9 @@ public class NamingGuardTests
     private static readonly string[] Extensions = { ".cs", ".md", ".json", ".csproj", ".props", ".slnx", ".txt", ".xml", ".yml", ".yaml", ".resx" };
     private static readonly string[] SkippedFolders = { "bin", "obj", ".git", "artifacts", "node_modules", ".vs" };
 
+    // The only places that may name a competing product: the requested feature comparison and migration guide of the button.
+    private static readonly string[] ComparisonDocuments = { "ButtonFeatureComparison.md", "ButtonMigrationGuide.md" };
+
     private static string FindRepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
@@ -24,7 +27,8 @@ public class NamingGuardTests
         Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories)
             .Where(f => Extensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase))
             .Where(f => !f.Substring(root.Length).Split(Path.DirectorySeparatorChar).Any(part => SkippedFolders.Contains(part, StringComparer.OrdinalIgnoreCase)))
-            .Where(f => !f.EndsWith("NamingGuardTests.cs", StringComparison.OrdinalIgnoreCase));
+            .Where(f => !f.EndsWith("NamingGuardTests.cs", StringComparison.OrdinalIgnoreCase))
+            .Where(f => !ComparisonDocuments.Contains(Path.GetFileName(f), StringComparer.OrdinalIgnoreCase));
 
     [Fact]
     public void NoThirdPartyVendorNameAppearsInTheRepository()

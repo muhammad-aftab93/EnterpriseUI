@@ -126,6 +126,35 @@ public sealed class SparklineActions : EnterpriseActionList
     };
 }
 
+/// <summary>Smart tag of the button family: the properties most often set at design time.</summary>
+public sealed class ButtonActions : EnterpriseActionList
+{
+    public ButtonActions(IComponent component) : base(component) { }
+
+    public string Text { get => Get<string>(nameof(Text)); set => Set(nameof(Text), value); }
+    public EnterpriseButtonVariant Variant { get => Get<EnterpriseButtonVariant>(nameof(Variant)); set => Set(nameof(Variant), value); }
+    public string? Glyph { get => Get<string?>(nameof(Glyph)); set => Set(nameof(Glyph), value); }
+    public ButtonDisplayStyle DisplayStyle { get => Get<ButtonDisplayStyle>(nameof(DisplayStyle)); set => Set(nameof(DisplayStyle), value); }
+    public ButtonContentLayout ContentLayout { get => Get<ButtonContentLayout>(nameof(ContentLayout)); set => Set(nameof(ContentLayout), value); }
+    public int CornerRadius { get => Get<int>(nameof(CornerRadius)); set => Set(nameof(CornerRadius), value); }
+    public ButtonClickMode ClickMode { get => Get<ButtonClickMode>(nameof(ClickMode)); set => Set(nameof(ClickMode), value); }
+    public string? ToolTipText { get => Get<string?>(nameof(ToolTipText)); set => Set(nameof(ToolTipText), value); }
+    public bool AutoSize { get => Get<bool>(nameof(AutoSize)); set => Set(nameof(AutoSize), value); }
+
+    public override DesignerActionItemCollection GetSortedActionItems() => new()
+    {
+        Item(nameof(Text), "Text", "Appearance", "Caption of the button; put & before the access key letter."),
+        Item(nameof(Variant), "Variant", "Appearance", "Primary, secondary, success, danger or outline."),
+        Item(nameof(Glyph), "Glyph", "Appearance", "A symbol character drawn with the text."),
+        Item(nameof(DisplayStyle), "Display style", "Appearance", "Image and text, text only, image only or nothing."),
+        Item(nameof(ContentLayout), "Content layout", "Appearance", "Where the image sits relative to the text."),
+        Item(nameof(CornerRadius), "Corner radius", "Appearance", "Radius of the rounded corners in logical pixels."),
+        Item(nameof(ClickMode), "Click mode", "Behavior", "Click on release, on press or on hover."),
+        Item(nameof(ToolTipText), "Tooltip", "Behavior", "Text shown when the pointer rests on the button."),
+        Item(nameof(AutoSize), "Auto size", "Layout", "Sizes the button to its content.")
+    };
+}
+
 public sealed class CustomizableLayoutActions : EnterpriseActionList
 {
     public CustomizableLayoutActions(IComponent component) : base(component) { }
